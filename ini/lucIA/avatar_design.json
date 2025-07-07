@@ -1,0 +1,21 @@
+{
+  "style": "realistic",
+  "skin_tone": "medium",
+  "hair_style": "long_straight",
+  "hair_color": "blonde",
+  "eye_color": "blue",
+  "clothing_style": "elegant",
+  "accessories": [
+    "glasses",
+    "necklace"
+  ],
+  "height": 1.65,
+  "body_type": "average",
+  "facial_features": {},
+  "personality_traits": [
+    "creative",
+    "intelligent",
+    "friendly"
+  ],
+  "last_updated": 160443.187
+}

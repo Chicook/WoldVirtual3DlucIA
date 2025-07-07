@@ -1,0 +1,404 @@
+# 🔒 LUCIA - ARCHIVOS SENSIBLES
+# NUNCA subir estos archivos a GitHub
+
+# Variables de entorno
+.env
+.env.local
+.env.production
+.env.staging
+.env.development
+.env.test
+
+# Claves y tokens
+*.key
+*.pem
+*.p12
+*.pfx
+*.secret
+*.token
+*.credential
+
+# Directorios de credenciales
+config/
+secrets/
+keys/
+tokens/
+credentials/
+private/
+
+# Logs que pueden contener información sensible
+*.log
+logs/
+lucia_pro.log
+security.log
+api_calls.log
+
+# Archivos de backup
+*.backup
+*.bak
+*.tmp
+*.temp
+*.old
+
+# Archivos de configuración local
+config.local.py
+settings.local.py
+
+# Archivos de caché
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+
+# Entornos virtuales
+.venv/
+venv/
+env/
+ENV/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Archivos temporales
+*.tmp
+*.temp
+*.cache
+
+# Archivos de datos sensibles
+*.db
+*.sqlite
+*.sqlite3
+database.db
+
+# Archivos de encriptación
+*.encrypted
+*.enc
+
+# Archivos de monitoreo
+metrics.json
+analytics.json
+usage_stats.json
+
+# Archivos de testing que pueden contener datos reales
+test_data/
+test_credentials/
+test_keys/
+
+# Archivos de deployment
+deploy/
+production/
+staging/
+
+# Archivos de documentación que pueden contener ejemplos con claves
+docs/examples/
+examples/
+samples/
+
+# Archivos de configuración de servicios externos
+.firebase/
+.aws/
+.gcp/
+.azure/
+
+# Archivos de certificados
+*.crt
+*.cer
+*.der
+*.p7b
+*.p7c
+
+# Archivos de configuración de bases de datos
+database.yml
+db.yml
+*.conf
+
+# Archivos de configuración de servicios
+docker-compose.override.yml
+docker-compose.prod.yml
+
+# Archivos de configuración de CI/CD que pueden contener secretos
+.github/workflows/secrets/
+.github/secrets/
+.gitlab-ci.yml.local
+
+# Archivos de configuración de monitoreo
+monitoring/
+alerting/
+dashboards/
+
+# Archivos de configuración de seguridad
+security/
+firewall/
+vpn/
+
+# Archivos de configuración de backup
+backup/
+backups/
+snapshots/
+
+# Archivos de configuración de auditoría
+audit/
+audits/
+compliance/
+
+# Archivos de configuración de licencias
+license/
+licenses/
+*.lic
+
+# Archivos de configuración de certificaciones
+certificates/
+certs/
+*.pem
+*.crt
+*.key
+
+# Archivos de configuración de autenticación
+auth/
+authentication/
+*.jwt
+*.jws
+
+# Archivos de configuración de sesiones
+sessions/
+session/
+*.session
+
+# Archivos de configuración de cookies
+cookies/
+cookie/
+
+# Archivos de configuración de caché
+cache/
+caches/
+*.cache
+
+# Archivos de configuración de índices
+index/
+indexes/
+*.index
+
+# Archivos de configuración de búsqueda
+search/
+searches/
+*.search
+
+# Archivos de configuración de análisis
+analytics/
+analysis/
+*.analytics
+
+# Archivos de configuración de métricas
+metrics/
+*.metrics
+
+# Archivos de configuración de reportes
+reports/
+*.report
+
+# Archivos de configuración de exportación
+exports/
+*.export
+
+# Archivos de configuración de importación
+imports/
+*.import
+
+# Archivos de configuración de migración
+migrations/
+*.migration
+
+# Archivos de configuración de seed
+seeds/
+*.seed
+
+# Archivos de configuración de fixture
+fixtures/
+*.fixture
+
+# Archivos de configuración de mock
+mocks/
+*.mock
+
+# Archivos de configuración de stub
+stubs/
+*.stub
+
+# Archivos de configuración de fake
+fakes/
+*.fake
+
+# Archivos de configuración de dummy
+dummies/
+*.dummy
+
+# Archivos de configuración de test
+tests/
+test/
+*.test
+
+# Archivos de configuración de spec
+specs/
+spec/
+*.spec
+
+# Archivos de configuración de feature
+features/
+feature/
+*.feature
+
+# Archivos de configuración de scenario
+scenarios/
+scenario/
+*.scenario
+
+# Archivos de configuración de step
+steps/
+step/
+*.step
+
+# Archivos de configuración de page
+pages/
+page/
+*.page
+
+# Archivos de configuración de component
+components/
+component/
+*.component
+
+# Archivos de configuración de service
+services/
+service/
+*.service
+
+# Archivos de configuración de model
+models/
+model/
+*.model
+
+# Archivos de configuración de entity
+entities/
+entity/
+*.entity
+
+# Archivos de configuración de dto
+dtos/
+dto/
+*.dto
+
+# Archivos de configuración de vo
+vos/
+vo/
+*.vo
+
+# Archivos de configuración de bo
+bos/
+bo/
+*.bo
+
+# Archivos de configuración de dao
+daos/
+dao/
+*.dao
+
+# Archivos de configuración de po
+pos/
+po/
+*.po
+
+# Archivos de configuración de vo
+vos/
+vo/
+*.vo
+
+# Archivos de configuración de to
+tos/
+to/
+*.to
+
+# Archivos de configuración de co
+cos/
+co/
+*.co
+
+# Archivos de configuración de mo
+mos/
+mo/
+*.mo
+
+# Archivos de configuración de no
+nos/
+no/
+*.no
+
+# Archivos de configuración de oo
+oos/
+oo/
+*.oo
+
+# Archivos de configuración de po
+pos/
+po/
+*.po
+
+# Archivos de configuración de qo
+qos/
+qo/
+*.qo
+
+# Archivos de configuración de ro
+ros/
+ro/
+*.ro
+
+# Archivos de configuración de so
+sos/
+so/
+*.so
+
+# Archivos de configuración de to
+tos/
+to/
+*.to
+
+# Archivos de configuración de uo
+uos/
+uo/
+*.uo
+
+# Archivos de configuración de vo
+vos/
+vo/
+*.vo
+
+# Archivos de configuración de wo
+wos/
+wo/
+*.wo
+
+# Archivos de configuración de xo
+xos/
+xo/
+*.xo
+
+# Archivos de configuración de yo
+yos/
+yo/
+*.yo
+
+# Archivos de configuración de zo
+zos/
+zo/
+*.zo 

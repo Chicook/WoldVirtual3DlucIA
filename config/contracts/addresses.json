@@ -1,0 +1,261 @@
+{
+  "ethereum": {
+    "mainnet": {
+      "metaverso_token": {
+        "address": "0x0000000000000000000000000000000000000000",
+        "deployed_at": "2025-01-01T00:00:00Z",
+        "verified": false,
+        "constructor_args": [
+          "Metaverso Token",
+          "META",
+          "1000000000000000000000000000"
+        ]
+      },
+      "metaverso_nft": {
+        "address": "0x0000000000000000000000000000000000000000",
+        "deployed_at": "2025-01-01T00:00:00Z",
+        "verified": false,
+        "constructor_args": [
+          "Metaverso NFT",
+          "MNFT",
+          "https://api.metaverso.com/nft/"
+        ]
+      },
+      "metaverso_marketplace": {
+        "address": "0x0000000000000000000000000000000000000000",
+        "deployed_at": "2025-01-01T00:00:00Z",
+        "verified": false,
+        "constructor_args": [
+          "0x0000000000000000000000000000000000000000",
+          "250"
+        ]
+      },
+      "metaverso_governance": {
+        "address": "0x0000000000000000000000000000000000000000",
+        "deployed_at": "2025-01-01T00:00:00Z",
+        "verified": false,
+        "constructor_args": [
+          "0x0000000000000000000000000000000000000000",
+          "86400",
+          "1000000000000000000000"
+        ]
+      },
+      "metaverso_world": {
+        "address": "0x0000000000000000000000000000000000000000",
+        "deployed_at": "2025-01-01T00:00:00Z",
+        "verified": false,
+        "constructor_args": [
+          "Metaverso World",
+          "https://api.metaverso.com/world/"
+        ]
+      },
+      "metaverso_avatar": {
+        "address": "0x0000000000000000000000000000000000000000",
+        "deployed_at": "2025-01-01T00:00:00Z",
+        "verified": false,
+        "constructor_args": [
+          "Metaverso Avatar",
+          "https://api.metaverso.com/avatar/"
+        ]
+      }
+    },
+    "goerli": {
+      "metaverso_token": {
+        "address": "0x0000000000000000000000000000000000000000",
+        "deployed_at": "2025-01-01T00:00:00Z",
+        "verified": false,
+        "constructor_args": [
+          "Metaverso Token Test",
+          "META",
+          "1000000000000000000000000000"
+        ]
+      },
+      "metaverso_nft": {
+        "address": "0x0000000000000000000000000000000000000000",
+        "deployed_at": "2025-01-01T00:00:00Z",
+        "verified": false,
+        "constructor_args": [
+          "Metaverso NFT Test",
+          "MNFT",
+          "https://test-api.metaverso.com/nft/"
+        ]
+      }
+    }
+  },
+  "polygon": {
+    "mainnet": {
+      "metaverso_token": {
+        "address": "0x0000000000000000000000000000000000000000",
+        "deployed_at": "2025-01-01T00:00:00Z",
+        "verified": false,
+        "constructor_args": [
+          "Metaverso Token",
+          "META",
+          "1000000000000000000000000000"
+        ]
+      },
+      "metaverso_nft": {
+        "address": "0x0000000000000000000000000000000000000000",
+        "deployed_at": "2025-01-01T00:00:00Z",
+        "verified": false,
+        "constructor_args": [
+          "Metaverso NFT",
+          "MNFT",
+          "https://api.metaverso.com/nft/"
+        ]
+      },
+      "metaverso_marketplace": {
+        "address": "0x0000000000000000000000000000000000000000",
+        "deployed_at": "2025-01-01T00:00:00Z",
+        "verified": false,
+        "constructor_args": [
+          "0x0000000000000000000000000000000000000000",
+          "250"
+        ]
+      }
+    },
+    "mumbai": {
+      "metaverso_token": {
+        "address": "0x0000000000000000000000000000000000000000",
+        "deployed_at": "2025-01-01T00:00:00Z",
+        "verified": false,
+        "constructor_args": [
+          "Metaverso Token Test",
+          "META",
+          "1000000000000000000000000000"
+        ]
+      },
+      "metaverso_nft": {
+        "address": "0x0000000000000000000000000000000000000000",
+        "deployed_at": "2025-01-01T00:00:00Z",
+        "verified": false,
+        "constructor_args": [
+          "Metaverso NFT Test",
+          "MNFT",
+          "https://test-api.metaverso.com/nft/"
+        ]
+      }
+    }
+  },
+  "bsc": {
+    "mainnet": {
+      "metaverso_token": {
+        "address": "0x0000000000000000000000000000000000000000",
+        "deployed_at": "2025-01-01T00:00:00Z",
+        "verified": false,
+        "constructor_args": [
+          "Metaverso Token",
+          "META",
+          "1000000000000000000000000000"
+        ]
+      },
+      "metaverso_nft": {
+        "address": "0x0000000000000000000000000000000000000000",
+        "deployed_at": "2025-01-01T00:00:00Z",
+        "verified": false,
+        "constructor_args": [
+          "Metaverso NFT",
+          "MNFT",
+          "https://api.metaverso.com/nft/"
+        ]
+      }
+    },
+    "testnet": {
+      "metaverso_token": {
+        "address": "0x0000000000000000000000000000000000000000",
+        "deployed_at": "2025-01-01T00:00:00Z",
+        "verified": false,
+        "constructor_args": [
+          "Metaverso Token Test",
+          "META",
+          "1000000000000000000000000000"
+        ]
+      }
+    }
+  },
+  "arbitrum": {
+    "mainnet": {
+      "metaverso_token": {
+        "address": "0x0000000000000000000000000000000000000000",
+        "deployed_at": "2025-01-01T00:00:00Z",
+        "verified": false,
+        "constructor_args": [
+          "Metaverso Token",
+          "META",
+          "1000000000000000000000000000"
+        ]
+      }
+    },
+    "goerli": {
+      "metaverso_token": {
+        "address": "0x0000000000000000000000000000000000000000",
+        "deployed_at": "2025-01-01T00:00:00Z",
+        "verified": false,
+        "constructor_args": [
+          "Metaverso Token Test",
+          "META",
+          "1000000000000000000000000000"
+        ]
+      }
+    }
+  },
+  "optimism": {
+    "mainnet": {
+      "metaverso_token": {
+        "address": "0x0000000000000000000000000000000000000000",
+        "deployed_at": "2025-01-01T00:00:00Z",
+        "verified": false,
+        "constructor_args": [
+          "Metaverso Token",
+          "META",
+          "1000000000000000000000000000"
+        ]
+      }
+    },
+    "goerli": {
+      "metaverso_token": {
+        "address": "0x0000000000000000000000000000000000000000",
+        "deployed_at": "2025-01-01T00:00:00Z",
+        "verified": false,
+        "constructor_args": [
+          "Metaverso Token Test",
+          "META",
+          "1000000000000000000000000000"
+        ]
+      }
+    }
+  },
+  "avalanche": {
+    "mainnet": {
+      "metaverso_token": {
+        "address": "0x0000000000000000000000000000000000000000",
+        "deployed_at": "2025-01-01T00:00:00Z",
+        "verified": false,
+        "constructor_args": [
+          "Metaverso Token",
+          "META",
+          "1000000000000000000000000000"
+        ]
+      }
+    },
+    "fuji": {
+      "metaverso_token": {
+        "address": "0x0000000000000000000000000000000000000000",
+        "deployed_at": "2025-01-01T00:00:00Z",
+        "verified": false,
+        "constructor_args": [
+          "Metaverso Token Test",
+          "META",
+          "1000000000000000000000000000"
+        ]
+      }
+    }
+  },
+  "metadata": {
+    "version": "1.0.0",
+    "last_updated": "2025-01-01T00:00:00Z",
+    "description": "Direcciones de contratos del Metaverso Crypto World Virtual 3D",
+    "maintainer": "Metaverso Team",
+    "contact": "contracts@metaverso.com"
+  }
+} 

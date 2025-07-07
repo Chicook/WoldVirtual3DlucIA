@@ -1,0 +1,79 @@
+{
+  "token": {
+    "name": "WCV Token",
+    "symbol": "WCV",
+    "decimals": 3,
+    "format": "0,000 WCV",
+    "description": "Token principal de la blockchain WCV con formato de 3 decimales"
+  },
+  "supply": {
+    "initial": "30000000",
+    "max": "100000000",
+    "mintLimit": "1000000",
+    "formattedInitial": "30,000,000 WCV",
+    "formattedMax": "100,000,000 WCV",
+    "formattedMintLimit": "1,000,000 WCV"
+  },
+  "fees": {
+    "minting": "0.001",
+    "bridge": "0.0001",
+    "formattedMinting": "0.001 ETH",
+    "formattedBridge": "0.0001 ETH"
+  },
+  "bridge": {
+    "bscContract": "0x053532E91FFD6b8a21C925Da101C909A01106BBE",
+    "minAmount": "100",
+    "maxAmount": "1000000",
+    "formattedMin": "0,100 WCV",
+    "formattedMax": "1,000,000 WCV"
+  },
+  "network": {
+    "chainId": 31337,
+    "name": "WCV Blockchain",
+    "rpcUrl": "http://127.0.0.1:8545",
+    "blockExplorer": "http://127.0.0.1:8545",
+    "nativeCurrency": {
+      "name": "WCV",
+      "symbol": "WCV",
+      "decimals": 3
+    }
+  },
+  "formatting": {
+    "decimalSeparator": ",",
+    "thousandsSeparator": ",",
+    "symbolPosition": "after",
+    "examples": [
+      "0,000 WCV",
+      "1,000 WCV",
+      "1,500 WCV",
+      "10,000 WCV",
+      "100,000 WCV",
+      "1,000,000 WCV",
+      "30,000,000 WCV"
+    ]
+  },
+  "conversion": {
+    "bscDecimals": 18,
+    "wcvDecimals": 3,
+    "ratio": "1:1",
+    "description": "Conversión directa entre BSC y WCV manteniendo el valor"
+  },
+  "features": {
+    "minting": true,
+    "burning": true,
+    "pausable": true,
+    "blacklist": true,
+    "whitelist": true,
+    "bridge": true,
+    "statistics": true,
+    "metamask": true
+  },
+  "security": {
+    "reentrancyGuard": true,
+    "ownable": true,
+    "pausable": true,
+    "validations": true,
+    "limits": true,
+    "fees": true
+  }
+} 

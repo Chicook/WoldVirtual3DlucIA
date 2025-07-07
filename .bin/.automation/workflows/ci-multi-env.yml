@@ -1,0 +1,260 @@
+name: 🚀 CI/CD Multi-Entorno - Metaverso Web3
+
+on:
+  push:
+    branches: [main, develop, staging]
+  pull_request:
+    branches: [main, develop]
+  schedule:
+    - cron: '0 2 * * *'  # Auditoría diaria a las 2 AM
+
+env:
+  NODE_VERSION: '18'
+  RUST_VERSION: '1.75'
+  SOLIDITY_VERSION: '0.8.24'
+
+jobs:
+  # 🔍 VALIDACIÓN DE SEGURIDAD
+  security-audit:
+    name: 🔒 Auditoría de Seguridad
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          
+      - name: 🦀 Setup Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+          
+      - name: 📦 Install Dependencies
+        run: |
+          npm ci
+          pip install slither-analyzer mythril
+          
+      - name: 🔍 Static Analysis
+        run: |
+          echo "🔍 Ejecutando análisis estático..."
+          npm run lint:all
+          npm run type-check:all
+          
+      - name: 🛡️ Smart Contract Security
+        run: |
+          echo "🛡️ Auditoría de contratos inteligentes..."
+          slither protocol/contracts/ --json slither-report.json
+          mythril analyze protocol/contracts/core/WorldRegistry.sol --output json
+          
+      - name: 📊 Dependency Scanning
+        run: |
+          echo "📊 Escaneo de dependencias..."
+          npm audit --audit-level=moderate
+          snyk test --severity-threshold=high
+          
+      - name: 📤 Upload Security Reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-reports
+          path: |
+            slither-report.json
+            mythril-report.json
+            npm-audit.json
+
+  # 🧪 TESTING CROSS-MÓDULO
+  integration-tests:
+    name: 🧪 Pruebas de Integración
+    runs-on: ubuntu-latest
+    needs: security-audit
+    timeout-minutes: 45
+    
+    services:
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+          
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+        
+      - name: 🔧 Setup Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          
+      - name: 📦 Install Dependencies
+        run: |
+          npm ci
+          cd client && npm ci
+          cd ../gateway && npm ci
+          cd ../protocol && npm ci
+          
+      - name: 🏗️ Build Modules
+        run: |
+          echo "🏗️ Compilando módulos..."
+          npm run build:all
+          
+      - name: 🧪 Run Integration Tests
+        run: |
+          echo "🧪 Ejecutando pruebas de integración..."
+          npm run test:integration
+          
+      - name: 📊 Coverage Report
+        run: |
+          echo "📊 Generando reporte de cobertura..."
+          npm run coverage:all
+          
+      - name: 📤 Upload Test Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: |
+            coverage/
+            test-results/
+
+  # 🚀 DESPLIEGUE CANARIO
+  canary-deployment:
+    name: 🚀 Despliegue Canario
+    runs-on: ubuntu-latest
+    needs: [security-audit, integration-tests]
+    if: github.ref == 'refs/heads/main'
+    timeout-minutes: 60
+    
+    environment:
+      name: canary
+      url: https://canary.metaverso.dev
+      
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+        
+      - name: 🔧 Setup Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          
+      - name: 🔐 Setup Secrets
+        run: |
+          echo "🔐 Configurando secretos..."
+          echo ${{ secrets.DOCKER_REGISTRY_TOKEN }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+          
+      - name: 🐳 Build & Push Images
+        run: |
+          echo "🐳 Construyendo y subiendo imágenes..."
+          docker build -t metaverso/client:${{ github.sha }} ./client
+          docker build -t metaverso/gateway:${{ github.sha }} ./gateway
+          docker build -t metaverso/engine:${{ github.sha }} ./engine
+          
+          docker push metaverso/client:${{ github.sha }}
+          docker push metaverso/gateway:${{ github.sha }}
+          docker push metaverso/engine:${{ github.sha }}
+          
+      - name: 🚀 Deploy to Canary
+        run: |
+          echo "🚀 Desplegando a canary..."
+          kubectl set image deployment/metaverso-client client=metaverso/client:${{ github.sha }}
+          kubectl set image deployment/metaverso-gateway gateway=metaverso/gateway:${{ github.sha }}
+          kubectl set image deployment/metaverso-engine engine=metaverso/engine:${{ github.sha }}
+          
+      - name: 🔍 Health Check
+        run: |
+          echo "🔍 Verificando salud del despliegue..."
+          kubectl rollout status deployment/metaverso-client --timeout=300s
+          kubectl rollout status deployment/metaverso-gateway --timeout=300s
+          kubectl rollout status deployment/metaverso-engine --timeout=300s
+          
+      - name: 📊 Performance Test
+        run: |
+          echo "📊 Pruebas de rendimiento..."
+          npm run test:performance -- --env canary
+          
+      - name: 📈 Metrics Collection
+        run: |
+          echo "📈 Recolectando métricas..."
+          npm run collect:metrics -- --env canary
+
+  # 📊 MONITOREO Y ALERTAS
+  monitoring:
+    name: 📊 Monitoreo Distribuido
+    runs-on: ubuntu-latest
+    needs: canary-deployment
+    if: github.ref == 'refs/heads/main'
+    timeout-minutes: 30
+    
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+        
+      - name: 🔧 Setup Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          
+      - name: 📊 Setup Monitoring
+        run: |
+          echo "📊 Configurando monitoreo..."
+          npm run monitoring:setup
+          
+      - name: 🔍 Deploy Monitoring Stack
+        run: |
+          echo "🔍 Desplegando stack de monitoreo..."
+          kubectl apply -f monitoring/
+          
+      - name: 📈 Configure Alerts
+        run: |
+          echo "📈 Configurando alertas..."
+          npm run alerts:configure
+          
+      - name: 📊 Validate Metrics
+        run: |
+          echo "📊 Validando métricas..."
+          npm run metrics:validate
+
+  # 🎯 NOTIFICACIONES
+  notifications:
+    name: 📢 Notificaciones
+    runs-on: ubuntu-latest
+    needs: [security-audit, integration-tests, canary-deployment, monitoring]
+    if: always()
+    
+    steps:
+      - name: 📢 Slack Notification
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          channel: '#metaverso-deployments'
+          webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+          
+      - name: 📧 Email Notification
+        run: |
+          echo "📧 Enviando notificación por email..."
+          npm run notify:email -- --status=${{ job.status }}

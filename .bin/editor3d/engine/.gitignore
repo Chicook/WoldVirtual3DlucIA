@@ -1,0 +1,15 @@
+# Rust build artifacts
+target/
+Cargo.lock
+
+# Archivos temporales y de sistema
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+# Configuración local
+.env
+.env.*
+.vscode/
+.idea/ 

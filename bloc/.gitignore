@@ -1,0 +1,75 @@
+# Archivos de configuración y variables de entorno (sensibles)
+.env
+.env.*
+.env.local
+.env.*.local
+
+# Archivos de claves y secretos
+*.key
+*.pem
+*.secret
+*.crt
+*.p12
+*.pfx
+secrets/
+
+# Archivos de credenciales
+*.credentials
+*.auth
+*.token
+
+# Archivos de logs
+*.log
+logs/
+debug.log
+
+# Archivos temporales y de caché
+*.tmp
+*.temp
+.cache/
+tmp/
+temp/
+dist/
+build/
+out/
+
+# Archivos de backup
+*.bak
+*.backup
+
+# Archivos de lock de backup
+package-lock.json.backup*
+yarn.lock.backup*
+
+# Archivos de test y cobertura
+test-results/
+coverage/
+.nyc_output/
+
+# Archivos de configuración de IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Archivos de datos temporales o sensibles
+data/temp/
+data/cache/
+
+# Archivos de ejemplos locales o de pruebas
+examples/*.local.*
+examples/*.test.*
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Otros archivos que no quieras subir
+*.DS_Store 
+
+# dependencias 
+package-lock.json
+package.json
+package.json.backup.1751583397123
+package.json.backup.1751583436475
+

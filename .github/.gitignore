@@ -1,0 +1,70 @@
+# Archivos de configuración local que no deben versionarse
+.env
+.env.local
+.env.*.local
+
+# Archivos de logs
+*.log
+logs/
+
+# Archivos temporales
+*.tmp
+*.temp
+.tmp/
+.temp/
+
+# Archivos de caché
+.cache/
+*.cache
+
+# Archivos de configuración específicos del desarrollador
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+
+# Archivos de backup
+*.bak
+*.backup
+backup/
+
+# Archivos de secrets que no deben estar en el repositorio
+secrets/
+*.secret
+*.key
+*.pem
+
+# Archivos de datos temporales
+data/temp/
+data/cache/
+
+# Archivos de test que generan output
+test-results/
+coverage/
+.nyc_output/
+
+# Archivos de build temporales
+dist/
+build/
+out/
+
+# Archivos de node_modules (si se generan en .github)
+node_modules/
+
+# Archivos de lock que pueden causar conflictos
+package-lock.json.backup
+yarn.lock.backup
+
+# Archivos de configuración local de workflows
+workflows/local/
+workflows/temp/
+workflows/*.local.yml
+workflows/*.test.yml
+
+# Archivos de debugging
+debug/
+*.debug
+
+# Archivos de métricas temporales
+metrics/temp/
+*.metrics.tmp

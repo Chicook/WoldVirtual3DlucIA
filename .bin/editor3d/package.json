@@ -1,0 +1,91 @@
+{
+<<<<<<< HEAD
+  "name": "editor3d-metaverso",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Editor 3D web para creación de entornos virtuales en el metaverso (Three.js + React)",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint src --ext .ts,.tsx",
+    "format": "prettier --write src",
+    "test": "jest --passWithNoTests"
+=======
+  "name": "editor3d",
+  "version": "1.0.0",
+  "description": "Editor 3D avanzado para el Metaverso basado en React y Three.js",
+  "main": "src/index.tsx",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "type-check": "tsc --noEmit"
+>>>>>>> 16837d8d9aaba450aa732a089f49200724914d04
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+<<<<<<< HEAD
+    "three": "^0.155.0"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/plugin-proposal-decorators": "^7.27.1",
+    "@babel/plugin-transform-class-properties": "^7.27.1",
+    "@babel/preset-env": "^7.27.2",
+    "@babel/preset-react": "^7.27.1",
+    "@babel/preset-typescript": "^7.27.1",
+    "@types/jest": "^30.0.0",
+    "@types/react": "^18.2.14",
+    "@types/react-dom": "^18.2.7",
+    "@types/three": "^0.177.0",
+    "@typescript-eslint/eslint-plugin": "^8.35.1",
+    "@typescript-eslint/parser": "^8.35.1",
+    "@vitejs/plugin-react": "^4.0.0",
+    "eslint": "^8.50.0",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^30.0.3",
+    "jest-environment-jsdom": "^30.0.2",
+    "jest-junit": "^16.0.0",
+    "jest-serializer-html": "^7.1.0",
+    "jest-watch-typeahead": "^3.0.1",
+    "prettier": "^3.0.3",
+    "ts-jest": "^29.4.0",
+    "typescript": "^5.2.2",
+    "vite": "^4.4.9"
+  }
+}
+=======
+    "three": "^0.158.0",
+    "@react-three/fiber": "^8.15.0",
+    "@react-three/drei": "^9.88.0",
+    "zustand": "^4.4.0",
+    "immer": "^10.0.0",
+    "framer-motion": "^10.16.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@types/three": "^0.158.0",
+    "@vitejs/plugin-react": "^4.0.0",
+    "typescript": "^5.0.0",
+    "vite": "^4.4.0",
+    "eslint": "^8.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0"
+  },
+  "keywords": [
+    "editor3d",
+    "metaverso",
+    "threejs",
+    "react",
+    "vite"
+  ],
+  "author": "Metaverso Team",
+  "license": "MIT"
+} 
+>>>>>>> 16837d8d9aaba450aa732a089f49200724914d04

@@ -1,0 +1,178 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles */
+@layer base {
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  
+  body {
+    @apply bg-gray-50 text-gray-900;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-purple-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-purple-700 transition-colors;
+  }
+  
+  .btn-secondary {
+    @apply bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium hover:bg-gray-300 transition-colors;
+  }
+  
+  .card {
+    @apply bg-white rounded-lg shadow-sm border border-gray-200 p-6;
+  }
+
+  /* Metaverso styles */
+  .metaverso-container {
+    @apply w-full h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 relative overflow-hidden;
+  }
+
+  .metaverso-header {
+    @apply absolute top-4 left-4 z-10 text-white;
+  }
+
+  .metaverso-header h2 {
+    @apply text-2xl font-bold mb-2;
+  }
+
+  .metaverso-header p {
+    @apply text-sm opacity-80;
+  }
+
+  .metaverso-world-2d {
+    @apply w-full h-full relative;
+  }
+
+  .world-grid {
+    @apply w-full h-full relative bg-gradient-to-b from-green-400 to-green-600;
+  }
+
+  .world-building {
+    @apply absolute w-16 h-16 rounded-lg shadow-lg flex items-center justify-center text-2xl cursor-pointer transition-transform hover:scale-110;
+  }
+
+  .user-avatar {
+    @apply absolute w-12 h-12 rounded-full shadow-lg flex items-center justify-center text-lg cursor-pointer transition-all duration-200 z-20;
+  }
+
+  .user-avatar.main-user {
+    @apply border-4 border-yellow-400 shadow-xl;
+  }
+
+  .user-avatar.other-user {
+    @apply border-2 border-white;
+  }
+
+  .user-label {
+    @apply absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs font-medium text-white bg-black bg-opacity-50 px-2 py-1 rounded whitespace-nowrap;
+  }
+
+  .world-decoration {
+    @apply absolute text-2xl cursor-pointer transition-transform hover:scale-110;
+  }
+
+  .world-decoration.tree {
+    @apply text-3xl;
+  }
+
+  .world-decoration.fountain {
+    @apply text-2xl;
+  }
+
+  .world-decoration.bench {
+    @apply text-xl;
+  }
+
+  .metaverso-info {
+    @apply absolute bottom-4 left-4 right-4 bg-black bg-opacity-50 backdrop-blur-sm rounded-lg p-4 text-white;
+  }
+
+  .info-grid {
+    @apply grid grid-cols-2 md:grid-cols-4 gap-4 mb-4;
+  }
+
+  .info-item {
+    @apply flex flex-col;
+  }
+
+  .info-label {
+    @apply text-xs opacity-70 mb-1;
+  }
+
+  .info-value {
+    @apply text-sm font-medium;
+  }
+
+  .controls-info h4 {
+    @apply text-sm font-medium mb-2;
+  }
+
+  .controls-grid {
+    @apply grid grid-cols-2 md:grid-cols-5 gap-2 text-xs opacity-80;
+  }
+
+  .world-features h4 {
+    @apply text-sm font-medium mb-2 mt-4;
+  }
+
+  .features-grid {
+    @apply grid grid-cols-2 md:grid-cols-4 gap-2 text-xs opacity-80;
+  }
+
+  .feature-item {
+    @apply flex items-center gap-2;
+  }
+
+  /* MetaMask Validator styles */
+  .metamask-validator {
+    @apply w-full h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center p-4;
+  }
+
+  .validator-content {
+    @apply bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-8 max-w-md w-full text-white;
+  }
+
+  .validator-content h2 {
+    @apply text-2xl font-bold mb-4 text-center;
+  }
+
+  .validator-content p {
+    @apply text-center mb-6 opacity-80;
+  }
+
+  .error-message {
+    @apply bg-red-500 bg-opacity-20 border border-red-400 rounded-lg p-3 mb-4 text-sm;
+  }
+
+  .validator-actions {
+    @apply space-y-3 mb-6;
+  }
+
+  .validator-actions button {
+    @apply w-full py-3 px-4 rounded-lg font-medium transition-all duration-200;
+  }
+
+  .validator-actions .btn-primary {
+    @apply bg-purple-600 hover:bg-purple-700 text-white;
+  }
+
+  .validator-actions .btn-secondary {
+    @apply bg-gray-600 bg-opacity-50 hover:bg-opacity-70 text-white border border-gray-500;
+  }
+
+  .validator-info {
+    @apply bg-black bg-opacity-20 rounded-lg p-4;
+  }
+
+  .validator-info h4 {
+    @apply text-sm font-medium mb-2;
+  }
+
+  .validator-info ul {
+    @apply text-xs space-y-1 opacity-80;
+  }
+} 

@@ -1,0 +1,104 @@
+{
+  "name": "Ethereum",
+  "symbol": "ETH",
+  "chain_id": 1,
+  "network_type": "mainnet",
+  "rpc_urls": {
+    "primary": "https://mainnet.infura.io/v3/YOUR_PROJECT_ID",
+    "backup": "https://eth-mainnet.alchemyapi.io/v2/YOUR_API_KEY",
+    "public": "https://cloudflare-eth.com"
+  },
+  "ws_urls": {
+    "primary": "wss://mainnet.infura.io/ws/v3/YOUR_PROJECT_ID",
+    "backup": "wss://eth-mainnet.alchemyapi.io/v2/YOUR_API_KEY"
+  },
+  "explorer": {
+    "name": "Etherscan",
+    "url": "https://etherscan.io",
+    "api_url": "https://api.etherscan.io/api",
+    "api_key": "YOUR_ETHERSCAN_API_KEY"
+  },
+  "gas_config": {
+    "default_gas_limit": 3000000,
+    "default_gas_price": 20000000000,
+    "max_gas_price": 100000000000,
+    "gas_estimate_buffer": 1.2,
+    "priority_fee": 1500000000
+  },
+  "block_config": {
+    "block_time": 12,
+    "confirmations": 12,
+    "max_block_range": 10000
+  },
+  "contracts": {
+    "metaverso_token": {
+      "address": "0x0000000000000000000000000000000000000000",
+      "deployed_at": "2025-01-01T00:00:00Z",
+      "verified": false
+    },
+    "metaverso_nft": {
+      "address": "0x0000000000000000000000000000000000000000",
+      "deployed_at": "2025-01-01T00:00:00Z",
+      "verified": false
+    },
+    "metaverso_marketplace": {
+      "address": "0x0000000000000000000000000000000000000000",
+      "deployed_at": "2025-01-01T00:00:00Z",
+      "verified": false
+    },
+    "metaverso_governance": {
+      "address": "0x0000000000000000000000000000000000000000",
+      "deployed_at": "2025-01-01T00:00:00Z",
+      "verified": false
+    }
+  },
+  "defi_protocols": {
+    "uniswap_v3": {
+      "factory": "0x1F98431c8aD98523631AE4a59f267346ea31F984",
+      "router": "0xE592427A0AEce92De3Edee1F18E0157C05861564"
+    },
+    "aave_v3": {
+      "pool": "0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9",
+      "data_provider": "0x057835Ad21a177dbdd3090bB1CAE03EaCF78Fc6d"
+    },
+    "compound_v3": {
+      "comet": "0xc3d688B66703497DAA19211EEdff47fB25365b65"
+    }
+  },
+  "oracles": {
+    "chainlink": {
+      "eth_usd": "0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419",
+      "link_usd": "0x2c1d072e956AFFC0D435Cb7AC38EF18d24d9127c"
+    }
+  },
+  "native_token": {
+    "name": "Ether",
+    "symbol": "ETH",
+    "decimals": 18,
+    "total_supply": "120000000000000000000000000"
+  },
+  "features": {
+    "eip1559": true,
+    "eip2930": true,
+    "eip155": true,
+    "legacy_transactions": true
+  },
+  "performance": {
+    "tps": 15,
+    "finality_time": 144,
+    "average_block_size": 1500000
+  },
+  "security": {
+    "consensus": "PoS",
+    "validator_count": 900000,
+    "min_stake": "32000000000000000000"
+  },
+  "metadata": {
+    "description": "Ethereum Mainnet - La red blockchain más descentralizada del mundo",
+    "website": "https://ethereum.org",
+    "documentation": "https://docs.ethereum.org",
+    "github": "https://github.com/ethereum/go-ethereum",
+    "discord": "https://discord.gg/ethereum",
+    "twitter": "https://twitter.com/ethereum"
+  }
+} 

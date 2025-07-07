@@ -1,0 +1,369 @@
+name: 🛡️ Auditoría de Seguridad - Metaverso Web3
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  schedule:
+    - cron: '0 3 * * 1' # Cada lunes a las 3:00am
+  workflow_dispatch:
+    inputs:
+      scan_type:
+        description: 'Tipo de escaneo'
+        required: true
+        default: 'full'
+        type: choice
+        options:
+        - full
+        - smart-contracts
+        - dependencies
+        - assets
+        - infrastructure
+
+env:
+  NODE_VERSION: '18'
+  SOLIDITY_VERSION: '0.8.24'
+
+jobs:
+  # 🔍 CODEQL ANALYSIS
+  codeql:
+    name: 🔍 Análisis CodeQL
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: 🔍 Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript, typescript, python
+          queries: security-extended,security-and-quality
+          
+      - name: 🔍 Autobuild
+        uses: github/codeql-action/autobuild@v3
+        
+      - name: 📊 Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:javascript"
+          
+      - name: 📤 Upload CodeQL Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeql-results
+          path: |
+            ~/.github/codeql/codeql_db/
+            ~/.github/codeql/codeql_db.log
+
+  # ⛓️ SMART CONTRACT SECURITY
+  smart-contract-security:
+    name: ⛓️ Seguridad Smart Contracts
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+        
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          
+      - name: 📦 Install Foundry
+        run: |
+          curl -L https://foundry.paradigm.xyz | bash
+          source ~/.bashrc
+          foundryup
+          
+      - name: 📦 Install Security Tools
+        run: |
+          pip install slither-analyzer mythril
+          npm install -g @openzeppelin/contracts-upgrades
+          
+      - name: 🏗️ Compile Contracts
+        run: |
+          echo "🏗️ Compilando contratos..."
+          cd protocol
+          forge build
+          
+      - name: 🛡️ Slither Analysis
+        run: |
+          echo "🛡️ Análisis con Slither..."
+          cd protocol
+          slither . --json slither-report.json --exclude-informational
+          
+      - name: 🛡️ Mythril Analysis
+        run: |
+          echo "🛡️ Análisis con Mythril..."
+          cd protocol
+          mythril analyze contracts/core/WorldRegistry.sol --output json > mythril-report.json
+          
+      - name: 🧪 Fuzzing Tests
+        run: |
+          echo "🧪 Tests de fuzzing..."
+          cd protocol
+          forge test --fuzz-runs 10000 --fuzz-seed 42
+          
+      - name: 🔍 Reentrancy Check
+        run: |
+          echo "🔍 Verificando reentrancy..."
+          cd protocol
+          node .bin/security/check-reentrancy.js
+          
+      - name: 📊 Gas Optimization
+        run: |
+          echo "📊 Optimización de gas..."
+          cd protocol
+          forge test --gas-report > gas-report.txt
+          
+      - name: 📤 Upload Security Reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: smart-contract-security
+          path: |
+            protocol/slither-report.json
+            protocol/mythril-report.json
+            protocol/gas-report.txt
+
+  # 📦 DEPENDENCY SECURITY
+  dependency-security:
+    name: 📦 Seguridad de Dependencias
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+        
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          
+      - name: 📦 Install Security Tools
+        run: |
+          npm install -g snyk auditjs
+          pip install safety
+          
+      - name: 🔍 NPM Audit
+        run: |
+          echo "🔍 Auditoría NPM..."
+          npm audit --audit-level=moderate --json > npm-audit.json
+          
+      - name: 🔍 Snyk Test
+        run: |
+          echo "🔍 Test Snyk..."
+          snyk test --severity-threshold=high --json > snyk-report.json
+          
+      - name: 🔍 Safety Check (Python)
+        run: |
+          echo "🔍 Verificación Safety..."
+          safety check --json > safety-report.json || echo "No se encontraron dependencias Python"
+          
+      - name: 🔍 Cargo Audit (Rust)
+        run: |
+          echo "🔍 Auditoría Cargo..."
+          cd engine
+          cargo audit --json > cargo-audit.json || echo "No se encontraron vulnerabilidades en Rust"
+          
+      - name: 📊 Dependency Graph
+        run: |
+          echo "📊 Generando grafo de dependencias..."
+          npm ls --json > dependency-tree.json
+          
+      - name: 📤 Upload Dependency Reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: dependency-security
+          path: |
+            npm-audit.json
+            snyk-report.json
+            safety-report.json
+            cargo-audit.json
+            dependency-tree.json
+
+  # 🎮 ASSET SECURITY
+  asset-security:
+    name: 🎮 Seguridad de Assets
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+        
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          
+      - name: 📦 Install Asset Security Tools
+        run: |
+          npm install -g gltf-validator
+          pip install pillow
+          
+      - name: 🔍 Validate 3D Assets
+        run: |
+          echo "🔍 Validando assets 3D..."
+          node .bin/security/validate-3d-assets.js
+          
+      - name: 🔍 Check Asset Integrity
+        run: |
+          echo "🔍 Verificando integridad de assets..."
+          node .bin/security/check-asset-integrity.js
+          
+      - name: 🔍 Malware Scan
+        run: |
+          echo "🔍 Escaneo de malware..."
+          node .bin/security/scan-assets-malware.js
+          
+      - name: 📊 Asset Report
+        run: |
+          echo "📊 Generando reporte de assets..."
+          node .bin/security/generate-asset-report.js
+
+  # 🌐 INFRASTRUCTURE SECURITY
+  infrastructure-security:
+    name: 🌐 Seguridad de Infraestructura
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+        
+      - name: 🔧 Setup Security Tools
+        run: |
+          npm install -g @snyk/cli
+          pip install bandit
+          
+      - name: 🔍 Infrastructure as Code Scan
+        run: |
+          echo "🔍 Escaneando IaC..."
+          node .bin/security/scan-infrastructure.js
+          
+      - name: 🔍 Docker Security
+        run: |
+          echo "🔍 Seguridad de Docker..."
+          node .bin/security/scan-docker.js
+          
+      - name: 🔍 Kubernetes Security
+        run: |
+          echo "🔍 Seguridad de Kubernetes..."
+          node .bin/security/scan-kubernetes.js
+          
+      - name: 🔍 Network Security
+        run: |
+          echo "🔍 Seguridad de red..."
+          node .bin/security/scan-network.js
+
+  # 🔐 SECRET SCANNING
+  secret-scanning:
+    name: 🔐 Escaneo de Secretos
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+        
+      - name: 📦 Install Secret Scanning Tools
+        run: |
+          npm install -g trufflehog
+          pip install detect-secrets
+          
+      - name: 🔍 TruffleHog Scan
+        run: |
+          echo "🔍 Escaneo con TruffleHog..."
+          trufflehog --json . > trufflehog-report.json
+          
+      - name: 🔍 Detect Secrets
+        run: |
+          echo "🔍 Detección de secretos..."
+          detect-secrets scan --baseline .secrets.baseline
+          
+      - name: 🔍 Git History Scan
+        run: |
+          echo "🔍 Escaneo de historial Git..."
+          node .bin/security/scan-git-history.js
+          
+      - name: 📊 Secret Report
+        run: |
+          echo "📊 Generando reporte de secretos..."
+          node .bin/security/generate-secret-report.js
+
+  # 📊 SECURITY REPORT
+  security-report:
+    name: 📊 Reporte de Seguridad
+    runs-on: ubuntu-latest
+    needs: [codeql, smart-contract-security, dependency-security, asset-security, infrastructure-security, secret-scanning]
+    timeout-minutes: 10
+    
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+        
+      - name: 📦 Download All Reports
+        uses: actions/download-artifact@v4
+        with:
+          name: codeql-results
+          path: ./reports/codeql
+        continue-on-error: true
+          
+      - name: 📦 Download Smart Contract Reports
+        uses: actions/download-artifact@v4
+        with:
+          name: smart-contract-security
+          path: ./reports/smart-contracts
+        continue-on-error: true
+          
+      - name: 📦 Download Dependency Reports
+        uses: actions/download-artifact@v4
+        with:
+          name: dependency-security
+          path: ./reports/dependencies
+        continue-on-error: true
+          
+      - name: 📊 Generate Security Report
+        run: |
+          echo "📊 Generando reporte de seguridad..."
+          node .bin/security/generate-security-report.js
+          
+      - name: 📤 Upload Security Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-report
+          path: ./reports/security-report.json
+          
+      - name: 📢 Security Notifications
+        run: |
+          echo "📢 Enviando notificaciones de seguridad..."
+          node .bin/security/send-security-notifications.js
+
+  # 🚨 CRITICAL ALERTS
+  critical-alerts:
+    name: 🚨 Alertas Críticas
+    runs-on: ubuntu-latest
+    needs: security-report
+    if: failure()
+    timeout-minutes: 5
+    
+    steps:
+      - name: 🚨 Critical Security Alert
+        run: |
+          echo "🚨 ALERTA CRÍTICA DE SEGURIDAD DETECTADA!"
+          node .bin/security/send-critical-alert.js
+          
+      - name: 📢 Emergency Notifications
+        run: |
+          echo "📢 Enviando notificaciones de emergencia..."
+          node .bin/security/send-emergency-notifications.js

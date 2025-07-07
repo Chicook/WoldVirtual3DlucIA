@@ -1,0 +1,460 @@
+/* ============================================================================
+   📝 VARIABLES DE TIPOGRAFÍA - Metaverso Crypto World Virtual 3D
+   ============================================================================ */
+
+:root {
+  /* ============================================================================
+     🔤 FAMILIAS DE FUENTES - Definición de fuentes
+     ============================================================================ */
+  
+  /* Fuentes principales */
+  --font-family-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-family-secondary: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-family-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+  --font-family-display: 'Orbitron', 'Audiowide', 'Russo One', sans-serif;
+  --font-family-crypto: 'Space Grotesk', 'Chakra Petch', sans-serif;
+  
+  /* Fuentes de respaldo */
+  --font-family-fallback: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-family-mono-fallback: 'Consolas', 'Monaco', 'Courier New', monospace;
+
+  /* ============================================================================
+     📏 TAMAÑOS DE FUENTE - Escala tipográfica
+     ============================================================================ */
+  
+  /* Tamaños base */
+  --font-size-xs: 0.75rem;    /* 12px */
+  --font-size-sm: 0.875rem;   /* 14px */
+  --font-size-base: 1rem;     /* 16px */
+  --font-size-lg: 1.125rem;   /* 18px */
+  --font-size-xl: 1.25rem;    /* 20px */
+  --font-size-2xl: 1.5rem;    /* 24px */
+  --font-size-3xl: 1.875rem;  /* 30px */
+  --font-size-4xl: 2.25rem;   /* 36px */
+  --font-size-5xl: 3rem;      /* 48px */
+  --font-size-6xl: 3.75rem;   /* 60px */
+  --font-size-7xl: 4.5rem;    /* 72px */
+  --font-size-8xl: 6rem;      /* 96px */
+  --font-size-9xl: 8rem;      /* 128px */
+
+  /* ============================================================================
+     📐 ALTURAS DE LÍNEA - Line heights
+     ============================================================================ */
+  
+  --line-height-none: 1;
+  --line-height-tight: 1.25;
+  --line-height-snug: 1.375;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+  --line-height-loose: 2;
+
+  /* ============================================================================
+     ⚖️ PESOS DE FUENTE - Font weights
+     ============================================================================ */
+  
+  --font-weight-thin: 100;
+  --font-weight-extralight: 200;
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --font-weight-black: 900;
+
+  /* ============================================================================
+     📐 ESPACIADO DE LETRAS - Letter spacing
+     ============================================================================ */
+  
+  --letter-spacing-tighter: -0.05em;
+  --letter-spacing-tight: -0.025em;
+  --letter-spacing-normal: 0em;
+  --letter-spacing-wide: 0.025em;
+  --letter-spacing-wider: 0.05em;
+  --letter-spacing-widest: 0.1em;
+
+  /* ============================================================================
+     🎯 ESTILOS DE TEXTO - Text styles predefinidos
+     ============================================================================ */
+  
+  /* Títulos principales */
+  --text-h1: {
+    font-family: var(--font-family-display);
+    font-size: var(--font-size-6xl);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-tight);
+    letter-spacing: var(--letter-spacing-tight);
+  };
+  
+  --text-h2: {
+    font-family: var(--font-family-display);
+    font-size: var(--font-size-5xl);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-tight);
+    letter-spacing: var(--letter-spacing-tight);
+  };
+  
+  --text-h3: {
+    font-family: var(--font-family-display);
+    font-size: var(--font-size-4xl);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-snug);
+    letter-spacing: var(--letter-spacing-normal);
+  };
+  
+  --text-h4: {
+    font-family: var(--font-family-display);
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-snug);
+    letter-spacing: var(--letter-spacing-normal);
+  };
+  
+  --text-h5: {
+    font-family: var(--font-family-display);
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-normal);
+    letter-spacing: var(--letter-spacing-normal);
+  };
+  
+  --text-h6: {
+    font-family: var(--font-family-display);
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-normal);
+    letter-spacing: var(--letter-spacing-normal);
+  };
+
+  /* Texto de cuerpo */
+  --text-body-large: {
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-normal);
+    line-height: var(--line-height-relaxed);
+    letter-spacing: var(--letter-spacing-normal);
+  };
+  
+  --text-body: {
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-normal);
+    line-height: var(--line-height-normal);
+    letter-spacing: var(--letter-spacing-normal);
+  };
+  
+  --text-body-small: {
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-normal);
+    line-height: var(--line-height-normal);
+    letter-spacing: var(--letter-spacing-normal);
+  };
+
+  /* Texto de código */
+  --text-code: {
+    font-family: var(--font-family-mono);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-normal);
+    line-height: var(--line-height-normal);
+    letter-spacing: var(--letter-spacing-normal);
+  };
+  
+  --text-code-large: {
+    font-family: var(--font-family-mono);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-normal);
+    line-height: var(--line-height-normal);
+    letter-spacing: var(--letter-spacing-normal);
+  };
+
+  /* Texto crypto */
+  --text-crypto: {
+    font-family: var(--font-family-crypto);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-normal);
+    letter-spacing: var(--letter-spacing-wide);
+  };
+  
+  --text-crypto-large: {
+    font-family: var(--font-family-crypto);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-normal);
+    letter-spacing: var(--letter-spacing-wide);
+  };
+
+  /* ============================================================================
+     🎨 ESTILOS ESPECÍFICOS - Estilos para casos específicos
+     ============================================================================ */
+  
+  /* Texto de navegación */
+  --text-nav: {
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-normal);
+    letter-spacing: var(--letter-spacing-wide);
+    text-transform: uppercase;
+  };
+  
+  /* Texto de botones */
+  --text-button: {
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-none);
+    letter-spacing: var(--letter-spacing-wide);
+    text-transform: uppercase;
+  };
+  
+  /* Texto de etiquetas */
+  --text-label: {
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-normal);
+    letter-spacing: var(--letter-spacing-wide);
+    text-transform: uppercase;
+  };
+  
+  /* Texto de captions */
+  --text-caption: {
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-normal);
+    line-height: var(--line-height-normal);
+    letter-spacing: var(--letter-spacing-normal);
+  };
+  
+  /* Texto de notificaciones */
+  --text-notification: {
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-normal);
+    letter-spacing: var(--letter-spacing-normal);
+  };
+
+  /* ============================================================================
+     📱 RESPONSIVE - Tamaños responsivos
+     ============================================================================ */
+  
+  /* Tamaños móviles */
+  --font-size-mobile-xs: 0.625rem;   /* 10px */
+  --font-size-mobile-sm: 0.75rem;    /* 12px */
+  --font-size-mobile-base: 0.875rem; /* 14px */
+  --font-size-mobile-lg: 1rem;       /* 16px */
+  --font-size-mobile-xl: 1.125rem;   /* 18px */
+  --font-size-mobile-2xl: 1.25rem;   /* 20px */
+  
+  /* Tamaños tablet */
+  --font-size-tablet-xs: 0.75rem;    /* 12px */
+  --font-size-tablet-sm: 0.875rem;   /* 14px */
+  --font-size-tablet-base: 1rem;     /* 16px */
+  --font-size-tablet-lg: 1.125rem;   /* 18px */
+  --font-size-tablet-xl: 1.25rem;    /* 20px */
+  --font-size-tablet-2xl: 1.5rem;    /* 24px */
+  
+  /* Tamaños desktop */
+  --font-size-desktop-xs: 0.75rem;   /* 12px */
+  --font-size-desktop-sm: 0.875rem;  /* 14px */
+  --font-size-desktop-base: 1rem;    /* 16px */
+  --font-size-desktop-lg: 1.125rem;  /* 18px */
+  --font-size-desktop-xl: 1.25rem;   /* 20px */
+  --font-size-desktop-2xl: 1.5rem;   /* 24px */
+
+  /* ============================================================================
+     🎯 UTILIDADES - Clases utilitarias
+     ============================================================================ */
+  
+  /* Alineación de texto */
+  --text-align-left: left;
+  --text-align-center: center;
+  --text-align-right: right;
+  --text-align-justify: justify;
+  
+  /* Transformación de texto */
+  --text-transform-none: none;
+  --text-transform-uppercase: uppercase;
+  --text-transform-lowercase: lowercase;
+  --text-transform-capitalize: capitalize;
+  
+  /* Decoración de texto */
+  --text-decoration-none: none;
+  --text-decoration-underline: underline;
+  --text-decoration-line-through: line-through;
+  --text-decoration-overline: overline;
+  
+  /* Estilo de texto */
+  --font-style-normal: normal;
+  --font-style-italic: italic;
+  --font-style-oblique: oblique;
+
+  /* ============================================================================
+     🌟 EFECTOS ESPECIALES - Efectos tipográficos
+     ============================================================================ */
+  
+  /* Sombras de texto */
+  --text-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
+  --text-shadow-md: 0 2px 4px rgba(0, 0, 0, 0.15);
+  --text-shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.2);
+  --text-shadow-xl: 0 8px 16px rgba(0, 0, 0, 0.25);
+  
+  /* Efectos neón */
+  --text-shadow-neon: 0 0 5px currentColor, 0 0 10px currentColor, 0 0 15px currentColor;
+  --text-shadow-neon-primary: 0 0 5px var(--metaverso-primary), 0 0 10px var(--metaverso-primary), 0 0 15px var(--metaverso-primary);
+  --text-shadow-neon-secondary: 0 0 5px var(--metaverso-secondary), 0 0 10px var(--metaverso-secondary), 0 0 15px var(--metaverso-secondary);
+  --text-shadow-neon-accent: 0 0 5px var(--metaverso-accent), 0 0 10px var(--metaverso-accent), 0 0 15px var(--metaverso-accent);
+  
+  /* Efectos 3D */
+  --text-shadow-3d: 2px 2px 0px rgba(0, 0, 0, 0.3);
+  --text-shadow-3d-primary: 2px 2px 0px var(--metaverso-primary-dark);
+  --text-shadow-3d-secondary: 2px 2px 0px var(--metaverso-secondary-dark);
+  --text-shadow-3d-accent: 2px 2px 0px var(--metaverso-accent-dark);
+
+  /* ============================================================================
+     📐 MÉTRICAS - Métricas tipográficas
+     ============================================================================ */
+  
+  /* Altura de línea específica */
+  --line-height-heading: 1.2;
+  --line-height-body: 1.6;
+  --line-height-code: 1.4;
+  --line-height-caption: 1.5;
+  
+  /* Espaciado entre párrafos */
+  --paragraph-spacing: 1.5em;
+  --paragraph-spacing-tight: 1em;
+  --paragraph-spacing-loose: 2em;
+  
+  /* Indentación */
+  --text-indent: 2em;
+  --text-indent-large: 3em;
+}
+
+/* ============================================================================
+   📱 MEDIA QUERIES - Responsive typography
+   ============================================================================ */
+
+/* Móviles */
+@media (max-width: 768px) {
+  :root {
+    --font-size-h1: var(--font-size-mobile-2xl);
+    --font-size-h2: var(--font-size-mobile-xl);
+    --font-size-h3: var(--font-size-mobile-lg);
+    --font-size-h4: var(--font-size-mobile-base);
+    --font-size-h5: var(--font-size-mobile-sm);
+    --font-size-h6: var(--font-size-mobile-xs);
+    --font-size-body: var(--font-size-mobile-base);
+    --font-size-body-small: var(--font-size-mobile-sm);
+  }
+}
+
+/* Tablets */
+@media (min-width: 769px) and (max-width: 1024px) {
+  :root {
+    --font-size-h1: var(--font-size-tablet-2xl);
+    --font-size-h2: var(--font-size-tablet-xl);
+    --font-size-h3: var(--font-size-tablet-lg);
+    --font-size-h4: var(--font-size-tablet-base);
+    --font-size-h5: var(--font-size-tablet-sm);
+    --font-size-h6: var(--font-size-tablet-xs);
+    --font-size-body: var(--font-size-tablet-base);
+    --font-size-body-small: var(--font-size-tablet-sm);
+  }
+}
+
+/* Desktop */
+@media (min-width: 1025px) {
+  :root {
+    --font-size-h1: var(--font-size-6xl);
+    --font-size-h2: var(--font-size-5xl);
+    --font-size-h3: var(--font-size-4xl);
+    --font-size-h4: var(--font-size-3xl);
+    --font-size-h5: var(--font-size-2xl);
+    --font-size-h6: var(--font-size-xl);
+    --font-size-body: var(--font-size-base);
+    --font-size-body-small: var(--font-size-sm);
+  }
+}
+
+/* ============================================================================
+   🎨 CLASES UTILITARIAS - Clases para tipografía
+   ============================================================================ */
+
+/* Tamaños de fuente */
+.text-xs { font-size: var(--font-size-xs); }
+.text-sm { font-size: var(--font-size-sm); }
+.text-base { font-size: var(--font-size-base); }
+.text-lg { font-size: var(--font-size-lg); }
+.text-xl { font-size: var(--font-size-xl); }
+.text-2xl { font-size: var(--font-size-2xl); }
+.text-3xl { font-size: var(--font-size-3xl); }
+.text-4xl { font-size: var(--font-size-4xl); }
+.text-5xl { font-size: var(--font-size-5xl); }
+.text-6xl { font-size: var(--font-size-6xl); }
+
+/* Pesos de fuente */
+.font-thin { font-weight: var(--font-weight-thin); }
+.font-extralight { font-weight: var(--font-weight-extralight); }
+.font-light { font-weight: var(--font-weight-light); }
+.font-normal { font-weight: var(--font-weight-normal); }
+.font-medium { font-weight: var(--font-weight-medium); }
+.font-semibold { font-weight: var(--font-weight-semibold); }
+.font-bold { font-weight: var(--font-weight-bold); }
+.font-extrabold { font-weight: var(--font-weight-extrabold); }
+.font-black { font-weight: var(--font-weight-black); }
+
+/* Familias de fuente */
+.font-primary { font-family: var(--font-family-primary); }
+.font-secondary { font-family: var(--font-family-secondary); }
+.font-mono { font-family: var(--font-family-mono); }
+.font-display { font-family: var(--font-family-display); }
+.font-crypto { font-family: var(--font-family-crypto); }
+
+/* Alturas de línea */
+.leading-none { line-height: var(--line-height-none); }
+.leading-tight { line-height: var(--line-height-tight); }
+.leading-snug { line-height: var(--line-height-snug); }
+.leading-normal { line-height: var(--line-height-normal); }
+.leading-relaxed { line-height: var(--line-height-relaxed); }
+.leading-loose { line-height: var(--line-height-loose); }
+
+/* Espaciado de letras */
+.tracking-tighter { letter-spacing: var(--letter-spacing-tighter); }
+.tracking-tight { letter-spacing: var(--letter-spacing-tight); }
+.tracking-normal { letter-spacing: var(--letter-spacing-normal); }
+.tracking-wide { letter-spacing: var(--letter-spacing-wide); }
+.tracking-wider { letter-spacing: var(--letter-spacing-wider); }
+.tracking-widest { letter-spacing: var(--letter-spacing-widest); }
+
+/* Alineación de texto */
+.text-left { text-align: var(--text-align-left); }
+.text-center { text-align: var(--text-align-center); }
+.text-right { text-align: var(--text-align-right); }
+.text-justify { text-align: var(--text-align-justify); }
+
+/* Transformación de texto */
+.uppercase { text-transform: var(--text-transform-uppercase); }
+.lowercase { text-transform: var(--text-transform-lowercase); }
+.capitalize { text-transform: var(--text-transform-capitalize); }
+.normal-case { text-transform: var(--text-transform-none); }
+
+/* Decoración de texto */
+.underline { text-decoration: var(--text-decoration-underline); }
+.line-through { text-decoration: var(--text-decoration-line-through); }
+.no-underline { text-decoration: var(--text-decoration-none); }
+
+/* Estilo de fuente */
+.italic { font-style: var(--font-style-italic); }
+.not-italic { font-style: var(--font-style-normal); }
+
+/* Efectos de texto */
+.text-shadow-sm { text-shadow: var(--text-shadow-sm); }
+.text-shadow-md { text-shadow: var(--text-shadow-md); }
+.text-shadow-lg { text-shadow: var(--text-shadow-lg); }
+.text-shadow-xl { text-shadow: var(--text-shadow-xl); }
+.text-shadow-neon { text-shadow: var(--text-shadow-neon); }
+.text-shadow-3d { text-shadow: var(--text-shadow-3d); } 
