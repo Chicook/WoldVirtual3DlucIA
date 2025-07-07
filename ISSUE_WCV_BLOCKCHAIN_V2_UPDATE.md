@@ -1,16 +1,8 @@
----
-name: "⛓️ Progreso Blockchain WCV v2.0"
-about: Actualización sobre el desarrollo de la blockchain personalizada WCV
-title: "[BLOCKCHAIN]: WCV Blockchain v2.0 - Desarrollo Completado y Próximos Pasos"
-labels: ["blockchain", "wcv", "development", "update", "metaverse"]
-assignees: ["@blockchain-team"]
----
+# 🚀 WCV Blockchain v2.0 - Desarrollo Completado y Próximos Pasos
 
-## 🚀 WCV Blockchain v2.0 - Estado Actual del Desarrollo
+## 🌟 Resumen Ejecutivo
 
-### 🌟 Resumen Ejecutivo
-
-La **WCV Blockchain v2.0** ha sido desarrollada exitosamente como una blockchain personalizada completa para el ecosistema **WoldVirtual3DlucIA**. El proyecto incluye una criptomoneda nativa WCV de 30 millones de unidades con 3 decimales, puente BSC, y funcionalidades avanzadas de DeFi.
+¡Excelentes noticias para la comunidad! La **WCV Blockchain v2.0** ha sido desarrollada exitosamente como una blockchain personalizada completa para el ecosistema **WoldVirtual3DlucIA**. El proyecto incluye una criptomoneda nativa WCV de 30 millones de unidades con 3 decimales, puente BSC, y funcionalidades avanzadas de DeFi.
 
 ---
 
