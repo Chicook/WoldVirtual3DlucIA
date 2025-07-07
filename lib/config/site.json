@@ -1,0 +1,120 @@
+{
+  "site": {
+    "name": "Metaverso Crypto World Virtual 3D",
+    "description": "El futuro de la interacción digital está aquí. Sumérgete en un mundo donde la realidad virtual, blockchain y la inteligencia artificial se unen para crear experiencias únicas.",
+    "url": "https://metaversocryptoworld.com",
+    "version": "1.0.0",
+    "author": "Metaverso Team",
+    "language": "es",
+    "defaultLanguage": "es",
+    "supportedLanguages": ["es", "en", "fr"]
+  },
+  "seo": {
+    "title": "Metaverso Crypto World Virtual 3D - El Futuro de la Interacción Digital",
+    "keywords": "metaverso, blockchain, crypto, 3D, virtual reality, NFT, gaming, artificial intelligence",
+    "ogImage": "/assets/images/og-image.jpg",
+    "twitterCard": "summary_large_image"
+  },
+  "contact": {
+    "email": "info@metaversocryptoworld.com",
+    "discord": "https://discord.gg/metaversocrypto",
+    "twitter": "https://twitter.com/MetaversoCrypto",
+    "github": "https://github.com/metaversocrypto",
+    "linkedin": "https://linkedin.com/company/metaversocrypto"
+  },
+  "social": {
+    "twitter": "@MetaversoCrypto",
+    "discord": "Metaverso Crypto World",
+    "telegram": "@metaversocrypto",
+    "youtube": "Metaverso Crypto World"
+  },
+  "features": {
+    "multilingual": true,
+    "blockchain": true,
+    "3d": true,
+    "ai": true,
+    "vr": true,
+    "ar": false,
+    "mobile": true
+  },
+  "development": {
+    "phase": 1,
+    "progress": {
+      "frontend": 40,
+      "backend": 15,
+      "blockchain": 10,
+      "engine3d": 5
+    },
+    "nextMilestone": "Completar sistema de idiomas",
+    "estimatedCompletion": "Q4 2024"
+  },
+  "roadmap": {
+    "phases": [
+      {
+        "id": 1,
+        "name": "Fundación",
+        "quarter": "Q1 2024",
+        "progress": 75,
+        "status": "active"
+      },
+      {
+        "id": 2,
+        "name": "Desarrollo Core",
+        "quarter": "Q2 2024",
+        "progress": 0,
+        "status": "pending"
+      },
+      {
+        "id": 3,
+        "name": "Metaverso",
+        "quarter": "Q3 2024",
+        "progress": 0,
+        "status": "pending"
+      },
+      {
+        "id": 4,
+        "name": "Expansión",
+        "quarter": "Q4 2024",
+        "progress": 0,
+        "status": "pending"
+      }
+    ]
+  },
+  "analytics": {
+    "googleAnalytics": "GA_MEASUREMENT_ID",
+    "googleTagManager": "GTM_CONTAINER_ID",
+    "hotjar": "HOTJAR_SITE_ID"
+  },
+  "performance": {
+    "cache": {
+      "enabled": true,
+      "duration": 3600
+    },
+    "compression": {
+      "enabled": true,
+      "level": 6
+    },
+    "minification": {
+      "css": true,
+      "js": true,
+      "html": true
+    }
+  },
+  "security": {
+    "csp": {
+      "enabled": true,
+      "directives": {
+        "default-src": ["'self'"],
+        "script-src": ["'self'", "'unsafe-inline'"],
+        "style-src": ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+        "font-src": ["'self'", "https://fonts.gstatic.com"],
+        "img-src": ["'self'", "data:", "https:"],
+        "connect-src": ["'self'", "https://api.metaversocryptoworld.com"]
+      }
+    },
+    "hsts": {
+      "enabled": true,
+      "maxAge": 31536000
+    }
+  }
+} 
