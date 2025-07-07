@@ -1,5 +1,14 @@
 # 🌐 Metaverso Crypto World Virtual 3D - WoldVirtual3DlucIA
 
+<p align="center">
+  <a href="https://github.com/Chicook/WoldVirtual3DlucIA/stargazers"><img src="https://img.shields.io/github/stars/Chicook/WoldVirtual3DlucIA?style=social" alt="GitHub Stars"></a>
+  <a href="https://github.com/Chicook/WoldVirtual3DlucIA/fork"><img src="https://img.shields.io/github/forks/Chicook/WoldVirtual3DlucIA?style=social" alt="GitHub Forks"></a>
+  <a href="https://github.com/Chicook/WoldVirtual3DlucIA/issues"><img src="https://img.shields.io/github/issues/Chicook/WoldVirtual3DlucIA?color=blue" alt="GitHub Issues"></a>
+  <a href="https://github.com/Chicook/WoldVirtual3DlucIA/pulls"><img src="https://img.shields.io/github/issues-pr/Chicook/WoldVirtual3DlucIA?color=green" alt="GitHub Pull Requests"></a>
+  <a href="https://github.com/Chicook/WoldVirtual3DlucIA/discussions"><img src="https://img.shields.io/badge/discussions-join-lightgrey?logo=github" alt="GitHub Discussions"></a>
+  <a href="https://github.com/sponsors/Chicook"><img src="https://img.shields.io/badge/sponsor-%E2%9D%A4-lightgrey?logo=githubsponsors" alt="GitHub Sponsor"></a>
+</p>
+
 ## 🚀 Descripción
 
 **WoldVirtual3DlucIA** es un metaverso descentralizado completo que integra un motor 3D avanzado, blockchain, NFTs, criptomonedas y tecnologías de IA para crear una experiencia inmersiva única y descentralizada. El proyecto incluye un editor 3D integrado similar a Godot y Blender, con capacidades de desarrollo en tiempo real y una IA inteligente llamada LucIA para asistir en el desarrollo.
