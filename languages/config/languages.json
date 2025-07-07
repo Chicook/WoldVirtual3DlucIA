@@ -1,0 +1,114 @@
+{
+  "supportedLanguages": {
+    "es": {
+      "name": "Español",
+      "nativeName": "Español",
+      "code": "es",
+      "country": "ES",
+      "flag": "🇪🇸",
+      "speechCode": "es-ES",
+      "direction": "ltr"
+    },
+    "en": {
+      "name": "English",
+      "nativeName": "English",
+      "code": "en",
+      "country": "US",
+      "flag": "🇺🇸",
+      "speechCode": "en-US",
+      "direction": "ltr"
+    },
+    "fr": {
+      "name": "Français",
+      "nativeName": "Français",
+      "code": "fr",
+      "country": "FR",
+      "flag": "🇫🇷",
+      "speechCode": "fr-FR",
+      "direction": "ltr"
+    },
+    "de": {
+      "name": "Deutsch",
+      "nativeName": "Deutsch",
+      "code": "de",
+      "country": "DE",
+      "flag": "🇩🇪",
+      "speechCode": "de-DE",
+      "direction": "ltr"
+    },
+    "it": {
+      "name": "Italiano",
+      "nativeName": "Italiano",
+      "code": "it",
+      "country": "IT",
+      "flag": "🇮🇹",
+      "speechCode": "it-IT",
+      "direction": "ltr"
+    },
+    "pt": {
+      "name": "Português",
+      "nativeName": "Português",
+      "code": "pt",
+      "country": "PT",
+      "flag": "🇵🇹",
+      "speechCode": "pt-PT",
+      "direction": "ltr"
+    },
+    "ru": {
+      "name": "Русский",
+      "nativeName": "Русский",
+      "code": "ru",
+      "country": "RU",
+      "flag": "🇷🇺",
+      "speechCode": "ru-RU",
+      "direction": "ltr"
+    },
+    "zh": {
+      "name": "中文",
+      "nativeName": "中文",
+      "code": "zh",
+      "country": "CN",
+      "flag": "🇨🇳",
+      "speechCode": "zh-CN",
+      "direction": "ltr"
+    },
+    "ja": {
+      "name": "日本語",
+      "nativeName": "日本語",
+      "code": "ja",
+      "country": "JP",
+      "flag": "🇯🇵",
+      "speechCode": "ja-JP",
+      "direction": "ltr"
+    },
+    "ko": {
+      "name": "한국어",
+      "nativeName": "한국어",
+      "code": "ko",
+      "country": "KR",
+      "flag": "🇰🇷",
+      "speechCode": "ko-KR",
+      "direction": "ltr"
+    }
+  },
+  "defaultLanguage": "en",
+  "fallbackLanguage": "en",
+  "detectionConfidence": 0.7,
+  "translationCache": {
+    "enabled": true,
+    "maxSize": 1000,
+    "ttl": 3600000
+  },
+  "voiceSettings": {
+    "recognition": {
+      "continuous": true,
+      "interimResults": true,
+      "maxAlternatives": 1
+    },
+    "synthesis": {
+      "rate": 1.0,
+      "pitch": 1.0,
+      "volume": 1.0
+    }
+  }
+} 
