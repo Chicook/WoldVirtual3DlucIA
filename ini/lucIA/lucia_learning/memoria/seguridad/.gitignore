@@ -1,0 +1,345 @@
+# =============================================================================
+# .gitignore para Sistema de Seguridad lucIA
+# Equilibrio entre Seguridad y Código Abierto
+# =============================================================================
+
+# =============================================================================
+# 🔐 SECRETOS Y CREDENCIALES (NUNCA COMMIT)
+# =============================================================================
+
+# Archivos de configuración con secretos
+.env
+.env.local
+.env.production
+.env.staging
+.env.development
+.env.test
+*.env
+
+# Claves privadas y certificados
+*.pem
+*.key
+*.crt
+*.csr
+*.p12
+*.pfx
+*.keystore
+*.jks
+id_rsa*
+id_ed25519*
+*.pub
+
+# Tokens y claves API
+api_keys.json
+secrets.json
+credentials.json
+tokens.json
+auth_tokens.txt
+
+# Configuraciones de Vault
+vault_config.hcl
+vault_token.txt
+vault_secrets/
+
+# =============================================================================
+# 🗄️ BASES DE DATOS Y DATOS SENSIBLES
+# =============================================================================
+
+# Bases de datos locales
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Dumps de bases de datos
+*.sql
+*.dump
+*.backup
+
+# Datos de usuarios y sesiones
+user_data/
+session_data/
+personal_data/
+sensitive_data/
+
+# Logs de auditoría con datos sensibles
+audit_logs/
+security_logs/
+access_logs/
+*.log
+
+# =============================================================================
+# 🔧 CONFIGURACIONES DE PRODUCCIÓN
+# =============================================================================
+
+# Configuraciones específicas de producción
+config/production/
+config/staging/
+deployment/
+docker-compose.prod.yml
+docker-compose.staging.yml
+
+# Variables de entorno de producción
+.env.production
+.env.staging
+.env.aws
+.env.azure
+.env.gcp
+
+# Configuraciones de infraestructura
+terraform.tfstate
+terraform.tfstate.backup
+*.tfvars
+.terraform/
+
+# =============================================================================
+# 📊 MÉTRICAS Y MONITOREO SENSIBLE
+# =============================================================================
+
+# Métricas de seguridad
+security_metrics/
+threat_intelligence/
+vulnerability_scans/
+penetration_tests/
+
+# Reportes de incidentes
+incident_reports/
+security_incidents/
+breach_reports/
+
+# Datos de monitoreo con IPs reales
+monitoring_data/
+network_traffic/
+ip_blacklists/
+ip_whitelists/
+
+# =============================================================================
+# 🔍 ESCANEOS Y ANÁLISIS
+# =============================================================================
+
+# Resultados de escaneos de secretos
+secret_scan_results/
+vulnerability_reports/
+security_assessments/
+
+# Análisis de malware
+malware_samples/
+virus_signatures/
+threat_indicators/
+
+# =============================================================================
+# 🏗️ ARCHIVOS TEMPORALES Y CACHE
+# =============================================================================
+
+# Archivos temporales
+*.tmp
+*.temp
+*.cache
+*.swp
+*.swo
+*~
+
+# Directorios de cache
+.cache/
+tmp/
+temp/
+.tmp/
+
+# =============================================================================
+# 📱 DISPOSITIVOS Y HARDWARE
+# =============================================================================
+
+# Configuraciones de dispositivos específicos
+device_configs/
+hardware_configs/
+network_devices/
+
+# Firmware y drivers
+*.bin
+*.hex
+*.img
+
+# =============================================================================
+# 🌐 CONFIGURACIONES DE RED SENSIBLES
+# =============================================================================
+
+# Configuraciones de firewall
+firewall_rules/
+iptables_rules/
+ufw_rules/
+
+# Configuraciones de VPN
+vpn_configs/
+openvpn_configs/
+wireguard_configs/
+
+# Configuraciones de red
+network_configs/
+routing_tables/
+dns_configs/
+
+# =============================================================================
+# 🔐 MFA Y AUTENTICACIÓN
+# =============================================================================
+
+# Códigos de respaldo MFA
+mfa_backup_codes/
+backup_codes.txt
+recovery_codes.txt
+
+# QR codes de MFA
+mfa_qr_codes/
+totp_secrets/
+
+# =============================================================================
+# 📈 ANALÍTICAS Y BUSINESS INTELLIGENCE
+# =============================================================================
+
+# Datos de usuarios y comportamiento
+user_analytics/
+behavioral_data/
+usage_statistics/
+
+# Métricas de negocio
+business_metrics/
+performance_data/
+revenue_data/
+
+# =============================================================================
+# 🧪 TESTING Y DESARROLLO
+# =============================================================================
+
+# Datos de prueba con información real
+test_data/
+fixtures/
+mocks/
+
+# Configuraciones de testing
+test_configs/
+testing_secrets/
+test_credentials/
+
+# =============================================================================
+# 📦 BACKUPS Y ARCHIVOS DE RESPALDO
+# =============================================================================
+
+# Backups automáticos
+backups/
+*.backup
+*.bak
+*.old
+
+# Snapshots y versiones
+snapshots/
+versions/
+archives/
+
+# =============================================================================
+# 🔄 ROTACIÓN Y GESTIÓN DE CLAVES
+# =============================================================================
+
+# Archivos de rotación de claves
+key_rotation/
+rotated_keys/
+expired_keys/
+
+# Historial de contraseñas
+password_history/
+credential_history/
+
+# =============================================================================
+# 📋 DOCUMENTACIÓN SENSIBLE
+# =============================================================================
+
+# Documentación interna
+internal_docs/
+confidential_docs/
+proprietary_docs/
+
+# Planes de respuesta a incidentes
+incident_response_plans/
+disaster_recovery_plans/
+business_continuity_plans/
+
+# =============================================================================
+# 🎯 CONFIGURACIONES ESPECÍFICAS DE LUCIA
+# =============================================================================
+
+# Configuraciones específicas del metaverso
+metaverse_configs/
+world_configs/
+avatar_data/
+
+# Configuraciones de blockchain
+blockchain_configs/
+wallet_configs/
+smart_contract_configs/
+
+# Configuraciones de IA
+ai_models/
+ml_models/
+training_data/
+
+# =============================================================================
+# 🚫 EXCEPCIONES - LO QUE SÍ DEBE INCLUIRSE
+# =============================================================================
+
+# NO ignorar estos archivos (son importantes para la comunidad):
+
+# Archivos de configuración de ejemplo
+!config.example.json
+!config.example.yaml
+!config.example.env
+!docker-compose.example.yml
+
+# Documentación pública
+!README.md
+!docs/
+!examples/
+!tutorials/
+
+# Código fuente
+!*.py
+!*.js
+!*.ts
+!*.go
+!*.rs
+!*.cpp
+!*.h
+
+# Tests
+!tests/
+!test_*.py
+!*_test.py
+
+# Scripts de utilidad
+!scripts/
+!tools/
+!utils/
+
+# =============================================================================
+# 📝 NOTAS IMPORTANTES
+# =============================================================================
+
+# IMPORTANTE: Este .gitignore está diseñado para:
+# 1. Proteger información sensible y secretos
+# 2. Mantener la transparencia del código abierto
+# 3. Permitir que la comunidad se beneficie del código
+# 4. Evitar exponer configuraciones de producción
+
+# RECOMENDACIONES:
+# - Siempre usar archivos .example para configuraciones
+# - Documentar claramente qué archivos son necesarios
+# - Mantener secretos en variables de entorno
+# - Usar herramientas de gestión de secretos en producción
+
+# Crear archivos de ejemplo para configuraciones
+cp config.json config.example.json
+cp .env .env.example
+
+# Documentar en README qué archivos necesitan configuración
+echo "## Configuración" >> README.md
+echo "1. Copie \`config.example.json\` a \`config.json\`" >> README.md
+echo "2. Configure las variables en \`.env.example\`" >> README.md
