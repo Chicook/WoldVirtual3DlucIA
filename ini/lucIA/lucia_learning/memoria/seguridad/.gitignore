@@ -199,55 +199,125 @@ totp_secrets/
 
 # Datos de usuarios y comportamiento
 user_analytics/
-behavioral_data/
+behavior_data/
 usage_statistics/
 
-# Métricas de negocio
-business_metrics/
+# =============================================================================
+# 🆕 NUEVOS MÓDULOS DE SEGURIDAD AVANZADA
+# =============================================================================
+
+# =============================================================================
+# 🔍 PENTESTING Y SIMULACIÓN DE ATAQUES
+# =============================================================================
+
+# Resultados de pentesting
+pentest_results/
+attack_simulation_results/
+vulnerability_assessments/
+
+# Datos de ataques simulados
+attack_payloads/
+exploit_data/
+malicious_samples/
+
+# Configuraciones de herramientas de pentesting
+pentest_configs/
+tool_configurations/
+scanner_settings/
+
+# Reportes de penetración
+penetration_reports/
+security_assessments/
+vulnerability_reports/
+
+# =============================================================================
+# 🍯 HONEYPOTS Y HONEYTOKENS
+# =============================================================================
+
+# Datos de honeypots
+honeypot_data/
+honeytoken_data/
+trap_data/
+
+# Configuraciones de honeypots
+honeypot_configs/
+honeytoken_configs/
+trap_configurations/
+
+# Logs de ataques capturados
+attack_logs/
+intrusion_logs/
+malicious_activity/
+
+# =============================================================================
+# 🔄 CHAOS ENGINEERING Y RESILIENCIA
+# =============================================================================
+
+# Resultados de chaos engineering
+chaos_results/
+resilience_tests/
+failure_simulation/
+
+# Configuraciones de chaos engineering
+chaos_configs/
+failure_scenarios/
+resilience_settings/
+
+# =============================================================================
+# 🛡️ ZERO TRUST Y CONTEXTO
+# =============================================================================
+
+# Datos de contexto de usuarios
+user_context/
+access_context/
+behavioral_data/
+
+# Configuraciones de Zero Trust
+zero_trust_configs/
+context_policies/
+access_policies/
+
+# =============================================================================
+# 🤖 AUTOMATIZACIÓN Y ORQUESTACIÓN
+# =============================================================================
+
+# Playbooks de respuesta
+response_playbooks/
+automation_scripts/
+orchestration_configs/
+
+# Configuraciones de SOAR
+soar_configs/
+automation_rules/
+response_templates/
+
+# =============================================================================
+# 📊 MÉTRICAS AVANZADAS
+# =============================================================================
+
+# Métricas de efectividad
+effectiveness_metrics/
+performance_metrics/
+coverage_metrics/
+
+# Datos de rendimiento
 performance_data/
-revenue_data/
+benchmark_results/
+optimization_data/
 
 # =============================================================================
-# 🧪 TESTING Y DESARROLLO
+# 🔬 INVESTIGACIÓN Y DESARROLLO
 # =============================================================================
 
-# Datos de prueba con información real
-test_data/
-fixtures/
-mocks/
+# Investigaciones de seguridad
+security_research/
+threat_research/
+vulnerability_research/
 
-# Configuraciones de testing
-test_configs/
-testing_secrets/
-test_credentials/
-
-# =============================================================================
-# 📦 BACKUPS Y ARCHIVOS DE RESPALDO
-# =============================================================================
-
-# Backups automáticos
-backups/
-*.backup
-*.bak
-*.old
-
-# Snapshots y versiones
-snapshots/
-versions/
-archives/
-
-# =============================================================================
-# 🔄 ROTACIÓN Y GESTIÓN DE CLAVES
-# =============================================================================
-
-# Archivos de rotación de claves
-key_rotation/
-rotated_keys/
-expired_keys/
-
-# Historial de contraseñas
-password_history/
-credential_history/
+# Prototipos y experimentos
+prototypes/
+experiments/
+research_data/
 
 # =============================================================================
 # 📋 DOCUMENTACIÓN SENSIBLE
@@ -256,90 +326,132 @@ credential_history/
 # Documentación interna
 internal_docs/
 confidential_docs/
-proprietary_docs/
+sensitive_documentation/
 
-# Planes de respuesta a incidentes
-incident_response_plans/
-disaster_recovery_plans/
-business_continuity_plans/
-
-# =============================================================================
-# 🎯 CONFIGURACIONES ESPECÍFICAS DE LUCIA
-# =============================================================================
-
-# Configuraciones específicas del metaverso
-metaverse_configs/
-world_configs/
-avatar_data/
-
-# Configuraciones de blockchain
-blockchain_configs/
-wallet_configs/
-smart_contract_configs/
-
-# Configuraciones de IA
-ai_models/
-ml_models/
-training_data/
+# Manuales de operaciones
+operations_manuals/
+procedures/
+sop_documents/
 
 # =============================================================================
-# 🚫 EXCEPCIONES - LO QUE SÍ DEBE INCLUIRSE
+# 🚨 INCIDENTES Y EMERGENCIAS
 # =============================================================================
 
-# NO ignorar estos archivos (son importantes para la comunidad):
+# Datos de incidentes
+incident_data/
+emergency_data/
+crisis_data/
 
-# Archivos de configuración de ejemplo
-!config.example.json
-!config.example.yaml
-!config.example.env
-!docker-compose.example.yml
-
-# Documentación pública
-!README.md
-!docs/
-!examples/
-!tutorials/
-
-# Código fuente
-!*.py
-!*.js
-!*.ts
-!*.go
-!*.rs
-!*.cpp
-!*.h
-
-# Tests
-!tests/
-!test_*.py
-!*_test.py
-
-# Scripts de utilidad
-!scripts/
-!tools/
-!utils/
+# Planes de respuesta
+response_plans/
+emergency_procedures/
+disaster_recovery/
 
 # =============================================================================
-# 📝 NOTAS IMPORTANTES
+# 🔧 HERRAMIENTAS Y UTILIDADES
 # =============================================================================
 
-# IMPORTANTE: Este .gitignore está diseñado para:
-# 1. Proteger información sensible y secretos
-# 2. Mantener la transparencia del código abierto
-# 3. Permitir que la comunidad se beneficie del código
-# 4. Evitar exponer configuraciones de producción
+# Herramientas personalizadas
+custom_tools/
+internal_utilities/
+proprietary_scripts/
 
-# RECOMENDACIONES:
-# - Siempre usar archivos .example para configuraciones
-# - Documentar claramente qué archivos son necesarios
-# - Mantener secretos en variables de entorno
-# - Usar herramientas de gestión de secretos en producción
+# Configuraciones de herramientas
+tool_configs/
+utility_configs/
+script_configs/
 
-# Crear archivos de ejemplo para configuraciones
-cp config.json config.example.json
-cp .env .env.example
+# =============================================================================
+# 📱 DISPOSITIVOS MÓVILES Y IOT
+# =============================================================================
 
-# Documentar en README qué archivos necesitan configuración
-echo "## Configuración" >> README.md
-echo "1. Copie \`config.example.json\` a \`config.json\`" >> README.md
-echo "2. Configure las variables en \`.env.example\`" >> README.md
+# Configuraciones de dispositivos móviles
+mobile_configs/
+iot_configs/
+device_management/
+
+# Datos de dispositivos
+device_data/
+mobile_data/
+iot_data/
+
+# =============================================================================
+# 🌍 CONFIGURACIONES GEOGRÁFICAS
+# =============================================================================
+
+# Configuraciones por región
+regional_configs/
+geo_specific/
+location_based/
+
+# Datos geográficos sensibles
+geo_data/
+location_data/
+regional_data/
+
+# =============================================================================
+# 🔐 COMPLIANCE Y AUDITORÍA
+# =============================================================================
+
+# Datos de compliance
+compliance_data/
+audit_data/
+regulatory_data/
+
+# Reportes de auditoría
+audit_reports/
+compliance_reports/
+regulatory_reports/
+
+# =============================================================================
+# 📊 BUSINESS INTELLIGENCE
+# =============================================================================
+
+# Datos de negocio
+business_data/
+financial_data/
+operational_data/
+
+# Análisis de negocio
+business_analytics/
+financial_analytics/
+operational_analytics/
+
+# =============================================================================
+# 🎯 NOTAS IMPORTANTES
+# =============================================================================
+# 
+# ✅ LO QUE SÍ SE SUBE AL REPO (Open Source):
+# - Código fuente de todas las funcionalidades
+# - Documentación técnica y guías
+# - Ejemplos de uso y casos de estudio
+# - Configuraciones de ejemplo
+# - Plantillas y templates
+# - Tests y validaciones
+# - README y documentación pública
+# 
+# ❌ LO QUE NO SE SUBE (Protección):
+# - Claves privadas y tokens de seguridad
+# - Configuraciones específicas de la plataforma
+# - Datos de usuarios y transacciones reales
+# - Resultados de pentesting con datos reales
+# - Configuraciones de honeypots activos
+# - Datos de ataques reales capturados
+# - Métricas de seguridad con datos sensibles
+# - Configuraciones de producción
+# - Logs de auditoría con datos personales
+# 
+# 🛡️ PROTECCIÓN CONTRA FORKS MALICIOSOS:
+# - No exponer vulnerabilidades específicas
+# - No revelar configuraciones de seguridad
+# - No compartir datos de usuarios reales
+# - No exponer infraestructura interna
+# - No mostrar resultados de pentesting reales
+# 
+# 🌍 BENEFICIOS PARA LA COMUNIDAD:
+# - Código completo disponible para estudio
+# - Algoritmos y lógica de seguridad abiertos
+# - Plantillas y ejemplos de implementación
+# - Mejores prácticas documentadas
+# - Contribuciones seguras y protegidas
+# =============================================================================
