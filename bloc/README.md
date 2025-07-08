@@ -1,576 +1,442 @@
-# Metaverso Blockchain Module (@metaverso/bloc)
+# 🌐 WoldVirtual3D Blockchain Module (@metaverso/bloc)
 
-Infraestructura blockchain completa y integración DeFi para el metaverso descentralizado Web3.
+**Módulo blockchain completo para la plataforma WoldVirtual3D con infraestructura multi-lenguaje y sistema de gas abstraction**
 
-## 🚀 Características
+## 📊 Análisis del Estado Actual
 
-### Core Blockchain
-- **Multi-Network Support**: Ethereum, Polygon, Arbitrum, Optimism, BSC, Avalanche, Fantom
-- **Smart Contract Management**: Despliegue, interacción y monitoreo de contratos
-- **Transaction Management**: Manejo robusto de transacciones con gas optimization
-- **Event Management**: Escucha y procesamiento de eventos en tiempo real
+### ✅ **IMPLEMENTADO COMPLETAMENTE**
 
-### DeFi Integration
-- **Uniswap V2/V3**: Swaps, liquidity provision, yield farming
-- **Aave**: Lending, borrowing, flash loans
-- **Compound**: Supply, borrow, governance
-- **Curve**: Stable swaps, yield optimization
-- **Balancer**: Weighted pools, liquidity mining
-- **Synthetix**: Synthetic assets, derivatives
-- **Yearn**: Vault strategies, yield aggregation
+#### **1. Blockchain Personalizada (woldbkvirtual/)**
+- ✅ **WoldVirtualChain**: Blockchain principal en TypeScript
+- ✅ **Sistema de Consenso PoS**: Proof of Stake implementado
+- ✅ **Gestor de Estado**: Base de datos blockchain completa
+- ✅ **Red P2P**: Comunicación entre nodos
+- ✅ **Contratos Inteligentes**: Sistema completo de contratos
+- ✅ **Sistema de Logging**: Winston con rotación de archivos
+- ✅ **API REST**: Express con middleware completo
 
-### NFT & Metaverse Assets
-- **NFT Management**: Minting, transfer, metadata handling
-- **Marketplace Integration**: Listing, buying, auctions
-- **Metaverse Assets**: Virtual land, avatars, items
-- **Cross-Chain NFTs**: Bridge between networks
+#### **2. Sistema de Gas Abstraction**
+- ✅ **BSWCV.sol**: Token wrapped para BSC con conversión automática
+- ✅ **GasFeeManager.sol**: Gestión de gas fees en múltiples redes
+- ✅ **WCVGasProxy.sol**: Proxy para integración con metaverso
+- ✅ **Pago unificado**: Usuarios pagan siempre en WCV
+- ✅ **Conversión automática**: WCV → Criptomoneda nativa
 
-### Governance & DAO
-- **Voting Systems**: Proposal creation, voting, execution
-- **DAO Management**: Treasury, permissions, governance
-- **Delegation**: Vote delegation and management
+#### **3. Puente BSC (Binance Smart Chain)**
+- ✅ **WoldVirtualBridge.sol**: Puente completo BSC ↔ WoldVirtual3D
+- ✅ **WCVToken.sol**: Token WCV con 30M suministro, 3 decimales
+- ✅ **Integración BSC**: Compatibilidad total con MetaMask
+- ✅ **Validadores**: Sistema de validación multi-firma
+- ✅ **Timeouts**: Protección contra transacciones colgadas
 
-## 📦 Instalación
+#### **4. Contratos Inteligentes Multi-Lenguaje**
+- ✅ **Solidity**: Contratos completos para Ethereum/BSC
+- ✅ **Rust**: Contratos para Substrate/Polkadot
+- ✅ **Move**: Contratos para Aptos/Sui
+- ✅ **Vyper**: Contratos para Ethereum
+- ✅ **TypeScript**: Implementación principal
+- ✅ **Python**: Implementación alternativa
 
-```bash
-# Instalar dependencias
-npm install
+#### **5. Infraestructura DevOps**
+- ✅ **Docker**: Contenedores completos
+- ✅ **Kubernetes**: Orquestación y escalado
+- ✅ **Terraform**: Infraestructura como código
+- ✅ **Ansible**: Automatización de despliegue
+- ✅ **GitHub Actions**: CI/CD pipeline
+- ✅ **Prometheus/Grafana**: Monitoreo y métricas
 
-# Build de contratos
-npm run build:contracts
+#### **6. Testing y Calidad**
+- ✅ **Jest**: Tests unitarios completos
+- ✅ **Hardhat**: Tests de contratos Solidity
+- ✅ **Coverage**: Cobertura de código
+- ✅ **ESLint/Prettier**: Linting y formateo
+- ✅ **TypeDoc**: Documentación automática
 
-# Build de TypeScript
-npm run build
+### 🔄 **EN DESARROLLO**
 
-# Tests
-npm run test
+#### **1. Sistema de Staking**
+- 🔄 **WCVStaking.sol**: Contrato implementado, falta testing
+- 🔄 **Recompensas**: Sistema de APY dinámico
+- 🔄 **Validadores**: Selección y rotación
+- 🔄 **Liquidación**: Sistema de liquidación automática
+
+#### **2. Gobernanza DAO**
+- 🔄 **WCVGovernance.sol**: Contrato implementado, falta testing
+- 🔄 **Propuestas**: Sistema de creación y votación
+- 🔄 **Ejecución**: Ejecución automática de propuestas
+- 🔄 **Delegación**: Sistema de delegación de votos
+
+#### **3. Integración DeFi**
+- 🔄 **Uniswap**: Integración para swaps
+- 🔄 **Aave**: Integración para lending
+- 🔄 **Curve**: Integración para stable swaps
+- 🔄 **Yearn**: Integración para yield farming
+
+### ❌ **FALTA IMPLEMENTAR**
+
+#### **1. Frontend y UI**
+- ❌ **Dashboard**: Interfaz de usuario para gestión
+- ❌ **Wallet Integration**: Integración con wallets
+- ❌ **Metaverse UI**: Interfaz para el metaverso
+- ❌ **Analytics Dashboard**: Dashboard de métricas
+
+#### **2. Funcionalidades Avanzadas**
+- ❌ **Cross-Chain NFTs**: NFTs que cruzan redes
+- ❌ **Liquid Staking**: Staking líquido
+- ❌ **Flash Loans**: Préstamos flash
+- ❌ **Options Trading**: Trading de opciones
+
+#### **3. Seguridad Avanzada**
+- ❌ **Auditoría Externa**: Auditoría de seguridad
+- ❌ **Bug Bounty**: Programa de recompensas
+- ❌ **Insurance**: Sistema de seguros
+- ❌ **Multi-Sig**: Firmas múltiples avanzadas
+
+## 🏗️ Arquitectura del Proyecto
+
+### **Estructura de Carpetas**
+```
+bloc/
+├── woldbkvirtual/           # Blockchain principal
+│   ├── src/                 # Código TypeScript
+│   │   ├── core/           # Funcionalidad core
+│   │   ├── contracts/      # Contratos inteligentes
+│   │   ├── services/       # Servicios
+│   │   └── utils/          # Utilidades
+│   ├── contracts/          # Contratos multi-lenguaje
+│   │   ├── solidity/       # Contratos Solidity
+│   │   ├── rust/           # Contratos Rust
+│   │   ├── move/           # Contratos Move
+│   │   └── vyper/          # Contratos Vyper
+│   ├── scripts/            # Scripts de deployment
+│   ├── test/               # Tests
+│   ├── monitoring/         # Monitoreo
+│   ├── k8s/               # Kubernetes
+│   ├── terraform/         # Terraform
+│   ├── ansible/           # Ansible
+│   └── .github/           # GitHub Actions
+├── package.json            # Dependencias principales
+├── foundry.toml           # Configuración Foundry
+├── index.d.ts             # Tipos TypeScript
+└── README.md              # Documentación
 ```
 
-## 🏗️ Arquitectura
-
-### Estructura de Carpetas
+### **Flujo de Datos**
 ```
-src/
-├── core/                 # Core blockchain functionality
-│   ├── BlockchainManager.ts
-│   ├── NetworkManager.ts
-│   ├── ContractManager.ts
-│   ├── TransactionManager.ts
-│   └── EventManager.ts
-├── defi/                 # DeFi protocol integrations
-│   ├── DeFiManager.ts
-│   └── protocols/
-│       ├── UniswapManager.ts
-│       ├── AaveManager.ts
-│       ├── CompoundManager.ts
-│       ├── CurveManager.ts
-│       ├── BalancerManager.ts
-│       ├── SynthetixManager.ts
-│       └── YearnManager.ts
-├── nfts/                 # NFT management
-│   ├── NFTManager.ts
-│   ├── MetaverseAssetManager.ts
-│   └── MarketplaceManager.ts
-├── governance/           # Governance & DAO
-│   ├── GovernanceManager.ts
-│   ├── DAOManager.ts
-│   └── VotingManager.ts
-├── utils/                # Utilities
-│   ├── Logger.ts
-│   ├── ChainlinkOracle.ts
-│   ├── PriceFeeds.ts
-│   ├── GasOptimizer.ts
-│   └── TransactionBuilder.ts
-├── constants/            # Constants
-│   ├── networks.ts
-│   ├── contracts.ts
-│   └── addresses.ts
-├── types/                # TypeScript types
-├── services/             # Services
-└── middleware/           # Middleware
+Usuario → WCVGasProxy → GasFeeManager → BSWCV → Blockchain Nativa
+   ↓           ↓              ↓           ↓           ↓
+Metaverso ← WoldVirtualChain ← Bridge ← WCVToken ← Gas Fees
 ```
 
-### Flujo de Datos
-```
-User Request → BlockchainManager → NetworkManager → Protocol Manager → Smart Contract
-     ↓              ↓                ↓                ↓                ↓
-Response ← EventManager ← TransactionManager ← ContractManager ← Blockchain
-```
+## 🔧 Configuración y Variables de Entorno
 
-## 🔧 Configuración
+### **Archivos de Configuración Requeridos**
 
-### Variables de Entorno
+#### **1. Variables de Entorno (.env)**
 ```env
-# Network RPC URLs
-ETHEREUM_RPC_URL=https://mainnet.infura.io/v3/YOUR_PROJECT_ID
-POLYGON_RPC_URL=https://polygon-rpc.com
-ARBITRUM_RPC_URL=https://arb1.arbitrum.io/rpc
-OPTIMISM_RPC_URL=https://mainnet.optimism.io
-BSC_RPC_URL=https://bsc-dataseed.binance.org
-AVALANCHE_RPC_URL=https://api.avax.network/ext/bc/C/rpc
-FANTOM_RPC_URL=https://rpc.ftm.tools
+# REQUERIDO - No subir al repositorio
+NODE_ENV=production
+PORT=8546
+BLOCKCHAIN_PORT=8545
+BRIDGE_PORT=8547
 
-# Contract Addresses
-ETHEREUM_METAVERSO_TOKEN=0x...
-ETHEREUM_METAVERSO_NFT=0x...
-ETHEREUM_MARKETPLACE=0x...
+# BSC Configuration
+BSC_RPC_URL=https://bsc-dataseed1.binance.org/
+BSC_CHAIN_ID=56
+BSC_PRIVATE_KEY=your_private_key_here
+BSC_CONTRACT_ADDRESS=0x...
 
-# API Keys
+# WCV Token Configuration
+WCV_TOTAL_SUPPLY=30000000000
+WCV_DECIMALS=3
+WCV_NAME=WoldCoinVirtual
+WCV_SYMBOL=WCV
+
+# Bridge Configuration
+BRIDGE_MIN_CONFIRMATIONS=15
+BRIDGE_MAX_CONFIRMATIONS=100
+BRIDGE_TIMEOUT=3600
+
+# Database Configuration
+DATABASE_URL=sqlite://./data/blockchain.db
+REDIS_URL=redis://localhost:6379
+
+# API Keys (REQUERIDO - No subir al repositorio)
 ETHERSCAN_API_KEY=your_etherscan_key
-POLYGONSCAN_API_KEY=your_polygonscan_key
-ARBISCAN_API_KEY=your_arbiscan_key
+BSCSCAN_API_KEY=your_bscscan_key
+INFURA_API_KEY=your_infura_key
+ALCHEMY_API_KEY=your_alchemy_key
 
-# Logging
+# Security (REQUERIDO - No subir al repositorio)
+JWT_SECRET=your_jwt_secret
+ENCRYPTION_KEY=your_encryption_key
+ADMIN_PRIVATE_KEY=your_admin_private_key
+
+# Monitoring
+PROMETHEUS_PORT=9090
+GRAFANA_PORT=3000
 LOG_LEVEL=info
 ```
 
-### Configuración de Redes
-```typescript
-import { NETWORKS, getNetworkById } from '@metaverso/bloc'
-
-// Obtener red específica
-const polygon = getNetworkById('polygon')
-
-// Configurar red personalizada
-const customNetwork = {
-  id: 'custom',
-  name: 'Custom Network',
-  chainId: 1337,
-  rpcUrl: 'http://localhost:8545',
-  explorerUrl: 'http://localhost:4000',
-  nativeCurrency: {
-    name: 'Ether',
-    symbol: 'ETH',
-    decimals: 18
-  },
-  contracts: {
-    metaversoToken: '0x...',
-    metaversoNFT: '0x...'
-  },
-  isTestnet: false,
-  isActive: true
+#### **2. Configuración de Redes (network-config.json)**
+```json
+{
+  "networks": {
+    "BSC": {
+      "rpc": "https://bsc-dataseed1.binance.org/",
+      "chainId": 56,
+      "gasToken": "BNB",
+      "wrappedToken": "BSWCV",
+      "contracts": {
+        "wcvToken": "0x...",
+        "bridge": "0x...",
+        "staking": "0x...",
+        "governance": "0x..."
+      }
+    },
+    "ETH": {
+      "rpc": "https://mainnet.infura.io/v3/YOUR_KEY",
+      "chainId": 1,
+      "gasToken": "ETH",
+      "wrappedToken": "ETHWCV"
+    }
+  }
 }
 ```
 
-## 🎮 Uso
-
-### Inicialización
-```typescript
-import { 
-  initializeBlockchain, 
-  blockchainManager, 
-  defiManager, 
-  nftManager 
-} from '@metaverso/bloc'
-
-// Inicializar toda la infraestructura blockchain
-const managers = await initializeBlockchain({
-  networks: [
-    { id: 'polygon', rpcUrl: 'https://polygon-rpc.com' },
-    { id: 'ethereum', rpcUrl: 'https://mainnet.infura.io/v3/YOUR_KEY' }
-  ],
-  defi: {
-    uniswap: { v2Router: '0x...', v3Router: '0x...' },
-    aave: { lendingPool: '0x...' }
-  },
-  nft: {
-    metaverseNFT: '0x...',
-    marketplace: '0x...'
+#### **3. Configuración de Contratos (contracts-config.json)**
+```json
+{
+  "contracts": {
+    "WCVToken": {
+      "address": "0x...",
+      "abi": [...],
+      "bytecode": "0x..."
+    },
+    "WoldVirtualBridge": {
+      "address": "0x...",
+      "abi": [...],
+      "bytecode": "0x..."
+    }
   }
-})
-```
-
-### Conexión a Redes
-```typescript
-import { networkManager } from '@metaverso/bloc'
-
-// Conectar a una red específica
-await networkManager.connectToNetwork('polygon')
-
-// Obtener información de la red actual
-const currentNetwork = await networkManager.getCurrentNetwork()
-console.log(`Connected to: ${currentNetwork.name}`)
-
-// Obtener balance
-const balance = await blockchainManager.getBalance('0x...')
-console.log(`Balance: ${balance} ${currentNetwork.nativeCurrency.symbol}`)
-```
-
-### DeFi Operations
-```typescript
-import { defiManager } from '@metaverso/bloc'
-
-// Swap tokens en Uniswap
-const swapResult = await defiManager.swapTokens(
-  '0x...', // tokenIn
-  '0x...', // tokenOut
-  '1000000000000000000', // amountIn (1 ETH)
-  '0', // amountOutMin
-  Math.floor(Date.now() / 1000) + 300 // deadline (5 minutes)
-)
-
-// Depositar en Aave
-const depositResult = await defiManager.depositToAave(
-  '0x...', // asset
-  '1000000000000000000', // amount
-  '0x...' // onBehalfOf
-)
-
-// Obtener oportunidades de yield
-const opportunities = await defiManager.getYieldOpportunities()
-console.log('Top yield opportunities:', opportunities.slice(0, 5))
-```
-
-### NFT Operations
-```typescript
-import { nftManager } from '@metaverso/bloc'
-
-// Obtener NFTs de una dirección
-const nfts = await nftManager.getNFTs('0x...')
-console.log(`User has ${nfts.length} NFTs`)
-
-// Mintear nuevo NFT
-const mintResult = await nftManager.mintNFT(
-  '0x...', // to
-  'ipfs://Qm...', // tokenURI
-  {
-    name: 'Metaverso Land #1',
-    description: 'Virtual land in the metaverse',
-    image: 'ipfs://Qm...',
-    attributes: [
-      { trait_type: 'Location', value: 'Downtown' },
-      { trait_type: 'Size', value: '100x100' }
-    ]
-  }
-)
-
-// Listar NFT en marketplace
-const listResult = await nftManager.listNFT(
-  '1', // tokenId
-  '1.5', // price in ETH
-  86400 // duration in seconds (24 hours)
-)
-```
-
-### Smart Contract Interaction
-```typescript
-import { blockchainManager } from '@metaverso/bloc'
-
-// Obtener instancia de contrato
-const contract = blockchainManager.getContract(
-  '0x...', // address
-  ['function balanceOf(address) view returns (uint256)'] // abi
-)
-
-// Llamar función del contrato
-const balance = await contract.balanceOf('0x...')
-
-// Enviar transacción
-const tx = await contract.transfer('0x...', '1000000000000000000')
-const receipt = await blockchainManager.waitForTransaction(tx.hash)
-```
-
-### Event Listening
-```typescript
-import { blockchainManager } from '@metaverso/bloc'
-
-// Escuchar eventos de un contrato
-await blockchainManager.listenToEvents(
-  '0x...', // contract address
-  'Transfer', // event name
-  (event) => {
-    console.log('Transfer event:', event)
-  }
-)
-
-// Obtener eventos históricos
-const events = await blockchainManager.getEvents(
-  '0x...', // contract address
-  'Transfer', // event name
-  1000000, // fromBlock
-  1001000  // toBlock
-)
-```
-
-## 🔌 APIs y Servicios
-
-### BlockchainManager
-```typescript
-// Core operations
-await blockchainManager.connectToNetwork('polygon')
-const provider = blockchainManager.getCurrentProvider()
-const signer = blockchainManager.getCurrentSigner()
-const balance = await blockchainManager.getBalance('0x...')
-
-// Transaction management
-const tx = await blockchainManager.sendTransaction({
-  to: '0x...',
-  value: ethers.parseEther('1.0'),
-  gasLimit: 21000
-})
-
-// Contract management
-const contract = blockchainManager.getContract('0x...', abi)
-const deployed = await blockchainManager.deployContract(bytecode, abi, args)
-```
-
-### DeFiManager
-```typescript
-// Protocol information
-const protocols = await defiManager.getProtocols()
-const positions = await defiManager.getPositions('0x...')
-const totalValue = await defiManager.getTotalValue('0x...')
-
-// Trading operations
-const swap = await defiManager.swapTokens(tokenIn, tokenOut, amountIn, amountOutMin, deadline)
-const deposit = await defiManager.depositToAave(asset, amount, onBehalfOf)
-const borrow = await defiManager.borrowFromAave(asset, amount, interestRateMode, onBehalfOf)
-
-// Yield farming
-const opportunities = await defiManager.getYieldOpportunities()
-```
-
-### NFTManager
-```typescript
-// NFT operations
-const nfts = await nftManager.getNFTs('0x...')
-const nft = await nftManager.getNFT('1')
-const minted = await nftManager.mintNFT(to, tokenURI, metadata)
-
-// Marketplace operations
-const listed = await nftManager.listNFT(tokenId, price, duration)
-const bought = await nftManager.buyNFT(tokenId, price)
-const listedNFTs = await nftManager.getListedNFTs()
-
-// Collections
-const collections = await nftManager.getCollections()
-```
-
-## 🧪 Testing
-
-### Configuración de Tests
-```typescript
-// test/setup.ts
-import { ethers } from 'ethers'
-import { initializeBlockchain } from '@metaverso/bloc'
-
-beforeAll(async () => {
-  // Setup local blockchain
-  const provider = new ethers.JsonRpcProvider('http://localhost:8545')
-  
-  await initializeBlockchain({
-    networks: [{
-      id: 'local',
-      name: 'Local Network',
-      chainId: 1337,
-      rpcUrl: 'http://localhost:8545',
-      explorerUrl: 'http://localhost:4000',
-      nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
-      contracts: {},
-      isTestnet: true,
-      isActive: true
-    }]
-  })
-})
-```
-
-### Ejemplos de Tests
-```typescript
-import { blockchainManager, defiManager, nftManager } from '@metaverso/bloc'
-
-describe('Blockchain Operations', () => {
-  test('should connect to network', async () => {
-    await blockchainManager.connectToNetwork('local')
-    expect(blockchainManager.isReady()).toBe(true)
-  })
-
-  test('should get balance', async () => {
-    const balance = await blockchainManager.getBalance('0x...')
-    expect(parseFloat(balance)).toBeGreaterThan(0)
-  })
-
-  test('should deploy contract', async () => {
-    const deployed = await blockchainManager.deployContract(bytecode, abi, [])
-    expect(deployed.address).toBeDefined()
-  })
-})
-
-describe('DeFi Operations', () => {
-  test('should get protocols', async () => {
-    const protocols = await defiManager.getProtocols()
-    expect(protocols.length).toBeGreaterThan(0)
-  })
-
-  test('should get yield opportunities', async () => {
-    const opportunities = await defiManager.getYieldOpportunities()
-    expect(opportunities.length).toBeGreaterThan(0)
-  })
-})
-```
-
-## 🚀 Despliegue
-
-### Despliegue de Contratos
-```bash
-# Despliegue local
-npm run deploy:local
-
-# Despliegue en testnet
-npm run deploy:testnet
-
-# Despliegue en mainnet
-npm run deploy:mainnet
-```
-
-### Verificación de Contratos
-```bash
-# Verificar contrato en Etherscan
-npm run verify 0x... --network ethereum
-
-# Verificar contrato en Polygonscan
-npm run verify 0x... --network polygon
-```
-
-### Monitoreo
-```bash
-# Reporte de gas
-npm run gas
-
-# Cobertura de tests
-npm run coverage
-
-# Análisis de tamaño
-npm run size
-```
-
-## 🔒 Seguridad
-
-### Best Practices
-- **Access Control**: Implementar roles y permisos en contratos
-- **Reentrancy Protection**: Usar OpenZeppelin ReentrancyGuard
-- **Input Validation**: Validar todos los inputs de usuario
-- **Gas Optimization**: Optimizar uso de gas en contratos
-- **Emergency Pause**: Implementar mecanismos de pausa de emergencia
-
-### Auditoría
-```bash
-# Análisis estático con Slither
-slither contracts/
-
-# Análisis con Mythril
-myth analyze contracts/MetaversoToken.sol
-
-# Análisis con Echidna
-echidna-test contracts/ --config echidna.config.yml
-```
-
-## 📊 Monitoreo y Analytics
-
-### Métricas de Red
-```typescript
-// Obtener estado de salud
-const health = await blockchainManager.getHealthStatus()
-console.log('Network health:', health)
-
-// Obtener estadísticas
-const stats = await blockchainManager.getStats()
-console.log('Network stats:', stats)
-
-// Monitorear transacciones
-const pending = blockchainManager.getPendingTransactions()
-console.log('Pending transactions:', pending.length)
-```
-
-### DeFi Analytics
-```typescript
-// TVL por protocolo
-const protocols = await defiManager.getProtocols()
-const totalTVL = protocols.reduce((sum, p) => sum + parseFloat(p.tvl), 0)
-
-// APY promedio
-const avgAPY = protocols.reduce((sum, p) => sum + parseFloat(p.apy), 0) / protocols.length
-
-// Posiciones de usuario
-const positions = await defiManager.getPositions('0x...')
-const totalValue = positions.reduce((sum, p) => sum + parseFloat(p.value), 0)
-```
-
-## 🌐 Integración con Frontend
-
-### React Hook
-```typescript
-import { useBlockchain } from '@metaverso/bloc/react'
-
-function MetaversoApp() {
-  const { 
-    isConnected, 
-    connect, 
-    disconnect, 
-    balance, 
-    network 
-  } = useBlockchain()
-
-  return (
-    <div>
-      {isConnected ? (
-        <div>
-          <p>Connected to {network.name}</p>
-          <p>Balance: {balance} {network.nativeCurrency.symbol}</p>
-          <button onClick={disconnect}>Disconnect</button>
-        </div>
-      ) : (
-        <button onClick={connect}>Connect Wallet</button>
-      )}
-    </div>
-  )
 }
 ```
 
-### Web3 Provider
-```typescript
-import { BlockchainProvider } from '@metaverso/bloc/react'
+## 🚨 ARCHIVOS IMPRESCINDIBLES QUE NO DEBEN LLEGAR AL REPOSITORIO
 
-function App() {
-  return (
-    <BlockchainProvider>
-      <MetaversoApp />
-    </BlockchainProvider>
-  )
-}
+### **🔐 Archivos de Seguridad Críticos**
+```bash
+# NUNCA subir al repositorio - Críticos para funcionamiento
+.env                          # Variables de entorno con secrets
+*.key                         # Claves privadas
+*.pem                         # Certificados privados
+*.secret                      # Archivos secretos
+wallets/                      # Directorio de wallets
+mnemonics.txt                 # Frases mnemónicas
+seed-phrases.txt              # Frases semilla
+private-keys.txt              # Claves privadas
+secrets/                      # Directorio de secretos
+private/                      # Directorio privado
 ```
 
-## 📚 Recursos
+### **💰 Archivos de Blockchain**
+```bash
+# NUNCA subir al repositorio - Contienen datos sensibles
+data/wallets/                 # Wallets de usuarios
+data/transactions/            # Historial de transacciones
+data/private/                 # Datos privados
+data/secrets/                 # Secretos de blockchain
+transactions/                 # Transacciones pendientes
+signatures/                   # Firmas digitales
+nonces/                       # Nonces de transacciones
+```
 
-### Documentación
-- [Ethers.js](https://docs.ethers.io/)
-- [OpenZeppelin](https://docs.openzeppelin.com/)
-- [Uniswap V3](https://docs.uniswap.org/)
-- [Aave V3](https://docs.aave.com/)
+### **🏗️ Archivos de Infraestructura**
+```bash
+# NUNCA subir al repositorio - Configuración local
+docker-compose.override.yml   # Override de Docker
+k8s/secrets/                  # Secretos de Kubernetes
+k8s/private/                  # Configuración privada K8s
+terraform.tfvars              # Variables de Terraform
+*.tfstate                     # Estado de Terraform
+.terraform/                   # Directorio de Terraform
+ansible/vault/                # Vault de Ansible
+*.vault                       # Archivos vault
+```
 
-### Comunidad
-- [Discord](https://discord.gg/metaverso)
-- [GitHub](https://github.com/metaverso/bloc)
-- [Documentación](https://docs.metaverso.com/bloc)
+### **📊 Archivos de Datos**
+```bash
+# NUNCA subir al repositorio - Datos sensibles
+*.db                          # Bases de datos
+*.sqlite                      # SQLite databases
+database/                     # Directorio de bases de datos
+databases/                    # Múltiples bases de datos
+data/cache/                   # Caché de datos
+data/backups/                 # Backups de datos
+data/logs/                    # Logs de aplicación
+```
+
+### **🔍 Archivos de Monitoreo**
+```bash
+# NUNCA subir al repositorio - Métricas sensibles
+monitoring/secrets/           # Secretos de monitoreo
+prometheus/data/              # Datos de Prometheus
+grafana/data/                 # Datos de Grafana
+grafana/provisioning/datasources/local/  # Configuración local Grafana
+```
+
+### **🎮 Archivos del Metaverso**
+```bash
+# NUNCA subir al repositorio - Datos de usuarios
+metaverse/private/            # Datos privados del metaverso
+metaverse/secrets/            # Secretos del metaverso
+assets/private/               # Assets privados
+worlds/private/               # Mundos privados
+avatars/private/              # Avatares privados
+islands/private/              # Islas privadas
+users/                        # Datos de usuarios
+```
+
+## 🚀 Comandos de Uso
+
+### **Instalación y Configuración**
+```bash
+# Clonar repositorio
+git clone https://github.com/woldvirtual3d/blockchain.git
+cd blockchain/bloc
+
+# Instalar dependencias
+npm install
+
+# Configurar variables de entorno
+cp woldbkvirtual/env.example woldbkvirtual/.env
+# EDITAR .env con tus configuraciones
+
+# Build del proyecto
+npm run build
+```
+
+### **Blockchain Principal**
+```bash
+# Iniciar blockchain
+npm run chain:start
+
+# Modo desarrollo
+npm run chain:dev
+
+# Con puente BSC
+npm run chain:bridge
+
+# Con gas abstraction
+npm run chain:gas
+```
+
+### **Contratos Inteligentes**
+```bash
+# Compilar contratos Solidity
+npm run solidity:compile
+
+# Deploy contratos
+npm run solidity:deploy
+
+# Deploy sistema de gas
+npm run solidity:deploy-gas
+
+# Tests de contratos
+npm run solidity:test
+```
+
+### **Tests y Calidad**
+```bash
+# Ejecutar todos los tests
+npm test
+
+# Tests específicos
+npm run test:gas
+npm run test:bridge
+npm run test:bsc
+
+# Cobertura de código
+npm run test:coverage
+
+# Linting
+npm run lint
+```
+
+## 🔒 Seguridad y Mejores Prácticas
+
+### **Checklist de Seguridad**
+- ✅ **Variables de entorno**: Protegidas con `.env`
+- ✅ **Claves privadas**: Todas las extensiones bloqueadas
+- ✅ **Wallets**: Directorio completo protegido
+- ✅ **Bases de datos**: Archivos locales bloqueados
+- ✅ **Logs**: Directorio completo protegido
+- ✅ **Configuración local**: Overrides bloqueados
+
+### **Verificación de Seguridad**
+```bash
+# Verificar archivos que se van a subir
+git status
+
+# Verificar archivos ignorados
+git check-ignore *
+
+# Buscar archivos sensibles
+git ls-files | grep -E "\.(key|pem|secret|env|db)$"
+```
+
+## 📊 Métricas y Monitoreo
+
+### **Métricas Disponibles**
+- 📈 **Total de transacciones**: 0 (inicial)
+- 💰 **Volumen total**: 0 WCV (inicial)
+- 🌉 **Transacciones cross-chain**: 0 (inicial)
+- ⛽ **Gas fees pagados**: 0 (inicial)
+- 🏦 **Staking total**: 0 WCV (inicial)
+- 🗳️ **Propuestas de gobernanza**: 0 (inicial)
+- 👥 **Usuarios activos**: 0 (inicial)
+
+### **Herramientas de Monitoreo**
+- ✅ **Prometheus**: Métricas en tiempo real
+- ✅ **Grafana**: Dashboards visuales
+- ✅ **Winston**: Logging estructurado
+- ✅ **Health checks**: Estado del sistema
 
 ## 🤝 Contribución
 
-### Guías de Contribución
-1. Fork del repositorio
-2. Crear rama feature: `git checkout -b feature/nueva-funcionalidad`
-3. Commit cambios: `git commit -am 'Agregar nueva funcionalidad'`
-4. Push a la rama: `git push origin feature/nueva-funcionalidad`
-5. Crear Pull Request
+### **Cómo Contribuir**
+1. **Fork** el repositorio
+2. **Crea** una rama para tu feature
+3. **Implementa** tu cambio
+4. **Añade** tests
+5. **Ejecuta** todos los tests
+6. **Envía** un pull request
 
-### Estándares de Código
-- Solidity: Solhint + Prettier
-- TypeScript: ESLint + Prettier
-- Tests: Jest + Hardhat
-- Documentación: JSDoc + README
+### **Estándares de Código**
+- ✅ **ESLint** para JavaScript/TypeScript
+- ✅ **Prettier** para formateo
+- ✅ **TypeScript** para tipado
+- ✅ **Jest** para testing
+- ✅ **Conventional Commits** para commits
 
 ## 📄 Licencia
 
-MIT License - ver [LICENSE](../LICENSE) para detalles.
+Este proyecto está bajo la licencia **MIT**. Ver [LICENSE](LICENSE) para más detalles.
+
+## 🆘 Soporte
+
+### **Recursos**
+- 📖 **Documentación**: [docs/](docs/)
+- 🐛 **Issues**: [GitHub Issues](https://github.com/woldvirtual3d/blockchain/issues)
+- 💬 **Discord**: [WoldVirtual3D Discord](https://discord.gg/woldvirtual3d)
+- 📧 **Email**: support@woldvirtual3d.com
+
+### **Comunidad**
+- 🌐 **Website**: [woldvirtual3d.com](https://woldvirtual3d.com)
+- 🐦 **Twitter**: [@WoldVirtual3D](https://twitter.com/WoldVirtual3D)
+- 📺 **YouTube**: [WoldVirtual3D](https://youtube.com/@woldvirtual3d)
+- 📱 **Telegram**: [@WoldVirtual3D](https://t.me/WoldVirtual3D)
 
 ---
 
-**Metaverso Blockchain Module** - Infraestructura blockchain descentralizada para el futuro del metaverso 🌐⚡ 
+**¡Construyendo el futuro del metaverso descentralizado! 🌟** 
