@@ -1,448 +1,508 @@
-# 🖥️ Carpeta `backend/` - Servidor y APIs del Metaverso
+# 🌟 WoldVirtual3D Assets Backend
 
-## 🎯 **Misión Principal**
+Backend avanzado y modular para la gestión de assets 3D del metaverso WoldVirtual3D. Sistema completo con CRUD avanzado, búsqueda inteligente, caché, métricas y funcionalidades profesionales.
 
-La carpeta `backend/` es el **corazón del servidor** del Metaverso Crypto World Virtual 3D. Aquí se centralizan todas las APIs, servicios, modelos de datos, middleware y lógica de negocio que sustentan el ecosistema descentralizado.
+## 🚀 Características Principales
 
----
+### ✨ Funcionalidades Avanzadas
+- **CRUD Completo**: Operaciones CRUD con validación robusta y soft delete
+- **Búsqueda Inteligente**: Filtros avanzados, ordenamiento dinámico y paginación
+- **Sistema de Caché**: Caché en memoria con TTL configurable y invalidación automática
+- **Métricas y Estadísticas**: Análisis detallado de uso y rendimiento
+- **Recomendaciones**: Algoritmo de recomendaciones basado en popularidad y rating
+- **Sistema de Ratings**: Calificación y comentarios de assets
+- **Manejo de Errores**: Sistema robusto de manejo de errores con logging estructurado
+- **Rate Limiting**: Protección contra abuso con límites configurables
+- **Validación Avanzada**: Validación de datos con mensajes personalizados
 
-## 🚀 **Principales Responsabilidades**
+### 🏗️ Arquitectura Modular
+- **Servicios**: Lógica de negocio separada en servicios especializados
+- **Controladores**: Controladores limpios con responsabilidades específicas
+- **Middleware**: Middleware reutilizable para caché, errores y validación
+- **Entidades**: Modelos de datos con TypeORM y validación
+- **Seeders**: Generación de datos de prueba realistas y escalables
 
-### **1. 🌐 APIs RESTful y GraphQL**
-- **REST APIs**: Endpoints para todas las funcionalidades del metaverso
-- **GraphQL**: API flexible para consultas complejas
-- **WebSocket**: Comunicación en tiempo real
-- **gRPC**: APIs de alto rendimiento para servicios internos
+### 🔧 Tecnologías
+- **TypeScript**: Tipado estático para mayor robustez
+- **Express.js**: Framework web rápido y minimalista
+- **TypeORM**: ORM moderno con soporte para múltiples bases de datos
+- **PostgreSQL**: Base de datos relacional robusta
+- **Winston**: Sistema de logging avanzado
+- **Faker.js**: Generación de datos de prueba realistas
 
-### **2. 🔧 Servicios de Negocio**
-- **Autenticación**: JWT, OAuth, Web3 wallet authentication
-- **Blockchain**: Integración con smart contracts y wallets
-- **Metaverso**: Gestión de avatares, mundos, escenas
-- **Economía**: NFTs, tokens, transacciones, marketplace
+## 📦 Instalación
 
-### **3. 📊 Modelos de Datos**
-- **Entidades**: Avatares, mundos, escenas, interacciones
-- **Blockchain**: Wallets, NFTs, tokens, transacciones
-- **Economía**: Marketplace, ofertas, subastas
-- **Social**: Usuarios, relaciones, grupos
+### Prerrequisitos
+- Node.js >= 18.0.0
+- PostgreSQL >= 13.0
+- npm >= 8.0.0
 
-### **4. 🛡️ Middleware y Seguridad**
-- **Autenticación**: JWT, rate limiting, CORS
-- **Validación**: Schemas, sanitización, validación de datos
-- **Monitoreo**: Logging, métricas, health checks
-- **Caché**: Redis, memoria, CDN
+### Pasos de Instalación
 
----
-
-## 📋 **Estructura del Backend**
-
-```
-backend/
-├── 🚀 src/                    # Código fuente principal
-│   ├── index.ts              # Punto de entrada del servidor
-│   ├── app.ts                # Configuración de Express/Fastify
-│   ├── config/               # Configuraciones
-│   │   ├── database.ts       # Configuración de base de datos
-│   │   ├── redis.ts          # Configuración de Redis
-│   │   ├── blockchain.ts     # Configuración de blockchain
-│   │   ├── auth.ts           # Configuración de autenticación
-│   │   └── environments/     # Configuraciones por entorno
-│   ├── 🌐 apis/              # APIs y endpoints
-│   │   ├── index.ts          # Router principal de APIs
-│   │   ├── auth/             # APIs de autenticación
-│   │   │   ├── auth.controller.ts
-│   │   │   ├── auth.routes.ts
-│   │   │   └── auth.validator.ts
-│   │   ├── metaverso/        # APIs del metaverso
-│   │   │   ├── avatar/       # APIs de avatares
-│   │   │   ├── world/        # APIs de mundos
-│   │   │   ├── scene/        # APIs de escenas
-│   │   │   └── interaction/  # APIs de interacciones
-│   │   ├── blockchain/       # APIs de blockchain
-│   │   │   ├── wallet/       # APIs de wallets
-│   │   │   ├── nft/          # APIs de NFTs
-│   │   │   ├── token/        # APIs de tokens
-│   │   │   └── transaction/  # APIs de transacciones
-│   │   ├── economy/          # APIs de economía
-│   │   │   ├── marketplace/  # APIs de marketplace
-│   │   │   ├── auction/      # APIs de subastas
-│   │   │   └── trading/      # APIs de trading
-│   │   ├── social/           # APIs sociales
-│   │   │   ├── user/         # APIs de usuarios
-│   │   │   ├── group/        # APIs de grupos
-│   │   │   └── chat/         # APIs de chat
-│   │   └── admin/            # APIs administrativas
-│   │       ├── dashboard/    # APIs de dashboard
-│   │       ├── analytics/    # APIs de analytics
-│   │       └── moderation/   # APIs de moderación
-│   ├── 🔧 services/          # Servicios de negocio
-│   │   ├── index.ts          # Exportaciones de servicios
-│   │   ├── auth/             # Servicios de autenticación
-│   │   │   ├── auth.service.ts
-│   │   │   ├── jwt.service.ts
-│   │   │   └── wallet.service.ts
-│   │   ├── metaverso/        # Servicios del metaverso
-│   │   │   ├── avatar.service.ts
-│   │   │   ├── world.service.ts
-│   │   │   ├── scene.service.ts
-│   │   │   └── interaction.service.ts
-│   │   ├── blockchain/       # Servicios de blockchain
-│   │   │   ├── ethereum.service.ts
-│   │   │   ├── polygon.service.ts
-│   │   │   ├── nft.service.ts
-│   │   │   └── token.service.ts
-│   │   ├── economy/          # Servicios de economía
-│   │   │   ├── marketplace.service.ts
-│   │   │   ├── auction.service.ts
-│   │   │   └── trading.service.ts
-│   │   ├── social/           # Servicios sociales
-│   │   │   ├── user.service.ts
-│   │   │   ├── group.service.ts
-│   │   │   └── chat.service.ts
-│   │   ├── notification/     # Servicios de notificaciones
-│   │   │   ├── email.service.ts
-│   │   │   ├── push.service.ts
-│   │   │   └── websocket.service.ts
-│   │   └── storage/          # Servicios de almacenamiento
-│   │       ├── file.service.ts
-│   │       ├── ipfs.service.ts
-│   │       └── arweave.service.ts
-│   ├── 📊 models/            # Modelos de datos
-│   │   ├── index.ts          # Exportaciones de modelos
-│   │   ├── user/             # Modelos de usuario
-│   │   │   ├── user.model.ts
-│   │   │   ├── profile.model.ts
-│   │   │   └── session.model.ts
-│   │   ├── metaverso/        # Modelos del metaverso
-│   │   │   ├── avatar.model.ts
-│   │   │   ├── world.model.ts
-│   │   │   ├── scene.model.ts
-│   │   │   └── interaction.model.ts
-│   │   ├── blockchain/       # Modelos de blockchain
-│   │   │   ├── wallet.model.ts
-│   │   │   ├── nft.model.ts
-│   │   │   ├── token.model.ts
-│   │   │   └── transaction.model.ts
-│   │   ├── economy/          # Modelos de economía
-│   │   │   ├── marketplace.model.ts
-│   │   │   ├── auction.model.ts
-│   │   │   └── trade.model.ts
-│   │   └── social/           # Modelos sociales
-│   │       ├── group.model.ts
-│   │       ├── chat.model.ts
-│   │       └── relationship.model.ts
-│   ├── 🛡️ middleware/        # Middleware y seguridad
-│   │   ├── index.ts          # Exportaciones de middleware
-│   │   ├── auth/             # Middleware de autenticación
-│   │   │   ├── auth.middleware.ts
-│   │   │   ├── jwt.middleware.ts
-│   │   │   └── wallet.middleware.ts
-│   │   ├── validation/       # Middleware de validación
-│   │   │   ├── validator.middleware.ts
-│   │   │   ├── sanitizer.middleware.ts
-│   │   │   └── rate-limiter.middleware.ts
-│   │   ├── security/         # Middleware de seguridad
-│   │   │   ├── cors.middleware.ts
-│   │   │   ├── helmet.middleware.ts
-│   │   │   └── csrf.middleware.ts
-│   │   ├── monitoring/       # Middleware de monitoreo
-│   │   │   ├── logger.middleware.ts
-│   │   │   ├── metrics.middleware.ts
-│   │   │   └── performance.middleware.ts
-│   │   └── cache/            # Middleware de caché
-│   │       ├── redis.middleware.ts
-│   │       ├── memory.middleware.ts
-│   │       └── cdn.middleware.ts
-│   ├── 🛠️ utils/             # Utilidades y helpers
-│   │   ├── index.ts          # Exportaciones de utilidades
-│   │   ├── database/         # Utilidades de base de datos
-│   │   │   ├── connection.ts
-│   │   │   ├── migration.ts
-│   │   │   └── seeder.ts
-│   │   ├── blockchain/       # Utilidades de blockchain
-│   │   │   ├── web3.utils.ts
-│   │   │   ├── contract.utils.ts
-│   │   │   └── transaction.utils.ts
-│   │   ├── crypto/           # Utilidades de criptografía
-│   │   │   ├── hash.utils.ts
-│   │   │   ├── encryption.utils.ts
-│   │   │   └── signature.utils.ts
-│   │   ├── validation/       # Utilidades de validación
-│   │   │   ├── schemas.ts
-│   │   │   ├── validators.ts
-│   │   │   └── sanitizers.ts
-│   │   ├── response/         # Utilidades de respuesta
-│   │   │   ├── api-response.ts
-│   │   │   ├── error-handler.ts
-│   │   │   └── pagination.ts
-│   │   └── helpers/          # Helpers generales
-│   │       ├── date.utils.ts
-│   │       ├── string.utils.ts
-│   │       └── file.utils.ts
-│   ├── 📈 monitoring/        # Monitoreo y métricas
-│   │   ├── logger.ts         # Sistema de logging
-│   │   ├── metrics.ts        # Métricas de aplicación
-│   │   ├── health.ts         # Health checks
-│   │   └── alerts.ts         # Sistema de alertas
-│   └── 🧪 tests/             # Tests
-│       ├── unit/             # Tests unitarios
-│       ├── integration/      # Tests de integración
-│       ├── e2e/              # Tests end-to-end
-│       └── fixtures/         # Datos de prueba
-├── 📁 config/                # Configuraciones adicionales
-│   ├── database/             # Configuraciones de BD
-│   ├── redis/                # Configuraciones de Redis
-│   ├── blockchain/           # Configuraciones de blockchain
-│   └── environments/         # Configuraciones por entorno
-├── 📁 docs/                  # Documentación
-│   ├── api/                  # Documentación de APIs
-│   ├── deployment/           # Guías de despliegue
-│   └── development/          # Guías de desarrollo
-└── 📁 scripts/               # Scripts de utilidad
-    ├── setup.sh              # Script de configuración
-    ├── migrate.sh            # Script de migraciones
-    └── seed.sh               # Script de datos iniciales
-```
-
----
-
-## 🎯 **Casos de Uso Principales**
-
-### **Para Desarrolladores**
+1. **Clonar el repositorio**
 ```bash
-# Iniciar servidor de desarrollo
-npm run dev
+git clone https://github.com/woldvirtual3d/assets-backend.git
+cd assets-backend
+```
 
-# Ejecutar tests
-npm run test
+2. **Instalar dependencias**
+```bash
+npm install
+```
 
-# Generar documentación de APIs
-npm run docs:generate
+3. **Configurar variables de entorno**
+```bash
+cp .env.example .env
+```
 
-# Ejecutar migraciones
+Editar `.env` con tus configuraciones:
+```env
+# Base de datos
+DB_HOST=localhost
+DB_PORT=5432
+DB_USERNAME=postgres
+DB_PASSWORD=tu_password
+DB_DATABASE=woldvirtual3d_assets
+
+# Servidor
+PORT=3000
+NODE_ENV=development
+
+# Caché
+REDIS_HOST=localhost
+REDIS_PORT=6379
+REDIS_PASSWORD=
+REDIS_DB=0
+
+# CORS
+ALLOWED_ORIGINS=http://localhost:3000,http://localhost:3001
+```
+
+4. **Crear base de datos**
+```sql
+CREATE DATABASE woldvirtual3d_assets;
+```
+
+5. **Ejecutar migraciones**
+```bash
 npm run db:migrate
 ```
 
-### **Para DevOps**
+6. **Poblar con datos de prueba**
 ```bash
-# Construir para producción
+npm run seed:examples
+```
+
+## 🚀 Uso
+
+### Desarrollo
+```bash
+npm run dev
+```
+
+### Producción
+```bash
 npm run build
-
-# Iniciar servidor de producción
-npm run start
-
-# Monitorear logs
-npm run logs
-
-# Health check
-npm run health
+npm start
 ```
 
-### **Para Administradores**
+### Seeders
+
+#### Generar datos de ejemplo (4 assets)
 ```bash
-# Dashboard administrativo
-npm run admin:start
-
-# Backup de base de datos
-npm run db:backup
-
-# Restaurar datos
-npm run db:restore
+npm run seed:examples
 ```
 
----
-
-## 🔧 **Tecnologías y Herramientas**
-
-### **Framework y Runtime**
-- **Node.js**: Runtime de JavaScript
-- **Express/Fastify**: Framework web
-- **TypeScript**: Lenguaje de programación
-- **ESLint/Prettier**: Linting y formateo
-
-### **Base de Datos**
-- **PostgreSQL**: Base de datos principal
-- **Redis**: Caché y sesiones
-- **MongoDB**: Datos no estructurados
-- **Prisma/TypeORM**: ORM
-
-### **Blockchain**
-- **Web3.js/Ethers.js**: Cliente Ethereum
-- **Hardhat/Truffle**: Desarrollo de smart contracts
-- **IPFS**: Almacenamiento descentralizado
-- **Arweave**: Almacenamiento permanente
-
-### **Autenticación y Seguridad**
-- **JWT**: Tokens de autenticación
-- **Passport.js**: Estrategias de autenticación
-- **bcrypt**: Hashing de contraseñas
-- **Helmet**: Seguridad HTTP
-
-### **Monitoreo y Logging**
-- **Winston**: Sistema de logging
-- **Prometheus**: Métricas
-- **Grafana**: Visualización
-- **Sentry**: Error tracking
-
----
-
-## 🚀 **Flujo de APIs**
-
-### **1. Autenticación**
-```
-Cliente → JWT/Wallet Auth → Middleware → Controller → Service → Database
+#### Generar 1000 assets con configuración por defecto
+```bash
+npm run seed:full
 ```
 
-### **2. Metaverso**
-```
-Cliente → Avatar API → World Service → Scene Manager → Interaction Handler
-```
-
-### **3. Blockchain**
-```
-Cliente → Wallet API → Web3 Service → Smart Contract → Transaction Pool
+#### Generar 500 assets con limpieza previa
+```bash
+npm run seed:full -- --count 500 --clean
 ```
 
-### **4. Economía**
-```
-Cliente → Marketplace API → Auction Service → NFT Service → Blockchain
-```
-
----
-
-## 📈 **Métricas de Rendimiento**
-
-### **Performance**
-- ⚡ Response time < 200ms
-- 🔄 Throughput > 1000 req/s
-- 💾 Memory usage < 512MB
-- 🗄️ Database queries < 50ms
-
-### **Disponibilidad**
-- 🎯 Uptime > 99.9%
-- 🔄 Auto-scaling enabled
-- 🛡️ Rate limiting active
-- 📊 Health monitoring 24/7
-
-### **Seguridad**
-- 🔒 JWT validation 100%
-- 🛡️ CORS properly configured
-- 🔐 Rate limiting active
-- 📋 Input validation 100%
-
----
-
-## 🔮 **Roadmap del Backend**
-
-### **Q1 2025**
-- [ ] APIs básicas de autenticación
-- [ ] APIs del metaverso (avatar, world)
-- [ ] Integración blockchain básica
-- [ ] Sistema de logging
-
-### **Q2 2025**
-- [ ] APIs de economía (marketplace, NFTs)
-- [ ] WebSocket para tiempo real
-- [ ] Sistema de caché Redis
-- [ ] Monitoreo y métricas
-
-### **Q3 2025**
-- [ ] APIs sociales (chat, grupos)
-- [ ] GraphQL API
-- [ ] Microservicios
-- [ ] Auto-scaling
-
----
-
-## 🤝 **Colaboración y Contribución**
-
-### **Para Desarrolladores**
-- 📚 **API Documentation**: `/docs/api`
-- 🧪 **Testing Guide**: `/docs/testing`
-- 🔧 **Development Setup**: `/docs/development`
-- 💬 **Code Review**: GitHub PRs
-
-### **Para DevOps**
-- 🚀 **Deployment Guide**: `/docs/deployment`
-- 📊 **Monitoring Setup**: `/docs/monitoring`
-- 🔒 **Security Guide**: `/docs/security`
-- 📋 **Infrastructure**: `/docs/infrastructure`
-
----
-
-## 📞 **Soporte y Recursos**
-
-### **Recursos de Desarrollo**
-- 📖 **Backend Documentation**: `/docs/backend`
-- 🧪 **Backend Testing**: `/tests/backend`
-- 🔧 **Backend Tools**: `/tools/backend-utils`
-- 📚 **Backend Examples**: `/examples/backend`
-
-### **Soporte Técnico**
-- 🐛 **API Errors**: GitHub Issues
-- 💡 **Feature Requests**: GitHub Discussions
-- 📧 **Backend Support**: backend@metaverso.com
-- 🔒 **Security Issues**: security@metaverso.com
-
----
-
-## 📝 **Ejemplos de Configuración**
-
-### **Configuración de Base de Datos**
-```typescript
-// backend/src/config/database.ts
-export const databaseConfig = {
-  host: process.env.DB_HOST || 'localhost',
-  port: parseInt(process.env.DB_PORT) || 5432,
-  username: process.env.DB_USER || 'metaverso',
-  password: process.env.DB_PASSWORD || 'password',
-  database: process.env.DB_NAME || 'metaverso',
-  synchronize: process.env.NODE_ENV === 'development',
-  logging: process.env.NODE_ENV === 'development'
-};
+#### Generar solo modelos 3D
+```bash
+npm run seed:custom -- --count 100 --type MODEL_3D
 ```
 
-### **Configuración de Blockchain**
-```typescript
-// backend/src/config/blockchain.ts
-export const blockchainConfig = {
-  ethereum: {
-    rpcUrl: process.env.ETH_RPC_URL,
-    chainId: parseInt(process.env.ETH_CHAIN_ID) || 1,
-    contracts: {
-      nft: process.env.NFT_CONTRACT_ADDRESS,
-      marketplace: process.env.MARKETPLACE_CONTRACT_ADDRESS
-    }
-  },
-  polygon: {
-    rpcUrl: process.env.POLYGON_RPC_URL,
-    chainId: parseInt(process.env.POLYGON_CHAIN_ID) || 137
+#### Generar assets publicados
+```bash
+npm run seed:custom -- --count 200 --status PUBLISHED
+```
+
+## 📚 API Endpoints
+
+### 🔍 Assets
+
+#### Obtener todos los assets
+```http
+GET /api/assets
+```
+
+**Parámetros de consulta:**
+- `page`: Número de página (default: 1)
+- `limit`: Elementos por página (default: 20, max: 100)
+- `sortBy`: Campo para ordenar (default: createdAt)
+- `sortOrder`: Orden ASC/DESC (default: DESC)
+- `type`: Tipo de asset (MODEL_3D, TEXTURE, ANIMATION, SOUND)
+- `status`: Status del asset (PUBLISHED, DRAFT, ARCHIVED)
+- `ownerId`: ID del propietario
+- `isPublic`: Boolean (true/false)
+- `allowDownload`: Boolean (true/false)
+- `allowModification`: Boolean (true/false)
+- `allowCommercialUse`: Boolean (true/false)
+- `minFileSize`: Tamaño mínimo en bytes
+- `maxFileSize`: Tamaño máximo en bytes
+- `minRating`: Rating mínimo (1-5)
+- `maxRating`: Rating máximo (1-5)
+- `minDownloadCount`: Mínimo de descargas
+- `minViewCount`: Mínimo de vistas
+- `tags`: Array de tags
+- `createdAfter`: Fecha de creación posterior
+- `createdBefore`: Fecha de creación anterior
+- `publishedAfter`: Fecha de publicación posterior
+- `publishedBefore`: Fecha de publicación anterior
+- `q`: Búsqueda en nombre y descripción
+
+**Ejemplo:**
+```bash
+curl "http://localhost:3000/api/assets?type=MODEL_3D&minRating=4&page=1&limit=10"
+```
+
+#### Obtener asset por ID
+```http
+GET /api/assets/:id
+```
+
+**Parámetros:**
+- `incrementViews`: Boolean para incrementar contador de vistas (default: true)
+
+#### Crear nuevo asset
+```http
+POST /api/assets
+```
+
+**Body:**
+```json
+{
+  "name": "Casa Moderna Premium",
+  "description": "Modelo 3D de casa moderna con texturas PBR",
+  "type": "MODEL_3D",
+  "fileUrl": "https://assets.example.com/house.fbx",
+  "previewUrl": "https://previews.example.com/house.jpg",
+  "ownerId": "user-123",
+  "tags": ["casa", "moderna", "3d"],
+  "isPublic": true,
+  "allowDownload": true,
+  "allowModification": false,
+  "allowCommercialUse": false
+}
+```
+
+#### Actualizar asset
+```http
+PUT /api/assets/:id
+```
+
+#### Eliminar asset (soft delete)
+```http
+DELETE /api/assets/:id
+```
+
+#### Restaurar asset eliminado
+```http
+PATCH /api/assets/:id/restore
+```
+
+### 🎯 Funcionalidades Especiales
+
+#### Assets recomendados
+```http
+GET /api/assets/recommended?limit=10
+```
+
+#### Assets trending
+```http
+GET /api/assets/trending?days=7&limit=10
+```
+
+#### Assets similares
+```http
+GET /api/assets/:id/similar?limit=5
+```
+
+#### Búsqueda por similitud
+```http
+GET /api/assets/search?q=casa&limit=10
+```
+
+#### Assets por rango de fechas
+```http
+GET /api/assets/date-range?startDate=2024-01-01&endDate=2024-12-31
+```
+
+#### Assets por propietario
+```http
+GET /api/assets/owner/:ownerId?page=1&limit=20&status=PUBLISHED
+```
+
+#### Incrementar descargas
+```http
+POST /api/assets/:id/download
+```
+
+#### Actualizar rating
+```http
+POST /api/assets/:id/rating
+```
+
+**Body:**
+```json
+{
+  "rating": 4.5
+}
+```
+
+### 📊 Estadísticas
+
+#### Estadísticas detalladas
+```http
+GET /api/assets/stats
+```
+
+**Respuesta:**
+```json
+{
+  "success": true,
+  "data": {
+    "overview": {
+      "total": 1000,
+      "published": 700,
+      "draft": 200,
+      "archived": 100,
+      "deleted": 0,
+      "public": 800,
+      "downloadable": 900,
+      "commercial": 600
+    },
+    "byType": [
+      { "type": "MODEL_3D", "count": "400" },
+      { "type": "TEXTURE", "count": "300" },
+      { "type": "ANIMATION", "count": "200" },
+      { "type": "SOUND", "count": "100" }
+    ],
+    "topDownloads": [...],
+    "topRated": [...]
   }
+}
+```
+
+### 🏥 Health Check
+
+#### Estado del sistema
+```http
+GET /health
+```
+
+#### Información de la API
+```http
+GET /api/info
+```
+
+#### Estadísticas de caché
+```http
+GET /api/cache/stats
+```
+
+## 🏗️ Estructura del Proyecto
+
+```
+src/
+├── controllers/          # Controladores de la API
+│   └── AssetController.ts
+├── entities/            # Modelos de datos
+│   └── Asset.ts
+├── middleware/          # Middleware personalizado
+│   ├── cache.ts
+│   └── errorHandler.ts
+├── routes/              # Definición de rutas
+│   └── assetRoutes.ts
+├── seeders/             # Generadores de datos
+│   └── assetSeeder.ts
+├── services/            # Lógica de negocio
+│   └── AssetService.ts
+├── scripts/             # Scripts de utilidad
+│   └── seed.ts
+├── utils/               # Utilidades
+│   └── logger.ts
+├── validators/          # Validación de datos
+│   └── assetValidator.ts
+├── database/            # Configuración de BD
+│   └── connection.ts
+└── index.ts            # Punto de entrada
+```
+
+## 🔧 Configuración
+
+### Variables de Entorno
+
+| Variable | Descripción | Default |
+|----------|-------------|---------|
+| `PORT` | Puerto del servidor | 3000 |
+| `NODE_ENV` | Ambiente (development/production) | development |
+| `DB_HOST` | Host de PostgreSQL | localhost |
+| `DB_PORT` | Puerto de PostgreSQL | 5432 |
+| `DB_USERNAME` | Usuario de PostgreSQL | postgres |
+| `DB_PASSWORD` | Contraseña de PostgreSQL | - |
+| `DB_DATABASE` | Nombre de la base de datos | woldvirtual3d_assets |
+| `REDIS_HOST` | Host de Redis | localhost |
+| `REDIS_PORT` | Puerto de Redis | 6379 |
+| `REDIS_PASSWORD` | Contraseña de Redis | - |
+| `REDIS_DB` | Base de datos de Redis | 0 |
+| `ALLOWED_ORIGINS` | Orígenes permitidos para CORS | http://localhost:3000 |
+
+### Configuración del Seeder
+
+```typescript
+const config = {
+  totalAssets: 1000,
+  distribution: {
+    MODEL_3D: 0.4,      // 40% modelos 3D
+    TEXTURE: 0.3,       // 30% texturas
+    ANIMATION: 0.2,     // 20% animaciones
+    SOUND: 0.1          // 10% sonidos
+  },
+  statusDistribution: {
+    PUBLISHED: 0.7,     // 70% publicados
+    DRAFT: 0.2,         // 20% borradores
+    ARCHIVED: 0.1,      // 10% archivados
+    DELETED: 0          // 0% eliminados
+  },
+  enableRandomization: true,
+  batchSize: 100
 };
 ```
 
-### **Configuración de Autenticación**
-```typescript
-// backend/src/config/auth.ts
-export const authConfig = {
-  jwt: {
-    secret: process.env.JWT_SECRET,
-    expiresIn: '24h',
-    refreshExpiresIn: '7d'
-  },
-  wallet: {
-    messageExpiresIn: '5m',
-    signatureVerification: true
-  },
-  rateLimit: {
-    windowMs: 15 * 60 * 1000, // 15 minutos
-    max: 100 // máximo 100 requests por ventana
-  }
-};
+## 🧪 Testing
+
+### Ejecutar tests
+```bash
+npm test
 ```
+
+### Tests en modo watch
+```bash
+npm run test:watch
+```
+
+### Cobertura de tests
+```bash
+npm run test:coverage
+```
+
+## 🔍 Logging
+
+El sistema utiliza Winston para logging estructurado con diferentes niveles:
+
+- **Error**: Errores críticos del sistema
+- **Warn**: Advertencias y problemas no críticos
+- **Info**: Información general del sistema
+- **Debug**: Información detallada para desarrollo
+
+### Ejemplo de log
+```json
+{
+  "timestamp": "2024-01-15T10:30:00.000Z",
+  "level": "info",
+  "message": "Asset creado exitosamente",
+  "assetId": "uuid-123",
+  "userId": "user-456"
+}
+```
+
+## 🚀 Despliegue
+
+### Docker
+
+```dockerfile
+FROM node:18-alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm ci --only=production
+
+COPY dist ./dist
+
+EXPOSE 3000
+
+CMD ["npm", "start"]
+```
+
+### Docker Compose
+
+```yaml
+version: '3.8'
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DB_HOST=postgres
+    depends_on:
+      - postgres
+      - redis
+
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: woldvirtual3d_assets
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    volumes:
+      - redis_data:/data
+
+volumes:
+  postgres_data:
+  redis_data:
+```
+
+## 🤝 Contribución
+
+1. Fork el proyecto
+2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
+3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abre un Pull Request
+
+## 📄 Licencia
+
+Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) para detalles.
+
+## 🆘 Soporte
+
+- 📧 Email: support@woldvirtual3d.com
+- 💬 Discord: [WoldVirtual3D Community](https://discord.gg/woldvirtual3d)
+- 📖 Documentación: [docs.woldvirtual3d.com](https://docs.woldvirtual3d.com)
+- 🐛 Issues: [GitHub Issues](https://github.com/woldvirtual3d/assets-backend/issues)
+
+## 🙏 Agradecimientos
+
+- [TypeORM](https://typeorm.io/) - ORM moderno y potente
+- [Express.js](https://expressjs.com/) - Framework web minimalista
+- [Faker.js](https://fakerjs.dev/) - Generación de datos de prueba
+- [Winston](https://github.com/winstonjs/winston) - Sistema de logging
 
 ---
 
-**Última actualización**: Junio 2025  
-**Versión**: 1.0.0  
-**Mantenido por**: Equipo de Backend del Metaverso 
+**Desarrollado con ❤️ por el equipo de WoldVirtual3D** 

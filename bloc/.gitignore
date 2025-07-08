@@ -1,29 +1,112 @@
-# Archivos de configuración y variables de entorno (sensibles)
+# ===========================================
+# WOLDVIRTUAL3D BLOCKCHAIN - .gitignore
+# ===========================================
+
+# ===========================================
+# ARCHIVOS DE CONFIGURACIÓN Y VARIABLES DE ENTORNO
+# ===========================================
 .env
 .env.*
 .env.local
 .env.*.local
+.env.production
+.env.staging
+.env.development
+.env.test
+config/local.json
+config/secrets.json
+config/private.json
 
-# Archivos de claves y secretos
+# ===========================================
+# ARCHIVOS DE CLAVES Y SECRETOS
+# ===========================================
 *.key
 *.pem
 *.secret
 *.crt
 *.p12
 *.pfx
+*.keystore
+*.jks
 secrets/
+private/
+keys/
+wallets/
+mnemonics.txt
+seed-phrases.txt
+private-keys.txt
 
-# Archivos de credenciales
+# ===========================================
+# ARCHIVOS DE CREDENCIALES Y AUTENTICACIÓN
+# ===========================================
 *.credentials
 *.auth
 *.token
+*.session
+auth.json
+credentials.json
+tokens.json
+api-keys.json
+infura-key.txt
+alchemy-key.txt
+quicknode-key.txt
 
-# Archivos de logs
+# ===========================================
+# ARCHIVOS DE BLOCKCHAIN Y CONTRATOS
+# ===========================================
+# Hardhat
+cache/
+artifacts/
+typechain/
+typechain-types/
+hardhat-deployments/
+deployments/
+deployment-*.json
+gas-report.txt
+
+# Truffle
+build/
+contracts/build/
+
+# Foundry
+out/
+cache_forge/
+broadcast/
+cache/
+
+# Rust/Substrate
+target/
+Cargo.lock
+*.wasm
+*.wat
+
+# Move/Aptos
+build/
+Move.lock
+*.mv
+
+# Vyper
+*.vyc
+*.abi
+
+# ============================================
+# ARCHIVOS DE LOGS Y MONITOREO
+# ============================================
 *.log
 logs/
 debug.log
+error.log
+access.log
+blockchain.log
+bridge.log
+gas-fees.log
+*.log.*
+log/
+logging/
 
-# Archivos temporales y de caché
+# ============================================
+# ARCHIVOS TEMPORALES Y DE CACHÉ
+# ============================================
 *.tmp
 *.temp
 .cache/
@@ -32,44 +115,470 @@ temp/
 dist/
 build/
 out/
+node_modules/
+.npm/
+.yarn/
+.yarnrc.yml
 
-# Archivos de backup
+# ============================================
+# ARCHIVOS DE BACKUP Y VERSIONES
+# ============================================
 *.bak
 *.backup
-
-# Archivos de lock de backup
+*.old
+*.orig
+*.rej
+*.swp
+*.swo
+*~
 package-lock.json.backup*
 yarn.lock.backup*
+*.backup.*
 
-# Archivos de test y cobertura
+# ============================================
+# ARCHIVOS DE TEST Y COBERTURA
+# ============================================
 test-results/
 coverage/
 .nyc_output/
+coverage.json
+lcov.info
+test-report.xml
+junit.xml
+test-results.xml
 
-# Archivos de configuración de IDE
+# ============================================
+# ARCHIVOS DE CONFIGURACIÓN DE IDE
+# ============================================
 .vscode/
 .idea/
 *.swp
 *.swo
+*.sublime-*
+.atom/
+.brackets.json
 
-# Archivos de datos temporales o sensibles
+# ============================================
+# ARCHIVOS DE DATOS TEMPORALES O SENSIBLES
+# ============================================
 data/temp/
 data/cache/
+data/logs/
+data/backups/
+data/private/
+data/secrets/
+data/wallets/
+data/transactions/
+data/blockchain/
+data/metaverse/
+data/users/
+data/assets/
+data/worlds/
+data/avatars/
 
-# Archivos de ejemplos locales o de pruebas
+# ============================================
+# ARCHIVOS DE EJEMPLOS LOCALES O DE PRUEBAS
+# ============================================
 examples/*.local.*
 examples/*.test.*
+examples/*.backup.*
+examples/secrets/
+examples/private/
+examples/wallets/
 
-# Archivos del sistema
+# ============================================
+# ARCHIVOS DEL SISTEMA OPERATIVO
+# ============================================
 .DS_Store
 Thumbs.db
+desktop.ini
+*.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Icon?
 
-# Otros archivos que no quieras subir
-*.DS_Store 
+# ============================================
+# ARCHIVOS DE DOCKER Y CONTAINERS
+# ============================================
+.dockerignore
+docker-compose.override.yml
+docker-compose.*.yml
+!docker-compose.yml
+.docker/
 
-# dependencias 
+# ============================================
+# ARCHIVOS DE KUBERNETES Y ORQUESTACIÓN
+# ============================================
+k8s/secrets/
+k8s/private/
+k8s/local/
+k8s/overrides/
+
+# ============================================
+# ARCHIVOS DE TERRAFORM Y INFRAESTRUCTURA
+# ============================================
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+terraform.tfvars
+*.auto.tfvars
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# ============================================
+# ARCHIVOS DE ANSIBLE Y AUTOMATIZACIÓN
+# ============================================
+ansible/vault/
+ansible/secrets/
+ansible/private/
+*.vault
+vault.yml
+
+# ============================================
+# ARCHIVOS DE MONITOREO Y METRICAS
+# ============================================
+monitoring/secrets/
+monitoring/private/
+prometheus/data/
+grafana/data/
+grafana/provisioning/datasources/local/
+
+# ============================================
+# ARCHIVOS DE BASE DE DATOS
+# ============================================
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+*.db-wal
+*.db-shm
+database/
+databases/
+sql/
+migrations/local/
+
+# ============================================
+# ARCHIVOS DE REDES Y CONEXIONES
+# ============================================
+networks/
+connections/
+endpoints/
+rpc/
+websocket/
+api/
+
+# ============================================
+# ARCHIVOS DE WALLETS Y TRANSACCIONES
+# ============================================
+wallets/
+wallet/
+transactions/
+tx/
+signatures/
+nonces/
+
+# ============================================
+# ARCHIVOS DE METAVERSO Y ASSETS
+# ============================================
+metaverse/private/
+metaverse/secrets/
+assets/private/
+assets/secrets/
+worlds/private/
+avatars/private/
+islands/private/
+
+# ============================================
+# ARCHIVOS DE PUENTES Y CROSS-CHAIN
+# ============================================
+bridges/
+bridge/
+cross-chain/
+crosschain/
+relayers/
+validators/
+
+# ============================================
+# ARCHIVOS DE STAKING Y GOVERNANCE
+# ============================================
+staking/
+governance/
+proposals/
+votes/
+delegations/
+
+# ============================================
+# ARCHIVOS DE NFT Y TOKENS
+# ============================================
+nfts/
+tokens/
+metadata/private/
+metadata/secrets/
+
+# ============================================
+# ARCHIVOS DE AUDITORÍA Y SEGURIDAD
+# ============================================
+audit/
+security/
+penetration-tests/
+vulnerability-reports/
+security-reports/
+
+# ============================================
+# ARCHIVOS DE DEPLOYMENT Y CI/CD
+# ============================================
+deploy/
+deployment/
+releases/
+builds/
+artifacts/
+dist/
+out/
+
+# ============================================
+# ARCHIVOS DE CONFIGURACIÓN ESPECÍFICOS
+# ============================================
+# Node.js
 package-lock.json
-package.json
+yarn.lock
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npmrc
+.yarnrc
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.pytest_cache/
+.coverage
+.python-version
+
+# Rust
+target/
+Cargo.lock
+**/*.rs.bk
+
+# Move
+build/
+Move.lock
+
+# Vyper
+*.vyc
+
+# ============================================
+# ARCHIVOS DE RESPALDO ESPECÍFICOS DEL PROYECTO
+# ============================================
 package.json.backup.1751583397123
 package.json.backup.1751583436475
+*.backup.1751583397123
+*.backup.1751583436475
+
+# ============================================
+# ARCHIVOS ADICIONALES DE SEGURIDAD
+# ============================================
+# Evitar subir archivos con información sensible
+*password*
+*secret*
+*private*
+*key*
+*token*
+*auth*
+*credential*
+*sensitive*
+*confidential*
+
+# Archivos de configuración local que pueden contener secrets
+config.local.*
+settings.local.*
+local.*
+dev.*
+prod.*
+staging.*
+
+# ============================================
+# ARCHIVOS DE CONFIGURACIÓN ESPECÍFICOS DE BLOCKCHAIN
+# ============================================
+# Archivos de configuración específicos de blockchain
+hardhat.config.local.js
+hardhat.config.production.js
+hardhat.config.staging.js
+foundry.local.toml
+foundry.production.toml
+foundry.staging.toml
+truffle-config.local.js
+truffle-config.production.js
+truffle-config.staging.js
+
+# Archivos de configuración de redes específicas
+network-config.local.json
+network-config.production.json
+network-config.staging.json
+networks.local.json
+networks.production.json
+networks.staging.json
+
+# Archivos de configuración de oráculos y feeds
+oracle-config.local.json
+oracle-config.production.json
+price-feeds.local.json
+price-feeds.production.json
+
+# Archivos de configuración de puentes
+bridge-config.local.json
+bridge-config.production.json
+cross-chain.local.json
+cross-chain.production.json
+
+# Archivos de configuración de staking y governance
+staking-config.local.json
+staking-config.production.json
+governance-config.local.json
+governance-config.production.json
+
+# Archivos de configuración de metaverso
+metaverse-config.local.json
+metaverse-config.production.json
+world-config.local.json
+world-config.production.json
+
+# Archivos de configuración de DeFi
+defi-config.local.json
+defi-config.production.json
+liquidity-config.local.json
+liquidity-config.production.json
+
+# Archivos de configuración de validadores
+validator-config.local.json
+validator-config.production.json
+consensus-config.local.json
+consensus-config.production.json
+
+# Archivos de configuración de nodos
+node-config.local.json
+node-config.production.json
+peer-config.local.json
+peer-config.production.json
+
+# Archivos de configuración de minería
+mining-config.local.json
+mining-config.production.json
+
+# ============================================
+# ARCHIVOS DE VALIDACIÓN Y VERIFICACIÓN
+# ============================================
+# Archivos de verificación de contratos
+verification/
+verified/
+contract-verification/
+etherscan/
+bscscan/
+polygonscan/
+
+# Archivos de auditoría de seguridad
+audit-reports/
+security-audits/
+penetration-tests/
+vulnerability-scans/
+
+# Archivos de compliance y regulación
+compliance/
+regulatory/
+kyc/
+aml/
+gdpr/
+
+# Archivos de backup de wallets
+wallet-backups/
+mnemonic-backups/
+seed-backups/
+key-backups/
+
+# Archivos de transacciones privadas
+private-transactions/
+confidential-transactions/
+zero-knowledge-proofs/
+zk-proofs/
+
+# Archivos de oráculos y feeds
+oracles/
+price-feeds/
+data-feeds/
+external-data/
+
+# Archivos de liquidación y staking
+liquidations/
+unstaking/
+withdrawals/
+rewards/
+
+# Archivos de governance específicos
+proposals/
+votes/
+executions/
+timelocks/
+
+# Archivos de cross-chain específicos
+cross-chain-bridges/
+bridge-validators/
+relayer-nodes/
+validator-nodes/
+
+# Archivos de metaverso específicos
+metaverse-assets/
+virtual-worlds/
+avatar-data/
+world-configs/
+
+# Archivos de NFT específicos
+nft-metadata/
+nft-images/
+nft-collections/
+nft-marketplace/
+
+# Archivos de DeFi específicos
+defi-protocols/
+liquidity-pools/
+yield-farming/
+lending-protocols/
+
+# ============================================
+# NOTA IMPORTANTE
+# ============================================
+# Este .gitignore está diseñado para proteger información sensible
+# relacionada con blockchain, contratos inteligentes y metaverso.
+# Asegúrate de que ningún archivo con claves privadas, mnemonics,
+# o información sensible sea subido al repositorio.
+#
+# ARCHIVOS QUE DEBEN IR AL REPOSITORIO:
+# - Código fuente (.sol, .ts, .js, .py, .rs, .move, .vy)
+# - Configuraciones de ejemplo (.example, .template)
+# - Documentación (.md, .txt)
+# - Scripts de build y deployment (sin secrets)
+# - Tests (sin datos reales)
+# - README y documentación
+#
+# ARCHIVOS QUE NO DEBEN IR AL REPOSITORIO:
+# - Claves privadas y mnemonics
+# - Variables de entorno con secrets
+# - Archivos de configuración local
+# - Logs y datos temporales
+# - Archivos compilados y cache
+# - Wallets y transacciones reales
+# - Datos de usuarios y metaverso
+# - Configuraciones de infraestructura con secrets
 
