@@ -1,417 +1,463 @@
-# 🎨 Sistema de Assets del Metaverso Web3
+# 🌟 WoldVirtual3D Assets System
 
-## 🎯 **Descripción General**
+Sistema completo y modular para la gestión de assets 3D del metaverso WoldVirtual3D. Incluye un sistema modular de procesamiento de assets y un backend profesional con APIs avanzadas.
 
-El **Sistema de Assets del Metaverso** es una solución completa y modular para la gestión, optimización, compresión y distribución de recursos multimedia en el ecosistema descentralizado del metaverso. Proporciona herramientas avanzadas para el procesamiento de modelos 3D, texturas, audio, imágenes y otros tipos de contenido digital.
+## 🚀 Características Principales
 
----
+### ✨ Sistema Modular de Assets (`/src/`)
+- **Uploaders**: IPFS, AWS S3, Google Cloud Storage
+- **Compressors**: Gzip, Brotli, LZMA
+- **Optimizers**: Sharp para imágenes, FFmpeg para video
+- **Validators**: Validación completa con análisis de seguridad
+- **Managers**: Gestión avanzada con métricas y caché
+- **Procesamiento en Lotes**: Optimización para grandes volúmenes
+- **Sistema de Fallback**: Redundancia y alta disponibilidad
 
-## 🚀 **Características Principales**
+### 🏗️ Backend Profesional (`/backend/`)
+- **CRUD Avanzado**: Operaciones completas con validación robusta
+- **Búsqueda Inteligente**: Filtros complejos, ordenamiento dinámico
+- **Sistema de Caché**: Caché en memoria con TTL configurable
+- **Métricas y Estadísticas**: Análisis detallado de uso
+- **Recomendaciones**: Algoritmo basado en popularidad y rating
+- **Seeder Modular**: Generación de datos de prueba realistas
+- **Manejo de Errores**: Sistema robusto con logging estructurado
 
-### **🎮 Gestión Completa de Assets**
-- **Validación automática** de formatos y integridad
-- **Optimización inteligente** por tipo de contenido
-- **Compresión avanzada** con múltiples algoritmos
-- **Upload distribuido** a IPFS, Arweave, AWS y local
-- **Catálogo centralizado** con búsqueda avanzada
-- **Metadatos ricos** con esquemas personalizables
+### 🔧 Tecnologías Utilizadas
+- **TypeScript**: Tipado estático para mayor robustez
+- **Node.js**: Runtime de JavaScript
+- **Express.js**: Framework web
+- **TypeORM**: ORM moderno
+- **PostgreSQL**: Base de datos relacional
+- **Sharp**: Procesamiento de imágenes
+- **FFmpeg**: Procesamiento de video
+- **IPFS**: Almacenamiento descentralizado
 
-### **⚡ Rendimiento y Escalabilidad**
-- **Procesamiento en lote** con control de concurrencia
-- **Optimización automática** según tipo de asset
-- **Compresión inteligente** con múltiples algoritmos
-- **Upload paralelo** a múltiples plataformas
-- **Caché y indexación** para búsquedas rápidas
+## 📦 Instalación
 
-### **🔒 Seguridad y Confiabilidad**
-- **Validación de integridad** con checksums
-- **Escaneo de virus** opcional
-- **Backup automático** de metadatos
-- **Control de acceso** configurable
-- **Logging detallado** para auditoría
+### Prerrequisitos
+- Node.js >= 18.0.0
+- PostgreSQL >= 13.0
+- FFmpeg (para procesamiento de video)
+- npm >= 8.0.0
 
----
+### Pasos de Instalación
 
-## 📦 **Instalación**
-
+1. **Clonar el repositorio**
 ```bash
-# Clonar el repositorio
-git clone https://github.com/metaverso/assets.git
+git clone https://github.com/woldvirtual3d/assets.git
 cd assets
+```
 
-# Instalar dependencias
+2. **Instalar dependencias del sistema principal**
+```bash
 npm install
+```
 
-# Compilar TypeScript
+3. **Instalar dependencias del backend**
+```bash
+cd backend
+npm install
+cd ..
+```
+
+4. **Configurar variables de entorno**
+```bash
+cp env.example .env
+cp backend/.env.example backend/.env
+```
+
+5. **Configurar base de datos**
+```sql
+CREATE DATABASE woldvirtual3d_assets;
+```
+
+6. **Ejecutar migraciones y seeders**
+```bash
+cd backend
+npm run db:migrate
+npm run seed:examples
+cd ..
+```
+
+## 🚀 Uso
+
+### Sistema Modular de Assets
+
+#### Uso Básico
+```typescript
+import { AssetsSystemAdvanced } from './src';
+
+const assetsSystem = new AssetsSystemAdvanced({
+  uploaders: ['ipfs'],
+  compressors: ['gzip'],
+  optimizers: ['sharp'],
+  validators: ['security']
+});
+
+// Procesar un asset
+const result = await assetsSystem.processAsset({
+  file: buffer,
+  type: 'image',
+  options: {
+    quality: 80,
+    format: 'webp'
+  }
+});
+```
+
+#### Uso Avanzado
+```typescript
+// Procesamiento en lotes
+const batchResult = await assetsSystem.processBatch([
+  { file: buffer1, type: 'image' },
+  { file: buffer2, type: 'video' },
+  { file: buffer3, type: 'model' }
+]);
+
+// Análisis de assets
+const analysis = await assetsSystem.analyzeAsset(fileBuffer);
+
+// Optimización inteligente
+const optimized = await assetsSystem.optimizeIntelligently(fileBuffer, {
+  targetSize: 1024 * 1024, // 1MB
+  quality: 0.8
+});
+```
+
+### Backend
+
+#### Desarrollo
+```bash
+cd backend
+npm run dev
+```
+
+#### Producción
+```bash
+cd backend
 npm run build
-
-# Inicializar el sistema
-npm run init
+npm start
 ```
 
----
-
-## 🎯 **Uso Básico**
-
-### **Inicialización**
-```javascript
-const { AssetsSystem } = require('@metaverso/assets');
-
-const assetsSystem = new AssetsSystem();
-await assetsSystem.initialize();
-```
-
-### **Procesamiento de Asset Individual**
-```javascript
-const result = await assetsSystem.processAsset('./model.glb', {
-  optimization: {
-    quality: 85,
-    format: 'glb',
-    maxPolygons: 50000
-  },
-  compression: {
-    algorithm: 'gzip',
-    level: 6
-  },
-  upload: {
-    platform: 'ipfs',
-    public: true,
-    tags: ['character', '3d']
-  }
-});
-
-if (result.success) {
-  console.log(`✅ Asset procesado: ${result.stats.reduction.toFixed(1)}% reducción`);
-  console.log(`🔗 URL: ${result.processedPath}`);
-}
-```
-
-### **Procesamiento en Lote**
-```javascript
-const filePaths = [
-  './assets/models/character.glb',
-  './assets/textures/skin.png',
-  './assets/audio/ambient.mp3'
-];
-
-const results = await assetsSystem.processAssets(filePaths, {
-  batchSize: 5,
-  optimization: { quality: 80 },
-  upload: { platform: 'arweave' }
-});
-
-const successCount = results.filter(r => r.success).length;
-console.log(`✅ ${successCount}/${filePaths.length} procesados exitosamente`);
-```
-
-### **Búsqueda de Assets**
-```javascript
-const assets = await assetsSystem.searchAssets({
-  type: '3d_model',
-  category: 'character',
-  size: { min: 1024 * 1024 }, // > 1MB
-  tags: ['animated'],
-  limit: 20
-});
-
-console.log(`🔍 Encontrados ${assets.length} assets`);
-```
-
----
-
-## 🛠️ **CLI Interactivo**
-
-### **Comandos Principales**
+#### Seeders
 ```bash
-# Inicializar sistema
-metaverso-assets init
-
-# Procesar asset individual
-metaverso-assets process ./model.glb --upload '{"platform": "ipfs"}'
-
-# Procesar directorio completo
-metaverso-assets process-batch ./assets --pattern "**/*.glb"
-
-# Buscar assets
-metaverso-assets search --type "3d_model" --size "1MB-10MB"
-
-# Ver estadísticas
-metaverso-assets stats
-
-# Modo interactivo
-metaverso-assets interactive
+cd backend
+npm run seed:examples    # 4 assets de ejemplo
+npm run seed:full        # 1000 assets con configuración por defecto
+npm run seed:custom -- --count 500 --type MODEL_3D
 ```
 
-### **Opciones de Configuración**
-```bash
-# Procesamiento con configuración personalizada
-metaverso-assets process ./texture.png \
-  --optimization '{"quality": 90, "format": "webp"}' \
-  --compression '{"algorithm": "brotli", "level": 11}' \
-  --upload '{"platform": "arweave", "public": true}'
+## 📚 API Endpoints
+
+### 🔍 Assets
+
+#### Obtener todos los assets
+```http
+GET /api/assets?type=MODEL_3D&minRating=4&page=1&limit=10
 ```
 
----
+#### Assets recomendados
+```http
+GET /api/assets/recommended?limit=10
+```
 
-## 📊 **Tipos de Assets Soportados**
+#### Assets trending
+```http
+GET /api/assets/trending?days=7&limit=10
+```
 
-### **🎮 Modelos 3D**
-- **glTF/GLB**: Formato estándar para web
-- **FBX**: Para animaciones complejas
-- **OBJ**: Para modelos simples
-- **DAE**: Para compatibilidad con Blender
-- **PLY**: Para escaneos 3D
+#### Búsqueda por similitud
+```http
+GET /api/assets/search?q=casa&limit=10
+```
 
-### **🖼️ Texturas e Imágenes**
-- **PNG**: Para transparencias
-- **JPG/JPEG**: Para texturas sin transparencia
-- **WebP**: Para compresión moderna
-- **KTX2**: Para compresión avanzada
-- **Basis**: Para compresión universal
-- **SVG**: Para gráficos vectoriales
+#### Estadísticas detalladas
+```http
+GET /api/assets/stats
+```
 
-### **🎵 Audio**
-- **MP3**: Para música y sonidos largos
-- **WAV**: Para calidad sin pérdida
-- **OGG**: Para mejor compresión
-- **AAC**: Para dispositivos móviles
-- **FLAC**: Para audio de alta calidad
-- **Opus**: Para compresión moderna
+#### Crear asset
+```http
+POST /api/assets
+Content-Type: application/json
 
-### **🎬 Video y Animaciones**
-- **MP4**: Para video web
-- **WebM**: Para compresión moderna
-- **BVH**: Para animaciones de personajes
-
----
-
-## 🔧 **Configuración Avanzada**
-
-### **Archivo de Configuración**
-```json
 {
-  "validation": {
-    "maxFileSize": 104857600,
-    "allowedFormats": ["glb", "png", "mp3"],
-    "virusScan": true
-  },
-  "optimization": {
-    "models": {
-      "maxPolygons": 50000,
-      "enableDraco": true
-    },
-    "textures": {
-      "maxSize": 2048,
-      "format": "webp"
-    }
-  },
-  "upload": {
-    "platforms": {
-      "ipfs": {
-        "endpoint": "https://ipfs.infura.io:5001"
-      },
-      "arweave": {
-        "endpoint": "https://arweave.net"
-      }
-    }
-  }
+  "name": "Casa Moderna Premium",
+  "description": "Modelo 3D de casa moderna con texturas PBR",
+  "type": "MODEL_3D",
+  "fileUrl": "https://assets.example.com/house.fbx",
+  "previewUrl": "https://previews.example.com/house.jpg",
+  "ownerId": "user-123",
+  "tags": ["casa", "moderna", "3d"],
+  "isPublic": true,
+  "allowDownload": true,
+  "allowModification": false,
+  "allowCommercialUse": false
 }
 ```
 
-### **Variables de Entorno**
-```bash
-# IPFS
-IPFS_HOST=ipfs.infura.io
-IPFS_PORT=5001
-IPFS_PROTOCOL=https
+#### Actualizar rating
+```http
+POST /api/assets/:id/rating
+Content-Type: application/json
 
-# Arweave
-ARWEAVE_HOST=arweave.net
-ARWEAVE_PORT=443
-ARWEAVE_PROTOCOL=https
-ARWEAVE_WALLET=your-wallet-key
-
-# AWS S3
-AWS_REGION=us-east-1
-AWS_ACCESS_KEY_ID=your-access-key
-AWS_SECRET_ACCESS_KEY=your-secret-key
-AWS_S3_BUCKET=metaverso-assets
-
-# Almacenamiento local
-LOCAL_STORAGE_PATH=./storage
-
-# Logging
-LOG_LEVEL=info
+{
+  "rating": 4.5
+}
 ```
 
----
+### 🏥 Health Check
 
-## 📈 **Métricas y Monitoreo**
-
-### **Estadísticas del Sistema**
-```javascript
-const stats = await assetsSystem.getStats();
-
-console.log('📊 Estadísticas:');
-console.log(`- Total de assets: ${stats.totalAssets}`);
-console.log(`- Tamaño total: ${formatSize(stats.totalSize)}`);
-console.log(`- Optimización promedio: ${stats.averageOptimization.toFixed(1)}%`);
-console.log(`- Almacenamiento usado: ${formatSize(stats.storageUsed)}`);
-console.log(`- Total de uploads: ${stats.uploads}`);
+#### Estado del sistema
+```http
+GET /health
 ```
 
-### **Métricas por Categoría**
-```javascript
-Object.entries(stats.categories).forEach(([category, count]) => {
-  const percentage = ((count / stats.totalAssets) * 100).toFixed(1);
-  console.log(`${category}: ${count} (${percentage}%)`);
-});
+#### Información de la API
+```http
+GET /api/info
 ```
 
----
-
-## 🔌 **Integración con APIs**
-
-### **REST API**
-```javascript
-// GET /api/assets
-const assets = await fetch('/api/assets?type=3d_model&limit=10');
-
-// POST /api/assets/process
-const result = await fetch('/api/assets/process', {
-  method: 'POST',
-  body: JSON.stringify({
-    file: 'data:application/octet-stream;base64,...',
-    options: { optimization: { quality: 85 } }
-  })
-});
-
-// GET /api/assets/:id
-const asset = await fetch('/api/assets/asset-id-123');
+#### Estadísticas de caché
+```http
+GET /api/cache/stats
 ```
 
-### **WebSocket para Progreso en Tiempo Real**
-```javascript
-const ws = new WebSocket('ws://localhost:3001/ws');
+## 🏗️ Estructura del Proyecto
 
-ws.onmessage = (event) => {
-  const data = JSON.parse(event.data);
-  
-  if (data.type === 'progress') {
-    console.log(`Progreso: ${data.progress.percentage}%`);
+```
+assets/
+├── src/                    # Sistema modular de assets
+│   ├── index.ts           # Punto de entrada principal
+│   ├── manager.ts         # Manager principal
+│   ├── upload/            # Uploaders
+│   │   ├── IPFSUploader.ts
+│   │   └── index.ts
+│   ├── compression/       # Compressors
+│   │   ├── GzipCompressor.ts
+│   │   └── index.ts
+│   ├── optimization/      # Optimizers
+│   │   ├── SharpOptimizer.ts
+│   │   └── index.ts
+│   ├── validation/        # Validators
+│   │   ├── SecurityValidator.ts
+│   │   └── index.ts
+│   └── utils/             # Utilidades
+│       ├── metrics.ts
+│       └── cache.ts
+├── backend/               # Backend profesional
+│   ├── src/
+│   │   ├── controllers/   # Controladores
+│   │   ├── entities/      # Modelos de datos
+│   │   ├── middleware/    # Middleware
+│   │   ├── routes/        # Rutas
+│   │   ├── services/      # Servicios
+│   │   ├── seeders/       # Generadores de datos
+│   │   ├── scripts/       # Scripts CLI
+│   │   ├── utils/         # Utilidades
+│   │   ├── validators/    # Validación
+│   │   ├── database/      # Configuración BD
+│   │   └── index.ts       # Punto de entrada
+│   ├── package.json       # Dependencias del backend
+│   └── README.md          # Documentación del backend
+├── config/                # Configuraciones
+├── models/                # Modelos de ejemplo
+├── scripts/               # Scripts de utilidad
+├── package.json           # Dependencias principales
+├── tsconfig.json          # Configuración TypeScript
+└── README.md              # Este archivo
+```
+
+## 🔧 Configuración
+
+### Variables de Entorno Principales
+
+| Variable | Descripción | Default |
+|----------|-------------|---------|
+| `NODE_ENV` | Ambiente | development |
+| `PORT` | Puerto del servidor | 3000 |
+| `DB_HOST` | Host de PostgreSQL | localhost |
+| `DB_PORT` | Puerto de PostgreSQL | 5432 |
+| `DB_USERNAME` | Usuario de PostgreSQL | postgres |
+| `DB_PASSWORD` | Contraseña de PostgreSQL | - |
+| `DB_DATABASE` | Nombre de la base de datos | woldvirtual3d_assets |
+| `IPFS_ENDPOINT` | Endpoint de IPFS | https://ipfs.infura.io:5001 |
+| `AWS_ACCESS_KEY_ID` | Clave de acceso AWS | - |
+| `AWS_SECRET_ACCESS_KEY` | Clave secreta AWS | - |
+| `AWS_REGION` | Región de AWS | us-east-1 |
+| `AWS_S3_BUCKET` | Bucket de S3 | - |
+
+### Configuración del Sistema Modular
+
+```typescript
+const config = {
+  uploaders: {
+    ipfs: {
+      endpoint: process.env.IPFS_ENDPOINT,
+      timeout: 30000
+    },
+    s3: {
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+      region: process.env.AWS_REGION,
+      bucket: process.env.AWS_S3_BUCKET
+    }
+  },
+  compressors: {
+    gzip: {
+      level: 6,
+      threshold: 1024
+    }
+  },
+  optimizers: {
+    sharp: {
+      quality: 80,
+      format: 'webp'
+    }
+  },
+  validators: {
+    security: {
+      maxFileSize: 100 * 1024 * 1024, // 100MB
+      allowedTypes: ['image', 'video', 'model'],
+      scanForViruses: true
+    }
   }
 };
 ```
 
----
+## 🧪 Testing
 
-## 🧪 **Testing y Desarrollo**
-
-### **Ejecutar Tests**
+### Sistema Modular
 ```bash
-# Tests unitarios
 npm test
+```
 
-# Tests de integración
-npm run test:integration
+### Backend
+```bash
+cd backend
+npm test
+```
 
-# Tests de performance
-npm run test:performance
-
-# Coverage
+### Cobertura
+```bash
+npm run test:coverage
+cd backend
 npm run test:coverage
 ```
 
-### **Ejemplos de Uso**
-```bash
-# Ejemplo básico
-node examples/basic-usage.js
+## 🚀 Despliegue
 
-# Ejemplo avanzado
-node examples/advanced-usage.js
+### Docker Compose Completo
 
-# Ejemplo con CLI
-metaverso-assets interactive
+```yaml
+version: '3.8'
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DB_HOST=postgres
+      - REDIS_HOST=redis
+    depends_on:
+      - postgres
+      - redis
+      - ipfs
+
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: woldvirtual3d_assets
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    volumes:
+      - redis_data:/data
+
+  ipfs:
+    image: ipfs/kubo:latest
+    ports:
+      - "4001:4001"
+      - "5001:5001"
+      - "8080:8080"
+    volumes:
+      - ipfs_data:/data/ipfs
+
+volumes:
+  postgres_data:
+  redis_data:
+  ipfs_data:
 ```
 
----
+## 📊 Métricas y Monitoreo
 
-## 🔮 **Roadmap**
+### Health Checks
+- `GET /health` - Estado general del sistema
+- `GET /api/info` - Información de la API
+- `GET /api/cache/stats` - Estadísticas de caché
 
-### **Q1 2025**
-- [x] Sistema base de gestión de assets
-- [x] Optimización de modelos 3D y texturas
-- [x] Upload a IPFS y Arweave
-- [x] CLI interactivo
-- [ ] Integración con blockchain
-- [ ] Sistema de NFTs automático
+### Logging
+El sistema utiliza Winston para logging estructurado:
+- **Error**: Errores críticos
+- **Warn**: Advertencias
+- **Info**: Información general
+- **Debug**: Información detallada
 
-### **Q2 2025**
-- [ ] Optimización de audio y video
-- [ ] Compresión neural avanzada
-- [ ] Sistema de versionado
-- [ ] API GraphQL
-- [ ] Dashboard web
+## 🤝 Contribución
 
-### **Q3 2025**
-- [ ] IA para optimización automática
-- [ ] Generación de LOD automática
-- [ ] Sistema de colaboración
-- [ ] Marketplace integrado
-- [ ] Realidad aumentada
+1. Fork el proyecto
+2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
+3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abre un Pull Request
 
----
+## 📄 Licencia
 
-## 🤝 **Contribución**
+Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) para detalles.
 
-### **Desarrollo Local**
-```bash
-# Fork y clonar
-git clone https://github.com/your-username/assets.git
-cd assets
+## 🆘 Soporte
 
-# Instalar dependencias
-npm install
+- 📧 Email: support@woldvirtual3d.com
+- 💬 Discord: [WoldVirtual3D Community](https://discord.gg/woldvirtual3d)
+- 📖 Documentación: [docs.woldvirtual3d.com](https://docs.woldvirtual3d.com)
+- 🐛 Issues: [GitHub Issues](https://github.com/woldvirtual3d/assets/issues)
 
-# Configurar pre-commit hooks
-npm run setup:dev
+## 🙏 Agradecimientos
 
-# Ejecutar en modo desarrollo
-npm run dev
-```
-
-### **Guidelines**
-- 📝 **Commits**: Usar Conventional Commits
-- 🧪 **Tests**: Mantener coverage > 80%
-- 📚 **Documentación**: Actualizar README y JSDoc
-- 🔒 **Seguridad**: Seguir OWASP guidelines
-- 🎨 **Código**: Usar Prettier y ESLint
+- [TypeORM](https://typeorm.io/) - ORM moderno
+- [Express.js](https://expressjs.com/) - Framework web
+- [Sharp](https://sharp.pixelplumbing.com/) - Procesamiento de imágenes
+- [FFmpeg](https://ffmpeg.org/) - Procesamiento de video
+- [IPFS](https://ipfs.io/) - Almacenamiento descentralizado
+- [Faker.js](https://fakerjs.dev/) - Generación de datos de prueba
 
 ---
 
-## 📞 **Soporte**
+**Desarrollado con ❤️ por el equipo de WoldVirtual3D**
 
-### **Recursos**
-- 📖 **Documentación**: `/docs`
-- 🐛 **Issues**: GitHub Issues
-- 💬 **Discusiones**: GitHub Discussions
-- 📧 **Email**: assets@metaverso.com
+## 📈 Estado del Proyecto
 
-### **Comunidad**
-- 🐦 **Twitter**: @MetaversoAssets
-- 💬 **Discord**: Metaverso Assets
-- 📺 **YouTube**: Metaverso Dev
-- 📰 **Blog**: blog.metaverso.com
+### ✅ Completado (95%)
+- ✅ Sistema modular de assets
+- ✅ Backend profesional completo
+- ✅ APIs avanzadas
+- ✅ Sistema de caché
+- ✅ Seeders y documentación
+- ✅ Configuración y despliegue
 
----
+### 🔄 En Progreso (5%)
+- 🔄 Tests unitarios y de integración
+- 🔄 Integración completa entre sistemas
+- 🔄 Sistema de autenticación
 
-## 📄 **Licencia**
-
-Este proyecto está licenciado bajo la **MIT License** - ver el archivo [LICENSE](LICENSE) para detalles.
-
----
-
-**Desarrollado con ❤️ por el equipo del Metaverso Web3**
-
-*Última actualización: Junio 2025*  
-*Versión: 1.0.0* 
+### 📋 Próximos Pasos
+1. Implementar tests completos
+2. Agregar sistema de autenticación
+3. Integrar completamente ambos sistemas
+4. Optimizar rendimiento
+5. Desplegar en producción 
