@@ -38,6 +38,14 @@ jobs:
         with:
           fetch-depth: 0
           
+      - name: 🐾 Debug: Listar archivos raíz
+        run: ls -l
+      - name: 🐾 Debug: Listar archivos de dependencias
+        run: |
+          ls -l package.json || true
+          ls -l requirements.txt || true
+          ls -l engine/Cargo.toml || true
+          
       - name: 🔍 Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
@@ -70,6 +78,11 @@ jobs:
       - name: 📥 Checkout
         uses: actions/checkout@v4
         
+      - name: 🐾 Debug: Listar archivos protocol
+        run: |
+          ls -l protocol || true
+          ls -l protocol/contracts || true
+          
       - name: 🔧 Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -142,6 +155,12 @@ jobs:
       - name: 📥 Checkout
         uses: actions/checkout@v4
         
+      - name: 🐾 Debug: Listar archivos de dependencias
+        run: |
+          ls -l package.json || true
+          ls -l requirements.txt || true
+          ls -l engine/Cargo.toml || true
+          
       - name: 🔧 Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -200,6 +219,11 @@ jobs:
       - name: 📥 Checkout
         uses: actions/checkout@v4
         
+      - name: 🐾 Debug: Listar assets y scripts
+        run: |
+          ls -l assets || true
+          ls -l .bin/security || true
+          
       - name: 🔧 Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -241,6 +265,9 @@ jobs:
       - name: 📥 Checkout
         uses: actions/checkout@v4
         
+      - name: 🐾 Debug: Listar scripts de infraestructura
+        run: ls -l .bin/security || true
+        
       - name: 🔧 Setup Security Tools
         run: |
           npm install -g @snyk/cli
@@ -276,6 +303,11 @@ jobs:
       - name: 📥 Checkout
         uses: actions/checkout@v4
         
+      - name: 🐾 Debug: Listar scripts y baseline
+        run: |
+          ls -l .bin/security || true
+          ls -l .secrets.baseline || touch .secrets.baseline
+          
       - name: 📦 Install Secret Scanning Tools
         run: |
           npm install -g trufflehog
@@ -344,10 +376,10 @@ jobs:
           name: security-report
           path: ./reports/security-report.json
           
-      - name: 📢 Security Notifications
-        run: |
-          echo "📢 Enviando notificaciones de seguridad..."
-          node .bin/security/send-security-notifications.js
+      # - name: 📢 Security Notifications
+      #   run: |
+      #     echo "📢 Enviando notificaciones de seguridad..."
+      #     node .bin/security/send-security-notifications.js
 
   # 🚨 CRITICAL ALERTS
   critical-alerts:
@@ -363,7 +395,7 @@ jobs:
           echo "🚨 ALERTA CRÍTICA DE SEGURIDAD DETECTADA!"
           node .bin/security/send-critical-alert.js
           
-      - name: 📢 Emergency Notifications
-        run: |
-          echo "📢 Enviando notificaciones de emergencia..."
-          node .bin/security/send-emergency-notifications.js
+      # - name: 📢 Emergency Notifications
+      #   run: |
+      #     echo "📢 Enviando notificaciones de emergencia..."
+      #     node .bin/security/send-emergency-notifications.js

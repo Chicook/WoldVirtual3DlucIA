@@ -3,7 +3,7 @@
  * @module @types/ui/component
  */
 
-import { ReactNode, CSSProperties } from 'react';
+import React from 'react';
 
 // ============================================================================
 // TIPOS BÁSICOS DE COMPONENTE
@@ -15,7 +15,7 @@ import { ReactNode, CSSProperties } from 'react';
 export type ComponentId = string;
 
 /**
- * Tipos de componentes UI
+ * Tipos de componente
  */
 export enum ComponentType {
   // Componentes básicos
@@ -94,11 +94,11 @@ export enum ComponentType {
  * Estados de componente
  */
 export enum ComponentState {
+  IDLE = 'idle',
   LOADING = 'loading',
-  READY = 'ready',
+  SUCCESS = 'success',
   ERROR = 'error',
   DISABLED = 'disabled',
-  HIDDEN = 'hidden',
   FOCUSED = 'focused',
   HOVERED = 'hovered',
   ACTIVE = 'active',
@@ -127,11 +127,10 @@ export enum ComponentVariant {
   WARNING = 'warning',
   ERROR = 'error',
   INFO = 'info',
-  LIGHT = 'light',
-  DARK = 'dark',
-  OUTLINE = 'outline',
   GHOST = 'ghost',
-  SOLID = 'solid'
+  OUTLINE = 'outline',
+  SOLID = 'solid',
+  TRANSPARENT = 'transparent'
 }
 
 // ============================================================================
@@ -237,7 +236,7 @@ export interface ValidationProps {
  */
 export interface ComponentStyles {
   // Estilos CSS
-  css: CSSProperties;
+  css: React.CSSProperties;
   
   // Clases CSS
   classes: string[];
@@ -349,26 +348,26 @@ export interface BreakpointProps {
  * Estilos de estados
  */
 export interface ComponentStateStyles {
-  default: CSSProperties;
-  hover: CSSProperties;
-  active: CSSProperties;
-  focus: CSSProperties;
-  disabled: CSSProperties;
-  loading: CSSProperties;
-  error: CSSProperties;
-  success: CSSProperties;
+  default: React.CSSProperties;
+  hover: React.CSSProperties;
+  active: React.CSSProperties;
+  focus: React.CSSProperties;
+  disabled: React.CSSProperties;
+  loading: React.CSSProperties;
+  error: React.CSSProperties;
+  success: React.CSSProperties;
 }
 
 /**
  * Estilos responsivos
  */
 export interface ResponsiveStyles {
-  xs?: CSSProperties;
-  sm?: CSSProperties;
-  md?: CSSProperties;
-  lg?: CSSProperties;
-  xl?: CSSProperties;
-  xxl?: CSSProperties;
+  xs?: React.CSSProperties;
+  sm?: React.CSSProperties;
+  md?: React.CSSProperties;
+  lg?: React.CSSProperties;
+  xl?: React.CSSProperties;
+  xxl?: React.CSSProperties;
 }
 
 /**
@@ -500,7 +499,7 @@ export interface TransitionConfig {
  */
 export interface KeyframeConfig {
   name: string;
-  keyframes: Record<string, CSSProperties>;
+  keyframes: Record<string, React.CSSProperties>;
 }
 
 /**
@@ -700,7 +699,7 @@ export interface TableColumn {
   maxWidth?: string;
   sortable?: boolean;
   filterable?: boolean;
-  render?: (value: any, record: any, index: number) => ReactNode;
+  render?: (value: any, record: any, index: number) => React.ReactNode;
   align?: 'left' | 'center' | 'right';
   fixed?: 'left' | 'right';
 }
@@ -1000,7 +999,7 @@ export interface ComponentUtils {
   /**
    * Renderiza componente
    */
-  renderComponent: (component: UIComponent) => ReactNode;
+  renderComponent: (component: UIComponent) => React.ReactNode;
   
   /**
    * Serializa componente

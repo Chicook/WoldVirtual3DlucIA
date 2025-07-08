@@ -19,6 +19,7 @@ platform_config.json
 metaverse_secrets.json
 wcv_token_secrets.json
 lucia_private_config.json
+.secrets.baseline
 
 # Claves de API y tokens
 api_keys/
