@@ -1,9 +1,9 @@
 {
-  "timestamp": "2025-07-07T21:10:19.878Z",
+  "timestamp": "2025-07-08T09:53:22.854Z",
   "results": {
     "total": 34,
-    "passed": 18,
-    "failed": 16,
+    "passed": 17,
+    "failed": 17,
     "errors": [
       {
         "test": "Three.js Library",
@@ -20,7 +20,11 @@
       {
         "test": "WebGL Support",
         "message": "document is not defined",
-        "stack": "ReferenceError: document is not defined\n    at test (C:\\Users\\Usuario\\Desktop\\carpetaparatrabajar\\idecodigo\\WoldVirtual3DlucIA\\test\\system-test-suite.js:135:36)\n    at MetaversoSystemTestSuite.runTest (C:\\Users\\Usuario\\Desktop\\carpetaparatrabajar\\idecodigo\\WoldVirtual3DlucIA\\test\\system-test-suite.js:950:34)\n    at MetaversoSystemTestSuite.runDependencyTests (C:\\Users\\Usuario\\Desktop\\carpetaparatrabajar\\idecodigo\\WoldVirtual3DlucIA\\test\\system-test-suite.js:175:24)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async MetaversoSystemTestSuite.runAllTests (C:\\Users\\Usuario\\Desktop\\carpetaparatrabajar\\idecodigo\\WoldVirtual3DlucIA\\test\\system-test-suite.js:36:13)\n    at async CompleteTestRunner.runBasicTests (C:\\Users\\Usuario\\Desktop\\carpetaparatrabajar\\idecodigo\\WoldVirtual3DlucIA\\test\\run-complete-test-suite.js:85:9)\n    at async CompleteTestRunner.runCompleteTests (C:\\Users\\Usuario\\Desktop\\carpetaparatrabajar\\idecodigo\\WoldVirtual3DlucIA\\test\\run-complete-test-suite.js:55:17)\n    at async main (C:\\Users\\Usuario\\Desktop\\carpetaparatrabajar\\idecodigo\\WoldVirtual3DlucIA\\test\\run-complete-test-suite.js:386:5)"
+        "stack": "ReferenceError: document is not defined\n    at test (/home/runner/work/WoldVirtual3DlucIA/WoldVirtual3DlucIA/test/system-test-suite.js:135:36)\n    at MetaversoSystemTestSuite.runTest (/home/runner/work/WoldVirtual3DlucIA/WoldVirtual3DlucIA/test/system-test-suite.js:950:34)\n    at MetaversoSystemTestSuite.runDependencyTests (/home/runner/work/WoldVirtual3DlucIA/WoldVirtual3DlucIA/test/system-test-suite.js:175:24)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async MetaversoSystemTestSuite.runAllTests (/home/runner/work/WoldVirtual3DlucIA/WoldVirtual3DlucIA/test/system-test-suite.js:36:13)\n    at async CompleteTestRunner.runBasicTests (/home/runner/work/WoldVirtual3DlucIA/WoldVirtual3DlucIA/test/run-complete-test-suite.js:85:9)\n    at async CompleteTestRunner.runCompleteTests (/home/runner/work/WoldVirtual3DlucIA/WoldVirtual3DlucIA/test/run-complete-test-suite.js:55:17)\n    at async main (/home/runner/work/WoldVirtual3DlucIA/WoldVirtual3DlucIA/test/run-complete-test-suite.js:386:5)"
+      },
+      {
+        "test": "WebSocket Support",
+        "message": "WebSocket no disponible"
       },
       {
         "test": "Audio Service Module",
@@ -32,7 +36,7 @@
       },
       {
         "test": "Avatar System Module",
-        "message": "Error en Avatar System: Cannot find package 'three' imported from C:\\Users\\Usuario\\Desktop\\carpetaparatrabajar\\idecodigo\\WoldVirtual3DlucIA\\middlewares\\avatar-generator.js"
+        "message": "Error en Avatar System: Cannot find package 'three' imported from /home/runner/work/WoldVirtual3DlucIA/WoldVirtual3DlucIA/middlewares/avatar-generator.js"
       },
       {
         "test": "Pages System Module",
@@ -48,7 +52,7 @@
       },
       {
         "test": "Avatar-Database Integration",
-        "message": "Error en integración Avatar-Database: Cannot find package 'three' imported from C:\\Users\\Usuario\\Desktop\\carpetaparatrabajar\\idecodigo\\WoldVirtual3DlucIA\\middlewares\\avatar-generator.js"
+        "message": "Error en integración Avatar-Database: Cannot find package 'three' imported from /home/runner/work/WoldVirtual3DlucIA/WoldVirtual3DlucIA/middlewares/avatar-generator.js"
       },
       {
         "test": "Blockchain-Protocol Integration",
@@ -56,7 +60,7 @@
       },
       {
         "test": "Pages-Navigation Integration",
-        "message": "Error en integración Pages-Navigation: Unexpected module status 5. Cannot require() ES Module C:\\Users\\Usuario\\Desktop\\carpetaparatrabajar\\idecodigo\\WoldVirtual3DlucIA\\pages\\metaverso-pages-system.js because it is not yet fully loaded. This may be caused by a race condition if the module is simultaneously dynamically import()-ed via Promise.all(). Try await-ing the import() sequentially in a loop instead. (from C:\\Users\\Usuario\\Desktop\\carpetaparatrabajar\\idecodigo\\WoldVirtual3DlucIA\\test\\system-test-suite.js)\nThis is caused by either a bug in Node.js or incorrect usage of Node.js internals.\nPlease open an issue with this stack trace at https://github.com/nodejs/node/issues\n"
+        "message": "Error en integración Pages-Navigation: Cannot require() ES Module /home/runner/work/WoldVirtual3DlucIA/WoldVirtual3DlucIA/pages/metaverso-pages-system.js in a cycle. (from /home/runner/work/WoldVirtual3DlucIA/WoldVirtual3DlucIA/test/system-test-suite.js)"
       },
       {
         "test": "Complete System Initialization",
@@ -73,14 +77,14 @@
     ],
     "warnings": [],
     "performance": {
-      "moduleLoading": 71.41740000000001,
-      "memoryUsage": 11208
+      "moduleLoading": 41.062996999999996,
+      "memoryUsage": 9768
     }
   },
   "summary": {
     "total": 34,
-    "passed": 18,
-    "failed": 16,
-    "successRate": "52.94"
+    "passed": 17,
+    "failed": 17,
+    "successRate": "50.00"
   }
 }
