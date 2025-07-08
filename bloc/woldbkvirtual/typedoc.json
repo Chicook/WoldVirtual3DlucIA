@@ -1,0 +1,33 @@
+{
+  "entryPoints": ["src/index.ts"],
+  "out": "docs",
+  "exclude": [
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/coverage/**",
+    "**/__tests__/**",
+    "**/*.test.ts",
+    "**/*.spec.ts"
+  ],
+  "theme": "default",
+  "name": "WoldVirtual3D Blockchain API",
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "excludeExternals": true,
+  "includeVersion": true,
+  "categorizeByGroup": true,
+  "categoryOrder": [
+    "Blockchain",
+    "Contracts",
+    "Services",
+    "Utils",
+    "*"
+  ],
+  "readme": "README.md",
+  "gitRevision": "main",
+  "gitRemote": "origin",
+  "validation": {
+    "invalidLink": true,
+    "notExported": true
+  }
+} 
