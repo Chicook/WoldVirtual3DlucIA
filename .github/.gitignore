@@ -68,3 +68,18 @@ debug/
 # Archivos de métricas temporales
 metrics/temp/
 *.metrics.tmp
+
+# Ignorar reportes y archivos generados automáticamente por workflows
+workflows/*-report.json
+workflows/*-report.txt
+workflows/*.log
+workflows/*.baseline
+workflows/*.tmp
+workflows/*.cache
+workflows/*.json
+workflows/*.txt
+
+# Panel de seguridad y artefactos generados
+artifacts/
+security-dashboard.html
+security-dashboard.json

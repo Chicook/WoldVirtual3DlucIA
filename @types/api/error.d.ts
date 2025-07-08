@@ -17,171 +17,140 @@ export type ErrorId = string;
  */
 export enum ErrorCode {
   // Errores de autenticación (1000-1999)
-  UNAUTHORIZED = 1000,
-  INVALID_CREDENTIALS = 1001,
-  TOKEN_EXPIRED = 1002,
-  TOKEN_INVALID = 1003,
-  TOKEN_MISSING = 1004,
-  INSUFFICIENT_PERMISSIONS = 1005,
-  ACCOUNT_LOCKED = 1006,
-  ACCOUNT_DISABLED = 1007,
-  WALLET_NOT_CONNECTED = 1008,
-  WALLET_SIGNATURE_INVALID = 1009,
-  WALLET_ADDRESS_MISMATCH = 1010,
+  AUTH_REQUIRED = 'AUTH_REQUIRED',
+  AUTH_INVALID_TOKEN = 'AUTH_INVALID_TOKEN',
+  AUTH_TOKEN_EXPIRED = 'AUTH_TOKEN_EXPIRED',
+  AUTH_INSUFFICIENT_PERMISSIONS = 'AUTH_INSUFFICIENT_PERMISSIONS',
+  AUTH_WALLET_NOT_CONNECTED = 'AUTH_WALLET_NOT_CONNECTED',
+  AUTH_SIGNATURE_INVALID = 'AUTH_SIGNATURE_INVALID',
   
   // Errores de validación (2000-2999)
-  VALIDATION_ERROR = 2000,
-  REQUIRED_FIELD_MISSING = 2001,
-  INVALID_FORMAT = 2002,
-  INVALID_LENGTH = 2003,
-  INVALID_RANGE = 2004,
-  INVALID_TYPE = 2005,
-  INVALID_VALUE = 2006,
-  DUPLICATE_VALUE = 2007,
-  CONSTRAINT_VIOLATION = 2008,
-  INVALID_EMAIL = 2009,
-  INVALID_PASSWORD = 2010,
-  INVALID_USERNAME = 2011,
-  INVALID_WALLET_ADDRESS = 2012,
-  INVALID_NFT_ID = 2013,
-  INVALID_TRANSACTION_HASH = 2014,
+  VALIDATION_REQUIRED_FIELD = 'VALIDATION_REQUIRED_FIELD',
+  VALIDATION_INVALID_FORMAT = 'VALIDATION_INVALID_FORMAT',
+  VALIDATION_INVALID_VALUE = 'VALIDATION_INVALID_VALUE',
+  VALIDATION_STRING_TOO_LONG = 'VALIDATION_STRING_TOO_LONG',
+  VALIDATION_STRING_TOO_SHORT = 'VALIDATION_STRING_TOO_SHORT',
+  VALIDATION_NUMBER_TOO_LARGE = 'VALIDATION_NUMBER_TOO_LARGE',
+  VALIDATION_NUMBER_TOO_SMALL = 'VALIDATION_NUMBER_TOO_SMALL',
+  VALIDATION_INVALID_EMAIL = 'VALIDATION_INVALID_EMAIL',
+  VALIDATION_INVALID_URL = 'VALIDATION_INVALID_URL',
+  VALIDATION_INVALID_DATE = 'VALIDATION_INVALID_DATE',
   
   // Errores de recursos (3000-3999)
-  RESOURCE_NOT_FOUND = 3000,
-  USER_NOT_FOUND = 3001,
-  AVATAR_NOT_FOUND = 3002,
-  WORLD_NOT_FOUND = 3003,
-  NFT_NOT_FOUND = 3004,
-  TRANSACTION_NOT_FOUND = 3005,
-  FILE_NOT_FOUND = 3006,
-  ASSET_NOT_FOUND = 3007,
-  COLLECTION_NOT_FOUND = 3008,
-  MARKETPLACE_NOT_FOUND = 3009,
-  CHAT_NOT_FOUND = 3010,
+  RESOURCE_NOT_FOUND = 'RESOURCE_NOT_FOUND',
+  RESOURCE_ALREADY_EXISTS = 'RESOURCE_ALREADY_EXISTS',
+  RESOURCE_CONFLICT = 'RESOURCE_CONFLICT',
+  RESOURCE_LOCKED = 'RESOURCE_LOCKED',
+  RESOURCE_DELETED = 'RESOURCE_DELETED',
+  RESOURCE_INVALID_STATE = 'RESOURCE_INVALID_STATE',
   
-  // Errores de conflicto (4000-4999)
-  RESOURCE_CONFLICT = 4000,
-  USER_ALREADY_EXISTS = 4001,
-  AVATAR_ALREADY_EXISTS = 4002,
-  NFT_ALREADY_MINTED = 4003,
-  TRANSACTION_ALREADY_EXISTS = 4004,
-  DUPLICATE_REQUEST = 4005,
-  CONCURRENT_MODIFICATION = 4006,
-  RESOURCE_IN_USE = 4007,
-  WORLD_FULL = 4008,
-  INVENTORY_FULL = 4009,
+  // Errores de usuario (4000-4999)
+  USER_NOT_FOUND = 'USER_NOT_FOUND',
+  USER_ALREADY_EXISTS = 'USER_ALREADY_EXISTS',
+  USER_INACTIVE = 'USER_INACTIVE',
+  USER_BANNED = 'USER_BANNED',
+  USER_QUOTA_EXCEEDED = 'USER_QUOTA_EXCEEDED',
+  USER_PROFILE_INCOMPLETE = 'USER_PROFILE_INCOMPLETE',
   
-  // Errores de límites (5000-5999)
-  RATE_LIMIT_EXCEEDED = 5000,
-  QUOTA_EXCEEDED = 5001,
-  FILE_SIZE_LIMIT = 5002,
-  REQUEST_SIZE_LIMIT = 5003,
-  CONCURRENT_REQUESTS_LIMIT = 5004,
-  SESSION_LIMIT = 5005,
-  API_CALL_LIMIT = 5006,
-  STORAGE_LIMIT = 5007,
-  BANDWIDTH_LIMIT = 5008,
+  // Errores de avatar (5000-5999)
+  AVATAR_NOT_FOUND = 'AVATAR_NOT_FOUND',
+  AVATAR_INVALID_MODEL = 'AVATAR_INVALID_MODEL',
+  AVATAR_CUSTOMIZATION_FAILED = 'AVATAR_CUSTOMIZATION_FAILED',
+  AVATAR_POSITION_INVALID = 'AVATAR_POSITION_INVALID',
+  AVATAR_INVENTORY_FULL = 'AVATAR_INVENTORY_FULL',
+  AVATAR_ITEM_NOT_FOUND = 'AVATAR_ITEM_NOT_FOUND',
   
-  // Errores de blockchain (6000-6999)
-  BLOCKCHAIN_ERROR = 6000,
-  TRANSACTION_FAILED = 6001,
-  INSUFFICIENT_FUNDS = 6002,
-  INSUFFICIENT_GAS = 6003,
-  WRONG_NETWORK = 6004,
-  CONTRACT_ERROR = 6005,
-  NFT_MINTING_FAILED = 6006,
-  NFT_TRANSFER_FAILED = 6007,
-  SMART_CONTRACT_ERROR = 6008,
-  BLOCKCHAIN_NETWORK_ERROR = 6009,
-  WALLET_CONNECTION_ERROR = 6010,
+  // Errores de mundo (6000-6999)
+  WORLD_NOT_FOUND = 'WORLD_NOT_FOUND',
+  WORLD_ACCESS_DENIED = 'WORLD_ACCESS_DENIED',
+  WORLD_FULL = 'WORLD_FULL',
+  WORLD_MAINTENANCE = 'WORLD_MAINTENANCE',
+  WORLD_INVALID_POSITION = 'WORLD_INVALID_POSITION',
+  WORLD_OBJECT_NOT_FOUND = 'WORLD_OBJECT_NOT_FOUND',
+  WORLD_BUILDING_DISABLED = 'WORLD_BUILDING_DISABLED',
   
-  // Errores de metaverso (7000-7999)
-  METAVERSE_ERROR = 7000,
-  WORLD_LOADING_FAILED = 7001,
-  AVATAR_SPAWN_FAILED = 7002,
-  OBJECT_INTERACTION_FAILED = 7003,
-  TELEPORT_FAILED = 7004,
-  BUILDING_FAILED = 7005,
-  SCRIPTING_ERROR = 7006,
-  PHYSICS_ERROR = 7007,
-  RENDERING_ERROR = 7008,
-  AUDIO_ERROR = 7009,
-  NETWORK_SYNC_ERROR = 7010,
+  // Errores de blockchain (7000-7999)
+  BLOCKCHAIN_NETWORK_ERROR = 'BLOCKCHAIN_NETWORK_ERROR',
+  BLOCKCHAIN_TRANSACTION_FAILED = 'BLOCKCHAIN_TRANSACTION_FAILED',
+  BLOCKCHAIN_INSUFFICIENT_FUNDS = 'BLOCKCHAIN_INSUFFICIENT_FUNDS',
+  BLOCKCHAIN_GAS_LIMIT_EXCEEDED = 'BLOCKCHAIN_GAS_LIMIT_EXCEEDED',
+  BLOCKCHAIN_CONTRACT_ERROR = 'BLOCKCHAIN_CONTRACT_ERROR',
+  BLOCKCHAIN_NFT_NOT_FOUND = 'BLOCKCHAIN_NFT_NOT_FOUND',
+  BLOCKCHAIN_NFT_ALREADY_MINTED = 'BLOCKCHAIN_NFT_ALREADY_MINTED',
+  BLOCKCHAIN_WALLET_NOT_SUPPORTED = 'BLOCKCHAIN_WALLET_NOT_SUPPORTED',
   
   // Errores de marketplace (8000-8999)
-  MARKETPLACE_ERROR = 8000,
-  LISTING_FAILED = 8001,
-  PURCHASE_FAILED = 8002,
-  BID_FAILED = 8003,
-  OFFER_FAILED = 8004,
-  PAYMENT_FAILED = 8005,
-  ESCROW_ERROR = 8006,
-  ROYALTY_ERROR = 8007,
-  AUCTION_ERROR = 8008,
-  TRADING_ERROR = 8009,
+  MARKETPLACE_LISTING_NOT_FOUND = 'MARKETPLACE_LISTING_NOT_FOUND',
+  MARKETPLACE_INSUFFICIENT_BALANCE = 'MARKETPLACE_INSUFFICIENT_BALANCE',
+  MARKETPLACE_AUCTION_ENDED = 'MARKETPLACE_AUCTION_ENDED',
+  MARKETPLACE_BID_TOO_LOW = 'MARKETPLACE_BID_TOO_LOW',
+  MARKETPLACE_OFFER_EXPIRED = 'MARKETPLACE_OFFER_EXPIRED',
+  MARKETPLACE_TRADE_FAILED = 'MARKETPLACE_TRADE_FAILED',
   
-  // Errores de sistema (9000-9999)
-  INTERNAL_SERVER_ERROR = 9000,
-  DATABASE_ERROR = 9001,
-  CACHE_ERROR = 9002,
-  QUEUE_ERROR = 9003,
-  EXTERNAL_SERVICE_ERROR = 9004,
-  CONFIGURATION_ERROR = 9005,
-  ENCRYPTION_ERROR = 9006,
-  DECRYPTION_ERROR = 9007,
-  COMPRESSION_ERROR = 9008,
-  DECOMPRESSION_ERROR = 9009,
+  // Errores de chat (9000-9999)
+  CHAT_ROOM_NOT_FOUND = 'CHAT_ROOM_NOT_FOUND',
+  CHAT_MESSAGE_TOO_LONG = 'CHAT_MESSAGE_TOO_LONG',
+  CHAT_RATE_LIMIT_EXCEEDED = 'CHAT_RATE_LIMIT_EXCEEDED',
+  CHAT_USER_MUTED = 'CHAT_USER_MUTED',
+  CHAT_USER_BANNED = 'CHAT_USER_BANNED',
+  CHAT_ATTACHMENT_TOO_LARGE = 'CHAT_ATTACHMENT_TOO_LARGE',
   
-  // Errores de red (10000-10999)
-  NETWORK_ERROR = 10000,
-  CONNECTION_TIMEOUT = 10001,
-  REQUEST_TIMEOUT = 10002,
-  DNS_ERROR = 10003,
-  SSL_ERROR = 10004,
-  PROXY_ERROR = 10005,
-  GATEWAY_ERROR = 10006,
-  SERVICE_UNAVAILABLE = 10007,
-  BANDWIDTH_ERROR = 10008,
-  LATENCY_ERROR = 10009,
+  // Errores de archivos (10000-10999)
+  FILE_UPLOAD_FAILED = 'FILE_UPLOAD_FAILED',
+  FILE_TOO_LARGE = 'FILE_TOO_LARGE',
+  FILE_INVALID_TYPE = 'FILE_INVALID_TYPE',
+  FILE_NOT_FOUND = 'FILE_NOT_FOUND',
+  FILE_CORRUPTED = 'FILE_CORRUPTED',
+  FILE_ACCESS_DENIED = 'FILE_ACCESS_DENIED',
   
-  // Errores de seguridad (11000-11999)
-  SECURITY_ERROR = 11000,
-  CSRF_ERROR = 11001,
-  XSS_ERROR = 11002,
-  SQL_INJECTION_ERROR = 11003,
-  BRUTE_FORCE_ERROR = 11004,
-  DDOS_ERROR = 11005,
-  MALWARE_ERROR = 11006,
-  PHISHING_ERROR = 11007,
-  SPOOFING_ERROR = 11008,
-  MAN_IN_THE_MIDDLE_ERROR = 11009,
+  // Errores de rate limiting (11000-11999)
+  RATE_LIMIT_EXCEEDED = 'RATE_LIMIT_EXCEEDED',
+  RATE_LIMIT_TOO_MANY_REQUESTS = 'RATE_LIMIT_TOO_MANY_REQUESTS',
+  RATE_LIMIT_ACCOUNT_SUSPENDED = 'RATE_LIMIT_ACCOUNT_SUSPENDED',
   
-  // Errores de integración (12000-12999)
-  INTEGRATION_ERROR = 12000,
-  API_INTEGRATION_ERROR = 12001,
-  WEBHOOK_ERROR = 12002,
-  OAUTH_ERROR = 12003,
-  PAYMENT_GATEWAY_ERROR = 12004,
-  ANALYTICS_ERROR = 12005,
-  NOTIFICATION_ERROR = 12006,
-  STORAGE_ERROR = 12007,
-  CDN_ERROR = 12008,
-  EMAIL_ERROR = 12009,
+  // Errores de servidor (12000-12999)
+  SERVER_INTERNAL_ERROR = 'SERVER_INTERNAL_ERROR',
+  SERVER_DATABASE_ERROR = 'SERVER_DATABASE_ERROR',
+  SERVER_CACHE_ERROR = 'SERVER_CACHE_ERROR',
+  SERVER_EXTERNAL_SERVICE_ERROR = 'SERVER_EXTERNAL_SERVICE_ERROR',
+  SERVER_MAINTENANCE = 'SERVER_MAINTENANCE',
+  SERVER_OVERLOADED = 'SERVER_OVERLOADED',
   
-  // Errores de mantenimiento (13000-13999)
-  MAINTENANCE_ERROR = 13000,
-  SYSTEM_MAINTENANCE = 13001,
-  DATABASE_MAINTENANCE = 13002,
-  NETWORK_MAINTENANCE = 13003,
-  UPGRADE_ERROR = 13004,
-  MIGRATION_ERROR = 13005,
-  BACKUP_ERROR = 13006,
-  RESTORE_ERROR = 13007,
-  CLEANUP_ERROR = 13008,
-  OPTIMIZATION_ERROR = 13009,
+  // Errores de red (13000-13999)
+  NETWORK_TIMEOUT = 'NETWORK_TIMEOUT',
+  NETWORK_CONNECTION_FAILED = 'NETWORK_CONNECTION_FAILED',
+  NETWORK_DNS_ERROR = 'NETWORK_DNS_ERROR',
+  NETWORK_SSL_ERROR = 'NETWORK_SSL_ERROR',
+  
+  // Errores de configuración (14000-14999)
+  CONFIG_MISSING = 'CONFIG_MISSING',
+  CONFIG_INVALID = 'CONFIG_INVALID',
+  CONFIG_ENVIRONMENT_ERROR = 'CONFIG_ENVIRONMENT_ERROR',
   
   // Errores desconocidos (99999)
-  UNKNOWN_ERROR = 99999
+  UNKNOWN_ERROR = 'UNKNOWN_ERROR'
+}
+
+/**
+ * Categorías de error
+ */
+export enum ErrorCategory {
+  AUTHENTICATION = 'authentication',
+  AUTHORIZATION = 'authorization',
+  VALIDATION = 'validation',
+  RESOURCE = 'resource',
+  USER = 'user',
+  AVATAR = 'avatar',
+  WORLD = 'world',
+  BLOCKCHAIN = 'blockchain',
+  MARKETPLACE = 'marketplace',
+  CHAT = 'chat',
+  FILE = 'file',
+  RATE_LIMIT = 'rate_limit',
+  SERVER = 'server',
+  NETWORK = 'network',
+  CONFIGURATION = 'configuration',
+  UNKNOWN = 'unknown'
 }
 
 /**
@@ -194,168 +163,96 @@ export enum ErrorSeverity {
   CRITICAL = 'critical'
 }
 
-/**
- * Categorías de error
- */
-export enum ErrorCategory {
-  AUTHENTICATION = 'authentication',
-  AUTHORIZATION = 'authorization',
-  VALIDATION = 'validation',
-  RESOURCE = 'resource',
-  CONFLICT = 'conflict',
-  LIMIT = 'limit',
-  BLOCKCHAIN = 'blockchain',
-  METAVERSE = 'metaverse',
-  MARKETPLACE = 'marketplace',
-  SYSTEM = 'system',
-  NETWORK = 'network',
-  SECURITY = 'security',
-  INTEGRATION = 'integration',
-  MAINTENANCE = 'maintenance',
-  UNKNOWN = 'unknown'
-}
-
 // ============================================================================
 // INTERFACES PRINCIPALES
 // ============================================================================
 
 /**
- * Error de API
+ * Error base del sistema
  */
-export interface APIError {
+export interface BaseError {
   id: ErrorId;
   code: ErrorCode;
-  message: string;
-  description?: string;
-  details?: string;
-  field?: string;
-  value?: any;
-  suggestions?: string[];
-  severity: ErrorSeverity;
   category: ErrorCategory;
-  
-  // Información de contexto
-  context: ErrorContext;
-  
-  // Información de stack
-  stack?: string;
-  
-  // Información de causa
-  cause?: APIError;
-  
-  // Metadatos
-  metadata: ErrorMetadata;
-  
-  // Información de seguimiento
-  trace: ErrorTrace;
+  severity: ErrorSeverity;
+  message: string;
+  details?: string;
+  timestamp: number;
+  requestId?: string;
+  userId?: string;
+  sessionId?: string;
+  context?: ErrorContext;
+  metadata?: Record<string, any>;
 }
 
 /**
  * Contexto del error
  */
 export interface ErrorContext {
-  requestId?: string;
-  userId?: string;
-  sessionId?: string;
-  ipAddress?: string;
-  userAgent?: string;
-  endpoint?: string;
+  url?: string;
   method?: string;
   params?: Record<string, any>;
   headers?: Record<string, string>;
   body?: any;
-  timestamp: number;
-  environment: string;
-  version: string;
-  custom?: Record<string, any>;
+  ipAddress?: string;
+  userAgent?: string;
+  stack?: string;
+  cause?: BaseError;
 }
 
 /**
- * Metadatos del error
+ * Error de API
  */
-export interface ErrorMetadata {
-  retryable: boolean;
-  retryCount?: number;
-  maxRetries?: number;
-  retryDelay?: number;
-  timeout?: number;
-  priority: number;
-  tags: string[];
-  labels: Record<string, string>;
-  custom?: Record<string, any>;
-}
-
-/**
- * Trazabilidad del error
- */
-export interface ErrorTrace {
-  traceId: string;
-  spanId: string;
-  parentSpanId?: string;
-  service: string;
-  operation: string;
-  duration?: number;
-  startTime: number;
-  endTime?: number;
-  steps: ErrorTraceStep[];
-}
-
-/**
- * Paso de trazabilidad
- */
-export interface ErrorTraceStep {
-  id: string;
-  name: string;
+export interface APIError extends BaseError {
+  status: number;
+  title: string;
   type: string;
-  startTime: number;
-  endTime?: number;
-  duration?: number;
-  status: 'success' | 'error' | 'timeout';
-  error?: string;
-  metadata?: Record<string, any>;
+  instance?: string;
+  errors?: ValidationError[];
 }
 
-// ============================================================================
-// TIPOS DE ERROR ESPECÍFICOS
-// ============================================================================
+/**
+ * Error de validación
+ */
+export interface ValidationError {
+  field: string;
+  message: string;
+  code: string;
+  value?: any;
+  constraints?: Record<string, any>;
+  path?: string[];
+}
 
 /**
  * Error de autenticación
  */
-export interface AuthenticationError extends APIError {
-  category: ErrorCategory.AUTHENTICATION;
+export interface AuthError extends BaseError {
   authType?: string;
-  authMethod?: string;
-  challenge?: string;
+  scopes?: string[];
+  permissions?: string[];
+  tokenType?: string;
   expiresAt?: number;
 }
 
 /**
  * Error de autorización
  */
-export interface AuthorizationError extends APIError {
-  category: ErrorCategory.AUTHORIZATION;
-  requiredPermissions?: string[];
-  requiredRoles?: string[];
-  requiredScopes?: string[];
+export interface AuthorizationError extends BaseError {
+  requiredPermissions: string[];
+  requiredRoles: string[];
+  userPermissions: string[];
+  userRoles: string[];
   resource?: string;
   action?: string;
 }
 
 /**
- * Error de validación
+ * Error de validación de datos
  */
-export interface ValidationError extends APIError {
-  category: ErrorCategory.VALIDATION;
+export interface ValidationError extends BaseError {
   field: string;
-  value: any;
-  expectedType?: string;
-  expectedFormat?: string;
-  expectedRange?: {
-    min?: number;
-    max?: number;
-  };
-  constraints?: string[];
+  value?: any;
+  constraints: Record<string, any>;
   violations: ValidationViolation[];
 }
 
@@ -363,275 +260,140 @@ export interface ValidationError extends APIError {
  * Violación de validación
  */
 export interface ValidationViolation {
-  field: string;
-  value: any;
   constraint: string;
   message: string;
-  code: string;
+  value?: any;
+  params?: Record<string, any>;
 }
 
 /**
- * Error de recurso no encontrado
+ * Error de recurso
  */
-export interface ResourceNotFoundError extends APIError {
-  category: ErrorCategory.RESOURCE;
+export interface ResourceError extends BaseError {
   resourceType: string;
   resourceId: string;
-  resourceName?: string;
-  searchCriteria?: Record<string, any>;
+  action: string;
+  currentState?: string;
+  expectedState?: string;
 }
 
 /**
- * Error de conflicto de recursos
+ * Error de usuario
  */
-export interface ResourceConflictError extends APIError {
-  category: ErrorCategory.CONFLICT;
-  resourceType: string;
-  resourceId: string;
-  conflictingField?: string;
-  conflictingValue?: any;
-  resolution?: string;
+export interface UserError extends BaseError {
+  userId: string;
+  action: string;
+  userState: string;
+  restrictions?: string[];
 }
 
 /**
- * Error de límite excedido
+ * Error de avatar
  */
-export interface LimitExceededError extends APIError {
-  category: ErrorCategory.LIMIT;
-  limitType: string;
-  currentValue: number;
-  limitValue: number;
-  resetTime?: number;
-  window?: number;
+export interface AvatarError extends BaseError {
+  avatarId: string;
+  action: string;
+  avatarState: string;
+  position?: {
+    x: number;
+    y: number;
+    z: number;
+    worldId: string;
+  };
+}
+
+/**
+ * Error de mundo
+ */
+export interface WorldError extends BaseError {
+  worldId: string;
+  action: string;
+  worldState: string;
+  playerCount: number;
+  maxPlayers: number;
+  permissions?: string[];
 }
 
 /**
  * Error de blockchain
  */
-export interface BlockchainError extends APIError {
-  category: ErrorCategory.BLOCKCHAIN;
+export interface BlockchainError extends BaseError {
   network: string;
-  chainId: number;
   transactionHash?: string;
-  blockNumber?: number;
   contractAddress?: string;
   method?: string;
   gasUsed?: number;
   gasLimit?: number;
-  gasPrice?: string;
   errorData?: string;
 }
 
 /**
- * Error del metaverso
+ * Error de marketplace
  */
-export interface MetaverseError extends APIError {
-  category: ErrorCategory.METAVERSE;
-  worldId?: string;
-  avatarId?: string;
-  objectId?: string;
-  interactionType?: string;
-  physicsData?: any;
-  renderingData?: any;
-  audioData?: any;
-}
-
-/**
- * Error del marketplace
- */
-export interface MarketplaceError extends APIError {
-  category: ErrorCategory.MARKETPLACE;
+export interface MarketplaceError extends BaseError {
   listingId?: string;
   nftId?: string;
-  buyerId?: string;
-  sellerId?: string;
-  amount?: string;
+  action: string;
+  price?: string;
   currency?: string;
-  paymentMethod?: string;
-  escrowId?: string;
+  balance?: string;
 }
 
 /**
- * Error del sistema
+ * Error de chat
  */
-export interface SystemError extends APIError {
-  category: ErrorCategory.SYSTEM;
-  component: string;
+export interface ChatError extends BaseError {
+  roomId?: string;
+  messageId?: string;
+  action: string;
+  content?: string;
+  attachments?: string[];
+}
+
+/**
+ * Error de archivo
+ */
+export interface FileError extends BaseError {
+  fileId?: string;
+  fileName?: string;
+  fileSize?: number;
+  fileType?: string;
+  action: string;
+  maxSize?: number;
+  allowedTypes?: string[];
+}
+
+/**
+ * Error de rate limiting
+ */
+export interface RateLimitError extends BaseError {
+  limit: number;
+  remaining: number;
+  reset: number;
+  retryAfter: number;
+  window: number;
+}
+
+/**
+ * Error de servidor
+ */
+export interface ServerError extends BaseError {
+  service: string;
   operation: string;
-  systemCode?: string;
-  systemMessage?: string;
-  technicalDetails?: string;
+  retryable: boolean;
+  retryAfter?: number;
+  fallback?: string;
 }
 
 /**
  * Error de red
  */
-export interface NetworkError extends APIError {
-  category: ErrorCategory.NETWORK;
-  url?: string;
-  method?: string;
-  statusCode?: number;
-  responseTime?: number;
-  retryCount?: number;
-  connectionType?: string;
-}
-
-/**
- * Error de seguridad
- */
-export interface SecurityError extends APIError {
-  category: ErrorCategory.SECURITY;
-  threatType: string;
-  threatLevel: 'low' | 'medium' | 'high' | 'critical';
-  source?: string;
-  target?: string;
-  attackVector?: string;
-  mitigation?: string;
-}
-
-// ============================================================================
-// TIPOS DE MANEJO DE ERRORES
-// ============================================================================
-
-/**
- * Configuración de manejo de errores
- */
-export interface ErrorHandlingConfig {
-  enabled: boolean;
-  logErrors: boolean;
-  reportErrors: boolean;
-  retryErrors: boolean;
-  maxRetries: number;
-  retryDelay: number;
+export interface NetworkError extends BaseError {
+  endpoint: string;
   timeout: number;
-  fallback?: ErrorFallback;
-  handlers: ErrorHandler[];
-}
-
-/**
- * Fallback de error
- */
-export interface ErrorFallback {
-  enabled: boolean;
-  response: any;
-  statusCode: number;
-  headers?: Record<string, string>;
-}
-
-/**
- * Manejador de errores
- */
-export interface ErrorHandler {
-  id: string;
-  name: string;
-  type: ErrorHandlerType;
-  enabled: boolean;
-  priority: number;
-  conditions: ErrorCondition[];
-  actions: ErrorAction[];
-}
-
-/**
- * Tipos de manejadores
- */
-export enum ErrorHandlerType {
-  LOGGER = 'logger',
-  NOTIFIER = 'notifier',
-  RETRY = 'retry',
-  FALLBACK = 'fallback',
-  CUSTOM = 'custom'
-}
-
-/**
- * Condición de error
- */
-export interface ErrorCondition {
-  field: 'code' | 'category' | 'severity' | 'field' | 'message';
-  operator: 'equals' | 'contains' | 'startsWith' | 'endsWith' | 'regex' | 'range';
-  value: any;
-  logicalOperator?: 'and' | 'or';
-}
-
-/**
- * Acción de error
- */
-export interface ErrorAction {
-  type: 'log' | 'notify' | 'retry' | 'fallback' | 'custom';
-  config: Record<string, any>;
-  delay?: number;
-  maxExecutions?: number;
-}
-
-/**
- * Respuesta de error
- */
-export interface ErrorResponse {
-  success: false;
-  error: APIError;
-  timestamp: number;
-  requestId: string;
-  path: string;
-  method: string;
-  version: string;
-}
-
-// ============================================================================
-// TIPOS DE LOGGING
-// ============================================================================
-
-/**
- * Log de error
- */
-export interface ErrorLog {
-  id: string;
-  error: APIError;
-  timestamp: number;
-  level: 'debug' | 'info' | 'warn' | 'error' | 'fatal';
-  logger: string;
-  message: string;
-  context: Record<string, any>;
-  tags: string[];
-}
-
-/**
- * Configuración de logging
- */
-export interface ErrorLoggingConfig {
-  enabled: boolean;
-  level: 'debug' | 'info' | 'warn' | 'error' | 'fatal';
-  format: 'json' | 'text' | 'structured';
-  destination: 'console' | 'file' | 'database' | 'external';
-  retention: number;
-  compression: boolean;
-  encryption: boolean;
-}
-
-// ============================================================================
-// TIPOS DE NOTIFICACIÓN
-// ============================================================================
-
-/**
- * Notificación de error
- */
-export interface ErrorNotification {
-  id: string;
-  error: APIError;
-  recipients: string[];
-  channels: NotificationChannel[];
-  priority: 'low' | 'medium' | 'high' | 'urgent';
-  scheduledAt?: number;
-  sentAt?: number;
-  status: 'pending' | 'sent' | 'failed' | 'delivered';
-}
-
-/**
- * Canal de notificación
- */
-export interface NotificationChannel {
-  type: 'email' | 'sms' | 'push' | 'slack' | 'discord' | 'webhook';
-  config: Record<string, any>;
-  template?: string;
-  variables?: Record<string, any>;
+  retries: number;
+  lastAttempt: number;
+  nextRetry?: number;
 }
 
 // ============================================================================
@@ -639,42 +401,175 @@ export interface NotificationChannel {
 // ============================================================================
 
 /**
- * Utilidades de error
+ * Información de debugging
+ */
+export interface DebugInfo {
+  requestId: string;
+  timestamp: number;
+  environment: string;
+  version: string;
+  build: string;
+  stack: string;
+  memory: {
+    used: number;
+    total: number;
+    heapUsed: number;
+    heapTotal: number;
+  };
+  performance: {
+    duration: number;
+    cpu: number;
+    memory: number;
+  };
+}
+
+/**
+ * Información de reporte
+ */
+export interface ErrorReport {
+  error: BaseError;
+  debug: DebugInfo;
+  user: {
+    id?: string;
+    username?: string;
+    email?: string;
+    ipAddress?: string;
+    userAgent?: string;
+  };
+  session: {
+    id?: string;
+    startTime?: number;
+    duration?: number;
+  };
+  system: {
+    os: string;
+    browser?: string;
+    device?: string;
+    screen?: {
+      width: number;
+      height: number;
+    };
+  };
+}
+
+/**
+ * Configuración de manejo de errores
+ */
+export interface ErrorHandlerConfig {
+  logErrors: boolean;
+  reportErrors: boolean;
+  showUserFriendlyMessages: boolean;
+  includeStackTraces: boolean;
+  maxErrorLength: number;
+  retryConfig: {
+    maxRetries: number;
+    retryDelay: number;
+    backoffMultiplier: number;
+  };
+  rateLimitConfig: {
+    maxErrorsPerMinute: number;
+    maxErrorsPerHour: number;
+    blockDuration: number;
+  };
+}
+
+/**
+ * Utilidades de manejo de errores
  */
 export interface ErrorUtils {
   /**
-   * Crea error de API
+   * Crea error base
    */
   createError: (
     code: ErrorCode,
     message: string,
-    context?: Partial<ErrorContext>
+    category?: ErrorCategory,
+    severity?: ErrorSeverity
+  ) => BaseError;
+  
+  /**
+   * Crea error de API
+   */
+  createAPIError: (
+    code: ErrorCode,
+    message: string,
+    status: number,
+    title?: string
   ) => APIError;
+  
+  /**
+   * Crea error de validación
+   */
+  createValidationError: (
+    field: string,
+    message: string,
+    value?: any,
+    constraints?: Record<string, any>
+  ) => ValidationError;
+  
+  /**
+   * Crea error de autenticación
+   */
+  createAuthError: (
+    code: ErrorCode,
+    message: string,
+    authType?: string
+  ) => AuthError;
+  
+  /**
+   * Crea error de autorización
+   */
+  createAuthorizationError: (
+    requiredPermissions: string[],
+    userPermissions: string[],
+    resource?: string,
+    action?: string
+  ) => AuthorizationError;
+  
+  /**
+   * Crea error de recurso
+   */
+  createResourceError: (
+    resourceType: string,
+    resourceId: string,
+    action: string,
+    message?: string
+  ) => ResourceError;
+  
+  /**
+   * Crea error de rate limiting
+   */
+  createRateLimitError: (
+    limit: number,
+    remaining: number,
+    reset: number,
+    retryAfter: number
+  ) => RateLimitError;
   
   /**
    * Valida error
    */
-  validateError: (error: APIError) => boolean;
+  validateError: (error: BaseError) => boolean;
   
   /**
    * Serializa error
    */
-  serializeError: (error: APIError) => string;
+  serializeError: (error: BaseError) => string;
   
   /**
    * Deserializa error
    */
-  deserializeError: (data: string) => APIError;
+  deserializeError: (data: string) => BaseError;
   
   /**
    * Clona error
    */
-  cloneError: (error: APIError) => APIError;
+  cloneError: (error: BaseError) => BaseError;
   
   /**
    * Combina errores
    */
-  mergeErrors: (errors: APIError[]) => APIError;
+  mergeErrors: (errors: BaseError[]) => BaseError;
   
   /**
    * Genera ID de error
@@ -682,59 +577,75 @@ export interface ErrorUtils {
   generateErrorId: () => ErrorId;
   
   /**
-   * Obtiene categoría por código
-   */
-  getCategoryByCode: (code: ErrorCode) => ErrorCategory;
-  
-  /**
-   * Obtiene severidad por código
-   */
-  getSeverityByCode: (code: ErrorCode) => ErrorSeverity;
-  
-  /**
    * Verifica si es error recuperable
    */
-  isRecoverableError: (error: APIError) => boolean;
+  isRecoverableError: (error: BaseError) => boolean;
   
   /**
    * Verifica si es error de red
    */
-  isNetworkError: (error: APIError) => boolean;
+  isNetworkError: (error: BaseError) => boolean;
   
   /**
-   * Verifica si es error de autenticación
+   * Verifica si es error de servidor
    */
-  isAuthenticationError: (error: APIError) => boolean;
+  isServerError: (error: BaseError) => boolean;
   
   /**
-   * Verifica si es error de autorización
+   * Verifica si es error de cliente
    */
-  isAuthorizationError: (error: APIError) => boolean;
+  isClientError: (error: BaseError) => boolean;
   
   /**
-   * Verifica si es error de validación
+   * Obtiene mensaje amigable para el usuario
    */
-  isValidationError: (error: APIError) => boolean;
+  getUserFriendlyMessage: (error: BaseError) => string;
   
   /**
-   * Verifica si es error de blockchain
+   * Obtiene sugerencias de solución
    */
-  isBlockchainError: (error: APIError) => boolean;
+  getSuggestions: (error: BaseError) => string[];
   
   /**
-   * Formatea error para usuario
+   * Registra error
    */
-  formatForUser: (error: APIError) => string;
+  logError: (error: BaseError, context?: Record<string, any>) => void;
   
   /**
-   * Formatea error para desarrollador
+   * Reporta error
    */
-  formatForDeveloper: (error: APIError) => string;
+  reportError: (error: BaseError, report?: ErrorReport) => Promise<void>;
   
   /**
-   * Formatea error para logging
+   * Maneja error
    */
-  formatForLogging: (error: APIError) => string;
+  handleError: (error: BaseError, config?: ErrorHandlerConfig) => void;
+}
+
+// ============================================================================
+// TIPOS DE EVENTOS
+// ============================================================================
+
+/**
+ * Evento de error
+ */
+export interface ErrorEvent {
+  type: 'error_occurred' | 'error_handled' | 'error_reported' | 'error_resolved';
+  error: BaseError;
+  timestamp: number;
+  userId?: string;
+  sessionId?: string;
+  metadata?: Record<string, any>;
+}
+
+/**
+ * Listener de errores
+ */
+export interface ErrorListener {
+  onError: (event: ErrorEvent) => void;
+  onErrorHandled: (event: ErrorEvent) => void;
+  onErrorReported: (event: ErrorEvent) => void;
+  onErrorResolved: (event: ErrorEvent) => void;
 }
 
 // ============================================================================
@@ -743,40 +654,34 @@ export interface ErrorUtils {
 
 export type {
   ErrorId,
-  APIError,
+  BaseError,
   ErrorContext,
-  ErrorMetadata,
-  ErrorTrace,
-  ErrorTraceStep,
-  AuthenticationError,
+  APIError,
+  AuthError,
   AuthorizationError,
   ValidationError,
   ValidationViolation,
-  ResourceNotFoundError,
-  ResourceConflictError,
-  LimitExceededError,
+  ResourceError,
+  UserError,
+  AvatarError,
+  WorldError,
   BlockchainError,
-  MetaverseError,
   MarketplaceError,
-  SystemError,
+  ChatError,
+  FileError,
+  RateLimitError,
+  ServerError,
   NetworkError,
-  SecurityError,
-  ErrorHandlingConfig,
-  ErrorFallback,
-  ErrorHandler,
-  ErrorCondition,
-  ErrorAction,
-  ErrorResponse,
-  ErrorLog,
-  ErrorLoggingConfig,
-  ErrorNotification,
-  NotificationChannel,
-  ErrorUtils
+  DebugInfo,
+  ErrorReport,
+  ErrorHandlerConfig,
+  ErrorUtils,
+  ErrorEvent,
+  ErrorListener
 };
 
 export {
   ErrorCode,
-  ErrorSeverity,
   ErrorCategory,
-  ErrorHandlerType
+  ErrorSeverity
 }; 

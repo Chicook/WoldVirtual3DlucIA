@@ -1,5 +1,12 @@
-# Ignorar archivos temporales y de sistema
+# Ignorar reportes y archivos generados automáticamente
+*.json
+*.txt
 *.log
+*.baseline
+*.report
 *.tmp
+*.cache
+
+# Mantener solo scripts fuente y README
 .DS_Store
 Thumbs.db 

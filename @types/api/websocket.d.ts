@@ -19,11 +19,12 @@ export enum WebSocketState {
   CONNECTING = 'connecting',
   OPEN = 'open',
   CLOSING = 'closing',
-  CLOSED = 'closed'
+  CLOSED = 'closed',
+  ERROR = 'error'
 }
 
 /**
- * Tipos de mensajes WebSocket
+ * Tipos de mensaje WebSocket
  */
 export enum WebSocketMessageType {
   // Mensajes de conexión
@@ -31,67 +32,64 @@ export enum WebSocketMessageType {
   DISCONNECT = 'disconnect',
   PING = 'ping',
   PONG = 'pong',
-  HEARTBEAT = 'heartbeat',
   
   // Mensajes de autenticación
   AUTH = 'auth',
   AUTH_SUCCESS = 'auth_success',
-  AUTH_FAILED = 'auth_failed',
+  AUTH_ERROR = 'auth_error',
+  
+  // Mensajes de usuario
+  USER_JOIN = 'user_join',
+  USER_LEAVE = 'user_leave',
+  USER_UPDATE = 'user_update',
+  USER_STATUS = 'user_status',
+  
+  // Mensajes de avatar
+  AVATAR_MOVE = 'avatar_move',
+  AVATAR_ANIMATE = 'avatar_animate',
+  AVATAR_INTERACT = 'avatar_interact',
+  AVATAR_CUSTOMIZE = 'avatar_customize',
   
   // Mensajes de mundo
   WORLD_JOIN = 'world_join',
   WORLD_LEAVE = 'world_leave',
   WORLD_UPDATE = 'world_update',
-  WORLD_SYNC = 'world_sync',
-  
-  // Mensajes de avatar
-  AVATAR_UPDATE = 'avatar_update',
-  AVATAR_MOVE = 'avatar_move',
-  AVATAR_ANIMATE = 'avatar_animate',
-  AVATAR_INTERACT = 'avatar_interact',
+  WORLD_OBJECT_ADD = 'world_object_add',
+  WORLD_OBJECT_REMOVE = 'world_object_remove',
+  WORLD_OBJECT_UPDATE = 'world_object_update',
   
   // Mensajes de chat
   CHAT_MESSAGE = 'chat_message',
   CHAT_TYPING = 'chat_typing',
   CHAT_READ = 'chat_read',
   
-  // Mensajes de objetos
-  OBJECT_CREATE = 'object_create',
-  OBJECT_UPDATE = 'object_update',
-  OBJECT_DELETE = 'object_delete',
-  OBJECT_INTERACT = 'object_interact',
-  
-  // Mensajes de eventos
-  EVENT_TRIGGER = 'event_trigger',
-  EVENT_BROADCAST = 'event_broadcast',
-  
   // Mensajes de blockchain
   TRANSACTION_UPDATE = 'transaction_update',
   NFT_UPDATE = 'nft_update',
   BALANCE_UPDATE = 'balance_update',
   
+  // Mensajes de marketplace
+  MARKETPLACE_UPDATE = 'marketplace_update',
+  AUCTION_UPDATE = 'auction_update',
+  OFFER_UPDATE = 'offer_update',
+  
   // Mensajes de sistema
-  SYSTEM_NOTIFICATION = 'system_notification',
+  SYSTEM_MESSAGE = 'system_message',
   ERROR = 'error',
   WARNING = 'warning',
-  INFO = 'info',
-  
-  // Mensajes personalizados
-  CUSTOM = 'custom'
+  INFO = 'info'
 }
 
 /**
- * Tipos de eventos WebSocket
+ * Tipos de evento WebSocket
  */
 export enum WebSocketEventType {
-  OPEN = 'open',
+  CONNECTION = 'connection',
+  DISCONNECTION = 'disconnection',
   MESSAGE = 'message',
-  CLOSE = 'close',
   ERROR = 'error',
-  CONNECTING = 'connecting',
-  RECONNECTING = 'reconnecting',
-  RECONNECTED = 'reconnected',
-  DISCONNECTED = 'disconnected'
+  RECONNECT = 'reconnect',
+  TIMEOUT = 'timeout'
 }
 
 // ============================================================================
@@ -99,300 +97,228 @@ export enum WebSocketEventType {
 // ============================================================================
 
 /**
+ * Mensaje WebSocket genérico
+ */
+export interface WebSocketMessage<T = any> {
+  id: string;
+  type: WebSocketMessageType;
+  data: T;
+  timestamp: number;
+  senderId?: string;
+  recipientId?: string;
+  roomId?: string;
+  metadata?: Record<string, any>;
+}
+
+/**
  * Conexión WebSocket
  */
 export interface WebSocketConnection {
   id: WebSocketId;
-  url: string;
+  userId?: string;
+  sessionId?: string;
   state: WebSocketState;
-  
-  // Información de conexión
-  connection: ConnectionInfo;
-  
-  // Configuración
-  config: WebSocketConfig;
-  
-  // Autenticación
-  auth: WebSocketAuth;
-  
-  // Suscripciones
-  subscriptions: WebSocketSubscription[];
-  
-  // Métricas
-  metrics: WebSocketMetrics;
-  
-  // Metadatos
-  createdAt: number;
-  connectedAt?: number;
-  disconnectedAt?: number;
-  lastActivity?: number;
-}
-
-/**
- * Información de conexión
- */
-export interface ConnectionInfo {
-  protocol: string;
-  extensions: string[];
-  readyState: number;
-  bufferedAmount: number;
   url: string;
-  origin?: string;
-  headers?: Record<string, string>;
-  cookies?: Record<string, string>;
+  protocol?: string;
+  extensions?: string[];
+  connectedAt: number;
+  lastActivity: number;
+  metadata: ConnectionMetadata;
 }
 
 /**
- * Configuración de WebSocket
+ * Metadatos de conexión
  */
-export interface WebSocketConfig {
-  // Configuración de conexión
-  autoConnect: boolean;
-  autoReconnect: boolean;
-  maxReconnectAttempts: number;
-  reconnectInterval: number;
-  reconnectDelay: number;
-  
-  // Configuración de mensajes
-  heartbeatInterval: number;
-  heartbeatTimeout: number;
-  messageTimeout: number;
-  maxMessageSize: number;
-  
-  // Configuración de seguridad
-  secure: boolean;
-  verifySSL: boolean;
-  apiKey?: string;
-  token?: string;
-  
-  // Configuración de compresión
-  compression: boolean;
-  compressionLevel: number;
-  
-  // Configuración de buffer
-  bufferSize: number;
-  bufferTimeout: number;
-  
-  // Configuración de logging
-  logging: boolean;
-  logLevel: 'debug' | 'info' | 'warn' | 'error';
+export interface ConnectionMetadata {
+  userAgent?: string;
+  ipAddress?: string;
+  location?: {
+    country?: string;
+    city?: string;
+    timezone?: string;
+  };
+  device?: {
+    type?: string;
+    os?: string;
+    browser?: string;
+    version?: string;
+  };
+  performance?: {
+    latency: number;
+    bandwidth?: number;
+    quality?: string;
+  };
+  custom?: Record<string, any>;
 }
 
 /**
- * Autenticación WebSocket
+ * Evento WebSocket
  */
-export interface WebSocketAuth {
-  authenticated: boolean;
-  method: 'none' | 'api_key' | 'token' | 'wallet' | 'oauth2';
-  credentials: AuthCredentials;
-  expiresAt?: number;
-  permissions: string[];
-  scopes: string[];
-}
-
-/**
- * Credenciales de autenticación
- */
-export interface AuthCredentials {
-  apiKey?: string;
-  token?: string;
-  walletAddress?: string;
-  signature?: string;
-  timestamp?: number;
-  nonce?: string;
-}
-
-/**
- * Suscripción WebSocket
- */
-export interface WebSocketSubscription {
-  id: string;
-  type: WebSocketMessageType;
-  channel: string;
-  filters?: Record<string, any>;
-  callback?: (message: WebSocketMessage) => void;
-  active: boolean;
-  createdAt: number;
-  lastMessage?: number;
-}
-
-/**
- * Métricas de WebSocket
- */
-export interface WebSocketMetrics {
-  messagesSent: number;
-  messagesReceived: number;
-  bytesSent: number;
-  bytesReceived: number;
-  latency: number;
-  uptime: number;
-  reconnectCount: number;
-  errorCount: number;
-  lastPing?: number;
-  lastPong?: number;
-}
-
-/**
- * Mensaje WebSocket
- */
-export interface WebSocketMessage {
-  id: string;
-  type: WebSocketMessageType;
-  channel?: string;
-  data: any;
+export interface WebSocketEvent {
+  type: WebSocketEventType;
+  connection: WebSocketConnection;
+  message?: WebSocketMessage;
+  error?: WebSocketError;
   timestamp: number;
-  sender?: string;
-  recipient?: string;
-  broadcast?: boolean;
-  reliable?: boolean;
-  priority?: 'low' | 'normal' | 'high' | 'critical';
   metadata?: Record<string, any>;
 }
 
+/**
+ * Error de WebSocket
+ */
+export interface WebSocketError {
+  code: string;
+  message: string;
+  details?: any;
+  timestamp: number;
+  connectionId: WebSocketId;
+}
+
 // ============================================================================
-// TIPOS DE MENSAJES ESPECÍFICOS
+// TIPOS DE MENSAJE ESPECÍFICOS
 // ============================================================================
 
 /**
  * Mensaje de conexión
  */
-export interface ConnectMessage extends WebSocketMessage {
-  type: WebSocketMessageType.CONNECT;
-  data: {
-    clientId: string;
-    version: string;
-    capabilities: string[];
-    auth?: AuthCredentials;
-  };
+export interface ConnectMessage {
+  userId?: string;
+  sessionId?: string;
+  token?: string;
+  metadata?: Record<string, any>;
 }
 
 /**
  * Mensaje de autenticación
  */
-export interface AuthMessage extends WebSocketMessage {
-  type: WebSocketMessageType.AUTH;
-  data: {
-    method: string;
-    credentials: AuthCredentials;
-    challenge?: string;
-  };
+export interface AuthMessage {
+  token: string;
+  walletAddress?: string;
+  signature?: string;
+  timestamp: number;
+  nonce: string;
 }
 
 /**
- * Mensaje de respuesta de autenticación
+ * Respuesta de autenticación
  */
-export interface AuthResponseMessage extends WebSocketMessage {
-  type: WebSocketMessageType.AUTH_SUCCESS | WebSocketMessageType.AUTH_FAILED;
-  data: {
-    success: boolean;
-    token?: string;
-    permissions?: string[];
-    scopes?: string[];
-    expiresAt?: number;
-    error?: string;
-  };
+export interface AuthResponse {
+  success: boolean;
+  user?: UserData;
+  permissions: string[];
+  roles: string[];
+  expiresAt: number;
 }
 
 /**
- * Mensaje de unión al mundo
+ * Datos de usuario
  */
-export interface WorldJoinMessage extends WebSocketMessage {
-  type: WebSocketMessageType.WORLD_JOIN;
-  data: {
-    worldId: string;
-    avatarId: string;
-    position: WorldPosition;
-    permissions: string[];
-  };
-}
-
-/**
- * Mensaje de salida del mundo
- */
-export interface WorldLeaveMessage extends WebSocketMessage {
-  type: WebSocketMessageType.WORLD_LEAVE;
-  data: {
-    worldId: string;
-    avatarId: string;
-    reason?: string;
-  };
-}
-
-/**
- * Mensaje de actualización del mundo
- */
-export interface WorldUpdateMessage extends WebSocketMessage {
-  type: WebSocketMessageType.WORLD_UPDATE;
-  data: {
-    worldId: string;
-    updates: WorldUpdate[];
-    timestamp: number;
-  };
-}
-
-/**
- * Actualización del mundo
- */
-export interface WorldUpdate {
-  type: 'avatar' | 'object' | 'environment' | 'weather' | 'time';
+export interface UserData {
   id: string;
-  data: any;
+  username: string;
+  avatar?: string;
+  status: 'online' | 'away' | 'busy' | 'offline';
+  lastSeen: number;
+}
+
+/**
+ * Mensaje de movimiento de avatar
+ */
+export interface AvatarMoveMessage {
+  avatarId: string;
+  position: {
+    x: number;
+    y: number;
+    z: number;
+    worldId: string;
+  };
+  rotation?: {
+    x: number;
+    y: number;
+    z: number;
+  };
+  velocity?: {
+    x: number;
+    y: number;
+    z: number;
+  };
   timestamp: number;
 }
 
 /**
- * Mensaje de sincronización del mundo
+ * Mensaje de animación de avatar
  */
-export interface WorldSyncMessage extends WebSocketMessage {
-  type: WebSocketMessageType.WORLD_SYNC;
-  data: {
-    worldId: string;
-    avatars: AvatarData[];
-    objects: WorldObject[];
-    environment: EnvironmentData;
-    timestamp: number;
-  };
+export interface AvatarAnimateMessage {
+  avatarId: string;
+  animation: string;
+  parameters?: Record<string, any>;
+  duration?: number;
+  loop?: boolean;
+  timestamp: number;
 }
 
 /**
- * Datos de avatar
+ * Mensaje de interacción de avatar
  */
-export interface AvatarData {
-  id: string;
-  name: string;
-  position: WorldPosition;
-  rotation: WorldRotation;
-  animation: string;
-  state: AvatarState;
+export interface AvatarInteractMessage {
+  avatarId: string;
+  targetId: string;
+  targetType: 'avatar' | 'object' | 'npc';
+  interactionType: string;
+  parameters?: Record<string, any>;
+  timestamp: number;
+}
+
+/**
+ * Mensaje de personalización de avatar
+ */
+export interface AvatarCustomizeMessage {
+  avatarId: string;
+  changes: {
+    appearance?: Partial<AvatarAppearance>;
+    clothing?: Record<string, string>;
+    accessories?: string[];
+  };
+  timestamp: number;
+}
+
+/**
+ * Apariencia del avatar
+ */
+export interface AvatarAppearance {
+  height: number;
+  weight: number;
+  skinColor: string;
+  hairColor: string;
+  eyeColor: string;
+  customizations: Record<string, any>;
+}
+
+/**
+ * Mensaje de unión a mundo
+ */
+export interface WorldJoinMessage {
+  worldId: string;
+  avatarId: string;
+  position?: {
+    x: number;
+    y: number;
+    z: number;
+  };
   metadata?: Record<string, any>;
 }
 
 /**
- * Posición en el mundo
+ * Mensaje de actualización de mundo
  */
-export interface WorldPosition {
-  x: number;
-  y: number;
-  z: number;
-}
-
-/**
- * Rotación en el mundo
- */
-export interface WorldRotation {
-  x: number;
-  y: number;
-  z: number;
-}
-
-/**
- * Estado del avatar
- */
-export interface AvatarState {
-  health: number;
-  mana: number;
-  stamina: number;
-  status: 'idle' | 'walking' | 'running' | 'jumping' | 'interacting';
+export interface WorldUpdateMessage {
+  worldId: string;
+  changes: {
+    objects?: WorldObject[];
+    avatars?: AvatarInfo[];
+    environment?: EnvironmentData;
+  };
+  timestamp: number;
 }
 
 /**
@@ -401,156 +327,91 @@ export interface AvatarState {
 export interface WorldObject {
   id: string;
   type: string;
-  position: WorldPosition;
-  rotation: WorldRotation;
-  scale: WorldScale;
+  name: string;
+  position: {
+    x: number;
+    y: number;
+    z: number;
+  };
+  rotation?: {
+    x: number;
+    y: number;
+    z: number;
+  };
+  scale?: {
+    x: number;
+    y: number;
+    z: number;
+  };
   properties: Record<string, any>;
-  interactive: boolean;
+  ownerId?: string;
 }
 
 /**
- * Escala en el mundo
+ * Información de avatar
  */
-export interface WorldScale {
-  x: number;
-  y: number;
-  z: number;
+export interface AvatarInfo {
+  id: string;
+  userId: string;
+  username: string;
+  position: {
+    x: number;
+    y: number;
+    z: number;
+  };
+  rotation?: {
+    x: number;
+    y: number;
+    z: number;
+  };
+  animation?: string;
+  status: 'idle' | 'walking' | 'running' | 'interacting';
+  lastUpdate: number;
 }
 
 /**
  * Datos del entorno
  */
 export interface EnvironmentData {
-  weather: WeatherData;
-  time: TimeData;
-  lighting: LightingData;
-  audio: AudioData;
-}
-
-/**
- * Datos del clima
- */
-export interface WeatherData {
-  type: 'sunny' | 'cloudy' | 'rainy' | 'snowy' | 'foggy';
-  temperature: number;
-  humidity: number;
-  windSpeed: number;
-  precipitation: number;
-}
-
-/**
- * Datos del tiempo
- */
-export interface TimeData {
-  currentTime: number;
-  dayLength: number;
-  timeOfDay: 'dawn' | 'day' | 'dusk' | 'night';
-  season: 'spring' | 'summer' | 'autumn' | 'winter';
-}
-
-/**
- * Datos de iluminación
- */
-export interface LightingData {
-  ambientLight: {
-    color: string;
+  lighting?: {
+    ambient: {
+      color: string;
+      intensity: number;
+    };
+    directional?: {
+      color: string;
+      intensity: number;
+      position: {
+        x: number;
+        y: number;
+        z: number;
+      };
+    };
+  };
+  weather?: {
+    type: string;
     intensity: number;
+    temperature: number;
   };
-  directionalLight: {
-    color: string;
-    intensity: number;
-    position: WorldPosition;
-  };
-}
-
-/**
- * Datos de audio
- */
-export interface AudioData {
-  ambientSounds: string[];
-  backgroundMusic?: string;
-  volume: number;
-}
-
-/**
- * Mensaje de actualización de avatar
- */
-export interface AvatarUpdateMessage extends WebSocketMessage {
-  type: WebSocketMessageType.AVATAR_UPDATE;
-  data: {
-    avatarId: string;
-    updates: AvatarUpdate[];
-    timestamp: number;
-  };
-}
-
-/**
- * Actualización de avatar
- */
-export interface AvatarUpdate {
-  field: 'position' | 'rotation' | 'animation' | 'state' | 'appearance';
-  value: any;
-  timestamp: number;
-}
-
-/**
- * Mensaje de movimiento de avatar
- */
-export interface AvatarMoveMessage extends WebSocketMessage {
-  type: WebSocketMessageType.AVATAR_MOVE;
-  data: {
-    avatarId: string;
-    position: WorldPosition;
-    rotation: WorldRotation;
-    velocity: WorldPosition;
-    timestamp: number;
-  };
-}
-
-/**
- * Mensaje de animación de avatar
- */
-export interface AvatarAnimateMessage extends WebSocketMessage {
-  type: WebSocketMessageType.AVATAR_ANIMATE;
-  data: {
-    avatarId: string;
-    animation: string;
-    parameters: Record<string, any>;
-    duration?: number;
-    timestamp: number;
-  };
-}
-
-/**
- * Mensaje de interacción de avatar
- */
-export interface AvatarInteractMessage extends WebSocketMessage {
-  type: WebSocketMessageType.AVATAR_INTERACT;
-  data: {
-    avatarId: string;
-    targetId: string;
-    targetType: 'avatar' | 'object' | 'ui';
-    interaction: string;
-    parameters: Record<string, any>;
-    timestamp: number;
+  time?: {
+    hour: number;
+    minute: number;
+    day: number;
+    season: string;
   };
 }
 
 /**
  * Mensaje de chat
  */
-export interface ChatMessage extends WebSocketMessage {
-  type: WebSocketMessageType.CHAT_MESSAGE;
-  data: {
-    messageId: string;
-    senderId: string;
-    content: string;
-    type: 'text' | 'voice' | 'emote' | 'system';
-    target?: string;
-    replyTo?: string;
-    attachments?: ChatAttachment[];
-    timestamp: number;
-  };
+export interface ChatMessage {
+  roomId: string;
+  senderId: string;
+  content: string;
+  type: 'text' | 'voice' | 'emote' | 'system';
+  replyTo?: string;
+  attachments?: ChatAttachment[];
+  timestamp: number;
 }
 
 /**
@@ -559,250 +420,228 @@ export interface ChatMessage extends WebSocketMessage {
 export interface ChatAttachment {
   type: 'image' | 'audio' | 'video' | 'file' | 'nft';
   url: string;
-  name?: string;
-  size?: number;
+  name: string;
+  size: number;
   metadata?: Record<string, any>;
 }
 
 /**
- * Mensaje de escritura de chat
+ * Mensaje de escritura
  */
-export interface ChatTypingMessage extends WebSocketMessage {
-  type: WebSocketMessageType.CHAT_TYPING;
-  data: {
-    avatarId: string;
-    typing: boolean;
-    timestamp: number;
-  };
-}
-
-/**
- * Mensaje de lectura de chat
- */
-export interface ChatReadMessage extends WebSocketMessage {
-  type: WebSocketMessageType.CHAT_READ;
-  data: {
-    avatarId: string;
-    messageIds: string[];
-    timestamp: number;
-  };
-}
-
-/**
- * Mensaje de creación de objeto
- */
-export interface ObjectCreateMessage extends WebSocketMessage {
-  type: WebSocketMessageType.OBJECT_CREATE;
-  data: {
-    objectId: string;
-    object: WorldObject;
-    creatorId: string;
-    timestamp: number;
-  };
-}
-
-/**
- * Mensaje de actualización de objeto
- */
-export interface ObjectUpdateMessage extends WebSocketMessage {
-  type: WebSocketMessageType.OBJECT_UPDATE;
-  data: {
-    objectId: string;
-    updates: ObjectUpdate[];
-    timestamp: number;
-  };
-}
-
-/**
- * Actualización de objeto
- */
-export interface ObjectUpdate {
-  field: 'position' | 'rotation' | 'scale' | 'properties' | 'state';
-  value: any;
+export interface TypingMessage {
+  roomId: string;
+  userId: string;
+  isTyping: boolean;
   timestamp: number;
 }
 
 /**
- * Mensaje de eliminación de objeto
+ * Mensaje de transacción
  */
-export interface ObjectDeleteMessage extends WebSocketMessage {
-  type: WebSocketMessageType.OBJECT_DELETE;
-  data: {
-    objectId: string;
-    reason?: string;
-    timestamp: number;
-  };
+export interface TransactionMessage {
+  transactionHash: string;
+  status: 'pending' | 'confirmed' | 'failed';
+  from: string;
+  to: string;
+  value: string;
+  gasUsed?: number;
+  blockNumber?: number;
+  timestamp: number;
 }
 
 /**
- * Mensaje de interacción con objeto
+ * Mensaje de NFT
  */
-export interface ObjectInteractMessage extends WebSocketMessage {
-  type: WebSocketMessageType.OBJECT_INTERACT;
-  data: {
-    objectId: string;
-    avatarId: string;
-    interaction: string;
-    parameters: Record<string, any>;
-    timestamp: number;
-  };
+export interface NFTMessage {
+  nftId: string;
+  action: 'mint' | 'transfer' | 'burn' | 'list' | 'sold';
+  from?: string;
+  to?: string;
+  price?: string;
+  timestamp: number;
 }
 
 /**
- * Mensaje de evento
+ * Mensaje de balance
  */
-export interface EventMessage extends WebSocketMessage {
-  type: WebSocketMessageType.EVENT_TRIGGER | WebSocketMessageType.EVENT_BROADCAST;
-  data: {
-    eventId: string;
-    eventType: string;
-    source: string;
-    target?: string;
-    parameters: Record<string, any>;
-    timestamp: number;
-  };
+export interface BalanceMessage {
+  walletAddress: string;
+  token: string;
+  balance: string;
+  change: string;
+  timestamp: number;
 }
 
 /**
- * Mensaje de actualización de transacción
+ * Mensaje de marketplace
  */
-export interface TransactionUpdateMessage extends WebSocketMessage {
-  type: WebSocketMessageType.TRANSACTION_UPDATE;
-  data: {
-    transactionId: string;
-    status: 'pending' | 'confirmed' | 'failed';
-    hash?: string;
-    blockNumber?: number;
-    gasUsed?: number;
-    timestamp: number;
-  };
+export interface MarketplaceMessage {
+  listingId: string;
+  action: 'created' | 'updated' | 'sold' | 'cancelled';
+  nftId: string;
+  price?: string;
+  buyer?: string;
+  seller: string;
+  timestamp: number;
 }
 
 /**
- * Mensaje de actualización de NFT
+ * Mensaje de subasta
  */
-export interface NFTUpdateMessage extends WebSocketMessage {
-  type: WebSocketMessageType.NFT_UPDATE;
-  data: {
-    nftId: string;
-    action: 'minted' | 'transferred' | 'burned' | 'listed' | 'sold';
-    from?: string;
-    to?: string;
-    price?: string;
-    timestamp: number;
-  };
+export interface AuctionMessage {
+  auctionId: string;
+  action: 'created' | 'bid' | 'ended' | 'cancelled';
+  nftId: string;
+  currentBid?: string;
+  currentBidder?: string;
+  endTime: number;
+  timestamp: number;
 }
 
 /**
- * Mensaje de actualización de balance
+ * Mensaje de oferta
  */
-export interface BalanceUpdateMessage extends WebSocketMessage {
-  type: WebSocketMessageType.BALANCE_UPDATE;
-  data: {
-    walletAddress: string;
-    tokenAddress?: string;
-    oldBalance: string;
-    newBalance: string;
-    change: string;
-    timestamp: number;
-  };
+export interface OfferMessage {
+  offerId: string;
+  action: 'created' | 'accepted' | 'rejected' | 'expired';
+  nftId: string;
+  amount: string;
+  buyer: string;
+  seller: string;
+  timestamp: number;
 }
 
 /**
- * Mensaje de notificación del sistema
+ * Mensaje de sistema
  */
-export interface SystemNotificationMessage extends WebSocketMessage {
-  type: WebSocketMessageType.SYSTEM_NOTIFICATION;
-  data: {
-    notificationId: string;
-    type: 'info' | 'warning' | 'error' | 'success';
-    title: string;
-    message: string;
-    actions?: NotificationAction[];
-    expiresAt?: number;
-    timestamp: number;
-  };
+export interface SystemMessage {
+  level: 'info' | 'warning' | 'error' | 'success';
+  title: string;
+  message: string;
+  code?: string;
+  actions?: SystemAction[];
+  timestamp: number;
 }
 
 /**
- * Acción de notificación
+ * Acción del sistema
  */
-export interface NotificationAction {
+export interface SystemAction {
   id: string;
   label: string;
+  type: 'button' | 'link' | 'modal';
   action: string;
   parameters?: Record<string, any>;
 }
 
-/**
- * Mensaje de error
- */
-export interface ErrorMessage extends WebSocketMessage {
-  type: WebSocketMessageType.ERROR;
-  data: {
-    errorId: string;
-    code: string;
-    message: string;
-    details?: string;
-    timestamp: number;
-  };
-}
-
 // ============================================================================
-// TIPOS DE EVENTOS
+// TIPOS DE SALA Y GRUPO
 // ============================================================================
 
 /**
- * Evento WebSocket
+ * Sala WebSocket
  */
-export interface WebSocketEvent {
-  type: WebSocketEventType;
-  connection: WebSocketConnection;
-  data?: any;
-  timestamp: number;
+export interface WebSocketRoom {
+  id: string;
+  name: string;
+  type: 'world' | 'chat' | 'auction' | 'private';
+  connections: WebSocketId[];
+  maxConnections?: number;
+  metadata?: Record<string, any>;
+  createdAt: number;
+  updatedAt: number;
 }
 
 /**
- * Evento de conexión abierta
+ * Grupo WebSocket
  */
-export interface OpenEvent extends WebSocketEvent {
-  type: WebSocketEventType.OPEN;
-  data: {
-    protocol: string;
-    extensions: string[];
+export interface WebSocketGroup {
+  id: string;
+  name: string;
+  members: WebSocketId[];
+  permissions: GroupPermissions;
+  metadata?: Record<string, any>;
+  createdAt: number;
+  updatedAt: number;
+}
+
+/**
+ * Permisos de grupo
+ */
+export interface GroupPermissions {
+  sendMessage: boolean;
+  sendFile: boolean;
+  inviteMembers: boolean;
+  removeMembers: boolean;
+  modifyGroup: boolean;
+}
+
+// ============================================================================
+// TIPOS DE CONFIGURACIÓN
+// ============================================================================
+
+/**
+ * Configuración de WebSocket
+ */
+export interface WebSocketConfig {
+  url: string;
+  protocols?: string[];
+  reconnect: {
+    enabled: boolean;
+    maxAttempts: number;
+    delay: number;
+    backoffMultiplier: number;
+  };
+  heartbeat: {
+    enabled: boolean;
+    interval: number;
+    timeout: number;
+  };
+  compression: {
+    enabled: boolean;
+    algorithm: 'gzip' | 'deflate';
+    level: number;
+  };
+  security: {
+    requireAuth: boolean;
+    validateOrigin: boolean;
+    allowedOrigins: string[];
+    rateLimit: {
+      enabled: boolean;
+      maxMessages: number;
+      window: number;
+    };
+  };
+  logging: {
+    enabled: boolean;
+    level: 'debug' | 'info' | 'warn' | 'error';
+    includePayload: boolean;
   };
 }
 
 /**
- * Evento de mensaje
+ * Configuración de reconexión
  */
-export interface MessageEvent extends WebSocketEvent {
-  type: WebSocketEventType.MESSAGE;
-  data: WebSocketMessage;
+export interface ReconnectConfig {
+  enabled: boolean;
+  maxAttempts: number;
+  initialDelay: number;
+  maxDelay: number;
+  backoffMultiplier: number;
+  jitter: boolean;
+  onReconnect?: (attempt: number) => void;
+  onMaxAttemptsReached?: () => void;
 }
 
 /**
- * Evento de cierre
+ * Configuración de heartbeat
  */
-export interface CloseEvent extends WebSocketEvent {
-  type: WebSocketEventType.CLOSE;
-  data: {
-    code: number;
-    reason: string;
-    wasClean: boolean;
-  };
-}
-
-/**
- * Evento de error
- */
-export interface ErrorEvent extends WebSocketEvent {
-  type: WebSocketEventType.ERROR;
-  data: {
-    error: string;
-    message: string;
-    code?: number;
-  };
+export interface HeartbeatConfig {
+  enabled: boolean;
+  interval: number;
+  timeout: number;
+  onTimeout?: () => void;
+  onResponse?: (latency: number) => void;
 }
 
 // ============================================================================
@@ -810,88 +649,190 @@ export interface ErrorEvent extends WebSocketEvent {
 // ============================================================================
 
 /**
+ * Estadísticas de WebSocket
+ */
+export interface WebSocketStats {
+  connections: {
+    total: number;
+    active: number;
+    idle: number;
+    error: number;
+  };
+  messages: {
+    sent: number;
+    received: number;
+    errors: number;
+    rate: number;
+  };
+  performance: {
+    averageLatency: number;
+    maxLatency: number;
+    minLatency: number;
+    uptime: number;
+  };
+  memory: {
+    used: number;
+    peak: number;
+    connections: number;
+  };
+}
+
+/**
  * Utilidades de WebSocket
  */
 export interface WebSocketUtils {
   /**
-   * Crea conexión WebSocket
+   * Crea mensaje WebSocket
    */
-  createConnection: (url: string, config?: Partial<WebSocketConfig>) => WebSocketConnection;
+  createMessage: <T>(
+    type: WebSocketMessageType,
+    data: T,
+    senderId?: string,
+    recipientId?: string
+  ) => WebSocketMessage<T>;
   
   /**
-   * Conecta WebSocket
-   */
-  connect: (connection: WebSocketConnection) => Promise<void>;
-  
-  /**
-   * Desconecta WebSocket
-   */
-  disconnect: (connection: WebSocketConnection) => Promise<void>;
-  
-  /**
-   * Envía mensaje
-   */
-  sendMessage: (connection: WebSocketConnection, message: WebSocketMessage) => Promise<void>;
-  
-  /**
-   * Suscribe a canal
-   */
-  subscribe: (connection: WebSocketConnection, subscription: WebSocketSubscription) => void;
-  
-  /**
-   * Desuscribe de canal
-   */
-  unsubscribe: (connection: WebSocketConnection, subscriptionId: string) => void;
-  
-  /**
-   * Valida mensaje
+   * Valida mensaje WebSocket
    */
   validateMessage: (message: WebSocketMessage) => boolean;
   
   /**
-   * Serializa mensaje
+   * Serializa mensaje WebSocket
    */
   serializeMessage: (message: WebSocketMessage) => string;
   
   /**
-   * Deserializa mensaje
+   * Deserializa mensaje WebSocket
    */
   deserializeMessage: (data: string) => WebSocketMessage;
   
   /**
-   * Genera ID de conexión
+   * Clona mensaje WebSocket
    */
-  generateConnectionId: () => WebSocketId;
+  cloneMessage: <T>(message: WebSocketMessage<T>) => WebSocketMessage<T>;
   
   /**
-   * Genera ID de mensaje
+   * Combina mensajes WebSocket
    */
-  generateMessageId: () => string;
+  mergeMessages: (messages: WebSocketMessage[]) => WebSocketMessage;
   
   /**
-   * Verifica si está conectado
+   * Genera ID de WebSocket
    */
-  isConnected: (connection: WebSocketConnection) => boolean;
+  generateWebSocketId: () => WebSocketId;
   
   /**
-   * Verifica si está reconectando
+   * Verifica si es mensaje de sistema
    */
-  isReconnecting: (connection: WebSocketConnection) => boolean;
+  isSystemMessage: (message: WebSocketMessage) => boolean;
   
   /**
-   * Obtiene latencia
+   * Verifica si es mensaje de usuario
    */
-  getLatency: (connection: WebSocketConnection) => number;
+  isUserMessage: (message: WebSocketMessage) => boolean;
   
   /**
-   * Envía ping
+   * Verifica si es mensaje de chat
    */
-  sendPing: (connection: WebSocketConnection) => Promise<void>;
+  isChatMessage: (message: WebSocketMessage) => boolean;
   
   /**
-   * Envía pong
+   * Verifica si es mensaje de blockchain
    */
-  sendPong: (connection: WebSocketConnection) => Promise<void>;
+  isBlockchainMessage: (message: WebSocketMessage) => boolean;
+  
+  /**
+   * Obtiene tipo de mensaje
+   */
+  getMessageType: (message: WebSocketMessage) => WebSocketMessageType;
+  
+  /**
+   * Obtiene timestamp del mensaje
+   */
+  getMessageTimestamp: (message: WebSocketMessage) => number;
+  
+  /**
+   * Calcula latencia
+   */
+  calculateLatency: (sentTime: number, receivedTime: number) => number;
+  
+  /**
+   * Valida conexión WebSocket
+   */
+  validateConnection: (connection: WebSocketConnection) => boolean;
+  
+  /**
+   * Actualiza actividad de conexión
+   */
+  updateConnectionActivity: (connection: WebSocketConnection) => void;
+  
+  /**
+   * Verifica si conexión está activa
+   */
+  isConnectionActive: (connection: WebSocketConnection, timeout: number) => boolean;
+  
+  /**
+   * Cierra conexión WebSocket
+   */
+  closeConnection: (connection: WebSocketConnection, reason?: string) => void;
+  
+  /**
+   * Registra evento WebSocket
+   */
+  logEvent: (event: WebSocketEvent) => void;
+  
+  /**
+   * Reporta estadísticas
+   */
+  reportStats: (stats: WebSocketStats) => void;
+}
+
+// ============================================================================
+// TIPOS DE EVENTOS
+// ============================================================================
+
+/**
+ * Evento de conexión
+ */
+export interface ConnectionEvent {
+  type: 'connected' | 'disconnected' | 'reconnected' | 'error';
+  connection: WebSocketConnection;
+  error?: WebSocketError;
+  timestamp: number;
+  metadata?: Record<string, any>;
+}
+
+/**
+ * Evento de mensaje
+ */
+export interface MessageEvent {
+  type: 'sent' | 'received' | 'error';
+  message: WebSocketMessage;
+  connection: WebSocketConnection;
+  timestamp: number;
+  metadata?: Record<string, any>;
+}
+
+/**
+ * Evento de sala
+ */
+export interface RoomEvent {
+  type: 'joined' | 'left' | 'created' | 'destroyed';
+  room: WebSocketRoom;
+  connection: WebSocketConnection;
+  timestamp: number;
+  metadata?: Record<string, any>;
+}
+
+/**
+ * Listener de WebSocket
+ */
+export interface WebSocketListener {
+  onConnection: (event: ConnectionEvent) => void;
+  onMessage: (event: MessageEvent) => void;
+  onRoom: (event: RoomEvent) => void;
+  onError: (error: WebSocketError) => void;
+  onStats: (stats: WebSocketStats) => void;
 }
 
 // ============================================================================
@@ -900,60 +841,48 @@ export interface WebSocketUtils {
 
 export type {
   WebSocketId,
-  WebSocketConnection,
-  ConnectionInfo,
-  WebSocketConfig,
-  WebSocketAuth,
-  AuthCredentials,
-  WebSocketSubscription,
-  WebSocketMetrics,
   WebSocketMessage,
+  WebSocketConnection,
+  ConnectionMetadata,
+  WebSocketEvent,
+  WebSocketError,
   ConnectMessage,
   AuthMessage,
-  AuthResponseMessage,
-  WorldJoinMessage,
-  WorldLeaveMessage,
-  WorldUpdateMessage,
-  WorldUpdate,
-  WorldSyncMessage,
-  AvatarData,
-  WorldPosition,
-  WorldRotation,
-  AvatarState,
-  WorldObject,
-  WorldScale,
-  EnvironmentData,
-  WeatherData,
-  TimeData,
-  LightingData,
-  AudioData,
-  AvatarUpdateMessage,
-  AvatarUpdate,
+  AuthResponse,
+  UserData,
   AvatarMoveMessage,
   AvatarAnimateMessage,
   AvatarInteractMessage,
+  AvatarCustomizeMessage,
+  AvatarAppearance,
+  WorldJoinMessage,
+  WorldUpdateMessage,
+  WorldObject,
+  AvatarInfo,
+  EnvironmentData,
   ChatMessage,
   ChatAttachment,
-  ChatTypingMessage,
-  ChatReadMessage,
-  ObjectCreateMessage,
-  ObjectUpdateMessage,
-  ObjectUpdate,
-  ObjectDeleteMessage,
-  ObjectInteractMessage,
-  EventMessage,
-  TransactionUpdateMessage,
-  NFTUpdateMessage,
-  BalanceUpdateMessage,
-  SystemNotificationMessage,
-  NotificationAction,
-  ErrorMessage,
-  WebSocketEvent,
-  OpenEvent,
+  TypingMessage,
+  TransactionMessage,
+  NFTMessage,
+  BalanceMessage,
+  MarketplaceMessage,
+  AuctionMessage,
+  OfferMessage,
+  SystemMessage,
+  SystemAction,
+  WebSocketRoom,
+  WebSocketGroup,
+  GroupPermissions,
+  WebSocketConfig,
+  ReconnectConfig,
+  HeartbeatConfig,
+  WebSocketStats,
+  WebSocketUtils,
+  ConnectionEvent,
   MessageEvent,
-  CloseEvent,
-  ErrorEvent,
-  WebSocketUtils
+  RoomEvent,
+  WebSocketListener
 };
 
 export {

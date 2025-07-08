@@ -16,76 +16,33 @@ export type ResponseId = string;
  * Códigos de estado HTTP
  */
 export enum HttpStatus {
-  // Informational
-  CONTINUE = 100,
-  SWITCHING_PROTOCOLS = 101,
-  PROCESSING = 102,
-  
-  // Success
+  // 2xx Success
   OK = 200,
   CREATED = 201,
   ACCEPTED = 202,
-  NON_AUTHORITATIVE_INFORMATION = 203,
   NO_CONTENT = 204,
-  RESET_CONTENT = 205,
-  PARTIAL_CONTENT = 206,
-  MULTI_STATUS = 207,
-  ALREADY_REPORTED = 208,
-  IM_USED = 226,
   
-  // Redirection
-  MULTIPLE_CHOICES = 300,
+  // 3xx Redirection
   MOVED_PERMANENTLY = 301,
   FOUND = 302,
-  SEE_OTHER = 303,
   NOT_MODIFIED = 304,
-  USE_PROXY = 305,
-  TEMPORARY_REDIRECT = 307,
-  PERMANENT_REDIRECT = 308,
   
-  // Client Errors
+  // 4xx Client Errors
   BAD_REQUEST = 400,
   UNAUTHORIZED = 401,
-  PAYMENT_REQUIRED = 402,
   FORBIDDEN = 403,
   NOT_FOUND = 404,
   METHOD_NOT_ALLOWED = 405,
-  NOT_ACCEPTABLE = 406,
-  PROXY_AUTHENTICATION_REQUIRED = 407,
-  REQUEST_TIMEOUT = 408,
   CONFLICT = 409,
-  GONE = 410,
-  LENGTH_REQUIRED = 411,
-  PRECONDITION_FAILED = 412,
-  PAYLOAD_TOO_LARGE = 413,
-  URI_TOO_LONG = 414,
-  UNSUPPORTED_MEDIA_TYPE = 415,
-  RANGE_NOT_SATISFIABLE = 416,
-  EXPECTATION_FAILED = 417,
-  IM_A_TEAPOT = 418,
-  MISDIRECTED_REQUEST = 421,
   UNPROCESSABLE_ENTITY = 422,
-  LOCKED = 423,
-  FAILED_DEPENDENCY = 424,
-  TOO_EARLY = 425,
-  UPGRADE_REQUIRED = 426,
-  PRECONDITION_REQUIRED = 428,
   TOO_MANY_REQUESTS = 429,
-  REQUEST_HEADER_FIELDS_TOO_LARGE = 431,
-  UNAVAILABLE_FOR_LEGAL_REASONS = 451,
   
-  // Server Errors
+  // 5xx Server Errors
   INTERNAL_SERVER_ERROR = 500,
   NOT_IMPLEMENTED = 501,
   BAD_GATEWAY = 502,
   SERVICE_UNAVAILABLE = 503,
-  GATEWAY_TIMEOUT = 504,
-  HTTP_VERSION_NOT_SUPPORTED = 505,
-  VARIANT_ALSO_NEGOTIATES = 506,
-  INSUFFICIENT_STORAGE = 507,
-  LOOP_DETECTED = 508,
-  NOT_EXTENDED = 510,
-  NETWORK_AUTHENTICATION_REQUIRED = 511
+  GATEWAY_TIMEOUT = 504
 }
 
 /**
@@ -96,7 +53,9 @@ export enum ResponseType {
   ERROR = 'error',
   WARNING = 'warning',
   INFO = 'info',
-  REDIRECT = 'redirect'
+  VALIDATION_ERROR = 'validation_error',
+  AUTH_ERROR = 'auth_error',
+  RATE_LIMIT_ERROR = 'rate_limit_error'
 }
 
 // ============================================================================
@@ -104,31 +63,19 @@ export enum ResponseType {
 // ============================================================================
 
 /**
- * Response de API
+ * Response de API genérico
  */
 export interface APIResponse<T = any> {
   id: ResponseId;
+  success: boolean;
   type: ResponseType;
   status: HttpStatus;
-  success: boolean;
-  
-  // Datos de la respuesta
+  message: string;
   data?: T;
-  
-  // Información de error
   error?: APIError;
-  
-  // Información de paginación
-  pagination?: PaginationInfo;
-  
-  // Headers de respuesta
-  headers: ResponseHeaders;
-  
-  // Metadatos
   metadata: ResponseMetadata;
-  
-  // Información de caché
-  cache?: CacheInfo;
+  timestamp: number;
+  version: string;
 }
 
 /**
@@ -137,64 +84,36 @@ export interface APIResponse<T = any> {
 export interface APIError {
   code: string;
   message: string;
-  details?: string;
-  field?: string;
-  value?: any;
-  suggestions?: string[];
-  timestamp: number;
-  requestId?: string;
+  details?: any;
   stack?: string;
   context?: Record<string, any>;
+  timestamp: number;
+  requestId?: string;
 }
 
 /**
- * Headers de respuesta
- */
-export interface ResponseHeaders {
-  'Content-Type': string;
-  'Content-Length'?: string;
-  'Cache-Control'?: string;
-  'ETag'?: string;
-  'Last-Modified'?: string;
-  'X-Request-ID'?: string;
-  'X-Response-Time'?: string;
-  'X-Rate-Limit-Limit'?: string;
-  'X-Rate-Limit-Remaining'?: string;
-  'X-Rate-Limit-Reset'?: string;
-  'X-Powered-By'?: string;
-  'Access-Control-Allow-Origin'?: string;
-  'Access-Control-Allow-Methods'?: string;
-  'Access-Control-Allow-Headers'?: string;
-  [key: string]: string | undefined;
-}
-
-/**
- * Metadatos de respuesta
+ * Metadatos del response
  */
 export interface ResponseMetadata {
-  timestamp: number;
-  version: string;
-  endpoint: string;
-  method: string;
-  duration: number;
-  size: number;
-  compression?: string;
-  encoding?: string;
-  server: string;
-  environment: string;
+  requestId?: string;
+  correlationId?: string;
+  sessionId?: string;
+  userId?: string;
+  processingTime: number;
+  cacheHit?: boolean;
+  rateLimit?: RateLimitInfo;
+  pagination?: PaginationInfo;
   custom?: Record<string, any>;
 }
 
 /**
- * Información de caché
+ * Información de rate limiting
  */
-export interface CacheInfo {
-  cached: boolean;
-  cacheKey?: string;
-  cacheTime?: number;
-  expiresAt?: number;
-  etag?: string;
-  lastModified?: string;
+export interface RateLimitInfo {
+  limit: number;
+  remaining: number;
+  reset: number;
+  retryAfter?: number;
 }
 
 /**
@@ -209,8 +128,6 @@ export interface PaginationInfo {
   hasPrev: boolean;
   nextPage?: number;
   prevPage?: number;
-  firstPage: number;
-  lastPage: number;
 }
 
 // ============================================================================
@@ -222,13 +139,22 @@ export interface PaginationInfo {
  */
 export interface AuthResponse {
   success: boolean;
-  token?: string;
+  user: UserData;
+  token: AuthToken;
   refreshToken?: string;
-  expiresAt?: number;
-  user?: UserData;
-  permissions?: string[];
-  scopes?: string[];
-  error?: APIError;
+  expiresAt: number;
+  permissions: string[];
+  roles: string[];
+}
+
+/**
+ * Token de autenticación
+ */
+export interface AuthToken {
+  accessToken: string;
+  tokenType: 'Bearer' | 'JWT' | 'API_KEY';
+  expiresIn: number;
+  scope?: string;
 }
 
 /**
@@ -240,13 +166,11 @@ export interface UserData {
   email: string;
   avatar?: string;
   walletAddress?: string;
-  status: 'active' | 'inactive' | 'banned';
-  role: string;
-  permissions: string[];
-  preferences: UserPreferences;
+  status: 'active' | 'inactive' | 'banned' | 'pending';
   createdAt: number;
-  updatedAt: number;
-  lastActive?: number;
+  lastActive: number;
+  preferences: UserPreferences;
+  metadata?: Record<string, any>;
 }
 
 /**
@@ -255,6 +179,7 @@ export interface UserData {
 export interface UserPreferences {
   language: string;
   theme: 'light' | 'dark' | 'auto';
+  timezone: string;
   notifications: NotificationSettings;
   privacy: PrivacySettings;
   accessibility: AccessibilitySettings;
@@ -301,10 +226,11 @@ export interface AccessibilitySettings {
  */
 export interface AvatarResponse {
   success: boolean;
-  avatar?: AvatarData;
-  avatars?: AvatarData[];
-  pagination?: PaginationInfo;
-  error?: APIError;
+  avatar: AvatarData;
+  stats: AvatarStats;
+  inventory: InventoryItem[];
+  position: WorldPosition;
+  metadata?: Record<string, any>;
 }
 
 /**
@@ -316,13 +242,8 @@ export interface AvatarData {
   ownerId: string;
   model: string;
   appearance: AvatarAppearance;
-  inventory: InventoryItem[];
-  stats: AvatarStats;
-  position?: WorldPosition;
-  status: 'active' | 'inactive' | 'traveling';
   createdAt: number;
   updatedAt: number;
-  lastActive?: number;
 }
 
 /**
@@ -340,6 +261,22 @@ export interface AvatarAppearance {
 }
 
 /**
+ * Estadísticas del avatar
+ */
+export interface AvatarStats {
+  level: number;
+  experience: number;
+  health: number;
+  mana: number;
+  stamina: number;
+  strength: number;
+  agility: number;
+  intelligence: number;
+  charisma: number;
+  luck: number;
+}
+
+/**
  * Item del inventario
  */
 export interface InventoryItem {
@@ -347,53 +284,9 @@ export interface InventoryItem {
   type: string;
   name: string;
   description: string;
-  icon: string;
   quantity: number;
-  maxQuantity: number;
-  rarity: 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
-  nftData?: NFTData;
-  stats?: ItemStats;
-}
-
-/**
- * Datos NFT
- */
-export interface NFTData {
-  tokenId: string;
-  contractAddress: string;
-  blockchain: string;
-  metadata: any;
-}
-
-/**
- * Estadísticas del item
- */
-export interface ItemStats {
-  damage?: number;
-  defense?: number;
-  speed?: number;
-  durability?: number;
-  magic?: number;
-}
-
-/**
- * Estadísticas del avatar
- */
-export interface AvatarStats {
-  level: number;
-  experience: number;
-  experienceToNext: number;
-  health: number;
-  maxHealth: number;
-  mana: number;
-  maxMana: number;
-  stamina: number;
-  maxStamina: number;
-  strength: number;
-  agility: number;
-  intelligence: number;
-  charisma: number;
-  luck: number;
+  rarity: string;
+  metadata?: Record<string, any>;
 }
 
 /**
@@ -404,7 +297,7 @@ export interface WorldPosition {
   x: number;
   y: number;
   z: number;
-  rotation?: {
+  rotation: {
     x: number;
     y: number;
     z: number;
@@ -416,10 +309,11 @@ export interface WorldPosition {
  */
 export interface WorldResponse {
   success: boolean;
-  world?: WorldData;
-  worlds?: WorldData[];
-  pagination?: PaginationInfo;
-  error?: APIError;
+  world: WorldData;
+  players: PlayerInfo[];
+  objects: WorldObject[];
+  settings: WorldSettings;
+  metadata?: Record<string, any>;
 }
 
 /**
@@ -431,9 +325,6 @@ export interface WorldData {
   description: string;
   category: string;
   ownerId: string;
-  settings: WorldSettings;
-  objects: WorldObject[];
-  avatars: string[];
   status: 'active' | 'inactive' | 'maintenance';
   maxPlayers: number;
   currentPlayers: number;
@@ -442,10 +333,34 @@ export interface WorldData {
 }
 
 /**
+ * Información del jugador
+ */
+export interface PlayerInfo {
+  id: string;
+  username: string;
+  avatar: string;
+  position: WorldPosition;
+  status: 'online' | 'away' | 'busy';
+  lastActivity: number;
+}
+
+/**
+ * Objeto del mundo
+ */
+export interface WorldObject {
+  id: string;
+  type: string;
+  name: string;
+  position: WorldPosition;
+  properties: Record<string, any>;
+  ownerId?: string;
+  createdAt: number;
+}
+
+/**
  * Configuración de mundo
  */
 export interface WorldSettings {
-  maxPlayers: number;
   physics: PhysicsSettings;
   lighting: LightingSettings;
   audio: AudioSettings;
@@ -513,24 +428,66 @@ export interface ModerationSettings {
 }
 
 /**
- * Objeto del mundo
- */
-export interface WorldObject {
-  id: string;
-  type: string;
-  position: WorldPosition;
-  properties: Record<string, any>;
-}
-
-/**
  * Response de NFT
  */
 export interface NFTResponse {
   success: boolean;
-  nft?: NFTData;
-  nfts?: NFTData[];
-  pagination?: PaginationInfo;
-  error?: APIError;
+  nft: NFTData;
+  metadata: NFTMetadata;
+  ownership: NFTOwnership;
+  transaction?: TransactionData;
+}
+
+/**
+ * Datos de NFT
+ */
+export interface NFTData {
+  id: string;
+  contractAddress: string;
+  tokenId: string;
+  name: string;
+  description: string;
+  image: string;
+  attributes: NFTAttribute[];
+  creator: string;
+  owner: string;
+  createdAt: number;
+  updatedAt: number;
+}
+
+/**
+ * Metadatos de NFT
+ */
+export interface NFTMetadata {
+  name: string;
+  description: string;
+  image: string;
+  external_url?: string;
+  attributes: NFTAttribute[];
+  properties?: Record<string, any>;
+}
+
+/**
+ * Atributo de NFT
+ */
+export interface NFTAttribute {
+  trait_type: string;
+  value: string | number | boolean;
+  display_type?: string;
+  max_value?: number;
+}
+
+/**
+ * Propiedad de NFT
+ */
+export interface NFTOwnership {
+  owner: string;
+  balance: number;
+  transferCount: number;
+  lastTransfer?: number;
+  isForSale: boolean;
+  price?: string;
+  currency?: string;
 }
 
 /**
@@ -538,39 +495,73 @@ export interface NFTResponse {
  */
 export interface TransactionResponse {
   success: boolean;
-  transaction?: TransactionData;
-  transactions?: TransactionData[];
-  pagination?: PaginationInfo;
-  error?: APIError;
+  transaction: TransactionData;
+  receipt: TransactionReceipt;
+  status: TransactionStatus;
+  gasUsed: number;
+  gasPrice: string;
+  totalCost: string;
 }
 
 /**
  * Datos de transacción
  */
 export interface TransactionData {
-  id: string;
   hash: string;
   from: string;
-  to?: string;
+  to: string;
   value: string;
-  data?: string;
-  gasUsed: number;
+  data: string;
+  gasLimit: number;
   gasPrice: string;
-  status: 'pending' | 'confirmed' | 'failed';
-  blockNumber?: number;
+  nonce: number;
+  chainId: number;
   timestamp: number;
-  type: string;
 }
+
+/**
+ * Recibo de transacción
+ */
+export interface TransactionReceipt {
+  transactionHash: string;
+  blockNumber: number;
+  blockHash: string;
+  gasUsed: number;
+  cumulativeGasUsed: number;
+  effectiveGasPrice: string;
+  status: number;
+  logs: TransactionLog[];
+}
+
+/**
+ * Log de transacción
+ */
+export interface TransactionLog {
+  address: string;
+  topics: string[];
+  data: string;
+  blockNumber: number;
+  transactionHash: string;
+  transactionIndex: number;
+  blockHash: string;
+  logIndex: number;
+  removed: boolean;
+}
+
+/**
+ * Estado de transacción
+ */
+export type TransactionStatus = 'pending' | 'confirmed' | 'failed' | 'reverted';
 
 /**
  * Response de marketplace
  */
 export interface MarketplaceResponse {
   success: boolean;
-  listing?: MarketplaceListing;
-  listings?: MarketplaceListing[];
-  pagination?: PaginationInfo;
-  error?: APIError;
+  listing: MarketplaceListing;
+  offers: MarketplaceOffer[];
+  bids: MarketplaceBid[];
+  metadata?: Record<string, any>;
 }
 
 /**
@@ -582,12 +573,11 @@ export interface MarketplaceListing {
   sellerId: string;
   price: string;
   currency: string;
-  auction?: AuctionData;
-  offers: OfferData[];
+  type: 'fixed' | 'auction' | 'offer';
   status: 'active' | 'sold' | 'cancelled' | 'expired';
   createdAt: number;
-  updatedAt: number;
   expiresAt?: number;
+  auction?: AuctionData;
 }
 
 /**
@@ -595,38 +585,39 @@ export interface MarketplaceListing {
  */
 export interface AuctionData {
   startPrice: string;
-  currentPrice: string;
   reservePrice?: string;
   startTime: number;
   endTime: number;
   minBidIncrement: string;
-  bids: AuctionBid[];
-  status: 'pending' | 'active' | 'ended' | 'cancelled';
-  winner?: string;
+  currentBid?: string;
+  currentBidder?: string;
+  bidCount: number;
 }
 
 /**
- * Puja de subasta
+ * Oferta del marketplace
  */
-export interface AuctionBid {
-  bidder: string;
-  amount: string;
-  timestamp: number;
-  transactionHash: string;
-}
-
-/**
- * Datos de oferta
- */
-export interface OfferData {
+export interface MarketplaceOffer {
   id: string;
-  offerer: string;
+  listingId: string;
+  bidderId: string;
   amount: string;
   currency: string;
-  expiresAt: number;
   status: 'pending' | 'accepted' | 'rejected' | 'expired';
+  createdAt: number;
+  expiresAt: number;
+}
+
+/**
+ * Puja del marketplace
+ */
+export interface MarketplaceBid {
+  id: string;
+  listingId: string;
+  bidderId: string;
+  amount: string;
+  currency: string;
   timestamp: number;
-  transactionHash?: string;
 }
 
 /**
@@ -634,10 +625,9 @@ export interface OfferData {
  */
 export interface ChatResponse {
   success: boolean;
-  message?: ChatMessage;
-  messages?: ChatMessage[];
-  pagination?: PaginationInfo;
-  error?: APIError;
+  messages: ChatMessage[];
+  participants: ChatParticipant[];
+  metadata?: Record<string, any>;
 }
 
 /**
@@ -646,15 +636,24 @@ export interface ChatResponse {
 export interface ChatMessage {
   id: string;
   senderId: string;
-  receiverId?: string;
   content: string;
   type: 'text' | 'voice' | 'emote' | 'system';
-  target?: string;
+  timestamp: number;
   replyTo?: string;
   attachments?: ChatAttachment[];
-  timestamp: number;
-  edited?: boolean;
-  deleted?: boolean;
+  metadata?: Record<string, any>;
+}
+
+/**
+ * Participante del chat
+ */
+export interface ChatParticipant {
+  id: string;
+  username: string;
+  avatar: string;
+  status: 'online' | 'away' | 'offline';
+  lastSeen: number;
+  role: 'user' | 'moderator' | 'admin';
 }
 
 /**
@@ -663,8 +662,8 @@ export interface ChatMessage {
 export interface ChatAttachment {
   type: 'image' | 'audio' | 'video' | 'file' | 'nft';
   url: string;
-  name?: string;
-  size?: number;
+  name: string;
+  size: number;
   metadata?: Record<string, any>;
 }
 
@@ -673,18 +672,23 @@ export interface ChatAttachment {
  */
 export interface AnalyticsResponse {
   success: boolean;
-  data?: AnalyticsData;
-  error?: APIError;
+  metrics: AnalyticsMetrics;
+  events: AnalyticsEvent[];
+  reports: AnalyticsReport[];
+  metadata?: Record<string, any>;
 }
 
 /**
- * Datos de analytics
+ * Métricas de analytics
  */
-export interface AnalyticsData {
-  events: AnalyticsEvent[];
-  metrics: AnalyticsMetrics;
-  trends: AnalyticsTrends;
-  insights: AnalyticsInsights;
+export interface AnalyticsMetrics {
+  totalUsers: number;
+  activeUsers: number;
+  totalTransactions: number;
+  totalVolume: string;
+  averageSessionTime: number;
+  conversionRate: number;
+  retentionRate: number;
 }
 
 /**
@@ -697,86 +701,26 @@ export interface AnalyticsEvent {
   action: string;
   label?: string;
   value?: number;
-  properties: Record<string, any>;
   userId?: string;
   sessionId?: string;
   timestamp: number;
+  properties: Record<string, any>;
 }
 
 /**
- * Métricas de analytics
+ * Reporte de analytics
  */
-export interface AnalyticsMetrics {
-  totalEvents: number;
-  uniqueUsers: number;
-  activeUsers: number;
-  sessionDuration: number;
-  bounceRate: number;
-  conversionRate: number;
-  revenue: number;
-  transactions: number;
-}
-
-/**
- * Tendencias de analytics
- */
-export interface AnalyticsTrends {
-  timeSeries: TimeSeriesData[];
-  comparisons: ComparisonData[];
-  forecasts: ForecastData[];
-}
-
-/**
- * Datos de serie temporal
- */
-export interface TimeSeriesData {
-  timestamp: number;
-  value: number;
-  label: string;
-}
-
-/**
- * Datos de comparación
- */
-export interface ComparisonData {
-  period: string;
-  current: number;
-  previous: number;
-  change: number;
-  changePercent: number;
-}
-
-/**
- * Datos de pronóstico
- */
-export interface ForecastData {
-  timestamp: number;
-  predicted: number;
-  confidence: number;
-  upperBound: number;
-  lowerBound: number;
-}
-
-/**
- * Insights de analytics
- */
-export interface AnalyticsInsights {
-  topEvents: string[];
-  topUsers: string[];
-  anomalies: AnomalyData[];
-  recommendations: string[];
-}
-
-/**
- * Datos de anomalía
- */
-export interface AnomalyData {
+export interface AnalyticsReport {
+  id: string;
   type: string;
-  severity: 'low' | 'medium' | 'high';
+  title: string;
   description: string;
-  timestamp: number;
-  value: number;
-  expectedValue: number;
+  data: any;
+  generatedAt: number;
+  period: {
+    start: number;
+    end: number;
+  };
 }
 
 // ============================================================================
@@ -784,9 +728,97 @@ export interface AnomalyData {
 // ============================================================================
 
 /**
+ * Response de validación
+ */
+export interface ValidationResponse {
+  success: boolean;
+  errors: ValidationError[];
+  warnings: ValidationWarning[];
+  metadata?: Record<string, any>;
+}
+
+/**
+ * Error de validación
+ */
+export interface ValidationError {
+  field: string;
+  message: string;
+  code: string;
+  value?: any;
+  constraints?: Record<string, any>;
+}
+
+/**
+ * Advertencia de validación
+ */
+export interface ValidationWarning {
+  field: string;
+  message: string;
+  code: string;
+  value?: any;
+}
+
+/**
+ * Response de lista paginada
+ */
+export interface PaginatedResponse<T> {
+  success: boolean;
+  data: T[];
+  pagination: PaginationInfo;
+  metadata?: Record<string, any>;
+}
+
+/**
+ * Response de búsqueda
+ */
+export interface SearchResponse<T> {
+  success: boolean;
+  results: T[];
+  total: number;
+  query: string;
+  filters: Record<string, any>;
+  pagination: PaginationInfo;
+  metadata?: Record<string, any>;
+}
+
+/**
+ * Response de archivo
+ */
+export interface FileResponse {
+  success: boolean;
+  file: FileData;
+  url: string;
+  metadata?: Record<string, any>;
+}
+
+/**
+ * Datos de archivo
+ */
+export interface FileData {
+  id: string;
+  name: string;
+  type: string;
+  size: number;
+  url: string;
+  uploadedBy: string;
+  uploadedAt: number;
+  metadata?: Record<string, any>;
+}
+
+/**
  * Utilidades de response
  */
 export interface ResponseUtils {
+  /**
+   * Crea response de éxito
+   */
+  createSuccessResponse: <T>(data: T, message?: string) => APIResponse<T>;
+  
+  /**
+   * Crea response de error
+   */
+  createErrorResponse: (error: APIError, message?: string) => APIResponse;
+  
   /**
    * Valida response
    */
@@ -818,49 +850,14 @@ export interface ResponseUtils {
   generateResponseId: () => ResponseId;
   
   /**
-   * Crea response de éxito
-   */
-  createSuccessResponse: <T>(data: T, status?: HttpStatus) => APIResponse<T>;
-  
-  /**
-   * Crea response de error
-   */
-  createErrorResponse: (error: APIError, status?: HttpStatus) => APIResponse;
-  
-  /**
-   * Crea response de redirección
-   */
-  createRedirectResponse: (url: string, status?: HttpStatus) => APIResponse;
-  
-  /**
-   * Valida código de estado
-   */
-  isValidStatus: (status: number) => boolean;
-  
-  /**
-   * Obtiene mensaje de estado
-   */
-  getStatusMessage: (status: HttpStatus) => string;
-  
-  /**
-   * Verifica si es respuesta de éxito
+   * Verifica si es response de éxito
    */
   isSuccessResponse: (response: APIResponse) => boolean;
   
   /**
-   * Verifica si es respuesta de error
+   * Verifica si es response de error
    */
   isErrorResponse: (response: APIResponse) => boolean;
-  
-  /**
-   * Extrae datos de response
-   */
-  extractData: <T>(response: APIResponse<T>) => T | undefined;
-  
-  /**
-   * Extrae error de response
-   */
-  extractError: (response: APIResponse) => APIError | undefined;
 }
 
 // ============================================================================
@@ -871,9 +868,8 @@ export type {
   ResponseId,
   APIResponse,
   APIError,
-  ResponseHeaders,
   ResponseMetadata,
-  CacheInfo,
+  RateLimitInfo,
   PaginationInfo,
   AuthResponse,
   UserData,
@@ -885,9 +881,6 @@ export type {
   AvatarData,
   AvatarAppearance,
   InventoryItem,
-  NFTData,
-  ItemStats,
-  AvatarStats,
   WorldPosition,
   WorldResponse,
   WorldData,
@@ -901,24 +894,28 @@ export type {
   NFTResponse,
   TransactionResponse,
   TransactionData,
+  TransactionReceipt,
+  TransactionLog,
   MarketplaceResponse,
   MarketplaceListing,
   AuctionData,
-  AuctionBid,
-  OfferData,
+  MarketplaceOffer,
+  MarketplaceBid,
   ChatResponse,
   ChatMessage,
+  ChatParticipant,
   ChatAttachment,
   AnalyticsResponse,
-  AnalyticsData,
-  AnalyticsEvent,
   AnalyticsMetrics,
-  AnalyticsTrends,
-  TimeSeriesData,
-  ComparisonData,
-  ForecastData,
-  AnalyticsInsights,
-  AnomalyData,
+  AnalyticsEvent,
+  AnalyticsReport,
+  ValidationResponse,
+  ValidationError,
+  ValidationWarning,
+  PaginatedResponse,
+  SearchResponse,
+  FileResponse,
+  FileData,
   ResponseUtils
 };
 
