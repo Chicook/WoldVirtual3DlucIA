@@ -150,7 +150,7 @@ export class FileValidator implements IValidator {
     format: string;
     mimeType: string;
     hash: string;
-    hasAlpha?: boolean;
+    metadata: Record<string, any>;
   }> {
     const stats = await fs.stat(filePath);
     const buffer = await fs.readFile(filePath);
@@ -174,7 +174,14 @@ export class FileValidator implements IValidator {
       format,
       mimeType,
       hash,
-      hasAlpha
+      metadata: {
+        hasAlpha,
+        extension: format,
+        filename: path.basename(filePath),
+        directory: path.dirname(filePath),
+        lastModified: stats.mtime,
+        created: stats.birthtime
+      }
     };
   }
 
