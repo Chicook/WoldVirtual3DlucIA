@@ -3,7 +3,7 @@
  * @module assets/examples/basic-usage
  */
 
-const { AssetsSystem } = require('../dist/index');
+const { AssetsSystem } = require('../../dist/index');
 
 async function basicUsage() {
   console.log('🎨 Ejemplo de uso básico del Sistema de Assets\n');
