@@ -3,17 +3,21 @@
  */
 
 // Sistema principal
-export { AssetsSystemAdvanced } from './AssetsSystemAdvanced';
+import { AssetsSystemAdvanced } from './AssetsSystemAdvanced';
 export type { SystemConfig, ProcessingResult } from './AssetsSystemAdvanced';
 
 // Configuraciones
-export { defaultConfig, productionConfig, developmentConfig, getConfig } from './config/default-config';
+import { defaultConfig, productionConfig, developmentConfig, getConfig } from './config/default-config';
 
 // Managers
-export { UploaderManager } from './managers/UploaderManager';
-export { CompressorManager } from './managers/CompressorManager';
-export { OptimizerManager } from './managers/OptimizerManager';
-export { ValidatorManager } from './managers/ValidatorManager';
+import { UploaderManager } from './managers/UploaderManager';
+export type { UploaderConfig } from './managers/UploaderManager';
+import { CompressorManager } from './managers/CompressorManager';
+export type { CompressorConfig } from './managers/CompressorManager';
+import { OptimizerManager } from './managers/OptimizerManager';
+export type { OptimizerConfig } from './managers/OptimizerManager';
+import { ValidatorManager } from './managers/ValidatorManager';
+export type { ValidatorConfig } from './managers/ValidatorManager';
 
 // Interfaces
 export type { 
@@ -45,16 +49,16 @@ export type {
 } from './interfaces/IValidator';
 
 // Implementaciones de Uploaders
-export { IPFSUploader } from './upload/IPFSUploader';
+import { IPFSUploader } from './upload/IPFSUploader';
 
 // Implementaciones de Compressors
-export { GzipCompressor } from './compression/GzipCompressor';
+import { GzipCompressor } from './compression/GzipCompressor';
 
 // Implementaciones de Optimizers
-export { ImageOptimizer } from './optimization/ImageOptimizer';
+import { ImageOptimizer } from './optimization/ImageOptimizer';
 
 // Implementaciones de Validators
-export { FileValidator } from './validation/FileValidator';
+import { FileValidator } from './validation/FileValidator';
 
 // Utilidades
 export { Logger } from './utils/logger';
@@ -115,6 +119,17 @@ export async function quickBatchProcess(filePaths: string[], options: any = {}) 
 }
 
 // Exportar todo como namespace para compatibilidad
+import { AssetsSystemAdvanced } from './AssetsSystemAdvanced';
+import { UploaderManager } from './managers/UploaderManager';
+import { CompressorManager } from './managers/CompressorManager';
+import { OptimizerManager } from './managers/OptimizerManager';
+import { ValidatorManager } from './managers/ValidatorManager';
+import { IPFSUploader } from './upload/IPFSUploader';
+import { GzipCompressor } from './compression/GzipCompressor';
+import { ImageOptimizer } from './optimization/ImageOptimizer';
+import { FileValidator } from './validation/FileValidator';
+import { defaultConfig, productionConfig, developmentConfig, getConfig } from './config/default-config';
+
 export default {
   AssetsSystemAdvanced,
   createAssetsSystem,

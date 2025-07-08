@@ -1,0 +1,369 @@
+# ===========================================
+# WOLDVIRTUAL3D BUILD SYSTEM - .gitignore
+# ===========================================
+
+# ===========================================
+# IGNORAR SOLO JSON TEMPORALES O SENSIBLES
+# ===========================================
+# Datos y logs
+/data/*.json
+/logs/*.json
+/coverage/*.json
+# Configuraciones locales
+*.local.json
+*.backup.json
+
+# ===========================================
+# ARCHIVOS DE BUILD Y DISTRIBUCIÓN
+# ===========================================
+dist/
+build/
+out/
+target/
+*.build
+*.dist
+*.out
+*.target
+
+# ===========================================
+# ARCHIVOS DE CACHE Y TEMPORALES
+# ===========================================
+.cache/
+cache/
+tmp/
+temp/
+*.tmp
+*.temp
+*.cache
+*.swp
+*.swo
+*~
+
+# ===========================================
+# ARCHIVOS DE NODE.JS
+# ===========================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn
+.yarnrc.yml
+package-lock.json
+yarn.lock
+
+# ===========================================
+# ARCHIVOS DE LOGS
+# ===========================================
+logs/
+*.log
+debug.log
+error.log
+build.log
+deploy.log
+*.log.*
+
+# ===========================================
+# ARCHIVOS DE COBERTURA Y TESTS
+# ===========================================
+coverage/
+.nyc_output/
+test-results/
+*.lcov
+coverage.json
+junit.xml
+test-report.xml
+
+# ===========================================
+# ARCHIVOS DE CONFIGURACIÓN LOCAL
+# ===========================================
+.env
+.env.*
+.env.local
+.env.*.local
+.env.production
+.env.staging
+.env.development
+.env.test
+config.local.*
+settings.local.*
+local.*
+dev.*
+prod.*
+staging.*
+
+# ===========================================
+# ARCHIVOS DE CONTRATOS COMPILADOS
+# ===========================================
+contracts/artifacts/
+contracts/cache/
+contracts/out/
+contracts/build/
+*.sol.js
+*.sol.json
+*.sol.map
+*.sol.metadata.json
+
+# ===========================================
+# ARCHIVOS DE WEBPACK Y BUNDLERS
+# ===========================================
+.webpack/
+webpack-stats.json
+bundle-analyzer-report.html
+webpack-bundle-analyzer-report.html
+
+# ===========================================
+# ARCHIVOS DE VITE
+# ===========================================
+.vite/
+vite-stats.json
+
+# ===========================================
+# ARCHIVOS DE ROLLUP
+# ===========================================
+.rollup/
+rollup-stats.json
+
+# ===========================================
+# ARCHIVOS DE ESBUILD
+# ===========================================
+.esbuild/
+esbuild-stats.json
+
+# ===========================================
+# ARCHIVOS DE OPTIMIZACIÓN
+# ===========================================
+optimized/
+compressed/
+minified/
+*.min.js
+*.min.css
+*.min.html
+*.min.json
+
+# ===========================================
+# ARCHIVOS DE COMPRESIÓN
+# ===========================================
+compressed/
+*.gz
+*.br
+*.lz4
+*.zstd
+*.zip
+*.tar
+*.tar.gz
+*.tar.bz2
+
+# ===========================================
+# ARCHIVOS DE FIRMA DIGITAL
+# ===========================================
+signatures/
+*.sig
+*.signature
+*.key
+*.pem
+*.crt
+*.p12
+*.pfx
+
+# ===========================================
+# ARCHIVOS DE MONITOREO
+# ===========================================
+monitoring/
+metrics/
+stats/
+*.metrics
+*.stats
+
+# ===========================================
+# ARCHIVOS DE DESPLIEGUE
+# ===========================================
+deploy/
+deployment/
+releases/
+*.deploy
+*.release
+
+# ===========================================
+# ARCHIVOS DE VALIDACIÓN
+# ===========================================
+validation/
+*.validation
+*.verify
+*.check
+
+# ===========================================
+# ARCHIVOS DE ANÁLISIS
+# ===========================================
+analysis/
+*.analysis
+*.report
+*.audit
+
+# ===========================================
+# ARCHIVOS DE BACKUP
+# ===========================================
+backup/
+*.backup
+*.bak
+*.old
+*.orig
+
+# ===========================================
+# ARCHIVOS DEL SISTEMA OPERATIVO
+# ===========================================
+.DS_Store
+Thumbs.db
+desktop.ini
+*.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Icon?
+
+# ===========================================
+# ARCHIVOS DE IDE
+# ===========================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-*
+.atom/
+.brackets.json
+
+# ===========================================
+# ARCHIVOS DE DOCKER
+# ===========================================
+.dockerignore
+docker-compose.override.yml
+docker-compose.*.yml
+!docker-compose.yml
+.docker/
+
+# ===========================================
+# ARCHIVOS DE KUBERNETES
+# ===========================================
+k8s/secrets/
+k8s/private/
+k8s/local/
+k8s/overrides/
+
+# ===========================================
+# ARCHIVOS DE TERRAFORM
+# ===========================================
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+terraform.tfvars
+*.auto.tfvars
+
+# ===========================================
+# ARCHIVOS DE ANSIBLE
+# ===========================================
+ansible/vault/
+ansible/secrets/
+ansible/private/
+*.vault
+vault.yml
+
+# ===========================================
+# ARCHIVOS DE MONITOREO
+# ===========================================
+monitoring/secrets/
+monitoring/private/
+prometheus/data/
+grafana/data/
+
+# ===========================================
+# ARCHIVOS DE BASE DE DATOS
+# ===========================================
+*.db
+*.sqlite
+*.sqlite3
+database/
+databases/
+
+# ===========================================
+# ARCHIVOS DE ASSETS TEMPORALES
+# ===========================================
+assets/temp/
+assets/cache/
+assets/processed/
+assets/optimized/
+assets/compressed/
+
+# ===========================================
+# ARCHIVOS DE FRONTEND TEMPORALES
+# ===========================================
+frontend/temp/
+frontend/cache/
+frontend/build/
+frontend/dist/
+
+# ===========================================
+# ARCHIVOS DE BACKEND TEMPORALES
+# ===========================================
+backend/temp/
+backend/cache/
+backend/build/
+backend/dist/
+
+# ===========================================
+# ARCHIVOS DE CONTRATOS TEMPORALES
+# ===========================================
+contracts/temp/
+contracts/cache/
+contracts/build/
+contracts/artifacts/
+
+# ===========================================
+# ARCHIVOS DE PROGRESO Y ESTADO
+# ===========================================
+progress/
+state/
+status/
+*.progress
+*.state
+*.status
+
+# ===========================================
+# ARCHIVOS DE CONFIGURACIÓN ESPECÍFICOS
+# ===========================================
+# TypeScript
+*.tsbuildinfo
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.pytest_cache/
+.coverage
+
+# Rust
+target/
+Cargo.lock
+**/*.rs.bk
+
+# Move
+build/
+Move.lock
+
+# Vyper
+*.vyc
+
+# ============================================
+# NOTA IMPORTANTE
+# ============================================
+# Este .gitignore está diseñado para proteger archivos temporales
+# y de build del sistema de construcción del metaverso.
+# Solo los archivos de configuración, código fuente y documentación
+# deben ser incluidos en el repositorio.

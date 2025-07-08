@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Panel de administración para WoldVirtual 3D - Control total del sistema modular" />
+    <meta name="keywords" content="woldvirtual, admin, panel, control, sistema, metaverso" />
+    <meta name="author" content="WoldVirtual Team" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://admin.woldvirtual.com/" />
+    <meta property="og:title" content="WoldVirtual Admin Panel" />
+    <meta property="og:description" content="Panel de administración para WoldVirtual 3D" />
+    <meta property="og:image" content="/og-image.jpg" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://admin.woldvirtual.com/" />
+    <meta property="twitter:title" content="WoldVirtual Admin Panel" />
+    <meta property="twitter:description" content="Panel de administración para WoldVirtual 3D" />
+    <meta property="twitter:image" content="/og-image.jpg" />
+
+    <!-- Preconnect para optimización -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <!-- Fuentes -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    
+    <!-- Tema -->
+    <meta name="theme-color" content="#3b82f6" />
+    <meta name="color-scheme" content="light dark" />
+    
+    <title>WoldVirtual Admin Panel</title>
+    
+    <!-- Estilos críticos inline -->
+    <style>
+      /* Loading spinner crítico */
+      .loading-spinner {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 3px solid rgba(255,255,255,.3);
+        border-radius: 50%;
+        border-top-color: #fff;
+        animation: spin 1s ease-in-out infinite;
+      }
+      
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+      
+      /* Estilos de carga inicial */
+      #root {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+      
+      .loading-container {
+        text-align: center;
+        color: white;
+      }
+      
+      .loading-container h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        font-family: 'Inter', sans-serif;
+      }
+      
+      .loading-container p {
+        font-size: 1rem;
+        opacity: 0.8;
+        font-family: 'Inter', sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <!-- Pantalla de carga inicial -->
+      <div class="loading-container">
+        <div class="loading-spinner"></div>
+        <h1>WoldVirtual Admin</h1>
+        <p>Cargando panel de administración...</p>
+      </div>
+    </div>
+    
+    <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Scripts de analytics (opcional) -->
+    <script>
+      // Google Analytics (descomentar si se necesita)
+      /*
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'GA_MEASUREMENT_ID');
+      */
+      
+      // Sentry (descomentar si se necesita)
+      /*
+      Sentry.init({
+        dsn: "YOUR_SENTRY_DSN",
+        integrations: [],
+        tracesSampleRate: 1.0,
+      });
+      */
+      
+      // Service Worker para PWA (descomentar si se necesita)
+      /*
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+              console.log('SW registered: ', registration);
+            })
+            .catch((registrationError) => {
+              console.log('SW registration failed: ', registrationError);
+            });
+        });
+      }
+      */
+    </script>
+  </body>
+</html> 
