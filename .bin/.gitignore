@@ -1,0 +1,11 @@
+# Archivos temporales y de sistema
+*.log
+*.tmp
+*.bak
+.DS_Store
+Thumbs.db
+
+# Resultados de pruebas y builds
+coverage/
+dist/
+node_modules/

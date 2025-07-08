@@ -1,338 +1,366 @@
 #!/usr/bin/env node
 
 /**
- * 📊 Script de Monitoreo de Rendimiento - Metaverso Web3
- * 
- * Este script monitorea el rendimiento del ecosistema completo del metaverso,
- * incluyendo métricas de blockchain, 3D, networking y economía.
+ * 📊 Performance Check - Metaverso Web3
+ * Monitorea métricas de rendimiento en tiempo real
  */
 
+const os = require('os');
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
-const https = require('https');
-const http = require('http');
+const { performance } = require('perf_hooks');
 
 // Configuración
 const CONFIG = {
-  endpoints: {
-    client: process.env.CLIENT_URL || 'http://localhost:3000',
-    gateway: process.env.GATEWAY_URL || 'http://localhost:4000',
-    engine: process.env.ENGINE_URL || 'http://localhost:5000',
-    blockchain: process.env.BLOCKCHAIN_RPC || 'https://eth-mainnet.alchemyapi.io/v2/'
-  },
-  thresholds: {
-    responseTime: 2000, // ms
-    memoryUsage: 80, // %
-    cpuUsage: 70, // %
-    errorRate: 5 // %
-  },
-  logFile: path.join(__dirname, '../logs/performance.log')
+    interval: 5000, // 5 segundos
+    logFile: `performance-${new Date().toISOString().split('T')[0]}.log`,
+    thresholds: {
+        cpu: 80, // %
+        memory: 85, // %
+        disk: 90, // %
+        fps: 30, // FPS mínimo
+        latency: 1000 // ms máximo
+    }
 };
 
 // Colores para consola
 const colors = {
-  red: '\x1b[31m',
-  green: '\x1b[32m',
-  yellow: '\x1b[33m',
-  blue: '\x1b[34m',
-  reset: '\x1b[0m'
+    red: '\x1b[31m',
+    green: '\x1b[32m',
+    yellow: '\x1b[33m',
+    blue: '\x1b[34m',
+    magenta: '\x1b[35m',
+    cyan: '\x1b[36m',
+    reset: '\x1b[0m'
 };
 
-function log(message, color = 'reset') {
-  const timestamp = new Date().toISOString();
-  const logMessage = `[${timestamp}] ${message}`;
-  console.log(`${colors[color]}${logMessage}${colors.reset}`);
-  
-  // Guardar en archivo
-  fs.appendFileSync(CONFIG.logFile, logMessage + '\n');
-}
-
-// Métricas del sistema
-function getSystemMetrics() {
-  try {
-    const cpuUsage = process.cpuUsage();
-    const memoryUsage = process.memoryUsage();
-    
-    return {
-      cpu: {
-        user: cpuUsage.user,
-        system: cpuUsage.system
-      },
-      memory: {
-        rss: memoryUsage.rss,
-        heapUsed: memoryUsage.heapUsed,
-        heapTotal: memoryUsage.heapTotal,
-        external: memoryUsage.external
-      },
-      uptime: process.uptime()
-    };
-  } catch (error) {
-    log(`Error obteniendo métricas del sistema: ${error.message}`, 'red');
-    return null;
-  }
-}
-
-// Health check de endpoints
-async function healthCheck(url, service) {
-  return new Promise((resolve) => {
-    const protocol = url.startsWith('https') ? https : http;
-    const startTime = Date.now();
-    
-    const req = protocol.get(url + '/health', (res) => {
-      const responseTime = Date.now() - startTime;
-      const status = res.statusCode;
-      
-      resolve({
-        service,
-        status,
-        responseTime,
-        healthy: status >= 200 && status < 300,
-        timestamp: new Date().toISOString()
-      });
-    });
-    
-    req.on('error', (error) => {
-      resolve({
-        service,
-        status: 0,
-        responseTime: Date.now() - startTime,
-        healthy: false,
-        error: error.message,
-        timestamp: new Date().toISOString()
-      });
-    });
-    
-    req.setTimeout(5000, () => {
-      req.destroy();
-      resolve({
-        service,
-        status: 0,
-        responseTime: 5000,
-        healthy: false,
-        error: 'Timeout',
-        timestamp: new Date().toISOString()
-      });
-    });
-  });
-}
-
-// Métricas de blockchain
-async function getBlockchainMetrics() {
-  try {
-    // Simular métricas de blockchain (en producción usaría Web3.js)
-    const metrics = {
-      gasPrice: Math.random() * 100 + 20, // Gwei
-      blockNumber: Math.floor(Math.random() * 1000000),
-      pendingTransactions: Math.floor(Math.random() * 1000),
-      networkLoad: Math.random() * 100,
-      timestamp: new Date().toISOString()
-    };
-    
-    return metrics;
-  } catch (error) {
-    log(`Error obteniendo métricas de blockchain: ${error.message}`, 'red');
-    return null;
-  }
-}
-
-// Métricas de 3D (simuladas)
-function get3DMetrics() {
-  try {
-    return {
-      fps: Math.random() * 30 + 30, // 30-60 FPS
-      drawCalls: Math.floor(Math.random() * 1000),
-      triangles: Math.floor(Math.random() * 100000),
-      memoryUsage: Math.random() * 512 + 128, // MB
-      timestamp: new Date().toISOString()
-    };
-  } catch (error) {
-    log(`Error obteniendo métricas 3D: ${error.message}`, 'red');
-    return null;
-  }
-}
-
-// Análisis de logs
-function analyzeLogs() {
-  try {
-    const logPath = path.join(__dirname, '../logs/');
-    const files = fs.readdirSync(logPath).filter(f => f.endsWith('.log'));
-    
-    const analysis = {
-      totalLogs: 0,
-      errors: 0,
-      warnings: 0,
-      criticalErrors: 0
-    };
-    
-    files.forEach(file => {
-      const content = fs.readFileSync(path.join(logPath, file), 'utf8');
-      const lines = content.split('\n');
-      
-      analysis.totalLogs += lines.length;
-      analysis.errors += (content.match(/ERROR/g) || []).length;
-      analysis.warnings += (content.match(/WARN/g) || []).length;
-      analysis.criticalErrors += (content.match(/CRITICAL/g) || []).length;
-    });
-    
-    return analysis;
-  } catch (error) {
-    log(`Error analizando logs: ${error.message}`, 'red');
-    return null;
-  }
-}
-
-// Generar reporte
-function generateReport(metrics) {
-  const report = {
-    timestamp: new Date().toISOString(),
-    summary: {
-      overallHealth: 'healthy',
-      criticalIssues: 0,
-      warnings: 0
-    },
-    services: metrics.services,
-    system: metrics.system,
-    blockchain: metrics.blockchain,
-    threeD: metrics.threeD,
-    logs: metrics.logs
-  };
-  
-  // Evaluar salud general
-  let criticalIssues = 0;
-  let warnings = 0;
-  
-  metrics.services.forEach(service => {
-    if (!service.healthy) criticalIssues++;
-    if (service.responseTime > CONFIG.thresholds.responseTime) warnings++;
-  });
-  
-  if (metrics.system) {
-    const memoryPercent = (metrics.system.memory.heapUsed / metrics.system.memory.heapTotal) * 100;
-    if (memoryPercent > CONFIG.thresholds.memoryUsage) warnings++;
-  }
-  
-  if (metrics.logs && metrics.logs.criticalErrors > 0) criticalIssues += metrics.logs.criticalErrors;
-  
-  report.summary.criticalIssues = criticalIssues;
-  report.summary.warnings = warnings;
-  report.summary.overallHealth = criticalIssues > 0 ? 'critical' : warnings > 0 ? 'warning' : 'healthy';
-  
-  return report;
-}
-
-// Función principal
-async function main() {
-  log('🚀 Iniciando monitoreo de rendimiento del Metaverso Web3...', 'blue');
-  
-  // Crear directorio de logs si no existe
-  const logDir = path.dirname(CONFIG.logFile);
-  if (!fs.existsSync(logDir)) {
-    fs.mkdirSync(logDir, { recursive: true });
-  }
-  
-  try {
-    // Health checks de servicios
-    log('🔍 Verificando salud de servicios...', 'blue');
-    const healthChecks = await Promise.all([
-      healthCheck(CONFIG.endpoints.client, 'client'),
-      healthCheck(CONFIG.endpoints.gateway, 'gateway'),
-      healthCheck(CONFIG.endpoints.engine, 'engine')
-    ]);
-    
-    // Métricas del sistema
-    log('📊 Recolectando métricas del sistema...', 'blue');
-    const systemMetrics = getSystemMetrics();
-    
-    // Métricas de blockchain
-    log('⛓️ Recolectando métricas de blockchain...', 'blue');
-    const blockchainMetrics = await getBlockchainMetrics();
-    
-    // Métricas 3D
-    log('🎮 Recolectando métricas 3D...', 'blue');
-    const threeDMetrics = get3DMetrics();
-    
-    // Análisis de logs
-    log('📝 Analizando logs...', 'blue');
-    const logAnalysis = analyzeLogs();
-    
-    // Generar reporte
-    const report = generateReport({
-      services: healthChecks,
-      system: systemMetrics,
-      blockchain: blockchainMetrics,
-      threeD: threeDMetrics,
-      logs: logAnalysis
-    });
-    
-    // Mostrar resultados
-    log('\n📋 REPORTE DE RENDIMIENTO', 'blue');
-    log('=' * 50, 'blue');
-    
-    log(`Estado General: ${report.summary.overallHealth.toUpperCase()}`, 
-        report.summary.overallHealth === 'healthy' ? 'green' : 
-        report.summary.overallHealth === 'warning' ? 'yellow' : 'red');
-    
-    log(`Problemas Críticos: ${report.summary.criticalIssues}`, 
-        report.summary.criticalIssues > 0 ? 'red' : 'green');
-    
-    log(`Advertencias: ${report.summary.warnings}`, 
-        report.summary.warnings > 0 ? 'yellow' : 'green');
-    
-    // Detalles de servicios
-    log('\n🔧 SERVICIOS:', 'blue');
-    report.services.forEach(service => {
-      const status = service.healthy ? '✅' : '❌';
-      const color = service.healthy ? 'green' : 'red';
-      log(`${status} ${service.service}: ${service.status} (${service.responseTime}ms)`, color);
-    });
-    
-    // Métricas de blockchain
-    if (report.blockchain) {
-      log('\n⛓️ BLOCKCHAIN:', 'blue');
-      log(`Gas Price: ${report.blockchain.gasPrice.toFixed(2)} Gwei`, 'green');
-      log(`Block Number: ${report.blockchain.blockNumber}`, 'green');
-      log(`Pending TX: ${report.blockchain.pendingTransactions}`, 'green');
+class PerformanceMonitor {
+    constructor() {
+        this.metrics = {
+            cpu: [],
+            memory: [],
+            disk: [],
+            network: [],
+            processes: [],
+            fps: [],
+            latency: []
+        };
+        this.alerts = [];
+        this.startTime = performance.now();
     }
-    
-    // Métricas 3D
-    if (report.threeD) {
-      log('\n🎮 3D RENDERING:', 'blue');
-      log(`FPS: ${report.threeD.fps.toFixed(1)}`, 'green');
-      log(`Draw Calls: ${report.threeD.drawCalls}`, 'green');
-      log(`Triangles: ${report.threeD.triangles.toLocaleString()}`, 'green');
+
+    log(message, color = 'reset', level = 'INFO') {
+        const timestamp = new Date().toISOString();
+        const logMessage = `[${timestamp}] [${level}] ${message}`;
+        console.log(`${colors[color]}${logMessage}${colors.reset}`);
+        
+        // Guardar en archivo
+        fs.appendFileSync(CONFIG.logFile, `${logMessage}\n`);
     }
-    
-    // Guardar reporte
-    const reportPath = path.join(logDir, `performance-report-${Date.now()}.json`);
-    fs.writeFileSync(reportPath, JSON.stringify(report, null, 2));
-    log(`\n💾 Reporte guardado en: ${reportPath}`, 'green');
-    
-    // Alertas si hay problemas críticos
-    if (report.summary.criticalIssues > 0) {
-      log(`\n🚨 ALERTA: ${report.summary.criticalIssues} problema(s) crítico(s) detectado(s)!`, 'red');
-      process.exit(1);
+
+    // Obtener métricas del sistema
+    getSystemMetrics() {
+        const totalMem = os.totalmem();
+        const freeMem = os.freemem();
+        const usedMem = totalMem - freeMem;
+        const memoryUsage = (usedMem / totalMem) * 100;
+
+        const cpus = os.cpus();
+        const cpuUsage = cpus.reduce((acc, cpu) => {
+            const total = Object.values(cpu.times).reduce((a, b) => a + b);
+            const idle = cpu.times.idle;
+            return acc + ((total - idle) / total) * 100;
+        }, 0) / cpus.length;
+
+        return {
+            cpu: cpuUsage.toFixed(2),
+            memory: memoryUsage.toFixed(2),
+            totalMemory: (totalMem / 1024 / 1024 / 1024).toFixed(2),
+            usedMemory: (usedMem / 1024 / 1024 / 1024).toFixed(2),
+            freeMemory: (freeMem / 1024 / 1024 / 1024).toFixed(2),
+            uptime: os.uptime(),
+            loadAverage: os.loadavg()
+        };
     }
-    
-    log('\n✅ Monitoreo completado exitosamente', 'green');
-    
-  } catch (error) {
-    log(`❌ Error durante el monitoreo: ${error.message}`, 'red');
-    process.exit(1);
-  }
+
+    // Obtener métricas de disco
+    getDiskMetrics() {
+        try {
+            const df = execSync('df -h /', { encoding: 'utf8' });
+            const lines = df.split('\n');
+            const data = lines[1].split(/\s+/);
+            
+            return {
+                total: data[1],
+                used: data[2],
+                available: data[3],
+                usagePercent: parseInt(data[4].replace('%', ''))
+            };
+        } catch (error) {
+            return { error: error.message };
+        }
+    }
+
+    // Obtener métricas de red
+    getNetworkMetrics() {
+        try {
+            const netstat = execSync('netstat -i', { encoding: 'utf8' });
+            const lines = netstat.split('\n');
+            const eth0 = lines.find(line => line.includes('eth0') || line.includes('en0'));
+            
+            if (eth0) {
+                const data = eth0.split(/\s+/);
+                return {
+                    interface: data[0],
+                    rxBytes: data[3],
+                    txBytes: data[7],
+                    rxErrors: data[4],
+                    txErrors: data[8]
+                };
+            }
+        } catch (error) {
+            return { error: error.message };
+        }
+    }
+
+    // Obtener métricas de procesos
+    getProcessMetrics() {
+        try {
+            const ps = execSync('ps aux --sort=-%cpu | head -10', { encoding: 'utf8' });
+            const lines = ps.split('\n').slice(1, 6); // Top 5 procesos
+            
+            return lines.map(line => {
+                const data = line.split(/\s+/);
+                return {
+                    pid: data[1],
+                    cpu: data[2],
+                    memory: data[3],
+                    command: data[10] || data[9]
+                };
+            }).filter(proc => proc.pid);
+        } catch (error) {
+            return [{ error: error.message }];
+        }
+    }
+
+    // Simular métricas de FPS (en un entorno real, esto vendría del frontend)
+    getFPSMetrics() {
+        // Simulación de FPS basada en carga del sistema
+        const systemLoad = os.loadavg()[0];
+        const baseFPS = 60;
+        const fps = Math.max(30, baseFPS - (systemLoad * 10));
+        
+        return {
+            current: fps.toFixed(1),
+            average: (fps * 0.9 + parseFloat(this.metrics.fps[this.metrics.fps.length - 1]?.current || fps) * 0.1).toFixed(1),
+            min: Math.min(...this.metrics.fps.map(m => parseFloat(m.current) || 60), fps).toFixed(1),
+            max: Math.max(...this.metrics.fps.map(m => parseFloat(m.current) || 60), fps).toFixed(1)
+        };
+    }
+
+    // Medir latencia de red
+    async getLatencyMetrics() {
+        const targets = [
+            'google.com',
+            'cloudflare.com',
+            'localhost'
+        ];
+
+        const latencies = await Promise.all(
+            targets.map(async (target) => {
+                try {
+                    const start = performance.now();
+                    await new Promise((resolve, reject) => {
+                        const { exec } = require('child_process');
+                        exec(`ping -c 1 ${target}`, (error, stdout) => {
+                            if (error) reject(error);
+                            else resolve(stdout);
+                        });
+                    });
+                    const end = performance.now();
+                    return { target, latency: (end - start).toFixed(2) };
+                } catch (error) {
+                    return { target, latency: 'timeout' };
+                }
+            })
+        );
+
+        return latencies;
+    }
+
+    // Verificar umbrales y generar alertas
+    checkThresholds(metrics) {
+        const alerts = [];
+
+        if (parseFloat(metrics.cpu) > CONFIG.thresholds.cpu) {
+            alerts.push(`CPU usage high: ${metrics.cpu}%`);
+        }
+
+        if (parseFloat(metrics.memory) > CONFIG.thresholds.memory) {
+            alerts.push(`Memory usage high: ${metrics.memory}%`);
+        }
+
+        if (metrics.disk && metrics.disk.usagePercent > CONFIG.thresholds.disk) {
+            alerts.push(`Disk usage high: ${metrics.disk.usagePercent}%`);
+        }
+
+        if (parseFloat(metrics.fps.current) < CONFIG.thresholds.fps) {
+            alerts.push(`FPS low: ${metrics.fps.current}`);
+        }
+
+        return alerts;
+    }
+
+    // Generar reporte de rendimiento
+    generateReport() {
+        const report = {
+            timestamp: new Date().toISOString(),
+            uptime: ((performance.now() - this.startTime) / 1000 / 60).toFixed(2), // minutos
+            system: this.getSystemMetrics(),
+            disk: this.getDiskMetrics(),
+            network: this.getNetworkMetrics(),
+            processes: this.getProcessMetrics(),
+            fps: this.getFPSMetrics(),
+            alerts: this.alerts,
+            summary: {
+                totalAlerts: this.alerts.length,
+                averageCPU: (this.metrics.cpu.reduce((a, b) => a + parseFloat(b), 0) / this.metrics.cpu.length).toFixed(2),
+                averageMemory: (this.metrics.memory.reduce((a, b) => a + parseFloat(b), 0) / this.metrics.memory.length).toFixed(2),
+                averageFPS: (this.metrics.fps.reduce((a, b) => a + parseFloat(b.current), 0) / this.metrics.fps.length).toFixed(2)
+            }
+        };
+
+        return report;
+    }
+
+    // Mostrar métricas en tiempo real
+    displayMetrics(metrics) {
+        console.clear();
+        console.log(`${colors.cyan}╔══════════════════════════════════════════════════════════════╗${colors.reset}`);
+        console.log(`${colors.cyan}║                    📊 PERFORMANCE MONITOR                    ║${colors.reset}`);
+        console.log(`${colors.cyan}╚══════════════════════════════════════════════════════════════╝${colors.reset}\n`);
+
+        // CPU y Memoria
+        const cpuColor = parseFloat(metrics.cpu) > CONFIG.thresholds.cpu ? 'red' : 'green';
+        const memColor = parseFloat(metrics.memory) > CONFIG.thresholds.memory ? 'red' : 'green';
+        
+        console.log(`${colors.blue}🖥️  SYSTEM METRICS:${colors.reset}`);
+        console.log(`   CPU: ${colors[cpuColor]}${metrics.cpu}%${colors.reset} | Memory: ${colors[memColor]}${metrics.memory}%${colors.reset} | Uptime: ${(metrics.uptime / 3600).toFixed(1)}h`);
+        console.log(`   Load Average: ${metrics.loadAverage.map(l => l.toFixed(2)).join(', ')}`);
+
+        // FPS
+        const fpsColor = parseFloat(metrics.fps.current) < CONFIG.thresholds.fps ? 'red' : 'green';
+        console.log(`\n${colors.blue}🎮 PERFORMANCE:${colors.reset}`);
+        console.log(`   FPS: ${colors[fpsColor]}${metrics.fps.current}${colors.reset} (avg: ${metrics.fps.average}, min: ${metrics.fps.min}, max: ${metrics.fps.max})`);
+
+        // Disco
+        if (metrics.disk && !metrics.disk.error) {
+            const diskColor = metrics.disk.usagePercent > CONFIG.thresholds.disk ? 'red' : 'green';
+            console.log(`\n${colors.blue}💾 DISK:${colors.reset}`);
+            console.log(`   Usage: ${colors[diskColor]}${metrics.disk.usagePercent}%${colors.reset} | Available: ${metrics.disk.available}`);
+        }
+
+        // Procesos
+        console.log(`\n${colors.blue}⚙️  TOP PROCESSES:${colors.reset}`);
+        metrics.processes.slice(0, 3).forEach((proc, i) => {
+            if (proc.error) return;
+            const cpuColor = parseFloat(proc.cpu) > 50 ? 'red' : 'green';
+            console.log(`   ${i + 1}. ${colors[cpuColor]}${proc.cpu}%${colors.reset} CPU | ${proc.memory}% MEM | ${proc.command.substring(0, 30)}...`);
+        });
+
+        // Alertas
+        if (this.alerts.length > 0) {
+            console.log(`\n${colors.red}🚨 ALERTS:${colors.reset}`);
+            this.alerts.slice(-3).forEach(alert => {
+                console.log(`   ⚠️  ${alert}`);
+            });
+        }
+
+        console.log(`\n${colors.yellow}Press Ctrl+C to stop monitoring${colors.reset}`);
+    }
+
+    // Iniciar monitoreo
+    async start() {
+        this.log('🚀 Iniciando Performance Monitor...', 'green');
+        this.log(`📁 Log file: ${CONFIG.logFile}`, 'blue');
+        this.log(`⏱️  Interval: ${CONFIG.interval}ms`, 'blue');
+
+        const monitor = async () => {
+            try {
+                // Recolectar métricas
+                const systemMetrics = this.getSystemMetrics();
+                const diskMetrics = this.getDiskMetrics();
+                const networkMetrics = this.getNetworkMetrics();
+                const processMetrics = this.getProcessMetrics();
+                const fpsMetrics = this.getFPSMetrics();
+                const latencyMetrics = await this.getLatencyMetrics();
+
+                // Almacenar métricas
+                this.metrics.cpu.push(systemMetrics.cpu);
+                this.metrics.memory.push(systemMetrics.memory);
+                this.metrics.fps.push(fpsMetrics);
+
+                // Limitar historial
+                if (this.metrics.cpu.length > 100) {
+                    this.metrics.cpu.shift();
+                    this.metrics.memory.shift();
+                    this.metrics.fps.shift();
+                }
+
+                // Verificar umbrales
+                const alerts = this.checkThresholds({
+                    ...systemMetrics,
+                    disk: diskMetrics,
+                    fps: fpsMetrics
+                });
+
+                this.alerts.push(...alerts.map(alert => `${new Date().toISOString()}: ${alert}`));
+
+                // Limitar alertas
+                if (this.alerts.length > 50) {
+                    this.alerts = this.alerts.slice(-50);
+                }
+
+                // Mostrar métricas
+                this.displayMetrics({
+                    ...systemMetrics,
+                    disk: diskMetrics,
+                    network: networkMetrics,
+                    processes: processMetrics,
+                    fps: fpsMetrics,
+                    latency: latencyMetrics
+                });
+
+            } catch (error) {
+                this.log(`Error en monitoreo: ${error.message}`, 'red', 'ERROR');
+            }
+        };
+
+        // Ejecutar inmediatamente
+        await monitor();
+
+        // Configurar intervalo
+        setInterval(monitor, CONFIG.interval);
+    }
 }
 
-// Ejecutar si es llamado directamente
+// Manejar señales de terminación
+process.on('SIGINT', () => {
+    console.log('\n\n📊 Generando reporte final...');
+    const monitor = new PerformanceMonitor();
+    const report = monitor.generateReport();
+    
+    console.log('\n📋 PERFORMANCE REPORT:');
+    console.log(JSON.stringify(report, null, 2));
+    
+    process.exit(0);
+});
+
+// Iniciar si es el script principal
 if (require.main === module) {
-  main();
+    const monitor = new PerformanceMonitor();
+    monitor.start();
 }
 
-module.exports = {
-  main,
-  healthCheck,
-  getSystemMetrics,
-  getBlockchainMetrics,
-  get3DMetrics,
-  analyzeLogs,
-  generateReport
-}; 
+module.exports = PerformanceMonitor; 

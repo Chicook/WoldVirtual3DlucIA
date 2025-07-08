@@ -1,3 +1,15 @@
-# Manuales de Automatización
+# manuals/
 
-En esta sección encontrarás documentación detallada sobre los scripts y herramientas utilizados para automatizar tareas y desplegar componentes del metaverso. Se incluyen guías paso a paso para la configuración, ejecución y personalización de los procesos de automatización, así como recomendaciones y buenas prácticas para optimizar el flujo de trabajo. El objetivo es facilitar la gestión eficiente del entorno virtual y asegurar que los despliegues se realicen de manera segura y reproducible.
+Documentación técnica y de usuario para scripts y automatizaciones.
+
+## ¿Qué contiene?
+- Guías de uso de cada script y subcarpeta.
+- Ejemplos de integración y troubleshooting.
+- Diagramas de flujo y arquitectura.
+
+## Buenas prácticas
+- Mantén la documentación actualizada.
+- Añade ejemplos claros y advertencias.
+
+## Ejemplo de uso
+- Consulta `usage.md` para ejemplos rápidos.

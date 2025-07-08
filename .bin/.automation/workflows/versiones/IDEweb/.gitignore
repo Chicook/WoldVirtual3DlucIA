@@ -1,0 +1,153 @@
+# Dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# Testing
+/coverage
+
+# Production
+/build
+
+# Misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# nyc test coverage
+.nyc_output
+
+# Grunt intermediate storage
+.grunt
+
+# Bower dependency directory
+bower_components
+
+# node-waf configuration
+.lock-wscript
+
+# Compiled binary addons
+build/Release
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Optional npm cache directory
+.npm
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# dotenv environment variables file
+.env
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+
+# Sistema de desarrollo de versiones - Archivos específicos
+# Logs de desarrollo y progreso
+/logs/development/
+/logs/progress/
+*.progress.log
+*.development.log
+
+# Datos de desarrollo de versiones (archivos temporales)
+/development-data/
+*.dev-data.json
+*.progress-data.json
+
+# Archivos de estado de desarrollo
+.dev-state.json
+.progress-state.json
+.development-cache/
+
+# Reportes de progreso generados automáticamente
+/reports/progress/
+/reports/development/
+*.progress-report.json
+*.development-report.html
+
+# Archivos de configuración local de desarrollo
+.dev-config.json
+.local-progress.json
+
+# Archivos de respaldo de versiones en desarrollo
+/backups/development/
+*.dev-backup.json
+
+# Archivos temporales de comparación de versiones
+/temp/diff/
+*.diff-temp.json
+
+# Archivos de estadísticas de desarrollo
+/stats/development/
+*.dev-stats.json
+
+# Archivos de monitoreo de progreso
+/monitoring/progress/
+*.progress-monitor.json
+
+# Archivos de caché de componentes de desarrollo
+.cache/development/
+*.dev-cache.json
+
+# Archivos de configuración de barras de progreso
+progress-config.json
+development-config.json
+
+# Archivos de datos mock para desarrollo (si se generan automáticamente)
+/mock-data/development/
+*.mock-dev.json
+
+# Archivos de sesión de desarrollo
+*.session.json
+*.dev-session.json
+
+# Archivos de configuración de temas de desarrollo
+dev-theme-config.json
+progress-theme-config.json
+
+# Archivos de exportación de datos de desarrollo
+/exports/development/
+*.dev-export.json
+*.progress-export.json
+
+# Archivos de backup automático de desarrollo
+/auto-backup/development/
+*.auto-dev-backup.json

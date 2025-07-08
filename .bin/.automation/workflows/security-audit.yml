@@ -1,0 +1,209 @@
+name: Security Audit Metaverso
+description: Auditoría completa de seguridad para el metaverso
+triggers: ['schedule', 'manual', 'security-alert']
+
+jobs:
+  dependency-audit:
+    name: Auditoría de Dependencias
+    runs_on: ubuntu-latest
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          
+      - name: Instalar dependencias
+        run: npm ci
+        
+      - name: Auditoría npm
+        run: |
+          npm audit --audit-level=moderate --json > npm-audit.json
+          npm audit --audit-level=moderate
+          
+      - name: Verificar dependencias desactualizadas
+        run: |
+          npm outdated --json > outdated-deps.json
+          npm outdated
+          
+      - name: Escanear dependencias con Snyk
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=high
+
+  code-security:
+    name: Análisis de Código
+    runs_on: ubuntu-latest
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          
+      - name: Instalar dependencias
+        run: npm ci
+        
+      - name: Análisis estático con ESLint
+        run: |
+          npm run lint:security
+          npx eslint --ext .js,.ts,.jsx,.tsx src/ --format json > eslint-security.json
+          
+      - name: Detectar secretos en código
+        run: |
+          git secrets --scan
+          git secrets --scan-history
+          trufflehog --json . > secrets-scan.json
+          
+      - name: Análisis con SonarQube
+        uses: sonarqube-quality-gate-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          scannerHomeDir: /opt/sonar-scanner
+
+  blockchain-security:
+    name: Seguridad Blockchain
+    runs_on: ubuntu-latest
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          
+      - name: Instalar dependencias
+        run: npm ci
+        
+      - name: Auditoría de contratos inteligentes
+        run: |
+          npx hardhat test --grep "security"
+          npx slither .
+          
+      - name: Verificar configuración de red
+        run: |
+          node ../blockchain/deploy-contracts.js --audit
+          node ../security/audit.sh --blockchain
+          
+      - name: Análisis de transacciones
+        run: |
+          node ../blockchain/mint-nft.js --audit-mode
+          node ../security/scan-vulnerabilities.js --blockchain
+
+  infrastructure-security:
+    name: Seguridad de Infraestructura
+    runs_on: ubuntu-latest
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+        
+      - name: Verificar configuración de red
+        run: |
+          node ../monitor/health-check.sh --security
+          node ../security/audit.sh --infrastructure
+          
+      - name: Escanear puertos abiertos
+        run: |
+          nmap -sS -sV -O localhost > port-scan.txt
+          netstat -tuln > open-ports.txt
+          
+      - name: Verificar certificados SSL
+        run: |
+          openssl s_client -connect localhost:443 -servername localhost < /dev/null
+          echo "Q" | openssl s_client -connect localhost:443 -servername localhost
+          
+      - name: Análisis de logs de seguridad
+        run: |
+          grep -i "error\|warning\|fail" logs/*.log > security-logs.txt
+          grep -i "unauthorized\|forbidden\|denied" logs/*.log >> security-logs.txt
+
+  penetration-testing:
+    name: Pruebas de Penetración
+    runs_on: ubuntu-latest
+    if: github.event_name == 'manual'
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+        
+      - name: Setup herramientas de pentesting
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y nmap nikto sqlmap
+          
+      - name: Escaneo de vulnerabilidades web
+        run: |
+          nikto -h localhost -output nikto-scan.txt
+          sqlmap -u "http://localhost" --batch --random-agent
+          
+      - name: Análisis de endpoints
+        run: |
+          curl -X GET http://localhost/api/health
+          curl -X POST http://localhost/api/test
+          
+      - name: Verificar headers de seguridad
+        run: |
+          curl -I http://localhost | grep -E "(X-Frame-Options|X-Content-Type-Options|X-XSS-Protection)"
+
+  report-generation:
+    name: Generación de Reporte
+    runs_on: ubuntu-latest
+    needs: [dependency-audit, code-security, blockchain-security, infrastructure-security]
+    if: always()
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+        
+      - name: Descargar artifacts
+        uses: actions/download-artifact@v3
+        with:
+          path: security-reports/
+          
+      - name: Generar reporte consolidado
+        run: |
+          node ../security/audit.sh --generate-report
+          node ../monitor/performance-check.js --security-report
+          
+      - name: Crear dashboard de seguridad
+        run: |
+          echo "# Reporte de Seguridad - $(date)" > security-report.md
+          echo "## Resumen Ejecutivo" >> security-report.md
+          echo "## Vulnerabilidades Encontradas" >> security-report.md
+          echo "## Recomendaciones" >> security-report.md
+          
+      - name: Subir reporte
+        uses: actions/upload-artifact@v3
+        with:
+          name: security-audit-report
+          path: |
+            security-report.md
+            security-reports/
+
+  notification:
+    name: Notificaciones
+    runs_on: ubuntu-latest
+    needs: report-generation
+    if: always()
+    steps:
+      - name: Notificar resultados
+        run: |
+          if [ ${{ needs.report-generation.result }} == 'success' ]; then
+            echo "✅ Auditoría de seguridad completada"
+            # Notificar a Slack/Discord
+          else
+            echo "❌ Error en auditoría de seguridad"
+            # Notificar alerta
+          fi
+          
+      - name: Enviar alertas críticas
+        if: failure()
+        run: |
+          echo "🚨 ALERTA: Vulnerabilidades críticas detectadas"
+          # Enviar notificación urgente 
