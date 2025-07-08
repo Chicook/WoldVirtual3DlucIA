@@ -1,0 +1,165 @@
+---
+- name: Deploy WoldVirtual3D Blockchain
+  hosts: blockchain_servers
+  become: yes
+  vars:
+    app_name: woldvirtual-blockchain
+    app_path: /opt/{{ app_name }}
+    user: blockchain
+    group: blockchain
+
+  tasks:
+    - name: Update system packages
+      package:
+        name: "{{ item }}"
+        state: latest
+      loop:
+        - git
+        - curl
+        - wget
+        - unzip
+        - build-essential
+
+    - name: Install Node.js 18.x
+      block:
+        - name: Add NodeSource repository
+          shell: |
+            curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+          args:
+            creates: /etc/apt/sources.list.d/nodesource.list
+
+        - name: Install Node.js
+          apt:
+            name: nodejs
+            state: present
+            update_cache: yes
+
+    - name: Install PM2 globally
+      npm:
+        name: pm2
+        global: yes
+
+    - name: Create application user
+      user:
+        name: "{{ user }}"
+        group: "{{ group }}"
+        system: yes
+        shell: /bin/bash
+        home: /home/{{ user }}
+
+    - name: Create application directory
+      file:
+        path: "{{ app_path }}"
+        state: directory
+        owner: "{{ user }}"
+        group: "{{ group }}"
+        mode: '0755'
+
+    - name: Clone repository
+      git:
+        repo: "https://github.com/woldvirtual3d/blockchain.git"
+        dest: "{{ app_path }}"
+        version: main
+      become_user: "{{ user }}"
+
+    - name: Install dependencies
+      npm:
+        path: "{{ app_path }}"
+        state: present
+      become_user: "{{ user }}"
+
+    - name: Build application
+      npm:
+        path: "{{ app_path }}"
+        script: build
+      become_user: "{{ user }}"
+
+    - name: Create environment file
+      template:
+        src: env.j2
+        dest: "{{ app_path }}/.env"
+        owner: "{{ user }}"
+        group: "{{ group }}"
+        mode: '0600'
+
+    - name: Create systemd service
+      template:
+        src: woldvirtual-blockchain.service.j2
+        dest: /etc/systemd/system/woldvirtual-blockchain.service
+        mode: '0644'
+      notify: restart systemd
+
+    - name: Create log directory
+      file:
+        path: /var/log/{{ app_name }}
+        state: directory
+        owner: "{{ user }}"
+        group: "{{ group }}"
+        mode: '0755'
+
+    - name: Create data directory
+      file:
+        path: /var/lib/{{ app_name }}
+        state: directory
+        owner: "{{ user }}"
+        group: "{{ group }}"
+        mode: '0755'
+
+    - name: Enable and start service
+      systemd:
+        name: woldvirtual-blockchain
+        enabled: yes
+        state: started
+        daemon_reload: yes
+
+    - name: Configure firewall
+      ufw:
+        rule: allow
+        port: "{{ item }}"
+        proto: tcp
+      loop:
+        - 80
+        - 443
+        - 8546
+        - 8547
+        - 8548
+
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+
+    - name: Configure Nginx
+      template:
+        src: nginx.conf.j2
+        dest: /etc/nginx/sites-available/{{ app_name }}
+        mode: '0644'
+      notify: restart nginx
+
+    - name: Enable Nginx site
+      file:
+        src: /etc/nginx/sites-available/{{ app_name }}
+        dest: /etc/nginx/sites-enabled/{{ app_name }}
+        state: link
+      notify: restart nginx
+
+    - name: Remove default Nginx site
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+      notify: restart nginx
+
+  handlers:
+    - name: restart systemd
+      systemd:
+        daemon_reload: yes
+
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted
+
+    - name: restart blockchain
+      systemd:
+        name: woldvirtual-blockchain
+        state: restarted 

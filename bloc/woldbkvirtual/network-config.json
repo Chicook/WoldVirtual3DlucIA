@@ -1,0 +1,237 @@
+{
+  "network": {
+    "name": "WoldVirtual3D Mainnet",
+    "chainId": 1337,
+    "symbol": "WCV",
+    "decimals": 3,
+    "totalSupply": "30000000000",
+    "rpcUrl": "http://localhost:8546",
+    "wsUrl": "ws://localhost:8547",
+    "explorerUrl": "https://explorer.woldvirtual3d.com",
+    "faucetUrl": "https://faucet.woldvirtual3d.com"
+  },
+  "token": {
+    "name": "WoldCoinVirtual",
+    "symbol": "WCV",
+    "decimals": 3,
+    "totalSupply": "30000000000",
+    "circulatingSupply": "20000000000",
+    "burnedSupply": "0",
+    "contractAddress": {
+      "bsc": "0x053532E91FFD6b8a21C925Da101C909A01106BBE",
+      "woldvirtual": "0x0000000000000000000000000000000000000004"
+    },
+    "distribution": {
+      "publicSale": "15000000000",
+      "team": "3000000000",
+      "development": "3000000000",
+      "marketing": "2000000000",
+      "liquidity": "2000000000",
+      "reserve": "5000000000"
+    }
+  },
+  "bridge": {
+    "enabled": true,
+    "name": "WoldVirtual Bridge",
+    "description": "Puente entre Binance Smart Chain y WoldVirtual3D Blockchain",
+    "bsc": {
+      "chainId": 56,
+      "rpcUrl": "https://bsc-dataseed1.binance.org/",
+      "wsUrl": "wss://bsc-ws-node.nariox.org:443",
+      "explorerUrl": "https://bscscan.com",
+      "contractAddress": "0x053532E91FFD6b8a21C925Da101C909A01106BBE",
+      "bridgeContract": "0x0000000000000000000000000000000000000005"
+    },
+    "woldvirtual": {
+      "chainId": 1337,
+      "rpcUrl": "http://localhost:8546",
+      "wsUrl": "ws://localhost:8547",
+      "explorerUrl": "https://explorer.woldvirtual3d.com",
+      "contractAddress": "0x0000000000000000000000000000000000000004",
+      "bridgeContract": "0x0000000000000000000000000000000000000006"
+    },
+    "fees": {
+      "transfer": "100000", // 0.1 WCV
+      "withdrawal": "50000", // 0.05 WCV
+      "minimumTransfer": "1000" // 1 WCV
+    },
+    "confirmationBlocks": {
+      "bsc": 15,
+      "woldvirtual": 5
+    },
+    "maxTransferAmount": "1000000000", // 1M WCV
+    "dailyLimit": "10000000000" // 10M WCV
+  },
+  "consensus": {
+    "type": "pos",
+    "blockTime": 15,
+    "maxValidators": 21,
+    "minStake": "1000000000000000000000",
+    "blockReward": "10000000000000000000",
+    "transactionFee": "1000000000000000000",
+    "inflationRate": 0.02
+  },
+  "gas": {
+    "limits": {
+      "transfer": 21000,
+      "contractCall": 100000,
+      "contractDeploy": 500000,
+      "assetRegister": 150000,
+      "userRegister": 120000,
+      "metaverseCreate": 300000,
+      "bridgeTransfer": 200000
+    },
+    "prices": {
+      "low": "20000000000",
+      "medium": "50000000000",
+      "high": "100000000000"
+    }
+  },
+  "ports": {
+    "network": 8545,
+    "rpc": 8546,
+    "ws": 8547,
+    "bridge": 8548
+  },
+  "validators": [
+    {
+      "address": "0x742d35Cc6634C0532925a3b8D4C9db96C4b4d8b6",
+      "name": "Validator-1",
+      "description": "Nodo principal de WoldVirtual3D",
+      "stake": "10000000000000000000000"
+    },
+    {
+      "address": "0x8ba1f109551bD432803012645Hac136c772c3c7b",
+      "name": "Validator-2",
+      "description": "Nodo secundario de WoldVirtual3D",
+      "stake": "8000000000000000000000"
+    },
+    {
+      "address": "0x147B8eb97fD247D06C4006D269c90C1908Fb5D54",
+      "name": "Validator-3",
+      "description": "Nodo terciario de WoldVirtual3D",
+      "stake": "6000000000000000000000"
+    }
+  ],
+  "contracts": {
+    "wcvToken": {
+      "name": "WoldCoinVirtual",
+      "description": "Token principal de WoldVirtual3D",
+      "address": "0x0000000000000000000000000000000000000004"
+    },
+    "bridge": {
+      "name": "WoldVirtualBridge",
+      "description": "Puente entre BSC y WoldVirtual3D",
+      "address": "0x0000000000000000000000000000000000000006"
+    },
+    "assetRegistry": {
+      "name": "AssetRegistry",
+      "description": "Registro de assets 3D",
+      "address": "0x0000000000000000000000000000000000000001"
+    },
+    "userRegistry": {
+      "name": "UserRegistry",
+      "description": "Registro de usuarios",
+      "address": "0x0000000000000000000000000000000000000002"
+    },
+    "metaverseRegistry": {
+      "name": "MetaverseRegistry",
+      "description": "Registro de metaversos",
+      "address": "0x0000000000000000000000000000000000000003"
+    }
+  },
+  "features": {
+    "bridge": {
+      "enabled": true,
+      "autoSync": true,
+      "crossChainAssets": true,
+      "liquidityPool": true
+    },
+    "assets": {
+      "enabled": true,
+      "maxFileSize": 100000000,
+      "supportedFormats": ["glb", "gltf", "obj", "fbx", "png", "jpg", "mp3", "wav"],
+      "ipfsGateway": "https://ipfs.woldvirtual3d.com"
+    },
+    "metaverses": {
+      "enabled": true,
+      "maxUsersPerMetaverse": 1000,
+      "maxAssetsPerMetaverse": 10000,
+      "maxWorldSize": 1000000
+    },
+    "marketplace": {
+      "enabled": true,
+      "transactionFee": 0.025,
+      "royaltyFee": 0.1,
+      "supportedTokens": ["WCV", "BNB", "BUSD"]
+    },
+    "governance": {
+      "enabled": true,
+      "minProposalStake": "10000000000000000000000",
+      "votingPeriod": 604800
+    }
+  },
+  "security": {
+    "encryption": {
+      "enabled": true,
+      "algorithm": "AES-256-GCM"
+    },
+    "rateLimit": {
+      "enabled": true,
+      "requestsPerMinute": 100,
+      "burstLimit": 200
+    },
+    "cors": {
+      "enabled": true,
+      "origins": [
+        "https://woldvirtual3d.com",
+        "https://app.woldvirtual3d.com",
+        "http://localhost:3000"
+      ]
+    },
+    "bridge": {
+      "multiSig": true,
+      "timeLock": 3600,
+      "maxDailyTransfers": 1000
+    }
+  },
+  "monitoring": {
+    "metrics": {
+      "enabled": true,
+      "port": 9090
+    },
+    "healthCheck": {
+      "enabled": true,
+      "port": 8080,
+      "interval": 30000
+    },
+    "logging": {
+      "level": "info",
+      "file": "logs/blockchain.log",
+      "maxSize": "100MB",
+      "maxFiles": 10
+    },
+    "bridge": {
+      "enabled": true,
+      "alerts": true,
+      "webhook": "https://hooks.slack.com/services/xxx/yyy/zzz"
+    }
+  },
+  "development": {
+    "autoMine": false,
+    "gasLimit": 30000000,
+    "gasPrice": "20000000000",
+    "accounts": [
+      {
+        "address": "0x742d35Cc6634C0532925a3b8D4C9db96C4b4d8b6",
+        "privateKey": "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",
+        "balance": "1000000000000000000000000"
+      },
+      {
+        "address": "0x8ba1f109551bD432803012645Hac136c772c3c7b",
+        "privateKey": "0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890",
+        "balance": "500000000000000000000000"
+      }
+    ]
+  }
+} 
