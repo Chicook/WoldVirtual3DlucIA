@@ -207,7 +207,7 @@ export class AssetsSystemAdvanced {
       // Calcular estadísticas
       const totalTime = Date.now() - startTime;
       const totalSizeReduction = this.calculateTotalSizeReduction(
-        validationResult.metadata.fileInfo.size,
+        validationResult.metadata['fileInfo'].size,
         optimizationResult,
         compressionResult
       );
@@ -216,7 +216,7 @@ export class AssetsSystemAdvanced {
         success: true,
         assetId,
         originalPath: filePath,
-        processedPath: compressionResult?.outputPath || optimizationResult?.outputPath,
+        processedPath: compressionResult?.outputPath || optimizationResult?.outputPath || undefined,
         uploadUrl: uploadResult.url,
         validation: validationResult,
         optimization: optimizationResult,
@@ -224,11 +224,11 @@ export class AssetsSystemAdvanced {
         upload: uploadResult,
         metadata: {
           assetId,
-          originalSize: validationResult.metadata.fileInfo.size,
+          originalSize: validationResult.metadata['fileInfo'].size,
           processedSize: compressionResult?.compressedSize || optimizationResult?.optimizedSize,
-          format: validationResult.metadata.fileInfo.format,
-          mimeType: validationResult.metadata.fileInfo.mimeType,
-          hash: validationResult.metadata.fileInfo.hash,
+          format: validationResult.metadata['fileInfo'].format,
+          mimeType: validationResult.metadata['fileInfo'].mimeType,
+          hash: validationResult.metadata['fileInfo'].hash,
           securityScore: validationResult.securityScore,
           uploadedAt: new Date().toISOString()
         },
