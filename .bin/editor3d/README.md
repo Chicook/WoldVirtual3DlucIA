@@ -583,3 +583,21 @@ module.exports = {
 ---
 
 **⚠️ IMPORTANTE**: Los errores listados son conocidos y están siendo trabajados. El sistema es funcional para desarrollo, pero requiere corrección de configuración para tests completos. 
+
+# editor3d/
+
+Herramientas y automatizaciones para el editor 3D del metaverso.
+
+## ¿Qué contiene?
+- Scripts para exportación, importación y validación de escenas.
+- Automatización de tareas del editor 3D.
+
+## Buenas prácticas
+- Documenta cada herramienta y su integración.
+- Centraliza logs de procesos del editor en logs/.
+
+## Ejemplo de uso
+```bash
+node export-scene.js
+node validate-scene.js
+``` 

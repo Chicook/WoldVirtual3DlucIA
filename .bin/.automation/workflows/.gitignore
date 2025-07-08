@@ -1,5 +1,57 @@
-# Ignorar archivos temporales y de sistema
+# Archivos temporales y de sistema
 *.log
 *.tmp
 .DS_Store
-Thumbs.db 
+Thumbs.db
+
+# Archivos generados por workflows
+*.json
+*.html
+*.txt
+*.md
+*.yml
+*.yaml
+!ci-multi-env.yml
+!deploy-metaverso.yml
+!security-audit.yml
+!performance-monitoring.yml
+
+# Directorios de resultados
+reports/
+artifacts/
+coverage/
+test-results/
+dist/
+build/
+
+# Archivos de configuración local
+*.local
+*.secret
+.env
+.env.*
+
+# Archivos de métricas y monitoreo
+*.metrics
+*.report
+lighthouse-report.*
+npm-audit.json
+outdated-deps.json
+eslint-security.json
+secrets-scan.json
+port-scan.txt
+open-ports.txt
+security-logs.txt
+nikto-scan.txt
+top-processes.txt
+network-stats.txt
+network-interfaces.txt
+
+# Archivos de backup y snapshots
+*.backup
+*.bak
+*.swp
+
+# Archivos de notificaciones
+notifications/
+alerts/
+*.alert 

@@ -10,6 +10,7 @@ import { blockchainRouter } from './blockchain';
 import { economyRouter } from './economy';
 import { socialRouter } from './social';
 import { adminRouter } from './admin';
+import { binRouter } from './bin';
 import { Logger } from '../monitoring/logger';
 
 const router = Router();
@@ -48,6 +49,9 @@ export function setupAPIRoutes(): Router {
 
   // Rutas administrativas
   router.use('/admin', adminRouter);
+
+  // Rutas de .bin (automatización y control)
+  router.use('/bin', binRouter);
 
   // Ruta de información de la API
   router.get('/', (req, res) => {
