@@ -20,6 +20,13 @@ from query_optimizer import QueryOptimizer, OptimizationConfig, create_query_opt
 from response_validator import ResponseValidator, ValidationResult
 from context_manager import ContextManager, ContextType
 
+# Importar comando de dependencias
+try:
+    from commands.dependencies_command import process_dependencies_command
+    DEPENDENCIES_COMMAND_AVAILABLE = True
+except ImportError:
+    DEPENDENCIES_COMMAND_AVAILABLE = False
+
 logger = logging.getLogger(__name__)
 
 @dataclass
@@ -104,6 +111,29 @@ class LucIACore:
         self.stats["total_requests"] += 1
         
         print(f"\n🤖 {self.name}: Procesando tu consulta...")
+        
+        # Verificar si es un comando de dependencias
+        if DEPENDENCIES_COMMAND_AVAILABLE and self._is_dependencies_command(prompt):
+            print("🔧 Detectado comando de dependencias - procesando...")
+            dependencies_response = process_dependencies_command(prompt)
+            
+            # Crear respuesta del chat para comandos de dependencias
+            chat_response = ChatResponse(
+                original_response=dependencies_response,
+                paraphrased_response=dependencies_response,
+                source_api="dependencies_command",
+                confidence=1.0,
+                processing_time=time.time() - start_time,
+                keywords=self._extract_keywords(prompt),
+                context="dependencies_management",
+                used_memory=False
+            )
+            
+            # Actualizar contexto con la respuesta
+            self.context_manager.add_message(session_id, dependencies_response, is_user=False)
+            
+            print(f"✅ Comando de dependencias procesado en {chat_response.processing_time:.2f}s")
+            return chat_response
         
         # Gestionar contexto de sesión
         if session_id not in self.context_manager.active_contexts:
@@ -535,3 +565,14 @@ class LucIACore:
         # Limpiar contadores de uso diario
         self.memory_manager.daily_usage.clear()
         return "🔄 Límites diarios de API reseteados" 
+
+    def _is_dependencies_command(self, prompt: str) -> bool:
+        """Detecta si el prompt es una solicitud de gestión de dependencias"""
+        keywords = [
+            "dependencia", "dependencias", "npm", "node_modules", "instalar dependencias",
+            "descargar dependencias", "setup", "paquetes", "package.json", "requirements.txt",
+            "quiero las dependencias", "ponme las dependencias", "instala las dependencias",
+            "actualiza dependencias", "dependencies", "install dependencies", "update dependencies"
+        ]
+        prompt_lower = prompt.lower()
+        return any(kw in prompt_lower for kw in keywords) 

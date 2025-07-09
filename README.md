@@ -149,44 +149,56 @@ WoldVirtual3DlucIA/
 
 ## 🚀 Inicio Rápido
 
-### 1. Configuración Automática (Recomendado)
+### 1. Configuración Automática con LucIA (Recomendado)
 ```bash
-# Configurar todo el entorno automáticamente
+# Navegar al directorio de LucIA
+cd ini/lucIA
+
+# Ejecutar LucIA
+python lucia_core.py
+
+# Una vez activada, escribe "Dependencias" y luego "Instalar"
+# LucIA se encargará de configurar todo automáticamente
+```
+
+### 2. Configuración Manual (Alternativa)
+```bash
+# Configurar todo el entorno manualmente
 python ini/lucIA/setup_development_environment.py
 ```
 
-### 2. Iniciar el Sistema de Instanciación Dinámica
+### 3. Iniciar el Sistema de Instanciación Dinámica
 ```bash
 # Navegar al directorio web principal
 cd web
 
-# Instalar dependencias
+# Instalar dependencias (o usar LucIA: "Instalar")
 npm install
 
 # Iniciar el sistema modular
 npm run dev
 ```
 
-### 3. Iniciar el Editor 3D
+### 4. Iniciar el Editor 3D
 ```bash
 # Navegar al directorio del editor
 cd .bin/editor3d
 
-# Instalar dependencias
+# Instalar dependencias (o usar LucIA: "Instalar")
 npm install
 
 # Iniciar el editor
 npm run dev
 ```
 
-### 4. Iniciar el Motor 3D
+### 5. Iniciar el Motor 3D
 ```bash
 # En otra terminal, iniciar el motor
 cd client
 npm run dev
 ```
 
-### 5. Activar IA LucIA
+### 6. Activar IA LucIA con Comando de Dependencias
 ```bash
 # Navegar al directorio de LucIA
 cd ini/lucIA
@@ -196,22 +208,30 @@ python renovar_clave_gemini.py
 
 # Ejecutar LucIA
 python lucia_core.py
+
+# Una vez activada LucIA, puedes usar comandos automáticos:
+# - Escribe "Dependencias" para gestionar dependencias del proyecto
+# - Escribe "Instalar" para instalar todas las dependencias automáticamente
+# - Escribe "Verificar" para comprobar el estado de las dependencias
+# - Escribe "Resumen" para ver información del proyecto
 ```
 
-### 6. Acceso
+### 7. Acceso
 - **Sistema Modular**: http://localhost:3000 (web/)
 - **Editor 3D**: http://localhost:5173 (.bin/editor3d)
 - **Motor 3D**: http://localhost:3001 (client)
 - **Backend API**: http://localhost:8000
 - **LucIA**: Ejecutar `python ini/lucIA/lucia_core.py`
+- **Comando de Dependencias**: Escribir "Dependencias" en LucIA
 
 ### 🎯 Funcionalidades Disponibles
 - **Dashboard Principal**: Vista general del sistema
 - **Editor 3D**: Herramientas de desarrollo 3D
 - **Asset Manager**: Gestión de recursos digitales
 - **Blockchain Explorer**: Explorador de transacciones
-- **LucIA Chat**: Asistente de IA interactivo
+- **LucIA Chat**: Asistente de IA interactivo con comandos automáticos
 - **Navegación Modular**: Sistema de navegación dinámica
+- **Comando de Dependencias**: Gestión automática de dependencias del proyecto
 
 ## 🛠️ Stack Tecnológico
 
@@ -255,6 +275,9 @@ python lucia_core.py
 - **Sistema de Validación** - Score de calidad ✅
 - **Gestión de Contexto** - Sesiones inteligentes ✅
 - **Múltiples APIs** - Gemini, Claude, GPT-4 ✅
+- **Comando de Dependencias** - Gestión automática de dependencias ✅
+- **DependenciesManager** - Instalación automática de npm y Python ✅
+- **DependenciesCommand** - Comando especial integrado ✅
 
 ### Blockchain
 - **Ethereum** - Red principal ✅
@@ -287,6 +310,7 @@ python lucia_core.py
 - **Lazy Loading**: React.lazy + Suspense para optimización ✅
 - **Gestión de Estado**: Estado compartido entre módulos ✅
 - **Error Handling**: Manejo robusto de errores de carga ✅
+- **Comando de Dependencias**: Gestión automática de dependencias del proyecto ✅
 
 ### 🔧 Componentes Implementados (12/30)
 - **Editor3DComponent**: Editor 3D integrado con controles avanzados ✅
@@ -308,6 +332,8 @@ python lucia_core.py
 - **Arquitectura Modular**: 100% implementada ✅
 - **Sistema de Comunicación**: 100% funcional ✅
 - **Lazy Loading**: 100% optimizado ✅
+- **Comando de Dependencias**: 100% funcional ✅
+- **Gestión Automática**: 100% automatizada ✅
 
 ## 📚 Documentación
 
@@ -322,17 +348,20 @@ python lucia_core.py
 
 ## 📊 Estado del Proyecto
 
-### ✅ Completado (85%+)
+### ✅ Completado (87%+)
 - **Sistema de Instanciación Dinámica**: Arquitectura modular completa ✅
 - **CentralModuleCoordinator**: Coordinador principal con patrón singleton ✅
 - **InterModuleMessageBus**: Sistema de comunicación pub/sub ✅
 - **ModuleGroups**: Agrupación lógica de módulos por funcionalidad ✅
+- **Comando de Dependencias Automático**: Gestión inteligente de dependencias ✅
+- **DependenciesManager**: Instalación automática de npm y Python packages ✅
+- **DependenciesCommand**: Comando especial integrado en LucIA ✅
 - **Motor 3D descentralizado básico**: Sistema ECS implementado ✅
 - **Renderizado avanzado**: Three.js optimizado con WebGL 2.0 ✅
 - **Física básica**: Simulación física implementada ✅
 - **Integración blockchain funcional**: Smart contracts y transacciones ✅
 - **Editor 3D integrado básico**: Conexión motor-editor ✅
-- **IA LucIA funcional (85%)**: Asistente inteligente completo ✅
+- **IA LucIA funcional (87%)**: Asistente inteligente completo ✅
 - **Sistema de validación de respuestas**: Score de calidad 0-100 ✅
 - **Gestión de contexto inteligente**: Sesiones persistentes ✅
 - **Múltiples personalidades de IA**: 7 personalidades diferentes ✅
@@ -433,9 +462,10 @@ Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) par
 
 *WoldVirtual3DlucIA - Donde la realidad virtual se encuentra con la descentralización*
 
-**Estado del Proyecto: 85% Completado** ✅  
-**Próximo Hito: Sistema de Instanciación Dinámica Completo** 🚀  
-**IA LucIA: 85% Funcional** 🤖  
-**Módulos Implementados: 8/30** 📊
+**Estado del Proyecto: 87% Completado** ✅  
+**Próximo Hito: Sistema de Comandos de Dependencias Automático** 🚀  
+**IA LucIA: 87% Funcional** 🤖  
+**Módulos Implementados: 8/30** 📊  
+**Comando de Dependencias: 100% Funcional** 📦
 
 </div>
