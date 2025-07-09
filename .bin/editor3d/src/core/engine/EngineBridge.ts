@@ -325,13 +325,32 @@ export class EngineBridge extends EventEmitter {
     
     this.emit('error', error);
     console.error('❌ Error del puente del motor:', error);
+    
+    // Si es un error de conexión, intentar reconectar automáticamente
+    if (error.includes('WebSocket') || error.includes('conexión') || error.includes('timeout') || error.includes('Insufficient resources')) {
+      if (this.state.stats.reconnections < this.config.maxRetries) {
+        console.log('🔄 Error de conexión detectado, programando reconexión...');
+        this.scheduleReconnection();
+      } else {
+        console.log('⚠️ Máximo de reintentos alcanzado. El servidor del motor 3D debe estar ejecutándose en ws://localhost:8080');
+        console.log('💡 Para iniciar el servidor, ejecute: npx ts-node src/core/engine/EngineServer.ts');
+      }
+    }
   }
 
   /// Programar reconexión
   private scheduleReconnection(): void {
     this.stopReconnection();
     
+    // Verificar si no hemos excedido el máximo de reintentos
+    if (this.state.stats.reconnections >= this.config.maxRetries) {
+      this.handleError('Máximo de reintentos alcanzado. Verifique que el servidor del motor 3D esté ejecutándose.');
+      return;
+    }
+    
     const delay = Math.min(1000 * Math.pow(2, this.state.stats.reconnections), 30000);
+    
+    console.log(`🔄 Reintentando conexión en ${delay}ms (intento ${this.state.stats.reconnections + 1}/${this.config.maxRetries})`);
     
     this.reconnectTimer = setTimeout(() => {
       this.updateState({
