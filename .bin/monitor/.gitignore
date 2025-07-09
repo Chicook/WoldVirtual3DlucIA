@@ -1,5 +1,115 @@
-# Ignorar archivos temporales y de sistema
+# Archivos temporales y de sistema
 *.log
 *.tmp
+*.cache
 .DS_Store
-Thumbs.db 
+Thumbs.db
+
+# Archivos de configuración sensibles
+*.secret.json
+*.credential.json
+*.key.json
+*.token.json
+*.password.json
+*.auth.json
+
+# Logs de monitoreo y métricas
+monitor-logs/
+metrics-logs/
+performance-logs/
+*.monitor.log
+*.metrics.log
+*.performance.log
+
+# Datos sensibles de usuarios
+user-data/
+personal-data/
+*.user.json
+*.personal.json
+*.profile.json
+
+# Credenciales y tokens
+credentials/
+tokens/
+*.credential.json
+*.token.json
+*.api-key.json
+*.private-key.json
+
+# Configuraciones de producción sensibles
+prod-config/
+production-secrets/
+*.prod.json
+*.production.secret
+*.production.key
+
+# Backups de datos sensibles
+sensitive-backups/
+*.sensitive.backup
+*.monitor.backup
+
+# Archivos de monitoreo de sistema
+system-monitoring/
+*.system-monitor.json
+*.performance-monitor.json
+
+# Archivos de integración con servicios externos sensibles
+external-credentials/
+*.external.secret
+*.api.key
+*.service.key
+
+# Archivos de sesión con datos sensibles
+*.session.secret
+*.auth.session
+*.monitor.session
+
+# Archivos de caché con información sensible
+.cache/sensitive/
+*.sensitive.cache
+*.monitor.cache
+
+# Archivos de blockchain sensibles
+blockchain-keys/
+wallet-keys/
+*.wallet.json
+*.private.key
+*.blockchain.secret
+
+# Archivos de metaverso sensibles
+metaverse-secrets/
+avatar-private-data/
+*.avatar.secret
+*.metaverse.key
+
+# Archivos de desarrollo con datos sensibles
+dev-secrets/
+*.dev.secret
+*.development.key
+
+# Archivos de despliegue sensibles
+deploy-secrets/
+*.deploy.secret
+*.deployment.key
+
+# Archivos de base de datos sensibles
+db-credentials/
+*.db.secret
+*.database.key
+
+# Archivos de servicios externos
+service-keys/
+*.service.secret
+*.external.key
+
+# Archivos de configuración de red sensibles
+network-config/
+*.network.secret
+*.connection.key
+
+# Mantener archivos de configuración no sensibles
+!config.json
+!package.json
+!tsconfig.json
+!jest.config.json
+!eslint.config.json 
