@@ -378,6 +378,9 @@ sensitive.json
 config.env
 environment.json
 platform.json
+package-lock.json
+package.json
+
 
 # =============================================================================
 # 📝 NOTAS IMPORTANTES

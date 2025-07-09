@@ -3,476 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Metaverso Crypto World Virtual 3D</title>
-    <meta name="description" content="Plataforma descentralizada del metaverso crypto 3D con blockchain, DeFi, NFTs y gobernanza">
-    <meta name="keywords" content="metaverso, crypto, blockchain, 3D, DeFi, NFTs, virtual world">
+    <title>WoldVirtual3DlucIA - Metaverso Modular</title>
+    <link rel="stylesheet" href="src/styles/main.css">
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
     
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+    <!-- Meta tags para SEO -->
+    <meta name="description" content="WoldVirtual3DlucIA - Metaverso descentralizado ultra-modular con IA integrada">
+    <meta name="keywords" content="metaverso, 3D, blockchain, IA, virtual reality, modular">
+    <meta name="author" content="WoldVirtual3DlucIA Team">
     
-    <!-- CSS -->
-    <link rel="stylesheet" href="assets/css/main.css">
-    <link rel="stylesheet" href="assets/css/components.css">
-    <link rel="stylesheet" href="assets/css/animations.css">
+    <!-- Open Graph -->
+    <meta property="og:title" content="WoldVirtual3DlucIA">
+    <meta property="og:description" content="Metaverso descentralizado ultra-modular">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://woldvirtual3dlucia.com">
     
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    
-    <!-- External Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
+    <!-- Preload de recursos críticos -->
+    <link rel="preload" href="src/index.tsx" as="script">
+    <link rel="preload" href="src/styles/main.css" as="style">
 </head>
 <body>
-    <!-- Loading Screen -->
+    <!-- Pantalla de carga inicial -->
     <div id="loading-screen" class="loading-screen">
         <div class="loading-content">
-            <div class="loading-logo">
-                <div class="logo-icon">🌐</div>
-                <h1>Metaverso Crypto World</h1>
-                <p>Virtual 3D Descentralizado</p>
+            <div class="logo">
+                <h1>WoldVirtual3DlucIA</h1>
+                <p>Metaverso Modular</p>
             </div>
-            <div class="loading-progress">
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progress-fill"></div>
-                </div>
-                <div class="progress-text" id="progress-text">Inicializando...</div>
-            </div>
-            <div class="loading-tips">
-                <div class="tip" id="loading-tip">Conectando con la blockchain...</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Main Container -->
-    <div id="metaverso-platform" class="metaverso-platform">
-        <!-- Three.js Canvas -->
-        <div id="metaverso-canvas" class="metaverso-canvas"></div>
-        
-        <!-- UI Overlay -->
-        <div class="ui-overlay">
-            <!-- Header -->
-            <header class="header">
-                <div class="header-left">
-                    <div class="logo">
-                        <span class="logo-icon">🌐</span>
-                        <span class="logo-text">Metaverso</span>
+            <div class="spinner"></div>
+            <div class="loading-text">
+                <p>Inicializando sistema modular...</p>
+                <div class="loading-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
                     </div>
-                </div>
-                
-                <nav class="header-nav">
-                    <button class="nav-btn active" data-page="home">Inicio</button>
-                    <button class="nav-btn" data-page="explore">Explorar</button>
-                    <button class="nav-btn" data-page="marketplace">Marketplace</button>
-                    <button class="nav-btn" data-page="defi">DeFi</button>
-                    <button class="nav-btn" data-page="governance">Gobernanza</button>
-                    <button class="nav-btn" data-page="community">Comunidad</button>
-                </nav>
-                
-                <div class="header-right">
-                    <div class="user-info" id="user-info">
-                        <button class="connect-wallet-btn" id="connect-wallet-btn">
-                            <span class="wallet-icon">🔗</span>
-                            Conectar Wallet
-                        </button>
-                    </div>
-                    
-                    <button class="menu-toggle" id="menu-toggle">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </button>
-                </div>
-            </header>
-
-            <!-- Main Content -->
-            <main class="main-content">
-                <!-- Home Page -->
-                <section id="home-page" class="page active">
-                    <div class="hero-section">
-                        <div class="hero-content">
-                            <h1 class="hero-title">Bienvenido al Metaverso</h1>
-                            <p class="hero-subtitle">Explora, crea y prospera en el mundo virtual descentralizado</p>
-                            <div class="hero-actions">
-                                <button class="btn btn-primary" id="start-exploring-btn">
-                                    <span class="btn-icon">🚀</span>
-                                    Comenzar Exploración
-                                </button>
-                                <button class="btn btn-secondary" id="learn-more-btn">
-                                    <span class="btn-icon">📚</span>
-                                    Saber Más
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <div class="hero-stats">
-                            <div class="stat-item">
-                                <div class="stat-value" id="total-users">0</div>
-                                <div class="stat-label">Usuarios Activos</div>
-                            </div>
-                            <div class="stat-item">
-                                <div class="stat-value" id="total-transactions">0</div>
-                                <div class="stat-label">Transacciones</div>
-                            </div>
-                            <div class="stat-item">
-                                <div class="stat-value" id="total-nfts">0</div>
-                                <div class="stat-label">NFTs Creados</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="features-section">
-                        <h2 class="section-title">Características Principales</h2>
-                        <div class="features-grid">
-                            <div class="feature-card">
-                                <div class="feature-icon">🌍</div>
-                                <h3>Islas Virtuales</h3>
-                                <p>Explora diferentes islas con ecosistemas únicos y experiencias inmersivas</p>
-                            </div>
-                            <div class="feature-card">
-                                <div class="feature-icon">👤</div>
-                                <h3>Avatares Personalizables</h3>
-                                <p>Crea y personaliza tu avatar con características únicas y NFT</p>
-                            </div>
-                            <div class="feature-card">
-                                <div class="feature-icon">💰</div>
-                                <h3>Economía DeFi</h3>
-                                <p>Participa en staking, liquidity pools y yield farming</p>
-                            </div>
-                            <div class="feature-card">
-                                <div class="feature-icon">🏛️</div>
-                                <h3>Gobernanza DAO</h3>
-                                <p>Vota en propuestas y participa en la toma de decisiones</p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Explore Page -->
-                <section id="explore-page" class="page">
-                    <div class="explore-header">
-                        <h2>Explorar Islas</h2>
-                        <div class="island-filters">
-                            <button class="filter-btn active" data-island="all">Todas</button>
-                            <button class="filter-btn" data-island="forest">Bosque</button>
-                            <button class="filter-btn" data-island="ocean">Océano</button>
-                            <button class="filter-btn" data-island="mountain">Montaña</button>
-                            <button class="filter-btn" data-island="desert">Desierto</button>
-                            <button class="filter-btn" data-island="city">Ciudad</button>
-                        </div>
-                    </div>
-                    
-                    <div class="islands-grid" id="islands-grid">
-                        <!-- Islas se cargan dinámicamente -->
-                    </div>
-                </section>
-
-                <!-- Marketplace Page -->
-                <section id="marketplace-page" class="page">
-                    <div class="marketplace-header">
-                        <h2>Marketplace</h2>
-                        <div class="marketplace-actions">
-                            <button class="btn btn-primary" id="create-listing-btn">
-                                <span class="btn-icon">➕</span>
-                                Crear Listado
-                            </button>
-                            <div class="search-box">
-                                <input type="text" placeholder="Buscar items..." id="marketplace-search">
-                                <button class="search-btn">🔍</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="marketplace-categories">
-                        <button class="category-btn active" data-category="all">Todos</button>
-                        <button class="category-btn" data-category="land">Tierras</button>
-                        <button class="category-btn" data-category="items">Items</button>
-                        <button class="category-btn" data-category="avatars">Avatares</button>
-                        <button class="category-btn" data-category="experiences">Experiencias</button>
-                    </div>
-                    
-                    <div class="marketplace-items" id="marketplace-items">
-                        <!-- Items se cargan dinámicamente -->
-                    </div>
-                </section>
-
-                <!-- DeFi Page -->
-                <section id="defi-page" class="page">
-                    <div class="defi-header">
-                        <h2>DeFi & Staking</h2>
-                        <div class="defi-stats">
-                            <div class="defi-stat">
-                                <div class="stat-value" id="total-value-locked">$0</div>
-                                <div class="stat-label">TVL Total</div>
-                            </div>
-                            <div class="defi-stat">
-                                <div class="stat-value" id="total-rewards">0</div>
-                                <div class="stat-label">Recompensas</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="defi-sections">
-                        <div class="defi-section">
-                            <h3>Staking Pools</h3>
-                            <div class="staking-pools" id="staking-pools">
-                                <!-- Pools se cargan dinámicamente -->
-                            </div>
-                        </div>
-                        
-                        <div class="defi-section">
-                            <h3>Liquidity Pools</h3>
-                            <div class="liquidity-pools" id="liquidity-pools">
-                                <!-- Pools se cargan dinámicamente -->
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Governance Page -->
-                <section id="governance-page" class="page">
-                    <div class="governance-header">
-                        <h2>Gobernanza DAO</h2>
-                        <div class="governance-stats">
-                            <div class="gov-stat">
-                                <div class="stat-value" id="total-proposals">0</div>
-                                <div class="stat-label">Propuestas</div>
-                            </div>
-                            <div class="gov-stat">
-                                <div class="stat-value" id="voting-power">0</div>
-                                <div class="stat-label">Poder de Voto</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="governance-actions">
-                        <button class="btn btn-primary" id="create-proposal-btn">
-                            <span class="btn-icon">📝</span>
-                            Crear Propuesta
-                        </button>
-                    </div>
-                    
-                    <div class="proposals-list" id="proposals-list">
-                        <!-- Propuestas se cargan dinámicamente -->
-                    </div>
-                </section>
-
-                <!-- Community Page -->
-                <section id="community-page" class="page">
-                    <div class="community-header">
-                        <h2>Comunidad</h2>
-                    </div>
-                    
-                    <div class="community-sections">
-                        <div class="community-section">
-                            <h3>Chat Global</h3>
-                            <div class="chat-container">
-                                <div class="chat-messages" id="chat-messages">
-                                    <!-- Mensajes se cargan dinámicamente -->
-                                </div>
-                                <div class="chat-input">
-                                    <input type="text" placeholder="Escribe un mensaje..." id="chat-input">
-                                    <button class="send-btn">📤</button>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="community-section">
-                            <h3>Eventos</h3>
-                            <div class="events-list" id="events-list">
-                                <!-- Eventos se cargan dinámicamente -->
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </main>
-
-            <!-- Sidebar -->
-            <aside class="sidebar" id="sidebar">
-                <div class="sidebar-header">
-                    <h3>Panel de Control</h3>
-                    <button class="sidebar-close" id="sidebar-close">✕</button>
-                </div>
-                
-                <div class="sidebar-content">
-                    <div class="sidebar-section">
-                        <h4>Mi Avatar</h4>
-                        <div class="avatar-info" id="avatar-info">
-                            <!-- Información del avatar -->
-                        </div>
-                        <button class="btn btn-secondary" id="customize-avatar-btn">
-                            Personalizar Avatar
-                        </button>
-                    </div>
-                    
-                    <div class="sidebar-section">
-                        <h4>Mi Inventario</h4>
-                        <div class="inventory" id="inventory">
-                            <!-- Inventario -->
-                        </div>
-                    </div>
-                    
-                    <div class="sidebar-section">
-                        <h4>Configuración</h4>
-                        <div class="settings">
-                            <div class="setting-item">
-                                <label>Volumen de Audio</label>
-                                <input type="range" id="audio-volume" min="0" max="100" value="70">
-                            </div>
-                            <div class="setting-item">
-                                <label>Calidad Gráfica</label>
-                                <select id="graphics-quality">
-                                    <option value="low">Baja</option>
-                                    <option value="medium" selected>Media</option>
-                                    <option value="high">Alta</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </aside>
-
-            <!-- Modals -->
-            <div class="modal-overlay" id="modal-overlay">
-                <!-- Wallet Connection Modal -->
-                <div class="modal" id="wallet-modal">
-                    <div class="modal-header">
-                        <h3>Conectar Wallet</h3>
-                        <button class="modal-close" data-modal="wallet-modal">✕</button>
-                    </div>
-                    <div class="modal-content">
-                        <div class="wallet-options">
-                            <button class="wallet-option" data-wallet="metamask">
-                                <img src="assets/images/metamask.png" alt="MetaMask">
-                                <span>MetaMask</span>
-                            </button>
-                            <button class="wallet-option" data-wallet="walletconnect">
-                                <img src="assets/images/walletconnect.png" alt="WalletConnect">
-                                <span>WalletConnect</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Avatar Customization Modal -->
-                <div class="modal" id="avatar-modal">
-                    <div class="modal-header">
-                        <h3>Personalizar Avatar</h3>
-                        <button class="modal-close" data-modal="avatar-modal">✕</button>
-                    </div>
-                    <div class="modal-content">
-                        <div class="avatar-customization" id="avatar-customization">
-                            <!-- Interfaz de personalización -->
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Transaction Modal -->
-                <div class="modal" id="transaction-modal">
-                    <div class="modal-header">
-                        <h3>Transacción</h3>
-                        <button class="modal-close" data-modal="transaction-modal">✕</button>
-                    </div>
-                    <div class="modal-content">
-                        <div class="transaction-info" id="transaction-info">
-                            <!-- Información de transacción -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Notifications -->
-            <div class="notifications" id="notifications">
-                <!-- Notificaciones se muestran dinámicamente -->
-            </div>
-
-            <!-- Audio Controls -->
-            <div class="audio-controls">
-                <button class="audio-btn" id="audio-toggle">
-                    <span class="audio-icon">🔊</span>
-                </button>
-                <div class="audio-slider">
-                    <input type="range" id="audio-slider" min="0" max="100" value="70">
+                    <span id="progress-text">0%</span>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Scripts -->
-    <script src="assets/js/config.js"></script>
-    <script src="assets/js/utils.js"></script>
-    <script src="assets/js/ui.js"></script>
-    <script src="assets/js/navigation.js"></script>
-    <script src="assets/js/audio.js"></script>
-    <script src="assets/js/web3.js"></script>
-    <script src="assets/js/three-scene.js"></script>
-    <script src="assets/js/marketplace.js"></script>
-    <script src="assets/js/defi.js"></script>
-    <script src="assets/js/governance.js"></script>
-    <script src="assets/js/chat.js"></script>
-    <script src="assets/js/notifications.js"></script>
-    <script src="assets/js/main.js"></script>
-    
-    <!-- Platform Initialization -->
+    <!-- Contenedor principal de la aplicación -->
+    <div id="root" class="app-root" style="display: none;">
+        <!-- La aplicación React se renderizará aquí -->
+    </div>
+
+    <!-- Scripts de inicialización -->
     <script>
-        // Configuración de la plataforma
-        const platformConfig = {
+        // Configuración global de la aplicación
+        window.WoldVirtualConfig = {
+            version: '1.0.0',
             environment: 'development',
-            debug: true,
-            autoStart: true,
-            
-            blockchain: {
-                network: 'ethereum',
-                rpcUrl: 'https://mainnet.infura.io/v3/YOUR_KEY',
-                contracts: {
-                    metaversoCore: '0x...',
-                    metaversoToken: '0x...',
-                    metaversoNFT: '0x...',
-                    metaversoDeFi: '0x...',
-                    metaversoGovernance: '0x...'
-                }
-            },
-            
-            audio: {
-                enabled: true,
-                spatial: true,
-                ambient: true,
-                volume: 0.7
-            },
-            
-            networking: {
-                serverUrl: 'wss://metaverso-server.com'
+            apiEndpoint: 'http://localhost:3000',
+            websocketEndpoint: 'ws://localhost:8181',
+            enableDebug: true,
+            moduleGroups: {
+                CORE: ['config', 'data', 'models', 'services', 'middlewares'],
+                FRONTEND: ['web', 'pages', 'components', 'css', 'fonts', 'public'],
+                BLOCKCHAIN: ['bloc', 'assets', 'entities'],
+                AI: ['ini', 'js', 'test'],
+                UTILITIES: ['helpers', 'cli', 'scripts', 'lib', 'languages'],
+                MEDIA: ['image', 'fonts', 'css', 'public'],
+                EDITOR: ['.bin', 'client', 'src'],
+                INFRASTRUCTURE: ['build', 'dist', 'coverage', 'docs', 'Include']
             }
         };
 
-        // Inicializar plataforma cuando el DOM esté listo
-        document.addEventListener('DOMContentLoaded', async () => {
-            try {
-                console.log('🚀 Iniciando Metaverso Crypto World Virtual 3D...');
+        // Función para simular progreso de carga
+        function simulateLoading() {
+            const progressFill = document.getElementById('progress-fill');
+            const progressText = document.getElementById('progress-text');
+            let progress = 0;
+            
+            const interval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress > 100) progress = 100;
                 
-                // Inicializar la plataforma
-                const { initializer, platform } = await initializeMetaversoPlatform(platformConfig);
+                if (progressFill) progressFill.style.width = progress + '%';
+                if (progressText) progressText.textContent = Math.floor(progress) + '%';
                 
-                // Configurar eventos globales
-                initializer.on('platform:started', () => {
-                    console.log('🎉 ¡Plataforma iniciada correctamente!');
-                    document.getElementById('loading-screen').style.display = 'none';
-                });
-                
-                initializer.on('platform:error', (data) => {
-                    console.error('❌ Error en la plataforma:', data.error);
-                    showNotification('Error en la plataforma', 'error');
-                });
-                
-                // Hacer disponible globalmente
-                window.metaversoPlatform = platform;
-                window.metaversoInitializer = initializer;
-                
-            } catch (error) {
-                console.error('❌ Error inicializando metaverso:', error);
-                showNotification('Error inicializando metaverso', 'error');
-            }
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        const loadingScreen = document.getElementById('loading-screen');
+                        const root = document.getElementById('root');
+                        if (loadingScreen) loadingScreen.style.display = 'none';
+                        if (root) root.style.display = 'block';
+                    }, 500);
+                }
+            }, 100);
+        }
+
+        // Iniciar simulación de carga
+        document.addEventListener('DOMContentLoaded', () => {
+            simulateLoading();
         });
+
+        // Manejo de errores global
+        window.addEventListener('error', (event) => {
+            console.error('Error global:', event.error);
+        });
+
+        window.addEventListener('unhandledrejection', (event) => {
+            console.error('Promesa rechazada no manejada:', event.reason);
+        });
+    </script>
+
+    <!-- Cargar la aplicación React -->
+    <script type="module" src="src/index.tsx"></script>
+    
+    <!-- Fallback para navegadores sin soporte de módulos -->
+    <script nomodule>
+        document.getElementById('root').innerHTML = `
+            <div class="error-screen">
+                <h1>Navegador no compatible</h1>
+                <p>Tu navegador no soporta módulos ES6. Por favor, actualiza a una versión más reciente.</p>
+                <button onclick="window.location.reload()">Reintentar</button>
+            </div>
+        `;
     </script>
 </body>
 </html> 
