@@ -348,6 +348,7 @@ data/transactions/
 data/security/
 data/private/
 data/sensitive/
+.cursor/rules/
 
 # Carpetas de configuración específica
 config/secrets/
