@@ -50,19 +50,45 @@ stats.json
 # 📦 DEPENDENCIAS Y PAQUETES
 # =============================================================================
 
-# Dependencias de Node.js
+# =============================================================================
+# 📦 DEPENDENCIAS Y PAQUETES - NODE.JS (CRÍTICO)
+# =============================================================================
+
+# Dependencias de Node.js (NO SUBIR - causa conflictos de merge)
 node_modules/
+node_modules/*
+*/node_modules/
+**/node_modules/
+**/node_modules/*
+
+# Logs de npm/yarn
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.pnpm-debug.log*
+lerna-debug.log*
+
+# Archivos de lock (mantener solo uno por proyecto)
 package-lock.json.backup
 yarn.lock.backup
-.pnpm-debug.log*
+pnpm-lock.yaml.backup
 
 # Cache de dependencias
 .npm/
 .yarn/
 .pnpm-store/
+.yarn-integrity
+
+# Archivos de configuración de dependencias
+.npmrc
+.yarnrc
+.yarnrc.yml
+.pnpmrc
+
+# Archivos de dependencias específicos (NO SUBIR)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
 
 # =============================================================================
 # 📊 LOGS Y ARCHIVOS DE MONITOREO
@@ -225,6 +251,43 @@ vulnerability_reports/
 security_audits/
 
 # =============================================================================
+# 🔄 PREVENCIÓN DE CONFLICTOS DE MERGE
+# =============================================================================
+
+# Archivos que causan conflictos de merge frecuentes
+*.lock
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Archivos de configuración que pueden causar conflictos
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Archivos de IDE que pueden causar conflictos
+.vscode/settings.json
+.idea/workspace.xml
+*.sublime-workspace
+*.sublime-project
+
+# Archivos de build que pueden causar conflictos
+dist/
+build/
+out/
+.next/
+.nuxt/
+.vuepress/dist/
+
+# Archivos de cache que pueden causar conflictos
+.cache/
+.parcel-cache/
+.vite/
+.esbuild/
+.webpack/
+
+# =============================================================================
 # 📝 NOTAS IMPORTANTES
 # =============================================================================
 # 
@@ -236,6 +299,7 @@ security_audits/
 # - Ejemplos de uso y casos de estudio
 # - Tests y validaciones
 # - README del módulo web
+# - package.json (sin node_modules)
 # 
 # ❌ LO QUE NO SE SUBE (Protección):
 # - Claves privadas y tokens de seguridad
@@ -245,6 +309,8 @@ security_audits/
 # - Configuraciones de red específicas
 # - Backups y archivos de recuperación
 # - Archivos de desarrollo temporal
+# - node_modules/ (CRÍTICO - causa conflictos de merge)
+# - Archivos de lock duplicados
 # 
 # 🛡️ PROTECCIÓN CONTRA FORKS MALICIOSOS:
 # - No exponer vulnerabilidades específicas
@@ -253,10 +319,18 @@ security_audits/
 # - No exponer infraestructura interna
 # - No mostrar claves de blockchain
 # 
+# 🔄 PREVENCIÓN DE CONFLICTOS DE MERGE:
+# - No subir node_modules/ (cada desarrollador instala localmente)
+# - No subir archivos de lock duplicados
+# - No subir archivos de configuración específicos del entorno
+# - No subir archivos de cache y build
+# - Mantener solo package.json para dependencias
+# 
 # 🌍 BENEFICIOS PARA LA COMUNIDAD:
 # - Código completo del módulo web disponible
 # - Componentes React reutilizables
 # - Plantillas y ejemplos de implementación
 # - Mejores prácticas documentadas
 # - Contribuciones seguras y protegidas
+# - Repositorio limpio sin conflictos de merge
 # =============================================================================
