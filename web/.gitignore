@@ -122,6 +122,8 @@ settings.json
 secrets.json
 private.json
 sensitive.json
+package-lock.json
+package.json
 
 # Archivos de configuración de entorno
 .env.*
