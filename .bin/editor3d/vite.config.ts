@@ -1,21 +1,3 @@
-<<<<<<< HEAD
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-
-export default defineConfig({
-  plugins: [react()],
-  server: {
-    open: true,
-    port: 5173,
-    strictPort: false,
-    host: true
-  },
-  build: {
-    outDir: 'dist',
-    sourcemap: true
-  }
-}); 
-=======
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { resolve } from 'path'
@@ -54,5 +36,4 @@ export default defineConfig({
       'framer-motion'
     ]
   }
-}) 
->>>>>>> 16837d8d9aaba450aa732a089f49200724914d04
+})

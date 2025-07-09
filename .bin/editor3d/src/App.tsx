@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { NotificationProvider } from './contexts/NotificationContext';
 import { EditorProvider } from './contexts/EditorContext';
 import { EngineProvider } from './contexts/EngineContext';
+import Header from './components/Header';
 import Toolbar from './components/Toolbar';
 import Viewport from './components/Viewport';
 import ObjectPanel from './components/ObjectPanel';
@@ -18,6 +19,8 @@ import { LucIA } from './components/LucIA/LucIA';
 import { BlockchainManager } from './core/blockchain/BlockchainManager';
 import { BlockchainConfig } from './core/blockchain/types';
 import './styles/EditorLayout.css';
+import BinApp from '../../src/components/BinApp';
+import './components/EditorUI.css';
 
 const App: React.FC = () => {
   const [selectedObject, setSelectedObject] = useState<any>(null);
@@ -28,6 +31,7 @@ const App: React.FC = () => {
   const [isBlockchainReady, setIsBlockchainReady] = useState<boolean>(false);
   const [isPublishing, setIsPublishing] = useState<boolean>(false);
   const [engineStatusExpanded, setEngineStatusExpanded] = useState<boolean>(false);
+  const [showMenu, setShowMenu] = useState(false);
 
   // Configuración blockchain
   const blockchainConfig: BlockchainConfig = {
@@ -125,40 +129,10 @@ const App: React.FC = () => {
       <EditorProvider>
         <EngineProvider>
           <div className="editor-container">
-            {/* Header con Toolbar */}
-            <header className="editor-header">
-              <div className="header-left">
-                <div className="logo">
-                  <span className="logo-icon">🎨</span>
-                  <span className="logo-text">Metaverso Editor 3D</span>
-                </div>
-              </div>
-              
-              <div className="header-center">
-                <Toolbar />
-              </div>
-              
-              <div className="header-right">
-                <button 
-                  className={`publish-button ${isPublishing ? 'publishing' : ''}`}
-                  onClick={handlePublish}
-                  disabled={isPublishing}
-                >
-                  {isPublishing ? (
-                    <>
-                      <span className="spinner"></span>
-                      Publicando...
-                    </>
-                  ) : (
-                    <>
-                      <span className="publish-icon">🚀</span>
-                      Publicar Escena
-                    </>
-                  )}
-                </button>
-              </div>
-            </header>
-
+            {/* Nuevo Header modular */}
+            <Header onPublish={handlePublish} isPublishing={isPublishing} />
+            {/* Nueva Toolbar modular */}
+            <Toolbar />
             {/* Main Content Area */}
             <main className="editor-main">
               {/* Left Panel - Scene Hierarchy */}
@@ -221,7 +195,7 @@ const App: React.FC = () => {
 
                 {/* Viewport Content */}
                 <div className="viewport-content">
-                  <Viewport activeViewport={activeViewport} />
+                  <Viewport viewportType={activeViewport} />
                   
                   {/* Engine Status Overlay */}
                   <div className="engine-status-overlay">
@@ -289,7 +263,7 @@ const App: React.FC = () => {
                 
                 <div className="panel-content">
                   {activeRightPanel === 'inspector' && (
-                    <Inspector selectedObject={selectedObject} />
+                    <Inspector />
                   )}
                   {activeRightPanel === 'materials' && (
                     <MaterialPanel />
@@ -307,11 +281,7 @@ const App: React.FC = () => {
                     <AdvancedToolsPanel />
                   )}
                   {activeRightPanel === 'publish' && (
-                    <PublishPanel 
-                      isPublishing={isPublishing}
-                      blockchainManager={blockchainManager}
-                      isBlockchainReady={isBlockchainReady}
-                    />
+                    <PublishPanel />
                   )}
                 </div>
               </aside>
@@ -353,9 +323,9 @@ const App: React.FC = () => {
             {showLucIA && (
               <div className="lucia-overlay">
                 <LucIA 
-                  onClose={() => setShowLucIA(false)}
+                  position={[0,0,0]}
+                  scale={1}
                   onInteraction={handleLucIAInteraction}
-                  blockchainManager={blockchainManager}
                 />
               </div>
             )}
@@ -368,6 +338,85 @@ const App: React.FC = () => {
             >
               <span className="lucia-icon">🤖</span>
             </button>
+
+            {/* Eliminar el botón flotante y el overlay/modal del menú del sistema .bin */}
+            {/*
+            <button 
+              className="bin-menu-btn"
+              onClick={() => setShowMenu(true)}
+              title="Abrir menú del sistema"
+              style={{
+                position: 'fixed',
+                top: 24,
+                right: 24,
+                zIndex: 2000,
+                background: '#fff',
+                border: 'none',
+                borderRadius: '50%',
+                width: 56,
+                height: 56,
+                boxShadow: '0 2px 8px #0003',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: 28,
+                cursor: 'pointer',
+              }}
+            >
+              <span role="img" aria-label="menu">🛠️</span>
+            </button>
+
+            {showMenu && (
+              <div 
+                className="bin-menu-overlay"
+                style={{
+                  position: 'fixed',
+                  top: 0,
+                  left: 0,
+                  width: '100vw',
+                  height: '100vh',
+                  background: 'rgba(0,0,0,0.5)',
+                  zIndex: 2100,
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  justifyContent: 'center',
+                }}
+                onClick={() => setShowMenu(false)}
+              >
+                <div 
+                  className="bin-menu-panel"
+                  style={{
+                    marginTop: 40,
+                    background: '#23243a',
+                    borderRadius: 16,
+                    boxShadow: '0 4px 32px #0008',
+                    padding: 32,
+                    minWidth: 420,
+                    maxWidth: '90vw',
+                    maxHeight: '90vh',
+                    overflowY: 'auto',
+                  }}
+                  onClick={e => e.stopPropagation()}
+                >
+                  <button 
+                    onClick={() => setShowMenu(false)}
+                    style={{
+                      position: 'absolute',
+                      top: 16,
+                      right: 24,
+                      background: 'none',
+                      border: 'none',
+                      color: '#fff',
+                      fontSize: 28,
+                      cursor: 'pointer',
+                    }}
+                    title="Cerrar menú"
+                  >✖️</button>
+                  <BinApp />
+                </div>
+              </div>
+            )}
+            */}
           </div>
         </EngineProvider>
       </EditorProvider>

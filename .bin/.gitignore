@@ -19,6 +19,8 @@ node_modules/
 *.key
 *.pem
 *.p12
+*.cursor/
+
 
 # Logs de seguridad y auditoría
 security-logs/
