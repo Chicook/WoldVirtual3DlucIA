@@ -77,6 +77,35 @@ class SelectionHelpers {
   }
 
   /**
+   * Selecciona un objeto basado en un evento de mouse
+   */
+  selectObjectFromEvent(event) {
+    if (!this.camera || !this.renderer) return null;
+
+    // Actualizar posición del mouse
+    const rect = this.renderer.domElement.getBoundingClientRect();
+    this.mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+    this.mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+    // Configurar raycaster
+    this.raycaster.setFromCamera(this.mouse, this.camera);
+
+    // Obtener objetos intersectados
+    const intersects = this.raycaster.intersectObjects(
+      this.renderer.scene ? this.renderer.scene.children : [],
+      true
+    );
+
+    if (intersects.length > 0) {
+      const selectedObject = intersects[0].object;
+      this.selectObject(selectedObject);
+      return selectedObject;
+    }
+
+    return null;
+  }
+
+  /**
    * Deselecciona un objeto
    */
   deselectObject(object) {
@@ -350,4 +379,4 @@ class SelectionHelpers {
   }
 }
 
-export default SelectionHelpers; 
+export { SelectionHelpers }; 

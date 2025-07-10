@@ -415,4 +415,4 @@ class MaterialHelpers {
   }
 }
 
-export default MaterialHelpers; 
+export { MaterialHelpers }; 

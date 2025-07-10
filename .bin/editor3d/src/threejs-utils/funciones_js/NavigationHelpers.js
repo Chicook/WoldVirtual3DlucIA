@@ -410,4 +410,4 @@ class NavigationHelpers {
   }
 }
 
-export default NavigationHelpers; 
+export { NavigationHelpers }; 

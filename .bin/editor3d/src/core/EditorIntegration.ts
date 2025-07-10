@@ -5,27 +5,29 @@
  */
 
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { TransformControls } from 'three/examples/jsm/controls/TransformControls';
+import { OrbitControls } from 'three-stdlib/controls/OrbitControls';
+import { TransformControls } from 'three-stdlib/controls/TransformControls';
 
-// Importar las funciones JavaScript creadas
-import { EditorCore } from '../../threejs-utils/funciones_js/EditorCore.js';
-import { ObjectCreators } from '../../threejs-utils/funciones_js/ObjectCreators.js';
-import { TransformTools } from '../../threejs-utils/funciones_js/TransformTools.js';
-import { SelectionHelpers } from '../../threejs-utils/funciones_js/SelectionHelpers.js';
-import { NavigationHelpers } from '../../threejs-utils/funciones_js/NavigationHelpers.js';
-import { MaterialHelpers } from '../../threejs-utils/funciones_js/MaterialHelpers.js';
-import { LightingHelpers } from '../../threejs-utils/funciones_js/LightingHelpers.js';
-import { AnimationHelpers } from '../../threejs-utils/funciones_js/AnimationHelpers.js';
-import { ExportHelpers } from '../../threejs-utils/funciones_js/ExportHelpers.js';
-import { MathHelpers } from '../../threejs-utils/funciones_js/MathHelpers.js';
+// Importar las funciones JavaScript desde el índice
+import {
+  EditorCore,
+  ObjectCreators,
+  TransformTools,
+  SelectionHelpers,
+  NavigationHelpers,
+  MaterialHelpers,
+  LightingHelpers,
+  AnimationHelpers,
+  ExportHelpers,
+  MathHelpers
+} from '../threejs-utils/index.js';
 
 export class EditorIntegration {
-  private scene: THREE.Scene;
-  private camera: THREE.PerspectiveCamera;
-  private renderer: THREE.WebGLRenderer;
-  private controls: OrbitControls;
-  private transformControls: TransformControls;
+  private scene!: THREE.Scene;
+  private camera!: THREE.PerspectiveCamera;
+  private renderer!: THREE.WebGLRenderer;
+  private controls!: OrbitControls;
+  private transformControls!: TransformControls;
   
   // Instancias de las funciones JavaScript
   private editorCore: EditorCore;
@@ -179,7 +181,7 @@ export class EditorIntegration {
   /**
    * Maneja el clic del ratón para selección
    */
-  private onMouseClick(event: MouseEvent): void {
+  private onMouseClick(event: any): void {
     if (this.currentTool === 'select') {
       this.selectionHelpers.handleMouseClick(event, this.camera, this.scene, this.selectedObjects);
       this.updateTransformControls();
