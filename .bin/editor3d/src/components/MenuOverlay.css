@@ -1,0 +1,93 @@
+/* MenuOverlay.css - Estilos para asegurar que los menús estén siempre por encima */
+
+/* Forzar menús por encima de todo */
+.scene-menu-dropdown, 
+.tools-menu-dropdown {
+  position: fixed !important;
+  z-index: 99999 !important; /* Máximo z-index posible */
+  transform: translateZ(9999px) !important; /* Forzar stacking context */
+  pointer-events: auto !important;
+  background: #23272e !important;
+  border: 2px solid #353a40 !important;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4) !important;
+  border-radius: 8px !important;
+  min-width: 240px;
+  max-width: 300px;
+}
+
+/* Asegurar que el contenido del menú también esté por encima */
+.scene-menu-dropdown *,
+.tools-menu-dropdown * {
+  z-index: inherit !important;
+  position: relative !important;
+}
+
+/* Overlay para capturar clics fuera del menú */
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: transparent;
+  z-index: 99998;
+  pointer-events: none;
+}
+
+.menu-overlay.active {
+  pointer-events: auto;
+}
+
+/* Asegurar que los botones del menú funcionen */
+.menu-btn {
+  position: relative !important;
+  z-index: 100000 !important;
+}
+
+/* Estilos específicos para cada menú */
+.scene-menu-dropdown {
+  top: 70px !important;
+  left: 24px !important;
+}
+
+.tools-menu-dropdown {
+  top: 70px !important;
+  left: 120px !important;
+}
+
+/* Animación de entrada */
+@keyframes menuSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) translateZ(9999px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) translateZ(9999px);
+  }
+}
+
+.scene-menu-dropdown,
+.tools-menu-dropdown {
+  animation: menuSlideIn 0.2s ease-out;
+}
+
+/* Asegurar que el header esté por encima del canvas */
+.modern-header {
+  position: relative !important;
+  z-index: 100000 !important;
+  background: #23272e !important;
+}
+
+/* Contenedor principal sin overflow hidden */
+.editor-root,
+.editor-main {
+  overflow: visible !important;
+}
+
+/* Canvas 3D con z-index bajo */
+.threejs-viewport-container,
+.threejs-canvas-container {
+  z-index: 1 !important;
+  position: relative !important;
+} 
