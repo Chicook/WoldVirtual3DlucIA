@@ -378,4 +378,4 @@ class RenderHelpers {
   }
 }
 
-export { RenderHelpers }; 
+// Exportación ya definida en la declaración de clase 

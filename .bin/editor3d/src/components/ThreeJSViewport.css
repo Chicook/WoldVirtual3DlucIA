@@ -1,4 +1,4 @@
-/* ThreeJSViewport.css - Estilos para el editor 3D con Three.js */
+/* ThreeJSViewport.css - Estilos modernos y minimalistas para el editor 3D */
 
 .threejs-viewport-container {
   position: relative;
@@ -7,22 +7,22 @@
   background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
   border: 2px solid #404040;
   border-radius: 8px;
-  /* overflow: hidden; */ /* Comentado para permitir que los menús del header sobresalgan */
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   min-height: 400px;
   min-width: 600px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
+/* Canvas Three.js */
 .threejs-canvas-container {
   width: 100%;
   height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
+  position: relative;
   cursor: crosshair;
   outline: none;
+  flex: 1;
 }
 
 .threejs-canvas-container canvas {
@@ -33,238 +33,230 @@
   border: none;
 }
 
-/* Header del viewport */
-.viewport-header {
-  position: relative;
+.threejs-canvas-container:focus {
+  outline: 2px solid #4a9eff;
+  outline-offset: -2px;
+}
+
+/* Overlay de información */
+.viewport-info-overlay {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid #404040;
+  border-radius: 6px;
+  padding: 12px;
+  color: #ffffff;
+  font-size: 12px;
   z-index: 10;
-  background: linear-gradient(90deg, #2a2a2a 0%, #3a3a3a 100%);
-  border-bottom: 1px solid #404040;
-  padding: 8px 12px;
+  min-width: 200px;
+}
+
+.info-item {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  min-height: 50px;
+  margin-bottom: 4px;
 }
 
-.viewport-header h3 {
+.info-item:last-child {
+  margin-bottom: 0;
+}
+
+.info-label {
+  color: #888;
+  font-weight: 500;
+}
+
+.info-value {
   color: #ffffff;
-  margin: 0;
-  font-size: 14px;
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 
-/* Controles del viewport */
-.viewport-controls {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex: 1;
-  justify-content: center;
-}
-
-.tool-buttons {
+/* Toolbar de herramientas */
+.viewport-toolbar {
+  position: absolute;
+  top: 10px;
+  left: 10px;
   display: flex;
   gap: 4px;
-  background: #1a1a1a;
-  border-radius: 4px;
-  padding: 2px;
+  background: rgba(0, 0, 0, 0.8);
   border: 1px solid #404040;
+  border-radius: 6px;
+  padding: 8px;
+  z-index: 10;
 }
 
-.tool-buttons button {
-  background: transparent;
-  border: none;
-  color: #cccccc;
-  padding: 6px 12px;
-  border-radius: 3px;
-  font-size: 12px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  text-transform: uppercase;
-  font-weight: 500;
-  letter-spacing: 0.3px;
-}
-
-.tool-buttons button:hover {
-  background: #404040;
-  color: #ffffff;
-}
-
-.tool-buttons button.active {
-  background: #4a9eff;
-  color: #ffffff;
-  box-shadow: 0 0 8px rgba(74, 158, 255, 0.3);
-}
-
-.object-buttons {
-  display: flex;
-  gap: 4px;
-  background: #1a1a1a;
-  border-radius: 4px;
-  padding: 2px;
-  border: 1px solid #404040;
-}
-
-.object-buttons button {
-  background: transparent;
-  border: none;
-  color: #cccccc;
-  padding: 6px 12px;
-  border-radius: 3px;
-  font-size: 12px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  text-transform: uppercase;
-  font-weight: 500;
-  letter-spacing: 0.3px;
-}
-
-.object-buttons button:hover {
-  background: #404040;
-  color: #ffffff;
-}
-
-.object-buttons button:active {
+.tool-button {
+  width: 36px;
+  height: 36px;
   background: #2a2a2a;
-  transform: translateY(1px);
-}
-
-/* Estado del viewport */
-.viewport-status {
+  border: 1px solid #404040;
+  border-radius: 4px;
+  color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 8px;
-  color: #cccccc;
-  font-size: 12px;
+  justify-content: center;
+  transition: all 0.2s ease;
 }
 
-.status-indicator {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #ff4444;
-  animation: pulse 2s infinite;
+.tool-button:hover {
+  background: #3a3a3a;
+  border-color: #5a5a5a;
+  transform: translateY(-1px);
 }
 
-.status-indicator.active {
-  background: #44ff44;
-  animation: pulse 2s infinite;
+.tool-button.active {
+  background: #4a9eff;
+  border-color: #4a9eff;
+  box-shadow: 0 0 8px rgba(74, 158, 255, 0.4);
 }
 
-@keyframes pulse {
-  0% { opacity: 1; }
-  50% { opacity: 0.5; }
-  100% { opacity: 1; }
+.tool-button:active {
+  transform: translateY(0);
 }
 
-/* Overlay de carga */
-.loading-overlay {
+/* Toolbar de creación de objetos */
+.viewport-object-toolbar {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  display: flex;
+  gap: 4px;
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid #404040;
+  border-radius: 6px;
+  padding: 8px;
+  z-index: 10;
+}
+
+.object-button {
+  width: 40px;
+  height: 40px;
+  background: #2a2a2a;
+  border: 1px solid #404040;
+  border-radius: 4px;
+  color: #ffffff;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.object-button:hover {
+  background: #3a3a3a;
+  border-color: #5a5a5a;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.object-button:active {
+  transform: translateY(0);
+  background: #4a4a4a;
+}
+
+/* Toolbar de materiales */
+.viewport-material-toolbar {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  display: flex;
+  gap: 4px;
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid #404040;
+  border-radius: 6px;
+  padding: 8px;
+  z-index: 10;
+  animation: slideIn 0.3s ease;
+}
+
+.material-button {
+  width: 36px;
+  height: 36px;
+  background: #2a2a2a;
+  border: 1px solid #404040;
+  border-radius: 4px;
+  color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.material-button:hover {
+  background: #3a3a3a;
+  border-color: #5a5a5a;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.material-button:active {
+  transform: translateY(0);
+  background: #4a4a4a;
+}
+
+/* Overlay de error */
+.viewport-error-overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(26, 26, 26, 0.9);
+  background: rgba(0, 0, 0, 0.9);
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   z-index: 100;
 }
 
-.loading-spinner {
-  width: 40px;
-  height: 40px;
-  border: 3px solid #404040;
-  border-top: 3px solid #4a9eff;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin-bottom: 16px;
+.error-content {
+  background: #2a2a2a;
+  border: 2px solid #ff4444;
+  border-radius: 8px;
+  padding: 24px;
+  text-align: center;
+  color: #ffffff;
+  max-width: 400px;
 }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+.error-content h3 {
+  margin: 0 0 16px 0;
+  color: #ff4444;
+  font-size: 18px;
 }
 
-.loading-overlay p {
+.error-content p {
+  margin: 0 0 20px 0;
   color: #cccccc;
+  line-height: 1.5;
+}
+
+.error-content button {
+  background: #4a9eff;
+  border: none;
+  border-radius: 4px;
+  color: #ffffff;
+  padding: 8px 16px;
   font-size: 14px;
-  margin: 0;
+  cursor: pointer;
+  transition: background 0.2s ease;
 }
 
-/* Información del viewport */
-.viewport-info {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(26, 26, 26, 0.9);
-  border-top: 1px solid #404040;
-  padding: 8px 12px;
-  z-index: 10;
+.error-content button:hover {
+  background: #3a8eef;
 }
 
-.viewport-info p {
-  color: #cccccc;
-  font-size: 11px;
-  margin: 2px 0;
-  font-family: 'Consolas', 'Monaco', monospace;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .viewport-controls {
-    flex-direction: column;
-    gap: 8px;
-  }
-  
-  .tool-buttons,
-  .object-buttons {
-    flex-wrap: wrap;
-  }
-  
-  .viewport-header {
-    flex-direction: column;
-    gap: 8px;
-    padding: 12px;
-  }
-}
-
-/* Efectos visuales */
-.threejs-viewport-container::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent 0%, #4a9eff 50%, transparent 100%);
-  z-index: 5;
-}
-
-.threejs-viewport-container::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent 0%, #4a9eff 50%, transparent 100%);
-  z-index: 5;
-}
-
-/* Animaciones de entrada */
-.threejs-viewport-container {
-  animation: fadeInUp 0.5s ease-out;
-}
-
-@keyframes fadeInUp {
+/* Animaciones */
+@keyframes slideIn {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
@@ -272,26 +264,33 @@
   }
 }
 
-/* Efectos hover en botones */
-.tool-buttons button,
-.object-buttons button {
-  position: relative;
-  overflow: hidden;
+/* Estados de selección */
+.threejs-canvas-container.selecting {
+  cursor: crosshair;
 }
 
-.tool-buttons button::before,
-.object-buttons button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-  transition: left 0.3s ease;
+.threejs-canvas-container.moving {
+  cursor: move;
 }
 
-.tool-buttons button:hover::before,
-.object-buttons button:hover::before {
-  left: 100%;
+.threejs-canvas-container.rotating {
+  cursor: grab;
+}
+
+.threejs-canvas-container.scaling {
+  cursor: nw-resize;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .viewport-toolbar,
+  .viewport-object-toolbar,
+  .viewport-material-toolbar {
+    transform: scale(0.8);
+  }
+  
+  .viewport-info-overlay {
+    font-size: 11px;
+    min-width: 180px;
+  }
 } 

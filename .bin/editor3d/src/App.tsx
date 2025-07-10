@@ -1,42 +1,47 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ModernHeader from './components/ModernHeader';
 import { ThreeJSViewport } from './components/ThreeJSViewport';
 import './components/ThreeJSViewport.css';
-import './components/MenuOverlay.css'; // Estilos para menús por encima
-// ELIMINADOS: estilos antiguos que interfieren
-// import './styles/modern-editor-theme.css';
-// import './styles/blender-godot-animations.css';
+import './styles/modern-editor-theme.css';
+import './styles/blender-godot-animations.css';
 
 const App: React.FC = () => {
-  // Props mínimas para ModernHeader
-  const noop = () => {};
-  
+  const [activeTool, setActiveTool] = useState('select');
+  const [selectedObject, setSelectedObject] = useState<any>(null);
+  const [projectName] = useState('WoldVirtual3D Project');
+
+  const handleToolChange = (tool: string) => {
+    setActiveTool(tool);
+    console.log('🔄 Tool changed to:', tool);
+  };
+
+  const handleObjectSelect = (object: any) => {
+    setSelectedObject(object);
+    if (object) {
+      console.log('🎯 Selected object:', object.name || 'Unnamed object');
+    } else {
+      console.log('🎯 No object selected');
+    }
+  };
+
+  const handlePublish = () => {
+    console.log('🚀 Publishing project:', projectName);
+    // Aquí iría la lógica de publicación
+  };
+
   return (
-    <div style={{ 
-      width: '100vw', 
-      height: '100vh', 
-      background: '#0f1419', // Fondo muy oscuro tipo Blender
-      display: 'flex',
-      flexDirection: 'column',
-      overflow: 'visible', // Permitir que los menús sobresalgan
-      fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
-    }}>
-      {/* Header moderno y prominente */}
+    <div className="editor-root" style={{ width: '100vw', height: '100vh', background: '#181a20' }}>
       <ModernHeader 
-        onPublish={noop}
+        onPublish={handlePublish}
         isPublishing={false}
       />
-      
-      {/* Zona 3D de trabajo - OCUPA TODO EL ESPACIO */}
-      <main style={{ 
-        flex: 1, 
-        display: 'flex', 
-        flexDirection: 'column', 
-        height: 'calc(100vh - 64px)',
-        background: '#1a1a1a',
-        borderTop: '2px solid #333'
-      }}>
-        <ThreeJSViewport />
+      <main style={{ flex: 1, display: 'flex', flexDirection: 'column', height: 'calc(100vh - 64px)' }}>
+        <ThreeJSViewport 
+          activeTool={activeTool}
+          onToolChange={handleToolChange}
+          onObjectSelect={handleObjectSelect}
+          projectName={projectName}
+        />
       </main>
     </div>
   );

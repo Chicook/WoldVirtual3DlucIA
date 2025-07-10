@@ -6,7 +6,7 @@
 
 import * as THREE from 'three';
 
-class SelectionHelpers {
+export class SelectionHelpers {
   constructor() {
     this.raycaster = new THREE.Raycaster();
     this.mouse = new THREE.Vector2();
@@ -377,6 +377,4 @@ class SelectionHelpers {
       this.highlightMaterial.dispose();
     }
   }
-}
-
-export { SelectionHelpers }; 
+} 

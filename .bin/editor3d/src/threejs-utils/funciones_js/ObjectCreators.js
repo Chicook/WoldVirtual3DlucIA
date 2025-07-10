@@ -6,7 +6,7 @@
 
 import * as THREE from 'three';
 
-class ObjectCreators {
+export class ObjectCreators {
   constructor() {
     this.defaultMaterial = new THREE.MeshStandardMaterial({
       color: 0x808080,
@@ -387,6 +387,4 @@ class ObjectCreators {
     
     return material;
   }
-}
-
-export { ObjectCreators }; 
+} 

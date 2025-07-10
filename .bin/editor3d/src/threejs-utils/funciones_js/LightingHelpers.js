@@ -6,7 +6,7 @@
 
 import * as THREE from 'three';
 
-class LightingHelpers {
+export class LightingHelpers {
   constructor() {
     this.lights = new Map();
     this.shadowMapEnabled = true;

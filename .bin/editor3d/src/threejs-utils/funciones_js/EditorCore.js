@@ -6,7 +6,7 @@
 
 import * as THREE from 'three';
 
-class EditorCore {
+export class EditorCore {
   constructor() {
     this.scene = null;
     this.camera = null;
@@ -325,6 +325,15 @@ class EditorCore {
   }
 
   /**
+   * Renderiza la escena manualmente (para integración con React)
+   */
+  render() {
+    if (this.renderer && this.scene && this.camera) {
+      this.renderer.render(this.scene, this.camera);
+    }
+  }
+
+  /**
    * Limpia los recursos del editor
    */
   dispose() {
@@ -369,4 +378,4 @@ class EditorCore {
   }
 }
 
-export { EditorCore }; 
+// Exportación ya definida en la declaración de clase 

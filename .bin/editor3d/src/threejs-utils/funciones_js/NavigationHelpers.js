@@ -6,7 +6,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
-class NavigationHelpers {
+export class NavigationHelpers {
   constructor() {
     this.camera = null;
     this.controls = null;

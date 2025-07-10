@@ -463,4 +463,4 @@ class AudioHelpers {
   }
 }
 
-export { AudioHelpers }; 
+// Exportación ya definida en la declaración de clase 

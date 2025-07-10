@@ -357,4 +357,4 @@ class NetworkHelpers {
   }
 }
 
-export { NetworkHelpers }; 
+// Exportación ya definida en la declaración de clase 
