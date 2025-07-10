@@ -353,6 +353,12 @@ security_manuals/
 penetration_testing/
 vulnerability_reports/
 security_audits/
+.npmrc
+.nvmrc
+.secrets.baseline
+package-lock.json
+package.json
+
 
 # =============================================================================
 # 🚨 ARCHIVOS DE EMERGENCIA Y CRÍTICOS
