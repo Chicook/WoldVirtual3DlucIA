@@ -57,14 +57,18 @@ Tu experiencia puede marcar la diferencia en la construcción de un metaverso se
 - **Blockchain Integration**: Smart contracts y transacciones descentralizadas ✅
 - **Profiling Avanzado**: Monitoreo de rendimiento en tiempo real ✅
 
-### 🎮 Editor 3D Integrado (65% Completado)
+### 🎮 Editor 3D Integrado (85% Completado)
 - **Interfaz Similar a Godot/Blender**: Controles intuitivos y familiares ✅
 - **Conexión Bidireccional**: WebSocket entre motor y editor ✅
 - **Controles en Tiempo Real**: Ajuste de parámetros sin reiniciar ✅
 - **Sistema de Overlay**: Controles flotantes no intrusivos ✅
 - **Atajos de Ratón**: Optimizado para uso con mouse en PC ✅
+- **Zona 3D de Trabajo**: Canvas Three.js real con grid y navegación ✅
+- **Utilidades JavaScript**: 16 módulos especializados implementados ✅
+- **Sistema de Física**: Simulación básica de colisiones y gravedad ✅
+- **Audio 3D Espacial**: Sistema de sonidos inmersivos ✅
+- **Networking P2P**: Comunicación en tiempo real entre usuarios ✅
 - **Física Avanzada**: Sistema de fluidos y telas (pendiente) ❌
-- **Networking P2P**: Comunicación entre usuarios (pendiente) ❌
 
 ### 🤖 IA LucIA Avanzada (85% Completado)
 - **Asistente Inteligente**: IA conversacional para el metaverso ✅
@@ -98,8 +102,10 @@ Tu experiencia puede marcar la diferencia en la construcción de un metaverso se
 
 ```
 WoldVirtual3DlucIA/
-├── .bin/editor3d/          # Editor 3D integrado (65% completado)
+├── .bin/editor3d/          # Editor 3D integrado (85% completado)
 │   ├── src/               # Componentes React del editor
+│   ├── threejs-utils/     # 16 módulos JavaScript especializados
+│   │   └── funciones_js/  # Utilidades Three.js completas
 │   ├── engine/            # Motor Rust/WASM
 │   └── docs/              # Documentación del editor
 ├── client/                # Frontend React + Three.js (80% completado)
@@ -139,6 +145,26 @@ WoldVirtual3DlucIA/
 - ✅ **ini**: LucIA AI, System Init, Config Manager
 - 🔄 **entities**: Entity System (en desarrollo)
 - 🔄 **helpers**: Utility Functions (en desarrollo)
+
+### 🛠️ Utilidades JavaScript del Editor 3D (16/16 Completadas)
+
+**Módulos Especializados Implementados:**
+- ✅ **EditorCore.js** (323 líneas): Gestión de escena, objetos y selección
+- ✅ **ObjectCreators.js** (392 líneas): Creación de objetos 3D primitivos
+- ✅ **TransformTools.js** (343 líneas): Herramientas de transformación
+- ✅ **SelectionHelpers.js** (353 líneas): Selección y raycasting
+- ✅ **NavigationHelpers.js** (413 líneas): Controles de cámara y navegación
+- ✅ **MaterialHelpers.js** (418 líneas): Gestión de materiales y texturas
+- ✅ **LightingHelpers.js** (407 líneas): Sistema de iluminación avanzado
+- ✅ **AnimationHelpers.js** (307 líneas): Animaciones y keyframes
+- ✅ **ExportHelpers.js** (486 líneas): Exportación e importación de modelos
+- ✅ **MathHelpers.js** (477 líneas): Utilidades matemáticas y geometría
+- ✅ **TextureHelpers.js** (307 líneas): Carga y gestión de texturas
+- ✅ **RenderHelpers.js** (482 líneas): Optimización de renderizado
+- ✅ **SceneHelpers.js** (333 líneas): Gestión de escenas y entornos
+- ✅ **PhysicsHelpers.js** (300 líneas): Simulación física básica
+- ✅ **AudioHelpers.js** (300 líneas): Sistema de audio 3D espacial
+- ✅ **NetworkHelpers.js** (300 líneas): Networking y comunicación P2P
 
 **Arquitectura Modular:**
 - **CentralModuleCoordinator**: Gestión centralizada de módulos

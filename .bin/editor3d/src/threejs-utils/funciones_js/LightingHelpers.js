@@ -404,4 +404,4 @@ class LightingHelpers {
   }
 }
 
-export default LightingHelpers; 
+export { LightingHelpers }; 

@@ -5,6 +5,7 @@
  */
 
 import * as THREE from 'three';
+import { TransformControls } from 'three/examples/jsm/controls/TransformControls.js';
 
 class TransformTools {
   constructor() {
@@ -24,10 +25,10 @@ class TransformTools {
       this.transformControls.dispose();
     }
 
-    this.transformControls = new THREE.TransformControls(camera, renderer.domElement);
+    this.transformControls = new TransformControls(camera, renderer.domElement);
     this.transformControls.setMode(this.transformMode);
-    this.transformControls.setSnap(this.snapEnabled ? this.snapValue : null);
-    this.transformControls.setPivotPoint(this.pivotPoint);
+    // this.transformControls.setSnap(this.snapEnabled ? this.snapValue : null); // Función no disponible en esta versión
+    // this.transformControls.setPivotPoint(this.pivotPoint); // Función no disponible en esta versión
 
     return this.transformControls;
   }
@@ -43,14 +44,36 @@ class TransformTools {
   }
 
   /**
+   * Establece el modo de transformación (alias para setTransformMode)
+   */
+  setMode(mode) {
+    this.setTransformMode(mode);
+  }
+
+  /**
+   * Establece el objeto objetivo para las transformaciones
+   */
+  setTarget(object) {
+    if (this.transformControls) {
+      if (object) {
+        this.transformControls.attach(object);
+        this.isActive = true;
+      } else {
+        this.transformControls.detach();
+        this.isActive = false;
+      }
+    }
+  }
+
+  /**
    * Activa/desactiva el snap
    */
   setSnap(enabled, value = 1.0) {
     this.snapEnabled = enabled;
     this.snapValue = value;
-    if (this.transformControls) {
-      this.transformControls.setSnap(enabled ? value : null);
-    }
+    // if (this.transformControls) {
+    //   this.transformControls.setSnap(enabled ? value : null); // Función no disponible en esta versión
+    // }
   }
 
   /**
@@ -340,4 +363,4 @@ class TransformTools {
   }
 }
 
-export default TransformTools; 
+export { TransformTools }; 

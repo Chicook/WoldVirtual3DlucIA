@@ -199,9 +199,58 @@ class EditorCore {
     this.selectedObjects.forEach(object => {
       if (object.material && object.userData.originalColor !== undefined) {
         object.material.color.setHex(object.userData.originalColor);
+        delete object.userData.originalColor;
       }
     });
     this.selectedObjects.clear();
+  }
+
+  /**
+   * Agrega un objeto a la escena
+   */
+  addObject(object) {
+    if (!object || !this.scene) return false;
+    
+    // Asignar ID único si no tiene uno
+    if (!object.userData.id) {
+      object.userData.id = `obj_${Date.now()}_${Math.random()}`;
+    }
+    
+    // Asignar nombre si no tiene uno
+    if (!object.name) {
+      object.name = `Object_${this.objectCounter++}`;
+    }
+    
+    this.scene.add(object);
+    console.log('Objeto agregado:', object.name);
+    return true;
+  }
+
+  /**
+   * Remueve un objeto de la escena
+   */
+  removeObject(object) {
+    if (!object || !this.scene) return false;
+    
+    this.scene.remove(object);
+    
+    // Limpiar recursos
+    if (object.geometry) {
+      object.geometry.dispose();
+    }
+    if (object.material) {
+      if (Array.isArray(object.material)) {
+        object.material.forEach(mat => mat.dispose());
+      } else {
+        object.material.dispose();
+      }
+    }
+    
+    // Remover de selección si está seleccionado
+    this.selectedObjects.delete(object);
+    
+    console.log('Objeto removido:', object.name);
+    return true;
   }
 
   /**
@@ -320,4 +369,4 @@ class EditorCore {
   }
 }
 
-export default EditorCore; 
+export { EditorCore }; 

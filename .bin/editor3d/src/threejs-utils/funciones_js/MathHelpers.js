@@ -473,4 +473,4 @@ class MathHelpers {
   }
 }
 
-export default MathHelpers;
+export { MathHelpers };

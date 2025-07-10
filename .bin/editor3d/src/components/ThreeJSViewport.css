@@ -1,73 +1,27 @@
-/* ThreeJSViewport.css - Estilos para el editor 3D funcional */
+/* ThreeJSViewport.css - Estilos para el editor 3D con Three.js */
 
 .threejs-viewport-container {
   position: relative;
   width: 100%;
   height: 100%;
-  background: #1a1a1a;
-  border: 2px solid #333;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+  border: 2px solid #404040;
   border-radius: 8px;
-  overflow: hidden;
+  /* overflow: hidden; */ /* Comentado para permitir que los menús del header sobresalgan */
   display: flex;
   flex-direction: column;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 400px;
+  min-width: 600px;
 }
 
-/* Header del viewport */
-.viewport-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 16px;
-  background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
-  border-bottom: 1px solid #444;
-  height: 50px;
-  min-height: 50px;
-}
-
-.viewport-header h3 {
-  margin: 0;
-  color: #fff;
-  font-size: 14px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.viewport-status {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #ccc;
-  font-size: 12px;
-}
-
-.status-indicator {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #666;
-}
-
-.status-indicator.active {
-  background: #4CAF50;
-  box-shadow: 0 0 8px rgba(76, 175, 80, 0.5);
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0% { opacity: 1; }
-  50% { opacity: 0.7; }
-  100% { opacity: 1; }
-}
-
-/* Canvas container */
 .threejs-canvas-container {
-  flex: 1;
-  position: relative;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
   cursor: crosshair;
-  background: #1a1a1a;
-  border: none;
   outline: none;
 }
 
@@ -79,30 +33,151 @@
   border: none;
 }
 
-.threejs-canvas-container:focus {
-  outline: 2px solid #4a9eff;
-  outline-offset: -2px;
+/* Header del viewport */
+.viewport-header {
+  position: relative;
+  z-index: 10;
+  background: linear-gradient(90deg, #2a2a2a 0%, #3a3a3a 100%);
+  border-bottom: 1px solid #404040;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 50px;
 }
 
-/* Loading overlay */
+.viewport-header h3 {
+  color: #ffffff;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Controles del viewport */
+.viewport-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+  justify-content: center;
+}
+
+.tool-buttons {
+  display: flex;
+  gap: 4px;
+  background: #1a1a1a;
+  border-radius: 4px;
+  padding: 2px;
+  border: 1px solid #404040;
+}
+
+.tool-buttons button {
+  background: transparent;
+  border: none;
+  color: #cccccc;
+  padding: 6px 12px;
+  border-radius: 3px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+.tool-buttons button:hover {
+  background: #404040;
+  color: #ffffff;
+}
+
+.tool-buttons button.active {
+  background: #4a9eff;
+  color: #ffffff;
+  box-shadow: 0 0 8px rgba(74, 158, 255, 0.3);
+}
+
+.object-buttons {
+  display: flex;
+  gap: 4px;
+  background: #1a1a1a;
+  border-radius: 4px;
+  padding: 2px;
+  border: 1px solid #404040;
+}
+
+.object-buttons button {
+  background: transparent;
+  border: none;
+  color: #cccccc;
+  padding: 6px 12px;
+  border-radius: 3px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+.object-buttons button:hover {
+  background: #404040;
+  color: #ffffff;
+}
+
+.object-buttons button:active {
+  background: #2a2a2a;
+  transform: translateY(1px);
+}
+
+/* Estado del viewport */
+.viewport-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #cccccc;
+  font-size: 12px;
+}
+
+.status-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ff4444;
+  animation: pulse 2s infinite;
+}
+
+.status-indicator.active {
+  background: #44ff44;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+/* Overlay de carga */
 .loading-overlay {
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
+  width: 100%;
+  height: 100%;
   background: rgba(26, 26, 26, 0.9);
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  z-index: 10;
+  justify-content: center;
+  z-index: 100;
 }
 
 .loading-spinner {
   width: 40px;
   height: 40px;
-  border: 3px solid #333;
+  border: 3px solid #404040;
   border-top: 3px solid #4a9eff;
   border-radius: 50%;
   animation: spin 1s linear infinite;
@@ -115,79 +190,108 @@
 }
 
 .loading-overlay p {
-  color: #ccc;
-  margin: 0;
+  color: #cccccc;
   font-size: 14px;
+  margin: 0;
 }
 
-/* Controles de herramientas (futuro) */
-.viewport-toolbar {
+/* Información del viewport */
+.viewport-info {
   position: absolute;
-  top: 60px;
-  left: 16px;
-  background: rgba(42, 42, 42, 0.9);
-  border: 1px solid #555;
-  border-radius: 4px;
-  padding: 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  z-index: 5;
-}
-
-.tool-button {
-  width: 32px;
-  height: 32px;
-  background: #333;
-  border: 1px solid #555;
-  border-radius: 4px;
-  color: #ccc;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  transition: all 0.2s ease;
-}
-
-.tool-button:hover {
-  background: #444;
-  border-color: #666;
-}
-
-.tool-button.active {
-  background: #4a9eff;
-  border-color: #4a9eff;
-  color: white;
-}
-
-/* Información de coordenadas */
-.coordinates-info {
-  position: absolute;
-  bottom: 16px;
-  right: 16px;
-  background: rgba(42, 42, 42, 0.9);
-  border: 1px solid #555;
-  border-radius: 4px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(26, 26, 26, 0.9);
+  border-top: 1px solid #404040;
   padding: 8px 12px;
-  color: #ccc;
-  font-size: 12px;
-  font-family: 'Courier New', monospace;
-  z-index: 5;
+  z-index: 10;
+}
+
+.viewport-info p {
+  color: #cccccc;
+  font-size: 11px;
+  margin: 2px 0;
+  font-family: 'Consolas', 'Monaco', monospace;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
+  .viewport-controls {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .tool-buttons,
+  .object-buttons {
+    flex-wrap: wrap;
+  }
+  
   .viewport-header {
-    padding: 6px 12px;
-    height: 40px;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
   }
-  
-  .viewport-header h3 {
-    font-size: 12px;
+}
+
+/* Efectos visuales */
+.threejs-viewport-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, #4a9eff 50%, transparent 100%);
+  z-index: 5;
+}
+
+.threejs-viewport-container::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, #4a9eff 50%, transparent 100%);
+  z-index: 5;
+}
+
+/* Animaciones de entrada */
+.threejs-viewport-container {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
-  
-  .viewport-status {
-    font-size: 11px;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
+}
+
+/* Efectos hover en botones */
+.tool-buttons button,
+.object-buttons button {
+  position: relative;
+  overflow: hidden;
+}
+
+.tool-buttons button::before,
+.object-buttons button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.3s ease;
+}
+
+.tool-buttons button:hover::before,
+.object-buttons button:hover::before {
+  left: 100%;
 } 
