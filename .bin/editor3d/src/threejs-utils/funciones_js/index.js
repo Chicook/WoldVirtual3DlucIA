@@ -1,9 +1,10 @@
 /**
- * Índice de utilidades JavaScript para el editor 3D
+ * Index de utilidades JavaScript para el editor 3D
  * Exporta todas las clases y funciones necesarias para el funcionamiento del editor
+ * Crea instancias únicas siguiendo el patrón Singleton
  */
 
-// Importar todas las utilidades
+// Importar todas las clases
 import { EditorCore } from './EditorCore.js';
 import { ObjectCreators } from './ObjectCreators.js';
 import { TransformTools } from './TransformTools.js';
@@ -15,13 +16,35 @@ import { AnimationHelpers } from './AnimationHelpers.js';
 import { ExportHelpers } from './ExportHelpers.js';
 import { MathHelpers } from './MathHelpers.js';
 import { TextureHelpers } from './TextureHelpers.js';
-import { SceneHelpers } from './SceneHelpers.js';
-import { RenderHelpers } from './RenderHelpers.js';
-import { PhysicsHelpers } from './PhysicsHelpers.js';
 import { NetworkHelpers } from './NetworkHelpers.js';
+import { PhysicsHelpers } from './PhysicsHelpers.js';
+import { RenderHelpers } from './RenderHelpers.js';
+import { SceneHelpers } from './SceneHelpers.js';
 import { AudioHelpers } from './AudioHelpers.js';
+import { ProjectManager } from './ProjectManager.js';
+import { SerializationHelpers } from './SerializationHelpers.js';
 
-// Exportar todas las clases
+// Crear instancias únicas (Singleton pattern)
+export const editorCore = new EditorCore();
+export const objectCreators = new ObjectCreators();
+export const transformTools = new TransformTools();
+export const selectionHelpers = new SelectionHelpers();
+export const navigationHelpers = new NavigationHelpers();
+export const materialHelpers = new MaterialHelpers();
+export const lightingHelpers = new LightingHelpers();
+export const animationHelpers = new AnimationHelpers();
+export const exportHelpers = new ExportHelpers();
+export const mathHelpers = new MathHelpers();
+export const textureHelpers = new TextureHelpers();
+export const networkHelpers = new NetworkHelpers();
+export const physicsHelpers = new PhysicsHelpers();
+export const renderHelpers = new RenderHelpers();
+export const sceneHelpers = new SceneHelpers();
+export const audioHelpers = new AudioHelpers();
+export const projectManager = new ProjectManager();
+export const serializationHelpers = new SerializationHelpers();
+
+// Exportar las clases también para casos donde se necesite crear nuevas instancias
 export {
   EditorCore,
   ObjectCreators,
@@ -34,86 +57,58 @@ export {
   ExportHelpers,
   MathHelpers,
   TextureHelpers,
-  SceneHelpers,
-  RenderHelpers,
-  PhysicsHelpers,
   NetworkHelpers,
-  AudioHelpers
+  PhysicsHelpers,
+  RenderHelpers,
+  SceneHelpers,
+  AudioHelpers,
+  ProjectManager,
+  SerializationHelpers
 };
 
-// Exportar instancias por defecto para uso directo
-export const editorCore = new EditorCore();
-export const objectCreators = new ObjectCreators();
-export const transformTools = new TransformTools();
-export const selectionHelpers = new SelectionHelpers();
-export const navigationHelpers = new NavigationHelpers();
-export const materialHelpers = new MaterialHelpers();
-export const lightingHelpers = new LightingHelpers();
-export const animationHelpers = new AnimationHelpers();
-export const exportHelpers = new ExportHelpers();
-export const mathHelpers = new MathHelpers();
-export const textureHelpers = new TextureHelpers();
-export const sceneHelpers = new SceneHelpers();
-export const renderHelpers = new RenderHelpers();
-export const physicsHelpers = new PhysicsHelpers();
-export const networkHelpers = new NetworkHelpers();
-export const audioHelpers = new AudioHelpers();
-
-// Exportar funciones de conveniencia
-export const createCube = (options) => objectCreators.createCube(options);
-export const createSphere = (options) => objectCreators.createSphere(options);
-export const createCylinder = (options) => objectCreators.createCylinder(options);
-export const createPlane = (options) => objectCreators.createPlane(options);
-export const createCone = (options) => objectCreators.createCone(options);
-export const createTorus = (options) => objectCreators.createTorus(options);
-
-export const setupTransformControls = (camera, renderer) => 
-  transformTools.setupTransformControls(camera, renderer);
-
-export const setupRaycaster = (camera, renderer) => 
-  selectionHelpers.setupRaycaster(camera, renderer);
-
-export const setupNavigation = (camera, renderer, scene) => 
-  navigationHelpers.setupNavigation(camera, renderer, scene);
-
-export const setupBasicLighting = (scene, renderer) => 
-  lightingHelpers.setupBasicLighting(scene, renderer);
-
-// Exportar constantes útiles
-export const TOOL_MODES = {
-  SELECT: 'select',
-  MOVE: 'move',
-  ROTATE: 'rotate',
-  SCALE: 'scale'
+// Exportar un objeto con todas las instancias para acceso fácil
+export const editorUtils = {
+  editorCore,
+  objectCreators,
+  transformTools,
+  selectionHelpers,
+  navigationHelpers,
+  materialHelpers,
+  lightingHelpers,
+  animationHelpers,
+  exportHelpers,
+  mathHelpers,
+  textureHelpers,
+  networkHelpers,
+  physicsHelpers,
+  renderHelpers,
+  sceneHelpers,
+  audioHelpers,
+  projectManager,
+  serializationHelpers
 };
 
-export const OBJECT_TYPES = {
-  CUBE: 'cube',
-  SPHERE: 'sphere',
-  CYLINDER: 'cylinder',
-  PLANE: 'plane',
-  CONE: 'cone',
-  TORUS: 'torus'
-};
+// Función de inicialización global
+export function initializeEditorUtils() {
+  console.log('🚀 Inicializando utilidades del editor 3D...');
+  
+  // Inicializar componentes críticos
+  editorCore.initialize();
+  selectionHelpers.initialize();
+  navigationHelpers.initialize();
+  
+  console.log('✅ Utilidades del editor 3D inicializadas correctamente');
+  return editorUtils;
+}
 
-export const TRANSFORM_MODES = {
-  TRANSLATE: 'translate',
-  ROTATE: 'rotate',
-  SCALE: 'scale'
-};
-
-// Exportar configuración por defecto
-export const DEFAULT_CONFIG = {
-  gridSize: 1000,
-  gridDivisions: 100,
-  snapValue: 1.0,
-  snapAngle: Math.PI / 4,
-  cameraFOV: 60,
-  cameraNear: 0.1,
-  cameraFar: 1000,
-  backgroundColor: 0x23272e,
-  ambientLightColor: 0x404040,
-  ambientLightIntensity: 0.4,
-  directionalLightColor: 0xffffff,
-  directionalLightIntensity: 0.8
-}; 
+// Función de limpieza global
+export function cleanupEditorUtils() {
+  console.log('🧹 Limpiando utilidades del editor 3D...');
+  
+  // Limpiar componentes
+  editorCore.cleanup();
+  selectionHelpers.cleanup();
+  navigationHelpers.cleanup();
+  
+  console.log('✅ Utilidades del editor 3D limpiadas correctamente');
+}

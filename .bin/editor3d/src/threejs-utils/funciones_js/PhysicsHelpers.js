@@ -366,4 +366,4 @@ class PhysicsHelpers {
   }
 }
 
-export { PhysicsHelpers }; 
+// Exportación ya definida en la declaración de clase 

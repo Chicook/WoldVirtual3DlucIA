@@ -7,7 +7,7 @@
 import * as THREE from 'three';
 import { TransformControls } from 'three/examples/jsm/controls/TransformControls.js';
 
-class TransformTools {
+export class TransformTools {
   constructor() {
     this.transformMode = 'translate'; // translate, rotate, scale
     this.snapEnabled = false;
@@ -361,6 +361,4 @@ class TransformTools {
     }
     this.isActive = false;
   }
-}
-
-export { TransformTools }; 
+} 

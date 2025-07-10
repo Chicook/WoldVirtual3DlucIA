@@ -344,4 +344,4 @@ class SceneHelpers {
   }
 }
 
-export { SceneHelpers }; 
+// Exportación ya definida en la declaración de clase 
