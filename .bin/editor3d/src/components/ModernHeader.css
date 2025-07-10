@@ -41,19 +41,20 @@
   color: #fff;
 }
 
-/* Aumentar z-index para que el menú siempre quede por encima del canvas 3D */
+/* SOLUCIÓN DEFINITIVA: Forzar menús por encima de todo */
 .scene-menu-dropdown, .tools-menu-dropdown {
-  position: absolute;
-  top: 48px;
-  left: 0;
+  position: fixed !important;
+  top: 64px !important; /* Ajustar según altura del header */
+  left: 24px !important; /* Ajustar según posición del botón */
   min-width: 220px;
-  background: #23272e;
-  border: 1.5px solid #353a40;
+  background: #23272e !important;
+  border: 1.5px solid #353a40 !important;
   border-radius: 6px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.18);
-  z-index: 2000;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3) !important;
+  z-index: 9999 !important; /* Máximo z-index */
   margin-top: 4px;
   transition: all 0.2s ease;
+  transform: translateZ(0); /* Forzar nuevo stacking context */
 }
 
 .scene-menu-dropdown.minimized, .tools-menu-dropdown.minimized {

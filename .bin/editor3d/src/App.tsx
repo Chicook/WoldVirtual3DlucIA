@@ -2,6 +2,7 @@ import React from 'react';
 import ModernHeader from './components/ModernHeader';
 import { ThreeJSViewport } from './components/ThreeJSViewport';
 import './components/ThreeJSViewport.css';
+import './components/MenuOverlay.css'; // Estilos para menús por encima
 // ELIMINADOS: estilos antiguos que interfieren
 // import './styles/modern-editor-theme.css';
 // import './styles/blender-godot-animations.css';
@@ -17,7 +18,7 @@ const App: React.FC = () => {
       background: '#0f1419', // Fondo muy oscuro tipo Blender
       display: 'flex',
       flexDirection: 'column',
-      overflow: 'hidden',
+      overflow: 'visible', // Permitir que los menús sobresalgan
       fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
     }}>
       {/* Header moderno y prominente */}
