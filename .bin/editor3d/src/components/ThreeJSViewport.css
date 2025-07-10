@@ -1,27 +1,73 @@
-/* ThreeJSViewport.css - Estilos para el editor 3D con Three.js */
+/* ThreeJSViewport.css - Estilos para el editor 3D funcional */
 
 .threejs-viewport-container {
   position: relative;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, #23272e 0%, #181a20 100%);
-  border: 2px solid #404040;
+  background: #1a1a1a;
+  border: 2px solid #333;
   border-radius: 8px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  min-height: 400px;
-  min-width: 600px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* Header del viewport */
+.viewport-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+  border-bottom: 1px solid #444;
+  height: 50px;
+  min-height: 50px;
+}
+
+.viewport-header h3 {
+  margin: 0;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.viewport-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #ccc;
+  font-size: 12px;
+}
+
+.status-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #666;
+}
+
+.status-indicator.active {
+  background: #4CAF50;
+  box-shadow: 0 0 8px rgba(76, 175, 80, 0.5);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.7; }
+  100% { opacity: 1; }
+}
+
+/* Canvas container */
 .threejs-canvas-container {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
+  flex: 1;
+  position: relative;
   cursor: crosshair;
+  background: #1a1a1a;
+  border: none;
   outline: none;
 }
 
@@ -33,514 +79,115 @@
   border: none;
 }
 
-.threejs-viewport-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-  background: rgba(30, 34, 40, 0.12);
-  transition: background 0.3s;
-}
-
-.threejs-viewport-label {
-  background: rgba(30, 34, 40, 0.92);
-  border-radius: 12px;
-  padding: 32px 48px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
-  color: #fff;
-  text-align: center;
-  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
-  font-size: 1.3rem;
-  letter-spacing: 0.02em;
-  pointer-events: auto;
-}
-
-.threejs-viewport-label h2 {
-  margin: 0 0 8px 0;
-  font-size: 2.2rem;
-  font-weight: 700;
-  color: #4a9eff;
-  letter-spacing: 0.04em;
-}
-
-.threejs-viewport-label p {
-  margin: 0;
-  font-size: 1.1rem;
-  color: #b0b8c1;
-}
-
 .threejs-canvas-container:focus {
   outline: 2px solid #4a9eff;
   outline-offset: -2px;
 }
 
-/* Controles superiores del viewport */
-.viewport-controls-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 10;
-  background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 70%, transparent 100%);
-  padding: 8px 12px;
-  pointer-events: none;
-}
-
-.viewport-controls-overlay > * {
-  pointer-events: auto;
-}
-
-.viewport-controls-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-}
-
-/* Controles de modo de vista */
-.viewport-mode-controls {
-  display: flex;
-  gap: 4px;
-  background: rgba(0,0,0,0.6);
-  border-radius: 6px;
-  padding: 4px;
-}
-
-.viewport-mode-btn {
-  background: transparent;
-  border: none;
-  color: #cccccc;
-  padding: 6px 8px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: all 0.2s ease;
-}
-
-.viewport-mode-btn:hover {
-  background: rgba(255,255,255,0.1);
-  color: #ffffff;
-}
-
-.viewport-mode-btn.active {
-  background: #4a9eff;
-  color: #ffffff;
-  box-shadow: 0 0 8px rgba(74, 158, 255, 0.4);
-}
-
-/* Controles de visualización */
-.viewport-display-controls {
-  display: flex;
-  gap: 4px;
-  background: rgba(0,0,0,0.6);
-  border-radius: 6px;
-  padding: 4px;
-}
-
-.display-control-btn {
-  background: transparent;
-  border: none;
-  color: #cccccc;
-  padding: 6px 8px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: all 0.2s ease;
-}
-
-.display-control-btn:hover {
-  background: rgba(255,255,255,0.1);
-  color: #ffffff;
-}
-
-.display-control-btn.active {
-  background: #44ff44;
-  color: #000000;
-  box-shadow: 0 0 8px rgba(68, 255, 68, 0.4);
-}
-
-/* Información del viewport */
-.viewport-info {
-  display: flex;
-  gap: 16px;
-  font-size: 12px;
-  color: #cccccc;
-  font-family: 'Consolas', 'Monaco', monospace;
-}
-
-.viewport-mode-label {
-  font-weight: bold;
-  color: #4a9eff;
-}
-
-.selected-object-info {
-  color: #ffaa44;
-}
-
-.tool-info {
-  color: #44ff44;
-}
-
-/* Panel de herramientas */
-.viewport-tools-panel {
-  position: absolute;
-  left: 12px;
-  top: 60px;
-  width: 200px;
-  background: rgba(0,0,0,0.8);
-  border-radius: 8px;
-  padding: 12px;
-  z-index: 5;
-  border: 1px solid #404040;
-}
-
-.viewport-tools-panel h4 {
-  margin: 0 0 8px 0;
-  color: #ffffff;
-  font-size: 14px;
-  font-weight: bold;
-}
-
-.tools-section,
-.objects-section,
-.selected-object-section {
-  margin-bottom: 16px;
-}
-
-.tool-buttons {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 4px;
-}
-
-.tool-btn {
-  background: rgba(255,255,255,0.1);
-  border: none;
-  color: #cccccc;
-  padding: 8px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: all 0.2s ease;
-}
-
-.tool-btn:hover {
-  background: rgba(255,255,255,0.2);
-  color: #ffffff;
-}
-
-.tool-btn.active {
-  background: #4a9eff;
-  color: #ffffff;
-  box-shadow: 0 0 8px rgba(74, 158, 255, 0.4);
-}
-
-.create-object-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.create-btn {
-  background: #44ff44;
-  color: #000000;
-  border: none;
-  padding: 6px 8px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 12px;
-  font-weight: bold;
-  transition: all 0.2s ease;
-  text-align: left;
-}
-
-.create-btn:hover {
-  background: #66ff66;
-  transform: scale(1.02);
-}
-
-.selected-object-section {
-  border-top: 1px solid #404040;
-  padding-top: 12px;
-}
-
-.object-info {
-  font-size: 11px;
-  color: #cccccc;
-  margin-bottom: 8px;
-}
-
-.object-info p {
-  margin: 2px 0;
-}
-
-.delete-btn {
-  width: 100%;
-  background: #ff4444;
-  color: #ffffff;
-  border: none;
-  padding: 6px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 12px;
-  font-weight: bold;
-  transition: all 0.2s ease;
-}
-
-.delete-btn:hover {
-  background: #ff6666;
-  transform: scale(1.05);
-}
-
-/* Panel de objetos de la escena */
-.scene-objects-panel {
-  position: absolute;
-  top: 60px;
-  right: 12px;
-  width: 200px;
-  background: rgba(0,0,0,0.8);
-  border-radius: 8px;
-  padding: 12px;
-  z-index: 5;
-  border: 1px solid #404040;
-}
-
-.scene-objects-panel h4 {
-  margin: 0 0 8px 0;
-  color: #ffffff;
-  font-size: 14px;
-  font-weight: bold;
-}
-
-.scene-objects-list {
-  max-height: 200px;
-  overflow-y: auto;
-  margin-bottom: 8px;
-}
-
-.scene-object-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 8px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  margin-bottom: 2px;
-}
-
-.scene-object-item:hover {
-  background: rgba(255,255,255,0.1);
-}
-
-.scene-object-item.selected {
-  background: #4a9eff;
-  color: #ffffff;
-}
-
-.object-icon {
-  font-size: 14px;
-}
-
-.object-name {
-  font-size: 12px;
-  color: inherit;
-}
-
-/* Ayuda de navegación */
-.navigation-help {
-  position: absolute;
-  bottom: 12px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0,0,0,0.8);
-  color: #aaaaaa;
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-size: 11px;
-  font-style: italic;
-  z-index: 5;
-}
-
-/* Animaciones y efectos */
-.threejs-viewport-container {
-  animation: viewportFadeIn 0.3s ease-out;
-}
-
-@keyframes viewportFadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-/* Estados de hover y focus */
-.threejs-viewport-container:hover {
-  border-color: #4a9eff;
-  box-shadow: 0 0 20px rgba(74, 158, 255, 0.2);
-}
-
-/* Responsive design */
-@media (max-width: 768px) {
-  .viewport-controls-top {
-    flex-direction: column;
-    gap: 8px;
-    align-items: flex-start;
-  }
-  
-  .viewport-info {
-    flex-direction: column;
-    gap: 4px;
-  }
-  
-  .viewport-tools-panel,
-  .scene-objects-panel {
-    width: 150px;
-  }
-  
-  .viewport-tools-panel {
-    left: 8px;
-  }
-  
-  .scene-objects-panel {
-    right: 8px;
-  }
-}
-
-/* Scrollbar personalizado */
-.scene-objects-list::-webkit-scrollbar {
-  width: 6px;
-}
-
-.scene-objects-list::-webkit-scrollbar-track {
-  background: rgba(255,255,255,0.1);
-  border-radius: 3px;
-}
-
-.scene-objects-list::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.3);
-  border-radius: 3px;
-}
-
-.scene-objects-list::-webkit-scrollbar-thumb:hover {
-  background: rgba(255,255,255,0.5);
-}
-
-/* Efectos de profundidad */
-.viewport-controls-overlay {
-  backdrop-filter: blur(4px);
-}
-
-/* Indicadores de estado */
-.threejs-viewport-container::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, #4a9eff, #44ff44, #ffaa44);
-  z-index: 15;
-}
-
-/* Tooltips */
-.viewport-mode-btn,
-.display-control-btn,
-.tool-btn {
-  position: relative;
-}
-
-.viewport-mode-btn::after,
-.display-control-btn::after,
-.tool-btn::after {
-  content: attr(title);
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0,0,0,0.9);
-  color: #ffffff;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 11px;
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s ease;
-  z-index: 20;
-}
-
-.viewport-mode-btn:hover::after,
-.display-control-btn:hover::after,
-.tool-btn:hover::after {
-  opacity: 1;
-}
-
-/* Estados de carga */
-.threejs-viewport-container.loading::after {
-  content: 'Loading 3D Viewport...';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: #ffffff;
-  font-size: 16px;
-  z-index: 5;
-}
-
-/* Modo oscuro mejorado */
-.threejs-viewport-container {
-  --viewport-bg: #1a1a1a;
-  --viewport-border: #404040;
-  --viewport-text: #cccccc;
-  --viewport-accent: #4a9eff;
-  --viewport-success: #44ff44;
-  --viewport-warning: #ffaa44;
-  --viewport-error: #ff4444;
-}
-
-/* Efectos de partículas para el fondo */
-.threejs-canvas-container::before {
-  content: '';
+/* Loading overlay */
+.loading-overlay {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: 
-    radial-gradient(circle at 25% 25%, rgba(74, 158, 255, 0.05) 1px, transparent 1px),
-    radial-gradient(circle at 75% 75%, rgba(68, 255, 68, 0.05) 1px, transparent 1px);
-  background-size: 50px 50px;
-  pointer-events: none;
-  z-index: 1;
+  background: rgba(26, 26, 26, 0.9);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
 }
 
-/* Estilos para controles de transformación */
-.threejs-canvas-container .transform-controls {
-  pointer-events: auto;
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #333;
+  border-top: 3px solid #4a9eff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
 }
 
-/* Estilos para el gizmo de selección */
-.threejs-canvas-container .gizmo {
-  pointer-events: auto;
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
-/* Estilos para el grid helper */
-.threejs-canvas-container .grid-helper {
-  opacity: 0.8;
+.loading-overlay p {
+  color: #ccc;
+  margin: 0;
+  font-size: 14px;
 }
 
-/* Estilos para los ejes */
-.threejs-canvas-container .axes-helper {
-  opacity: 0.9;
+/* Controles de herramientas (futuro) */
+.viewport-toolbar {
+  position: absolute;
+  top: 60px;
+  left: 16px;
+  background: rgba(42, 42, 42, 0.9);
+  border: 1px solid #555;
+  border-radius: 4px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 5;
+}
+
+.tool-button {
+  width: 32px;
+  height: 32px;
+  background: #333;
+  border: 1px solid #555;
+  border-radius: 4px;
+  color: #ccc;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  transition: all 0.2s ease;
+}
+
+.tool-button:hover {
+  background: #444;
+  border-color: #666;
+}
+
+.tool-button.active {
+  background: #4a9eff;
+  border-color: #4a9eff;
+  color: white;
+}
+
+/* Información de coordenadas */
+.coordinates-info {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  background: rgba(42, 42, 42, 0.9);
+  border: 1px solid #555;
+  border-radius: 4px;
+  padding: 8px 12px;
+  color: #ccc;
+  font-size: 12px;
+  font-family: 'Courier New', monospace;
+  z-index: 5;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .viewport-header {
+    padding: 6px 12px;
+    height: 40px;
+  }
+  
+  .viewport-header h3 {
+    font-size: 12px;
+  }
+  
+  .viewport-status {
+    font-size: 11px;
+  }
 } 

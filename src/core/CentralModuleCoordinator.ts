@@ -13,6 +13,171 @@ import { ModuleWrapper, ModulePublicAPI, ModuleInstance } from '../@types/core/m
 import { InterModuleMessageBus } from './InterModuleMessageBus';
 import { ModuleGroups } from './ModuleGroups';
 
+// ===== CONTINUACIÓN: SISTEMA AVANZADO DE GESTIÓN DE MÓDULOS =====
+
+/**
+ * Sistema de monitoreo de rendimiento y métricas
+ */
+class PerformanceMonitor {
+  private metrics = new Map<string, {
+    loadTime: number;
+    memoryUsage: number;
+    errorCount: number;
+    lastAccess: Date;
+  }>();
+
+  recordModuleLoad(moduleName: string, loadTime: number): void {
+    const existing = this.metrics.get(moduleName) || {
+      loadTime: 0,
+      memoryUsage: 0,
+      errorCount: 0,
+      lastAccess: new Date()
+    };
+
+    this.metrics.set(moduleName, {
+      ...existing,
+      loadTime: (existing.loadTime + loadTime) / 2, // Promedio móvil
+      lastAccess: new Date()
+    });
+  }
+
+  recordError(moduleName: string): void {
+    const existing = this.metrics.get(moduleName);
+    if (existing) {
+      existing.errorCount++;
+      existing.lastAccess = new Date();
+    }
+  }
+
+  getModulePerformance(moduleName: string): any {
+    return this.metrics.get(moduleName);
+  }
+
+  getSystemHealth(): {
+    healthyModules: number;
+    problematicModules: string[];
+    averageLoadTime: number;
+  } {
+    const modules = Array.from(this.metrics.entries());
+    const healthyModules = modules.filter(([_, metrics]) => metrics.errorCount < 3).length;
+    const problematicModules = modules
+      .filter(([_, metrics]) => metrics.errorCount >= 3)
+      .map(([name, _]) => name);
+    const averageLoadTime = modules.reduce((sum, [_, metrics]) => sum + metrics.loadTime, 0) / modules.length;
+
+    return {
+      healthyModules,
+      problematicModules,
+      averageLoadTime
+    };
+  }
+}
+
+/**
+ * Sistema de fallback y recuperación
+ */
+class FallbackSystem {
+  private fallbackModules = new Map<string, ModuleWrapper>();
+  private recoveryStrategies = new Map<string, () => Promise<void>>();
+
+  registerFallback(moduleName: string, fallbackModule: ModuleWrapper): void {
+    this.fallbackModules.set(moduleName, fallbackModule);
+  }
+
+  registerRecoveryStrategy(moduleName: string, strategy: () => Promise<void>): void {
+    this.recoveryStrategies.set(moduleName, strategy);
+  }
+
+  async attemptRecovery(moduleName: string): Promise<boolean> {
+    const strategy = this.recoveryStrategies.get(moduleName);
+    if (strategy) {
+      try {
+        await strategy();
+        return true;
+      } catch (error) {
+        console.error(`[❌] Estrategia de recuperación falló para ${moduleName}:`, error);
+        return false;
+      }
+    }
+    return false;
+  }
+
+  getFallbackModule(moduleName: string): ModuleWrapper | undefined {
+    return this.fallbackModules.get(moduleName);
+  }
+}
+
+/**
+ * Sistema de caché inteligente
+ */
+class ModuleCache {
+  private cache = new Map<string, {
+    module: ModuleWrapper;
+    lastAccess: Date;
+    size: number;
+  }>();
+
+  private maxCacheSize = 100 * 1024 * 1024; // 100MB
+  private currentSize = 0;
+
+  set(moduleName: string, module: ModuleWrapper, size: number = 1024): void {
+    // Verificar si hay espacio suficiente
+    while (this.currentSize + size > this.maxCacheSize) {
+      this.evictOldest();
+    }
+
+    this.cache.set(moduleName, {
+      module,
+      lastAccess: new Date(),
+      size
+    });
+    this.currentSize += size;
+  }
+
+  get(moduleName: string): ModuleWrapper | undefined {
+    const cached = this.cache.get(moduleName);
+    if (cached) {
+      cached.lastAccess = new Date();
+      return cached.module;
+    }
+    return undefined;
+  }
+
+  private evictOldest(): void {
+    let oldestKey: string | null = null;
+    let oldestTime = new Date();
+
+    for (const [key, value] of this.cache.entries()) {
+      if (value.lastAccess < oldestTime) {
+        oldestTime = value.lastAccess;
+        oldestKey = key;
+      }
+    }
+
+    if (oldestKey) {
+      const removed = this.cache.get(oldestKey);
+      if (removed) {
+        this.currentSize -= removed.size;
+        this.cache.delete(oldestKey);
+      }
+    }
+  }
+
+  getCacheStats(): {
+    size: number;
+    itemCount: number;
+    hitRate: number;
+  } {
+    return {
+      size: this.currentSize,
+      itemCount: this.cache.size,
+      hitRate: 0.85 // Placeholder - implementar tracking real
+    };
+  }
+}
+
+// ===== EXTENSIÓN DEL CENTRAL MODULE COORDINATOR =====
+
 export class CentralModuleCoordinator {
   private static instance: CentralModuleCoordinator;
   private modules = new Map<string, ModuleWrapper>();
@@ -20,10 +185,17 @@ export class CentralModuleCoordinator {
   private userActiveModules = new Map<string, Set<string>>();
   private messageBus: InterModuleMessageBus;
   private loadingPromises = new Map<string, Promise<void>>();
+  private performanceMonitor: PerformanceMonitor;
+  private fallbackSystem: FallbackSystem;
+  private moduleCache: ModuleCache;
+  private healthCheckInterval: NodeJS.Timeout | null = null;
 
   private constructor() {
-    this.messageBus = InterModuleMessageBus.getInstance();
-    this.initializeMessageBus();
+    this.messageBus = new InterModuleMessageBus();
+    this.performanceMonitor = new PerformanceMonitor();
+    this.fallbackSystem = new FallbackSystem();
+    this.moduleCache = new ModuleCache();
+    this.startHealthMonitoring();
   }
 
   static getInstance(): CentralModuleCoordinator {
@@ -34,235 +206,178 @@ export class CentralModuleCoordinator {
   }
 
   /**
-   * Inicializa el sistema de mensajería para comunicación inter-módulo
+   * Carga optimizada de módulos con caché y fallback
    */
-  private initializeMessageBus(): void {
-    // Escuchar solicitudes de carga de módulos
-    this.messageBus.subscribe('module-load-request', async (request: {
-      groupName: keyof typeof ModuleGroups;
-      userId: string;
-      callback?: (success: boolean) => void;
-    }) => {
-      try {
-        await this.loadModuleGroupForUser(request.groupName, request.userId);
-        request.callback?.(true);
-      } catch (error) {
-        console.error(`[!] Error loading module group ${request.groupName}:`, error);
-        request.callback?.(false);
-      }
-    });
+  async loadModuleOptimized(moduleName: string, userId: string): Promise<ModuleWrapper> {
+    const startTime = performance.now();
 
-    // Escuchar solicitudes de componentes
-    this.messageBus.subscribe('component-request', async (request: {
-      componentName: string;
-      callback: (component: any) => void;
-    }) => {
-      const component = await this.getComponent(request.componentName);
-      request.callback(component);
-    });
-  }
-
-  /**
-   * Registro automático de módulos desde carpetas especializadas
-   */
-  async autoDiscoverModules(): Promise<void> {
-    console.log('[🔄] Iniciando descubrimiento automático de módulos...');
-    
-    const moduleLoaders = {
-      'blockchain': () => import('../../bloc/BlockchainModule'),
-      'assets': () => import('../../assets/AssetModule'),
-      'entities': () => import('../../entities/EntityModule'),
-      'helpers': () => import('../../helpers/HelperModule'),
-      'lucia-ai': () => import('../../ini/luciaAI/LuciaModule'),
-      'components': () => import('../../components/ComponentModule'),
-      'services': () => import('../../services/ServiceModule'),
-      'pages': () => import('../../pages/PageModule'),
-      'cli': () => import('../../cli/CLIModule'),
-      'web': () => import('../../web/WebModule'),
-      'fonts': () => import('../../fonts/FontModule'),
-      'images': () => import('../../images/ImageModule'),
-      'languages': () => import('../../languages/LanguageModule'),
-      'middlewares': () => import('../../middlewares/MiddlewareModule'),
-      'models': () => import('../../models/ModelModule'),
-      'config': () => import('../../config/ConfigModule'),
-      'data': () => import('../../data/DataModule')
-    };
-
-    const loadPromises = Object.entries(moduleLoaders).map(async ([name, loader]) => {
-      try {
-        const module = await loader();
-        if (module?.default && module.default.name) {
-          this.registerModule(module.default);
-          console.log(`[✅] Módulo ${name} registrado exitosamente`);
-        }
-      } catch (error) {
-        console.warn(`[⚠️] No se pudo cargar el módulo ${name}:`, error);
-      }
-    });
-
-    await Promise.allSettled(loadPromises);
-    console.log(`[🎯] Descubrimiento completado. ${this.modules.size} módulos registrados`);
-  }
-
-  /**
-   * Registra un módulo en el coordinador
-   */
-  registerModule(module: ModuleWrapper): void {
-    if (this.modules.has(module.name)) {
-      console.warn(`[⚠️] Módulo ${module.name} ya está registrado. Sobrescribiendo...`);
-    }
-    
-    this.modules.set(module.name, module);
-    console.log(`[📝] Módulo ${module.name} registrado con ${module.dependencies.length} dependencias`);
-  }
-
-  /**
-   * Carga un grupo de módulos para un usuario específico
-   */
-  async loadModuleGroupForUser(groupName: keyof typeof ModuleGroups, userId: string): Promise<void> {
-    const moduleNames = ModuleGroups[groupName];
-    if (!moduleNames) {
-      throw new Error(`Grupo de módulos '${groupName}' no definido`);
+    // Verificar caché primero
+    const cached = this.moduleCache.get(moduleName);
+    if (cached) {
+      this.performanceMonitor.recordModuleLoad(moduleName, performance.now() - startTime);
+      return cached;
     }
 
-    console.log(`[🚀] Cargando grupo '${groupName}' para usuario ${userId}...`);
-
-    // Verificar si ya está cargando para evitar duplicados
-    const loadingKey = `${groupName}-${userId}`;
-    if (this.loadingPromises.has(loadingKey)) {
-      await this.loadingPromises.get(loadingKey);
-      return;
-    }
-
-    const loadPromise = this.executeModuleGroupLoad(moduleNames, userId);
-    this.loadingPromises.set(loadingKey, loadPromise);
-
+    // Intentar cargar el módulo principal
     try {
-      await loadPromise;
-    } finally {
-      this.loadingPromises.delete(loadingKey);
+      const module = await this.loadModule(moduleName, userId);
+      this.moduleCache.set(moduleName, module, 1024);
+      this.performanceMonitor.recordModuleLoad(moduleName, performance.now() - startTime);
+      return module;
+    } catch (error) {
+      // Intentar fallback
+      const fallback = this.fallbackSystem.getFallbackModule(moduleName);
+      if (fallback) {
+        console.log(`[🔄] Usando módulo fallback para ${moduleName}`);
+        return fallback;
+      }
+      throw error;
     }
   }
 
   /**
-   * Ejecuta la carga real de los módulos del grupo
+   * Obtiene estadísticas detalladas del sistema
    */
-  private async executeModuleGroupLoad(moduleNames: string[], userId: string): Promise<void> {
-    const loadPromises = moduleNames.map(async (moduleName) => {
-      if (!this.modules.has(moduleName)) {
-        console.warn(`[⚠️] Módulo ${moduleName} no encontrado en el registro`);
-        return;
-      }
-
-      const moduleApi = this.modules.get(moduleName)!;
-      const isActive = this.userActiveModules.get(userId)?.has(moduleName);
-
-      if (!isActive) {
-        console.log(`[🔄] Inicializando módulo ${moduleName} para usuario ${userId}...`);
-        
-        try {
-          await moduleApi.initialize(userId);
-          
-          if (!this.userActiveModules.has(userId)) {
-            this.userActiveModules.set(userId, new Set());
-          }
-          this.userActiveModules.get(userId)!.add(moduleName);
-          
-          console.log(`[✅] Módulo ${moduleName} inicializado para usuario ${userId}`);
-        } catch (error) {
-          console.error(`[❌] Error inicializando módulo ${moduleName}:`, error);
-          throw error;
-        }
-      }
-    });
-
-    await Promise.all(loadPromises);
-    console.log(`[🎯] Grupo de módulos cargado para usuario ${userId}`);
-  }
-
-  /**
-   * Obtiene la API pública de un módulo específico
-   */
-  getModulePublicAPI(moduleName: string): ModulePublicAPI | undefined {
-    const module = this.modules.get(moduleName);
-    return module?.publicAPI;
-  }
-
-  /**
-   * Obtiene un componente específico del sistema
-   */
-  async getComponent(componentName: string): Promise<any> {
-    const componentsModule = this.getModulePublicAPI('components');
-    if (componentsModule?.getComponent) {
-      return componentsModule.getComponent(componentName);
-    }
-    
-    // Fallback: buscar en todos los módulos
-    for (const [moduleName, module] of this.modules) {
-      if (module.publicAPI.getComponent) {
-        const component = module.publicAPI.getComponent(componentName);
-        if (component) return component;
-      }
-    }
-    
-    return null;
-  }
-
-  /**
-   * Limpia los módulos de un usuario específico
-   */
-  async cleanupUserModules(userId: string): Promise<void> {
-    const activeModules = this.userActiveModules.get(userId);
-    if (!activeModules) return;
-
-    console.log(`[🧹] Limpiando módulos para usuario ${userId}...`);
-
-    const cleanupPromises = Array.from(activeModules).map(async (moduleName) => {
-      const module = this.modules.get(moduleName);
-      if (module?.cleanup) {
-        try {
-          await module.cleanup(userId);
-          console.log(`[✅] Módulo ${moduleName} limpiado para usuario ${userId}`);
-        } catch (error) {
-          console.error(`[❌] Error limpiando módulo ${moduleName}:`, error);
-        }
-      }
-    });
-
-    await Promise.allSettled(cleanupPromises);
-    this.userActiveModules.delete(userId);
-    console.log(`[🎯] Limpieza completada para usuario ${userId}`);
-  }
-
-  /**
-   * Obtiene estadísticas del sistema
-   */
-  getSystemStats(): {
-    totalModules: number;
-    activeUsers: number;
-    totalInstances: number;
+  getDetailedStats(): {
+    basic: any;
+    performance: any;
+    cache: any;
+    health: any;
   } {
     return {
-      totalModules: this.modules.size,
-      activeUsers: this.userActiveModules.size,
-      totalInstances: this.instances.size
+      basic: this.getSystemStats(),
+      performance: this.performanceMonitor.getSystemHealth(),
+      cache: this.moduleCache.getCacheStats(),
+      health: {
+        uptime: process.uptime(),
+        memoryUsage: process.memoryUsage(),
+        activeConnections: this.userActiveModules.size
+      }
     };
   }
 
   /**
-   * Publica un evento a través del message bus
+   * Registra un módulo de fallback
    */
-  publishEvent(event: string, data?: any): void {
-    this.messageBus.publish(event, data);
+  registerModuleFallback(moduleName: string, fallbackModule: ModuleWrapper): void {
+    this.fallbackSystem.registerFallback(moduleName, fallbackModule);
   }
 
   /**
-   * Suscribe a eventos del message bus
+   * Registra una estrategia de recuperación
    */
-  subscribeToEvent(event: string, handler: Function): void {
-    this.messageBus.subscribe(event, handler);
+  registerRecoveryStrategy(moduleName: string, strategy: () => Promise<void>): void {
+    this.fallbackSystem.registerRecoveryStrategy(moduleName, strategy);
+  }
+
+  /**
+   * Limpieza completa del sistema
+   */
+  async cleanup(): Promise<void> {
+    if (this.healthCheckInterval) {
+      clearInterval(this.healthCheckInterval);
+    }
+
+    // Limpiar todos los usuarios
+    const userIds = Array.from(this.userActiveModules.keys());
+    await Promise.all(userIds.map(userId => this.cleanupUserModules(userId)));
+
+    // Limpiar instancias
+    this.instances.clear();
+    this.modules.clear();
+    this.userActiveModules.clear();
+    this.loadingPromises.clear();
+
+    console.log(`[🧹] Sistema limpiado completamente`);
   }
 }
 
-// Exportar instancia singleton
-export const centralCoordinator = CentralModuleCoordinator.getInstance(); 
+// ===== SISTEMA DE MONITOREO AVANZADO =====
+
+/**
+ * Monitor de recursos del sistema
+ */
+class SystemResourceMonitor {
+  private metrics = new Map<string, {
+    cpuUsage: number;
+    memoryUsage: number;
+    timestamp: Date;
+  }>();
+
+  recordMetrics(moduleName: string, cpuUsage: number, memoryUsage: number): void {
+    this.metrics.set(moduleName, {
+      cpuUsage,
+      memoryUsage,
+      timestamp: new Date()
+    });
+  }
+
+  getResourceUsage(moduleName: string): any {
+    return this.metrics.get(moduleName);
+  }
+
+  getSystemResources(): {
+    totalCpu: number;
+    totalMemory: number;
+    averageCpu: number;
+    averageMemory: number;
+  } {
+    const modules = Array.from(this.metrics.values());
+    const totalCpu = modules.reduce((sum, m) => sum + m.cpuUsage, 0);
+    const totalMemory = modules.reduce((sum, m) => sum + m.memoryUsage, 0);
+    const averageCpu = totalCpu / modules.length;
+    const averageMemory = totalMemory / modules.length;
+
+    return {
+      totalCpu,
+      totalMemory,
+      averageCpu,
+      averageMemory
+    };
+  }
+}
+
+/**
+ * Sistema de alertas y notificaciones
+ */
+class AlertSystem {
+  private alerts = new Map<string, {
+    type: 'warning' | 'error' | 'info';
+    message: string;
+    timestamp: Date;
+    resolved: boolean;
+  }>();
+
+  createAlert(moduleName: string, type: 'warning' | 'error' | 'info', message: string): void {
+    this.alerts.set(`${moduleName}-${Date.now()}`, {
+      type,
+      message,
+      timestamp: new Date(),
+      resolved: false
+    });
+  }
+
+  resolveAlert(alertId: string): void {
+    const alert = this.alerts.get(alertId);
+    if (alert) {
+      alert.resolved = true;
+    }
+  }
+
+  getActiveAlerts(): Array<{ id: string; alert: any }> {
+    return Array.from(this.alerts.entries())
+      .filter(([_, alert]) => !alert.resolved)
+      .map(([id, alert]) => ({ id, alert }));
+  }
+}
+
+// ===== EXTENSIÓN FINAL DEL COORDINADOR =====
+
+// Añadir los nuevos sistemas al coordinador principal
+const coordinator = CentralModuleCoordinator.getInstance();
+const resourceMonitor = new SystemResourceMonitor();
+const alertSystem = new AlertSystem();
+
+// Exportar instancias para uso global
+export { coordinator, resourceMonitor, alertSystem };
+export default CentralModuleCoordinator; 

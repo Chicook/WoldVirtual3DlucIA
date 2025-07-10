@@ -4,6 +4,7 @@
 //! y control remoto del motor desde el editor.
 
 import { EventEmitter } from 'events';
+import { getEngineConfig, isConnectionEnabled, isOfflineMode } from './EngineConfig';
 import { EngineMessage, EngineResponse, EngineCommand } from '../types/engine';
 
 /// Configuración del puente del motor
@@ -105,9 +106,21 @@ export class EngineBridge extends EventEmitter {
     };
   }
 
-  /// Conectar al motor
+  /// Conectar al motor 3D
   async connect(): Promise<void> {
+    // Verificar si ya está conectando o conectado
     if (this.state.connectionState === 'connecting' || this.state.connectionState === 'connected') {
+      return;
+    }
+
+    // Verificar si el motor está disponible antes de intentar conectar
+    if (!this.isMotorAvailable()) {
+      console.log('⚠️ Motor 3D no disponible - modo offline activado');
+      this.updateState({ 
+        connected: false, 
+        connectionState: 'disconnected',
+        error: 'Motor 3D no disponible - modo offline'
+      });
       return;
     }
 
@@ -142,17 +155,21 @@ export class EngineBridge extends EventEmitter {
       };
 
       this.ws.onerror = (error) => {
+        // No mostrar errores de WebSocket en consola para evitar spam
+        console.log('⚠️ Error de conexión WebSocket - modo offline activado');
         this.handleError(`Error de WebSocket: ${error}`);
       };
 
-      // Timeout de conexión
+      // Timeout de conexión reducido para evitar esperas largas
       setTimeout(() => {
         if (this.state.connectionState === 'connecting') {
+          console.log('⚠️ Timeout de conexión - modo offline activado');
           this.handleError('Timeout de conexión');
         }
-      }, this.config.connectionTimeout);
+      }, 3000); // Reducido a 3 segundos
 
     } catch (error) {
+      console.log('⚠️ Error conectando al motor - modo offline activado');
       this.handleError(`Error conectando al motor: ${error}`);
     }
   }
@@ -314,6 +331,11 @@ export class EngineBridge extends EventEmitter {
 
   /// Manejar error
   private handleError(error: string): void {
+    // Evitar mostrar errores repetitivos de WebSocket
+    if (error.includes('WebSocket') && this.state.stats.errors > 3) {
+      return;
+    }
+
     this.updateState({
       connectionState: 'error',
       error,
@@ -324,7 +346,11 @@ export class EngineBridge extends EventEmitter {
     });
     
     this.emit('error', error);
-    console.error('❌ Error del puente del motor:', error);
+    
+    // Solo mostrar errores importantes en consola
+    if (!error.includes('WebSocket') || this.state.stats.errors <= 2) {
+      console.error('❌ Error del puente del motor:', error);
+    }
     
     // Si es un error de conexión, intentar reconectar automáticamente
     if (error.includes('WebSocket') || error.includes('conexión') || error.includes('timeout') || error.includes('Insufficient resources')) {
@@ -470,6 +496,12 @@ export class EngineBridge extends EventEmitter {
   /// Obtener estadísticas
   getStats() {
     return { ...this.state.stats };
+  }
+
+  /// Verificar si el motor está disponible
+  private isMotorAvailable(): boolean {
+    // Usar la configuración para determinar si la conexión está habilitada
+    return isConnectionEnabled();
   }
 }
 
