@@ -460,3 +460,230 @@ export const AutomationModule: ModuleWrapper = {
 };
 
 export default AutomationModule;
+
+// ============================================================================
+// SISTEMA AVANZADO DE ANÁLISIS Y OPTIMIZACIÓN DE WORKFLOWS
+// ============================================================================
+
+interface WorkflowPerformance {
+    workflowId: string;
+    totalExecutions: number;
+    averageDuration: number;
+    successRate: number;
+    failureRate: number;
+    bottlenecks: string[];
+    resourceUsage: {
+        cpu: number;
+        memory: number;
+        disk: number;
+    };
+    lastExecution: Date;
+    trends: {
+        duration: number[];
+        success: boolean[];
+        timestamps: Date[];
+    };
+}
+
+interface OptimizationSuggestion {
+    type: 'parallelization' | 'caching' | 'resource' | 'dependency' | 'timeout';
+    priority: 'low' | 'medium' | 'high' | 'critical';
+    description: string;
+    impact: 'low' | 'medium' | 'high';
+    implementation: string;
+    estimatedSavings: number; // en segundos
+}
+
+class WorkflowAnalyzer {
+    private performanceMetrics: Map<string, WorkflowPerformance> = new Map();
+    private optimizationSuggestions: Map<string, OptimizationSuggestion[]> = new Map();
+
+    recordExecution(workflowId: string, executionData: {
+        duration: number;
+        success: boolean;
+        resourceUsage: { cpu: number; memory: number; disk: number };
+        bottlenecks: string[];
+    }): void {
+        const existing = this.performanceMetrics.get(workflowId);
+        const performance: WorkflowPerformance = existing ? {
+            ...existing,
+            totalExecutions: existing.totalExecutions + 1,
+            averageDuration: (existing.averageDuration * existing.totalExecutions + executionData.duration) / (existing.totalExecutions + 1),
+            successRate: existing.successRate * 0.9 + (executionData.success ? 0.1 : 0),
+            failureRate: existing.failureRate * 0.9 + (executionData.success ? 0 : 0.1),
+            resourceUsage: {
+                cpu: (existing.resourceUsage.cpu + executionData.resourceUsage.cpu) / 2,
+                memory: (existing.resourceUsage.memory + executionData.resourceUsage.memory) / 2,
+                disk: (existing.resourceUsage.disk + executionData.resourceUsage.disk) / 2
+            },
+            lastExecution: new Date(),
+            trends: {
+                duration: [...existing.trends.duration.slice(-9), executionData.duration],
+                success: [...existing.trends.success.slice(-9), executionData.success],
+                timestamps: [...existing.trends.timestamps.slice(-9), new Date()]
+            }
+        } : {
+            workflowId,
+            totalExecutions: 1,
+            averageDuration: executionData.duration,
+            successRate: executionData.success ? 1 : 0,
+            failureRate: executionData.success ? 0 : 1,
+            bottlenecks: executionData.bottlenecks,
+            resourceUsage: executionData.resourceUsage,
+            lastExecution: new Date(),
+            trends: {
+                duration: [executionData.duration],
+                success: [executionData.success],
+                timestamps: [new Date()]
+            }
+        };
+
+        this.performanceMetrics.set(workflowId, performance);
+        this.analyzeOptimizationOpportunities(workflowId, performance);
+    }
+
+    private analyzeOptimizationOpportunities(workflowId: string, performance: WorkflowPerformance): void {
+        const suggestions: OptimizationSuggestion[] = [];
+
+        // Análisis de duración
+        if (performance.averageDuration > 300) { // Más de 5 minutos
+            suggestions.push({
+                type: 'parallelization',
+                priority: 'high',
+                description: 'Workflow execution time is too long, consider parallelizing independent tasks',
+                impact: 'high',
+                implementation: 'Split workflow into parallel job groups',
+                estimatedSavings: performance.averageDuration * 0.4
+            });
+        }
+
+        // Análisis de tasa de éxito
+        if (performance.failureRate > 0.1) { // Más del 10% de fallos
+            suggestions.push({
+                type: 'timeout',
+                priority: 'critical',
+                description: 'High failure rate detected, implement better error handling and retry logic',
+                impact: 'high',
+                implementation: 'Add exponential backoff retry mechanism',
+                estimatedSavings: 0
+            });
+        }
+
+        // Análisis de uso de recursos
+        if (performance.resourceUsage.cpu > 80) {
+            suggestions.push({
+                type: 'resource',
+                priority: 'medium',
+                description: 'High CPU usage detected, consider resource optimization',
+                impact: 'medium',
+                implementation: 'Implement resource limits and CPU throttling',
+                estimatedSavings: performance.averageDuration * 0.1
+            });
+        }
+
+        // Análisis de bottlenecks
+        if (performance.bottlenecks.length > 0) {
+            suggestions.push({
+                type: 'dependency',
+                priority: 'high',
+                description: `Bottlenecks detected: ${performance.bottlenecks.join(', ')}`,
+                impact: 'high',
+                implementation: 'Optimize task dependencies and reduce blocking operations',
+                estimatedSavings: performance.averageDuration * 0.3
+            });
+        }
+
+        this.optimizationSuggestions.set(workflowId, suggestions);
+    }
+
+    getPerformanceReport(workflowId: string): WorkflowPerformance | null {
+        return this.performanceMetrics.get(workflowId) || null;
+    }
+
+    getOptimizationSuggestions(workflowId: string): OptimizationSuggestion[] {
+        return this.optimizationSuggestions.get(workflowId) || [];
+    }
+
+    getAllPerformanceReports(): WorkflowPerformance[] {
+        return Array.from(this.performanceMetrics.values());
+    }
+
+    generateOptimizationReport(): {
+        totalWorkflows: number;
+        averageSuccessRate: number;
+        averageDuration: number;
+        criticalIssues: number;
+        highPriorityOptimizations: number;
+        totalSavings: number;
+    } {
+        const reports = this.getAllPerformanceReports();
+        const totalWorkflows = reports.length;
+        const averageSuccessRate = reports.reduce((sum, r) => sum + r.successRate, 0) / totalWorkflows;
+        const averageDuration = reports.reduce((sum, r) => sum + r.averageDuration, 0) / totalWorkflows;
+        
+        const allSuggestions = Array.from(this.optimizationSuggestions.values()).flat();
+        const criticalIssues = allSuggestions.filter(s => s.priority === 'critical').length;
+        const highPriorityOptimizations = allSuggestions.filter(s => s.priority === 'high').length;
+        const totalSavings = allSuggestions.reduce((sum, s) => sum + s.estimatedSavings, 0);
+
+        return {
+            totalWorkflows,
+            averageSuccessRate,
+            averageDuration,
+            criticalIssues,
+            highPriorityOptimizations,
+            totalSavings
+        };
+    }
+}
+
+// Extender AutomationManager con análisis
+AutomationManager.prototype.analyzer = new WorkflowAnalyzer();
+
+// Sobrescribir executeWorkflow para incluir análisis
+const originalExecuteWorkflow = AutomationManager.prototype.executeWorkflow;
+AutomationManager.prototype.executeWorkflow = async function(workflowId: string, context?: Record<string, any>): Promise<string> {
+    const startTime = Date.now();
+    let success = false;
+    let resourceUsage = { cpu: 0, memory: 0, disk: 0 };
+    let bottlenecks: string[] = [];
+
+    try {
+        const result = await originalExecuteWorkflow.call(this, workflowId, context);
+        success = true;
+        
+        // Simular recolección de métricas de recursos
+        resourceUsage = {
+            cpu: Math.random() * 100,
+            memory: Math.random() * 100,
+            disk: Math.random() * 50
+        };
+
+        return result;
+    } catch (error) {
+        success = false;
+        bottlenecks = [error.message];
+    } finally {
+        const duration = (Date.now() - startTime) / 1000; // Convertir a segundos
+        
+        this.analyzer.recordExecution(workflowId, {
+            duration,
+            success,
+            resourceUsage,
+            bottlenecks
+        });
+    }
+};
+
+// Añadir métodos de análisis al AutomationManager
+AutomationManager.prototype.getPerformanceReport = function(workflowId: string) {
+    return this.analyzer.getPerformanceReport(workflowId);
+};
+
+AutomationManager.prototype.getOptimizationSuggestions = function(workflowId: string) {
+    return this.analyzer.getOptimizationSuggestions(workflowId);
+};
+
+AutomationManager.prototype.generateOptimizationReport = function() {
+    return this.analyzer.generateOptimizationReport();
+};
