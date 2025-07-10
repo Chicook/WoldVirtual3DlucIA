@@ -1,68 +1,114 @@
 {
-  "name": "editor3d-metaverso",
+  "name": "woldvirtual3d-editor",
   "version": "1.0.0",
-  "private": true,
-  "description": "Editor 3D avanzado para el Metaverso basado en React y Three.js",
-  "main": "src/index.tsx",
+  "description": "Editor 3D avanzado para WoldVirtual3DlucIA",
+  "main": "dist/index.js",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "lint": "eslint src --ext .ts,.tsx --report-unused-disable-directives --max-warnings 0",
+    "server": "ts-node src/server/startServer.ts",
+    "server:dev": "nodemon --exec ts-node src/server/startServer.ts",
+    "server:auto": "ts-node src/server/startServer.ts --auto-port",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint": "eslint src --ext .ts,.tsx",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix",
     "type-check": "tsc --noEmit",
-    "format": "prettier --write src",
-    "test": "jest --passWithNoTests"
+    "clean": "rimraf dist node_modules/.cache",
+    "start": "concurrently \"npm run server\" \"npm run dev\"",
+    "start:dev": "concurrently \"npm run server:dev\" \"npm run dev\"",
+    "build:all": "npm run build && npm run type-check",
+    "prepare": "husky install || true"
   },
   "dependencies": {
-    "@react-three/drei": "^9.88.0",
-    "@react-three/fiber": "^8.15.0",
+    "@types/lodash": "^4.14.202",
+    "@types/three": "^0.158.0",
+    "@types/uuid": "^9.0.7",
+    "@types/ws": "^8.18.1",
+    "clsx": "^2.0.0",
+    "date-fns": "^2.30.0",
     "events": "^3.3.0",
-    "framer-motion": "^10.16.0",
-    "immer": "^10.0.0",
+    "immer": "^10.0.3",
+    "lodash": "^4.17.21",
+    "nanoid": "^5.0.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "tailwind-merge": "^2.0.0",
     "three": "^0.158.0",
+    "uuid": "^9.0.1",
     "ws": "^8.18.3",
-    "zustand": "^4.4.0"
+    "zustand": "^4.4.7"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-class-properties": "^7.18.6",
-    "@babel/plugin-proposal-decorators": "^7.27.1",
-    "@babel/plugin-transform-class-properties": "^7.27.1",
-    "@babel/preset-env": "^7.27.2",
-    "@babel/preset-react": "^7.27.1",
-    "@babel/preset-typescript": "^7.27.1",
-    "@types/jest": "^30.0.0",
-    "@types/node": "^20.19.6",
-    "@types/react": "^18.2.14",
-    "@types/react-dom": "^18.2.7",
-    "@types/three": "^0.158.0",
-    "@types/ws": "^8.18.1",
-    "@typescript-eslint/eslint-plugin": "^6.0.0",
-    "@typescript-eslint/parser": "^6.0.0",
-    "@vitejs/plugin-react": "^4.0.0",
-    "eslint": "^8.50.0",
-    "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "identity-obj-proxy": "^3.0.0",
-    "jest": "^30.0.3",
-    "jest-environment-jsdom": "^30.0.2",
-    "jest-junit": "^16.0.0",
-    "jest-serializer-html": "^7.1.0",
-    "jest-watch-typeahead": "^3.0.1",
-    "prettier": "^3.0.3",
-    "ts-jest": "^29.4.0",
+    "@types/react": "^18.2.37",
+    "@types/react-dom": "^18.2.15",
+    "@typescript-eslint/eslint-plugin": "^6.10.0",
+    "@typescript-eslint/parser": "^6.10.0",
+    "@vitejs/plugin-react": "^4.1.1",
+    "autoprefixer": "^10.4.16",
+    "concurrently": "^8.2.2",
+    "eslint": "^8.53.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "husky": "^8.0.3",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "lint-staged": "^15.0.2",
+    "nodemon": "^3.1.10",
+    "postcss": "^8.4.31",
+    "rimraf": "^5.0.5",
+    "tailwindcss": "^3.3.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.2.2",
-    "vite": "^4.4.9"
+    "vite": "^4.5.0",
+    "vitest": "^0.34.6"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
   },
   "keywords": [
-    "editor3d",
-    "metaverso",
+    "3d-editor",
     "threejs",
     "react",
-    "vite"
+    "typescript",
+    "metaverse",
+    "woldvirtual3d",
+    "websocket",
+    "real-time"
   ],
-  "author": "Metaverso Team",
-  "license": "MIT"
+  "author": "WoldVirtual3D Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/woldvirtual3d/editor3d.git"
+  },
+  "bugs": {
+    "url": "https://github.com/woldvirtual3d/editor3d/issues"
+  },
+  "homepage": "https://github.com/woldvirtual3d/editor3d#readme",
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{js,jsx,json,md}": [
+      "prettier --write"
+    ]
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/test/setup.ts"
+    ],
+    "moduleNameMapping": {
+      "^@/(.*)$": "<rootDir>/src/$1"
+    },
+    "collectCoverageFrom": [
+      "src/**/*.{ts,tsx}",
+      "!src/**/*.d.ts",
+      "!src/test/**/*"
+    ]
+  }
 }

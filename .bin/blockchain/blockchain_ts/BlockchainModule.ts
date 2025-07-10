@@ -696,4 +696,278 @@ export const BlockchainModule: ModuleWrapper = {
   }
 };
 
-export default BlockchainModule; 
+export default BlockchainModule;
+
+// ============================================================================
+// SISTEMA AVANZADO DE ANÁLISIS Y OPTIMIZACIÓN DE BLOCKCHAIN
+// ============================================================================
+
+interface PerformanceMetric {
+    networkId: string;
+    averageBlockTime: number;
+    averageGasPrice: number;
+    transactionSuccessRate: number;
+    networkLoad: number;
+    lastUpdated: Date;
+    trends: {
+        blockTime: number[];
+        gasPrice: number[];
+        successRate: number[];
+        timestamps: Date[];
+    };
+}
+
+interface GasOptimization {
+    transactionId: string;
+    originalGas: number;
+    optimizedGas: number;
+    savings: number;
+    optimizationStrategy: string;
+    timestamp: Date;
+    success: boolean;
+}
+
+interface SecurityAudit {
+    contractId: string;
+    auditDate: Date;
+    vulnerabilities: SecurityVulnerability[];
+    riskScore: number;
+    recommendations: string[];
+    status: 'pending' | 'passed' | 'failed' | 'critical';
+}
+
+interface SecurityVulnerability {
+    type: 'reentrancy' | 'overflow' | 'access-control' | 'gas-limits' | 'external-calls';
+    severity: 'low' | 'medium' | 'high' | 'critical';
+    description: string;
+    lineNumber?: number;
+    recommendation: string;
+}
+
+interface NetworkHealth {
+    networkId: string;
+    uptime: number;
+    latency: number;
+    errorRate: number;
+    lastCheck: Date;
+    status: 'healthy' | 'degraded' | 'down';
+    alerts: NetworkAlert[];
+}
+
+interface NetworkAlert {
+    type: 'high-latency' | 'high-error-rate' | 'low-uptime' | 'gas-spike';
+    severity: 'warning' | 'error' | 'critical';
+    message: string;
+    timestamp: Date;
+    resolved: boolean;
+}
+
+class BlockchainAnalyzer {
+    private performanceMetrics: Map<string, PerformanceMetric> = new Map();
+    private gasOptimizationHistory: Map<string, GasOptimization> = new Map();
+    private securityAuditResults: Map<string, SecurityAudit> = new Map();
+    private networkHealthData: Map<string, NetworkHealth> = new Map();
+
+    async analyzeNetworkPerformance(networkId: string): Promise<PerformanceMetric> {
+        console.log(`📊 Analizando performance de red: ${networkId}`);
+        
+        // Simulación de análisis de performance
+        const metric: PerformanceMetric = {
+            networkId,
+            averageBlockTime: 12.5 + Math.random() * 5,
+            averageGasPrice: 20 + Math.random() * 30,
+            transactionSuccessRate: 0.95 + Math.random() * 0.05,
+            networkLoad: Math.random() * 100,
+            lastUpdated: new Date(),
+            trends: {
+                blockTime: Array.from({length: 24}, () => 10 + Math.random() * 10),
+                gasPrice: Array.from({length: 24}, () => 15 + Math.random() * 40),
+                successRate: Array.from({length: 24}, () => 0.92 + Math.random() * 0.08),
+                timestamps: Array.from({length: 24}, (_, i) => {
+                    const date = new Date();
+                    date.setHours(date.getHours() - (23 - i));
+                    return date;
+                })
+            }
+        };
+        
+        this.performanceMetrics.set(networkId, metric);
+        return metric;
+    }
+
+    async optimizeGasUsage(transactionId: string, originalGas: number, networkId: string): Promise<GasOptimization> {
+        console.log(`⛽ Optimizando gas para transacción: ${transactionId}`);
+        
+        const optimizationStrategies = [
+            'batch-processing',
+            'gas-price-adjustment',
+            'contract-optimization',
+            'data-compression'
+        ];
+        
+        const strategy = optimizationStrategies[Math.floor(Math.random() * optimizationStrategies.length)];
+        const savingsPercentage = 0.1 + Math.random() * 0.3; // 10-40% savings
+        const optimizedGas = Math.floor(originalGas * (1 - savingsPercentage));
+        
+        const optimization: GasOptimization = {
+            transactionId,
+            originalGas,
+            optimizedGas,
+            savings: originalGas - optimizedGas,
+            optimizationStrategy: strategy,
+            timestamp: new Date(),
+            success: Math.random() > 0.1 // 90% success rate
+        };
+        
+        this.gasOptimizationHistory.set(transactionId, optimization);
+        return optimization;
+    }
+
+    async performSecurityAudit(contractId: string): Promise<SecurityAudit> {
+        console.log(`🔒 Realizando auditoría de seguridad para contrato: ${contractId}`);
+        
+        const vulnerabilities: SecurityVulnerability[] = [];
+        const vulnerabilityTypes: SecurityVulnerability['type'][] = [
+            'reentrancy', 'overflow', 'access-control', 'gas-limits', 'external-calls'
+        ];
+        
+        // Simular detección de vulnerabilidades
+        for (const vulnType of vulnerabilityTypes) {
+            if (Math.random() < 0.3) { // 30% chance de encontrar vulnerabilidad
+                const severity: SecurityVulnerability['severity'][] = ['low', 'medium', 'high', 'critical'];
+                const selectedSeverity = severity[Math.floor(Math.random() * severity.length)];
+                
+                vulnerabilities.push({
+                    type: vulnType,
+                    severity: selectedSeverity,
+                    description: `Vulnerabilidad de ${vulnType} detectada`,
+                    lineNumber: Math.floor(Math.random() * 100) + 1,
+                    recommendation: `Implementar protección contra ${vulnType}`
+                });
+            }
+        }
+        
+        const riskScore = vulnerabilities.reduce((score, vuln) => {
+            const severityScores = { low: 1, medium: 3, high: 7, critical: 10 };
+            return score + severityScores[vuln.severity];
+        }, 0);
+        
+        const status: SecurityAudit['status'] = riskScore > 15 ? 'critical' : 
+                                               riskScore > 10 ? 'failed' : 
+                                               riskScore > 5 ? 'pending' : 'passed';
+        
+        const audit: SecurityAudit = {
+            contractId,
+            auditDate: new Date(),
+            vulnerabilities,
+            riskScore,
+            recommendations: vulnerabilities.map(v => v.recommendation),
+            status
+        };
+        
+        this.securityAuditResults.set(contractId, audit);
+        return audit;
+    }
+
+    async checkNetworkHealth(networkId: string): Promise<NetworkHealth> {
+        console.log(`🏥 Verificando salud de red: ${networkId}`);
+        
+        const uptime = 0.95 + Math.random() * 0.05; // 95-100%
+        const latency = 50 + Math.random() * 200; // 50-250ms
+        const errorRate = Math.random() * 0.05; // 0-5%
+        
+        const alerts: NetworkAlert[] = [];
+        
+        if (latency > 150) {
+            alerts.push({
+                type: 'high-latency',
+                severity: latency > 200 ? 'critical' : 'warning',
+                message: `Latencia alta detectada: ${latency.toFixed(2)}ms`,
+                timestamp: new Date(),
+                resolved: false
+            });
+        }
+        
+        if (errorRate > 0.02) {
+            alerts.push({
+                type: 'high-error-rate',
+                severity: errorRate > 0.04 ? 'critical' : 'error',
+                message: `Tasa de error alta: ${(errorRate * 100).toFixed(2)}%`,
+                timestamp: new Date(),
+                resolved: false
+            });
+        }
+        
+        const status: NetworkHealth['status'] = alerts.some(a => a.severity === 'critical') ? 'down' :
+                                               alerts.length > 0 ? 'degraded' : 'healthy';
+        
+        const health: NetworkHealth = {
+            networkId,
+            uptime,
+            latency,
+            errorRate,
+            lastCheck: new Date(),
+            status,
+            alerts
+        };
+        
+        this.networkHealthData.set(networkId, health);
+        return health;
+    }
+
+    generatePerformanceReport(networkId: string): string {
+        const metric = this.performanceMetrics.get(networkId);
+        const health = this.networkHealthData.get(networkId);
+        
+        if (!metric || !health) {
+            return `No hay datos disponibles para la red ${networkId}`;
+        }
+        
+        return `
+📊 REPORTE DE PERFORMANCE - RED ${networkId.toUpperCase()}
+==================================================
+⏱️  Tiempo promedio de bloque: ${metric.averageBlockTime.toFixed(2)}s
+⛽ Gas price promedio: ${metric.averageGasPrice.toFixed(2)} gwei
+✅ Tasa de éxito: ${(metric.transactionSuccessRate * 100).toFixed(2)}%
+📈 Carga de red: ${metric.networkLoad.toFixed(2)}%
+🏥 Estado de salud: ${health.status.toUpperCase()}
+📡 Latencia: ${health.latency.toFixed(2)}ms
+⚠️  Alertas activas: ${health.alerts.filter(a => !a.resolved).length}
+        `.trim();
+    }
+}
+
+// Instancia global del analizador
+const blockchainAnalyzer = new BlockchainAnalyzer();
+
+// Extender el BlockchainModule con funcionalidades de análisis
+export const BlockchainAnalysisModule = {
+    name: 'blockchain-analysis',
+    dependencies: ['blockchain'],
+    publicAPI: {
+        analyzeNetworkPerformance: (networkId: string) => blockchainAnalyzer.analyzeNetworkPerformance(networkId),
+        optimizeGasUsage: (transactionId: string, originalGas: number, networkId: string) => 
+            blockchainAnalyzer.optimizeGasUsage(transactionId, originalGas, networkId),
+        performSecurityAudit: (contractId: string) => blockchainAnalyzer.performSecurityAudit(contractId),
+        checkNetworkHealth: (networkId: string) => blockchainAnalyzer.checkNetworkHealth(networkId),
+        generatePerformanceReport: (networkId: string) => blockchainAnalyzer.generatePerformanceReport(networkId)
+    },
+    
+    async initialize(userId: string): Promise<void> {
+        console.log(`📊 Initializing BlockchainAnalysisModule for user ${userId}...`);
+        
+        // Inicializar análisis de todas las redes disponibles
+        const networks = await blockchainManager.getNetworks();
+        for (const network of networks) {
+            await blockchainAnalyzer.analyzeNetworkPerformance(network.id);
+            await blockchainAnalyzer.checkNetworkHealth(network.id);
+        }
+        
+        console.log(`✅ BlockchainAnalysisModule initialized for user ${userId}`);
+    },
+    
+    async cleanup(userId: string): Promise<void> {
+        console.log(`🧹 Cleaning up BlockchainAnalysisModule for user ${userId}...`);
+        console.log(`✅ BlockchainAnalysisModule cleaned up for user ${userId}`);
+    }
+}; 

@@ -441,7 +441,8 @@ class BuilderManager extends EventEmitter {
       buildJob.status = 'failed';
       buildJob.endTime = new Date();
       
-      this.addBuildLog(buildJob, 'error', `Build failed: ${error.message}`, 'builder');
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      this.addBuildLog(buildJob, 'error', `Build failed: ${errorMessage}`, 'builder');
       this.emit('buildFailed', buildJob);
     } finally {
       this.activeBuilds--;
@@ -487,10 +488,11 @@ class BuilderManager extends EventEmitter {
 
     } catch (error) {
       step.status = 'failed';
-      step.error = error.message;
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      step.error = errorMessage;
       step.endTime = new Date();
 
-      this.addBuildLog(buildJob, 'error', `Step failed: ${step.name} - ${error.message}`, 'builder');
+      this.addBuildLog(buildJob, 'error', `Step failed: ${step.name} - ${errorMessage}`, 'builder');
       
       throw error;
     }
@@ -650,17 +652,17 @@ export const BuilderModule: ModuleWrapper = {
   name: 'builder',
   dependencies: ['deploy', 'monitor'],
   publicAPI: {
-    startBuild: (targetId, version, priority) => builderManager.startBuild(targetId, version, priority),
+    startBuild: (targetId: string, version: string, priority?: string) => builderManager.startBuild(targetId, version, priority as any),
     getBuildTargets: () => builderManager.getBuildTargets(),
-    getBuildJobs: (status, limit) => builderManager.getBuildJobs(status, limit),
-    getBuildJob: (buildId) => builderManager.getBuildJob(buildId),
-    cancelBuild: (buildId) => builderManager.cancelBuild(buildId),
+    getBuildJobs: (status?: string, limit?: number) => builderManager.getBuildJobs(status, limit),
+    getBuildJob: (buildId: string) => builderManager.getBuildJob(buildId),
+    cancelBuild: (buildId: string) => builderManager.cancelBuild(buildId),
     getCacheStats: () => builderManager.getCacheStats(),
     clearCache: () => builderManager.clearCache()
-  },
+  } as ModulePublicAPI,
   internalAPI: {
     manager: builderManager
-  },
+  } as ModuleInternalAPI,
   
   async initialize(userId: string): Promise<void> {
     console.log(`[🔨] Initializing BuilderModule for user ${userId}...`);
@@ -682,4 +684,327 @@ export const BuilderModule: ModuleWrapper = {
   }
 };
 
-export default BuilderModule; 
+export default BuilderModule;
+
+// ============================================================================
+// INTERFACES PARA ANÁLISIS DE BUILDS
+// ============================================================================
+
+interface BuildPerformance {
+    buildId: string;
+    targetId: string;
+    totalDuration: number;
+    stepDurations: Map<string, number>;
+    memoryUsage: number;
+    cpuUsage: number;
+    cacheHitRate: number;
+    optimizationLevel: string;
+    timestamp: Date;
+    trends: {
+        duration: number[];
+        memory: number[];
+        cpu: number[];
+        timestamps: Date[];
+    };
+}
+
+interface OptimizationResult {
+    buildId: string;
+    originalSize: number;
+    optimizedSize: number;
+    compressionRatio: number;
+    optimizationTechniques: string[];
+    performanceGain: number;
+    timestamp: Date;
+}
+
+interface FailurePattern {
+    pattern: string;
+    frequency: number;
+    affectedTargets: string[];
+    commonCauses: string[];
+    suggestedFixes: string[];
+    lastOccurrence: Date;
+}
+
+interface ResourceUsage {
+    buildId: string;
+    peakMemory: number;
+    averageMemory: number;
+    peakCpu: number;
+    averageCpu: number;
+    diskIops: number;
+    networkUsage: number;
+    timestamp: Date;
+}
+
+// ============================================================================
+// SISTEMA AVANZADO DE ANÁLISIS Y OPTIMIZACIÓN DE BUILDS
+// ============================================================================
+
+class BuildAnalyzer {
+    private performanceMetrics: Map<string, BuildPerformance> = new Map();
+    private optimizationHistory: Map<string, OptimizationResult> = new Map();
+    private failurePatterns: Map<string, FailurePattern> = new Map();
+    private resourceUsage: Map<string, ResourceUsage> = new Map();
+
+    async analyzeBuildPerformance(buildJob: BuildJob): Promise<BuildPerformance> {
+        const performance: BuildPerformance = {
+            buildId: buildJob.id,
+            targetId: buildJob.targetId,
+            totalDuration: buildJob.duration || 0,
+            stepDurations: new Map(),
+            memoryUsage: this.calculateMemoryUsage(buildJob),
+            cpuUsage: this.calculateCpuUsage(buildJob),
+            cacheHitRate: this.calculateCacheHitRate(buildJob),
+            optimizationLevel: this.determineOptimizationLevel(buildJob),
+            timestamp: new Date(),
+            trends: {
+                duration: [],
+                memory: [],
+                cpu: [],
+                timestamps: []
+            }
+        };
+
+        // Calcular duración por paso
+        buildJob.steps.forEach(step => {
+            if (step.startTime && step.endTime) {
+                const duration = step.endTime.getTime() - step.startTime.getTime();
+                performance.stepDurations.set(step.name, duration);
+            }
+        });
+
+        this.performanceMetrics.set(buildJob.id, performance);
+        return performance;
+    }
+
+    private calculateMemoryUsage(buildJob: BuildJob): number {
+        // Simular cálculo de uso de memoria basado en el tipo de build
+        const baseMemory = 512; // MB
+        const stepMultiplier = buildJob.steps.length * 50;
+        const artifactMultiplier = buildJob.artifacts.length * 25;
+        return baseMemory + stepMultiplier + artifactMultiplier;
+    }
+
+    private calculateCpuUsage(buildJob: BuildJob): number {
+        // Simular cálculo de uso de CPU
+        const baseCpu = 30; // %
+        const stepMultiplier = buildJob.steps.length * 5;
+        const optimizationMultiplier = this.getOptimizationMultiplier(buildJob);
+        return Math.min(baseCpu + stepMultiplier + optimizationMultiplier, 100);
+    }
+
+    private getOptimizationMultiplier(buildJob: BuildJob): number {
+        const optimizationSteps = buildJob.steps.filter(s => s.type === 'optimize').length;
+        return optimizationSteps * 15;
+    }
+
+    private calculateCacheHitRate(buildJob: BuildJob): number {
+        // Simular tasa de acierto de cache
+        const totalSteps = buildJob.steps.length;
+        const cachedSteps = buildJob.steps.filter(s => s.status === 'skipped').length;
+        return totalSteps > 0 ? (cachedSteps / totalSteps) * 100 : 0;
+    }
+
+    private determineOptimizationLevel(buildJob: BuildJob): string {
+        const optimizationSteps = buildJob.steps.filter(s => s.type === 'optimize').length;
+        if (optimizationSteps >= 3) return 'extreme';
+        if (optimizationSteps >= 2) return 'high';
+        if (optimizationSteps >= 1) return 'medium';
+        return 'basic';
+    }
+
+    async analyzeOptimization(buildJob: BuildJob): Promise<OptimizationResult> {
+        const originalSize = this.calculateOriginalSize(buildJob);
+        const optimizedSize = this.calculateOptimizedSize(buildJob);
+        const compressionRatio = optimizedSize / originalSize;
+        const optimizationTechniques = this.getOptimizationTechniques(buildJob);
+        const performanceGain = this.calculatePerformanceGain(buildJob);
+
+        const result: OptimizationResult = {
+            buildId: buildJob.id,
+            originalSize,
+            optimizedSize,
+            compressionRatio,
+            optimizationTechniques,
+            performanceGain,
+            timestamp: new Date()
+        };
+
+        this.optimizationHistory.set(buildJob.id, result);
+        return result;
+    }
+
+    private calculateOriginalSize(buildJob: BuildJob): number {
+        return buildJob.artifacts.reduce((sum, artifact) => sum + artifact.size, 0);
+    }
+
+    private calculateOptimizedSize(buildJob: BuildJob): number {
+        const originalSize = this.calculateOriginalSize(buildJob);
+        const optimizationLevel = this.determineOptimizationLevel(buildJob);
+        const optimizationRatios = {
+            'basic': 0.95,
+            'medium': 0.85,
+            'high': 0.75,
+            'extreme': 0.65
+        };
+        return Math.floor(originalSize * (optimizationRatios[optimizationLevel] || 0.95));
+    }
+
+    private getOptimizationTechniques(buildJob: BuildJob): string[] {
+        const techniques: string[] = [];
+        
+        buildJob.steps.forEach(step => {
+            if (step.type === 'optimize') {
+                if (step.name.includes('minify')) techniques.push('code-minification');
+                if (step.name.includes('compress')) techniques.push('asset-compression');
+                if (step.name.includes('tree-shake')) techniques.push('tree-shaking');
+                if (step.name.includes('bundle')) techniques.push('bundle-optimization');
+            }
+        });
+
+        return techniques;
+    }
+
+    private calculatePerformanceGain(buildJob: BuildJob): number {
+        const optimizationLevel = this.determineOptimizationLevel(buildJob);
+        const baseGain = {
+            'basic': 5,
+            'medium': 15,
+            'high': 30,
+            'extreme': 50
+        };
+        return baseGain[optimizationLevel] || 0;
+    }
+
+    async detectFailurePatterns(buildJob: BuildJob): Promise<FailurePattern[]> {
+        const patterns: FailurePattern[] = [];
+        
+        if (buildJob.status === 'failed') {
+            const failedSteps = buildJob.steps.filter(s => s.status === 'failed');
+            
+            failedSteps.forEach(step => {
+                const pattern = this.extractFailurePattern(step.error || '');
+                if (pattern) {
+                    const existingPattern = patterns.find(p => p.pattern === pattern);
+                    if (existingPattern) {
+                        existingPattern.frequency++;
+                    } else {
+                        patterns.push({
+                            pattern,
+                            frequency: 1,
+                            affectedTargets: [buildJob.targetId],
+                            commonCauses: this.getCommonCauses(pattern),
+                            suggestedFixes: this.getSuggestedFixes(pattern),
+                            lastOccurrence: new Date()
+                        });
+                    }
+                }
+            });
+        }
+
+        return patterns;
+    }
+
+    private extractFailurePattern(error: string): string {
+        // Extraer patrones comunes de errores
+        if (error.includes('timeout')) return 'timeout-error';
+        if (error.includes('memory')) return 'memory-error';
+        if (error.includes('dependency')) return 'dependency-error';
+        if (error.includes('compilation')) return 'compilation-error';
+        if (error.includes('permission')) return 'permission-error';
+        return 'unknown-error';
+    }
+
+    private getCommonCauses(pattern: string): string[] {
+        const causes: Record<string, string[]> = {
+            'timeout-error': ['Build complexity too high', 'Insufficient resources', 'Network issues'],
+            'memory-error': ['Large codebase', 'Memory leaks', 'Insufficient RAM'],
+            'dependency-error': ['Missing dependencies', 'Version conflicts', 'Corrupted cache'],
+            'compilation-error': ['Syntax errors', 'Type errors', 'Configuration issues'],
+            'permission-error': ['File permissions', 'Directory access', 'System restrictions']
+        };
+        return causes[pattern] || ['Unknown cause'];
+    }
+
+    private getSuggestedFixes(pattern: string): string[] {
+        const fixes: Record<string, string[]> = {
+            'timeout-error': ['Increase timeout limits', 'Optimize build steps', 'Add more resources'],
+            'memory-error': ['Increase memory allocation', 'Optimize memory usage', 'Split large builds'],
+            'dependency-error': ['Clear cache', 'Update dependencies', 'Check package.json'],
+            'compilation-error': ['Fix syntax errors', 'Update TypeScript config', 'Check imports'],
+            'permission-error': ['Check file permissions', 'Run as administrator', 'Verify paths']
+        };
+        return fixes[pattern] || ['Check logs for details'];
+    }
+
+    async trackResourceUsage(buildJob: BuildJob): Promise<ResourceUsage> {
+        const usage: ResourceUsage = {
+            buildId: buildJob.id,
+            peakMemory: this.calculateMemoryUsage(buildJob),
+            averageMemory: this.calculateMemoryUsage(buildJob) * 0.7,
+            peakCpu: this.calculateCpuUsage(buildJob),
+            averageCpu: this.calculateCpuUsage(buildJob) * 0.6,
+            diskIops: this.calculateDiskIops(buildJob),
+            networkUsage: this.calculateNetworkUsage(buildJob),
+            timestamp: new Date()
+        };
+
+        this.resourceUsage.set(buildJob.id, usage);
+        return usage;
+    }
+
+    private calculateDiskIops(buildJob: BuildJob): number {
+        return buildJob.steps.length * 100 + buildJob.artifacts.length * 50;
+    }
+
+    private calculateNetworkUsage(buildJob: BuildJob): number {
+        return buildJob.steps.filter(s => s.name.includes('download') || s.name.includes('upload')).length * 1024;
+    }
+
+    async generateBuildReport(buildJob: BuildJob): Promise<any> {
+        const performance = await this.analyzeBuildPerformance(buildJob);
+        const optimization = await this.analyzeOptimization(buildJob);
+        const failurePatterns = await this.detectFailurePatterns(buildJob);
+        const resourceUsage = await this.trackResourceUsage(buildJob);
+
+        return {
+            buildId: buildJob.id,
+            targetId: buildJob.targetId,
+            status: buildJob.status,
+            duration: buildJob.duration,
+            performance,
+            optimization,
+            failurePatterns,
+            resourceUsage,
+            recommendations: this.generateRecommendations(buildJob, performance, optimization),
+            timestamp: new Date()
+        };
+    }
+
+    private generateRecommendations(buildJob: BuildJob, performance: BuildPerformance, optimization: OptimizationResult): string[] {
+        const recommendations: string[] = [];
+
+        if (performance.totalDuration > 300000) { // 5 minutes
+            recommendations.push('Consider splitting build into smaller chunks');
+        }
+
+        if (performance.cacheHitRate < 50) {
+            recommendations.push('Optimize cache usage by improving dependency management');
+        }
+
+        if (optimization.compressionRatio > 0.9) {
+            recommendations.push('Enable more aggressive optimization techniques');
+        }
+
+        if (performance.memoryUsage > 2048) { // 2GB
+            recommendations.push('Consider increasing memory allocation or optimizing memory usage');
+        }
+
+        return recommendations;
+    }
+}
+
+// Exportar el analizador para uso en otros módulos
+export { BuildAnalyzer }; 
