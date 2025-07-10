@@ -9,3 +9,10 @@ Thumbs.db
 .env.*
 .vscode/
 .idea/ 
+
+# Ignorar archivos generados en threejs-utils
+threejs-utils/*.map
+threejs-utils/*.log
+threejs-utils/*.tmp
+threejs-utils/.DS_Store
+threejs-utils/__pycache__/ 
