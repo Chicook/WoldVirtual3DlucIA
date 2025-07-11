@@ -1,0 +1,35 @@
+{
+  "tareas_criticas": [
+    {
+      "id": "renovar_gemini",
+      "nombre": "Renovar Clave de Gemini",
+      "tiempo_estimado": 30,
+      "prioridad": "CRITICA",
+      "completada": false
+    },
+    {
+      "id": "fallback_inteligente",
+      "nombre": "Implementar Fallback Inteligente",
+      "tiempo_estimado": 240,
+      "prioridad": "ALTA",
+      "completada": false
+    },
+    {
+      "id": "memoria_semantica",
+      "nombre": "Búsqueda Semántica Avanzada",
+      "tiempo_estimado": 360,
+      "prioridad": "ALTA",
+      "completada": false
+    },
+    {
+      "id": "personalidades",
+      "nombre": "Nuevas Personalidades",
+      "tiempo_estimado": 480,
+      "prioridad": "MEDIA",
+      "completada": false
+    }
+  ],
+  "progreso_actual": 85,
+  "objetivo": 95,
+  "fecha_inicio": "2025-07-11T12:08:06.303651"
+}
