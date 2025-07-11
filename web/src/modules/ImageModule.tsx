@@ -4,8 +4,18 @@
  * @author WoldVirtual3DlucIA Team
  */
 
-import React, { useState, useCallback } from 'react';
-import { Logger } from '../../utils/logger';
+import React, { useState, useEffect, useCallback } from 'react';
+
+// Logger básico inline
+class Logger {
+  log(message: string) {
+    console.log(`[ImageModule] ${message}`);
+  }
+  
+  error(message: string) {
+    console.error(`[ImageModule] ${message}`);
+  }
+}
 
 // ============================================================================
 // INTERFACES Y TIPOS
@@ -88,7 +98,7 @@ class ImageProcessor {
   private processingQueue: Map<string, Promise<ImageProcessingResult>>;
 
   constructor(config: Partial<ImageModuleConfig> = {}) {
-    this.logger = new Logger('ImageProcessor');
+    this.logger = new Logger();
     this.config = {
       maxFileSize: 50 * 1024 * 1024, // 50MB
       supportedFormats: ['jpg', 'jpeg', 'png', 'webp', 'avif', 'gif', 'svg'],
@@ -187,7 +197,7 @@ class ImageProcessor {
     // Verificar cache
     if (this.config.cacheEnabled && this.cache.has(fileId)) {
       const cached = this.cache.get(fileId)!;
-      this.logger.info(`📸 Imagen encontrada en cache: ${cached.name}`);
+      this.logger.log(`📸 Imagen encontrada en cache: ${cached.name}`);
       return {
         success: true,
         originalImage: cached,
@@ -203,7 +213,7 @@ class ImageProcessor {
 
     // Verificar si ya está siendo procesada
     if (this.processingQueue.has(fileId)) {
-      this.logger.info(`📸 Imagen ya en procesamiento: ${file.name}`);
+      this.logger.log(`📸 Imagen ya en procesamiento: ${file.name}`);
       return await this.processingQueue.get(fileId)!;
     }
 
@@ -264,7 +274,7 @@ class ImageProcessor {
       const optimizedSize = Math.floor(file.size * (options.quality || this.config.defaultQuality) / 100);
       const reductionPercentage = ((file.size - optimizedSize) / file.size) * 100;
 
-      this.logger.success(`✅ Imagen procesada: ${file.name} - ${reductionPercentage.toFixed(1)}% reducción`);
+      this.logger.log(`✅ Imagen procesada: ${file.name} - ${reductionPercentage.toFixed(1)}% reducción`);
 
       return {
         success: true,
@@ -330,7 +340,7 @@ class ImageProcessor {
    */
   clearCache(): void {
     this.cache.clear();
-    this.logger.info('🗑️ Cache de imágenes limpiado');
+    this.logger.log('🗑️ Cache de imágenes limpiado');
   }
 
   /**

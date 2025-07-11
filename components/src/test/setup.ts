@@ -43,7 +43,7 @@ jest.mock('@react-three/fiber', () => ({
     controls: {}
   }),
   useFrame: jest.fn(),
-  Canvas: ({ children }: { children: React.ReactNode }) => <div>{children}</div>
+  Canvas: jest.fn(({ children }) => ({ type: 'div', props: { children } }))
 }));
 
 // Mock de @react-three/drei
@@ -54,9 +54,9 @@ jest.mock('@react-three/drei', () => ({
   OrbitControls: () => null,
   Environment: () => null,
   Stats: () => null,
-  PerspectiveCamera: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
-  OrthographicCamera: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
-  Html: ({ children }: { children: React.ReactNode }) => <div>{children}</div>
+  PerspectiveCamera: jest.fn(({ children }) => ({ type: 'div', props: { children } })),
+  OrthographicCamera: jest.fn(({ children }) => ({ type: 'div', props: { children } })),
+  Html: jest.fn(({ children }) => ({ type: 'div', props: { children } }))
 }));
 
 // Mock de ethers

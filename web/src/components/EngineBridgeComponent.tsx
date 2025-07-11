@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 interface EngineBridgeProps {
   port?: number;
@@ -50,7 +50,7 @@ const EngineBridgeComponent = ({ port = 8181, autoConnect = true }: EngineBridge
         }
       };
       
-      socket.onerror = (event) => {
+      socket.onerror = () => {
         setConnectionStatus('error');
         setError('Error de conexión WebSocket');
         addMessage('Error de conexión');

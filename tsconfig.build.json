@@ -1,0 +1,38 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "declaration": true,
+    "declarationMap": true,
+    "outDir": "./dist",
+    "rootDir": ".",
+    "removeComments": false,
+    "sourceMap": true,
+    "allowImportingTsExtensions": false
+  },
+  "include": [
+    "src/**/*",
+    "components/**/*",
+    "services/**/*",
+    "core/**/*",
+    "@types/**/*",
+    "helpers/**/*",
+    "assets/**/*",
+    "config/**/*",
+    ".bin/**/*",
+    "client/**/*",
+    "web/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    "coverage",
+    "*.js",
+    "*.jsx",
+    "**/*.test.*",
+    "**/*.spec.*",
+    "**/__tests__/**",
+    ".bin/editor3d/dist/**/*"
+  ]
+} 

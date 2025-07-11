@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { messageBus } from '../core/InterModuleMessageBus';
 import { centralCoordinator } from '../core/CentralModuleCoordinator';
 

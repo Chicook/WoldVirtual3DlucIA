@@ -189,7 +189,10 @@ export class EditorCore {
       object.material.color.setHex(0x4a9eff);
     }
     
-    console.log('Objeto seleccionado:', object.name || object.uuid);
+    // Solo log en desarrollo
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Objeto seleccionado:', object.name || object.uuid);
+    }
   }
 
   /**
@@ -222,7 +225,10 @@ export class EditorCore {
     }
     
     this.scene.add(object);
-    console.log('Objeto agregado:', object.name);
+    // Solo log en desarrollo
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Objeto agregado:', object.name);
+    }
     return true;
   }
 
@@ -249,7 +255,10 @@ export class EditorCore {
     // Remover de selección si está seleccionado
     this.selectedObjects.delete(object);
     
-    console.log('Objeto removido:', object.name);
+    // Solo log en desarrollo
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Objeto removido:', object.name);
+    }
     return true;
   }
 

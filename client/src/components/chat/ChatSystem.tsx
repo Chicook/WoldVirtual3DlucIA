@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { useChat } from '@/hooks/useChat';
 import { ChatMessage } from '@/types/metaverso';
 
@@ -95,8 +94,6 @@ const ChatMessageItem: React.FC<{
         {message.text}
       </div>
 
-      {/* Reply functionality removed - not implemented in current ChatMessage type */}
-
       {/* Acciones del mensaje */}
       {isHovered && (
         <div className="absolute top-2 right-2 flex space-x-1 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -139,7 +136,7 @@ const ChatMessageItem: React.FC<{
 
 // Componente principal avanzado
 export const ChatSystem: React.FC = () => {
-  const { state } = useMetaverso()
+  const { messages, sendMessage } = useChat()
   const [activeChannel, setActiveChannel] = useState('general')
   const [replyTo, setReplyTo] = useState<ChatMessage | null>(null)
   const [message, setMessage] = useState('')
@@ -155,7 +152,7 @@ export const ChatSystem: React.FC = () => {
   // Auto-scroll al final
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [state.chatMessages])
+  }, [messages])
 
   const handleSendMessage = async () => {
     if (!message.trim()) return
@@ -168,8 +165,8 @@ export const ChatSystem: React.FC = () => {
               activeChannel === 'guild' ? 'guild' : 'text'
       }
 
-      // Aquí se enviaría el mensaje usando el contexto
-      console.log('Enviando mensaje:', newMessage)
+      // Enviar mensaje usando el hook
+      await sendMessage(newMessage.text || '')
       setMessage('')
       setReplyTo(null)
     } catch (error) {
@@ -195,7 +192,7 @@ export const ChatSystem: React.FC = () => {
     }
   }
 
-  const filteredMessages = state.chatMessages.filter(msg => {
+  const filteredMessages = messages.filter((msg: ChatMessage) => {
     if (activeChannel === 'general') return msg.type === 'text' || msg.type === 'system'
     if (activeChannel === 'trade') return msg.type === 'trade'
     if (activeChannel === 'guild') return msg.type === 'guild'
@@ -262,7 +259,7 @@ export const ChatSystem: React.FC = () => {
             <p className="text-sm">¡Sé el primero en escribir!</p>
           </div>
         ) : (
-          filteredMessages.map((msg) => (
+          filteredMessages.map((msg: ChatMessage) => (
             <ChatMessageItem
               key={msg.id}
               message={msg}
@@ -274,5 +271,28 @@ export const ChatSystem: React.FC = () => {
         <div ref={messagesEndRef} />
       </div>
 
-export default ChatSystem; 
+      {/* Input de mensaje */}
+      <div className="p-4 border-t border-gray-700">
+        <div className="flex space-x-2">
+          <textarea
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            onKeyPress={handleKeyPress}
+            placeholder="Escribe tu mensaje..."
+            className="flex-1 p-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 resize-none focus:outline-none focus:border-blue-500"
+            rows={1}
+          />
+          <button
+            onClick={handleSendMessage}
+            disabled={!message.trim()}
+            className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          >
+            Enviar
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export default ChatSystem; 
