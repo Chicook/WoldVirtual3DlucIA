@@ -1,4 +1,4 @@
-/**
+THIS SHOULD BE A LINTER ERROR/**
  * @fileoverview Índice principal del sistema modular avanzado de assets
  */
 
