@@ -12,15 +12,17 @@ const App: React.FC = () => {
 
   const handleToolChange = (tool: string) => {
     setActiveTool(tool);
-    console.log('🔄 Tool changed to:', tool);
+    // Solo log en desarrollo
+    if (process.env.NODE_ENV === 'development') {
+      console.log('🔄 Tool changed to:', tool);
+    }
   };
 
   const handleObjectSelect = (object: any) => {
     setSelectedObject(object);
-    if (object) {
-      console.log('🎯 Selected object:', object.name || 'Unnamed object');
-    } else {
-      console.log('🎯 No object selected');
+    // Solo log en desarrollo y si hay cambio real
+    if (process.env.NODE_ENV === 'development' && object !== selectedObject) {
+      console.log('🎯 Selected object:', object?.name || 'Unnamed object');
     }
   };
 
