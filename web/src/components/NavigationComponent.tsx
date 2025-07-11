@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { messageBus } from '../core/InterModuleMessageBus';
 
 interface NavigationProps {

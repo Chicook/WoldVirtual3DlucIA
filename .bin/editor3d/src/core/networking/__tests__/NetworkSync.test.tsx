@@ -1,79 +1,175 @@
-import React from 'react'
-import { motion } from 'framer-motion'
+/**
+ * 🧪 NetworkSync Tests
+ * 
+ * Tests para la sincronización de red en tiempo real
+ */
 
-interface LoadingScreenProps {
-  message?: string
-  progress?: number
-}
+import { NetworkSync, NetworkObject } from '../NetworkSync';
+import * as THREE from 'three';
 
-export const LoadingScreen: React.FC<LoadingScreenProps> = ({
-  message = 'Cargando metaverso...',
-  progress = 0
-}) => {
-  return (
-    <div className="fixed inset-0 bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 flex items-center justify-center z-50">
-      <div className="text-center">
-        {/* Logo animado */}
-        <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.5 }}
-          className="mb-8"
-        >
-          <div className="w-24 h-24 mx-auto bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-            <span className="text-4xl">🌍</span>
-          </div>
-        </motion.div>
+describe('NetworkSync', () => {
+  let networkSync: NetworkSync;
+  let testObject: THREE.Object3D;
 
-        {/* Título */}
-        <motion.h1
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.2, duration: 0.5 }}
-          className="text-3xl font-bold text-white mb-4"
-        >
-          Metaverso Crypto World
-        </motion.h1>
+  beforeEach(() => {
+    networkSync = new NetworkSync({
+      p2p: false,
+      maxPlayers: 10,
+      syncRate: 30
+    });
+    
+    testObject = new THREE.Mesh(
+      new THREE.BoxGeometry(1, 1, 1),
+      new THREE.MeshBasicMaterial()
+    );
+  });
 
-        {/* Mensaje */}
-        <motion.p
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.4, duration: 0.5 }}
-          className="text-gray-300 mb-8"
-        >
-          {message}
-        </motion.p>
+  afterEach(async () => {
+    await networkSync.cleanup();
+  });
 
-        {/* Barra de progreso */}
-        <motion.div
-          initial={{ width: 0 }}
-          animate={{ width: `${progress}%` }}
-          transition={{ delay: 0.6, duration: 1 }}
-          className="w-64 h-2 bg-gray-700 rounded-full mx-auto mb-4 overflow-hidden"
-        >
-          <div className="h-full bg-gradient-to-r from-blue-500 to-purple-600 rounded-full" />
-        </motion.div>
+  describe('Initialization', () => {
+    test('should initialize correctly', async () => {
+      await expect(networkSync.initialize()).resolves.not.toThrow();
+    });
 
-        {/* Porcentaje */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.8, duration: 0.5 }}
-          className="text-sm text-gray-400"
-        >
-          {Math.round(progress)}%
-        </motion.p>
+    test('should not initialize twice', async () => {
+      await networkSync.initialize();
+      await expect(networkSync.initialize()).resolves.not.toThrow();
+    });
+  });
 
-        {/* Indicador de carga */}
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-          className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full mx-auto mt-6"
-        />
-      </div>
-    </div>
-  )
-}
+  describe('Object Management', () => {
+    beforeEach(async () => {
+      await networkSync.initialize();
+    });
 
-export default LoadingScreen 
+    test('should add object to network', () => {
+      const objectId = networkSync.addObject(testObject, 'test-user');
+      expect(objectId).toBeDefined();
+      expect(networkSync.getObject(objectId)).toBeDefined();
+    });
+
+    test('should remove object from network', () => {
+      const objectId = networkSync.addObject(testObject, 'test-user');
+      networkSync.removeObject(objectId);
+      expect(networkSync.getObject(objectId)).toBeUndefined();
+    });
+
+    test('should get all objects', () => {
+      const object1 = new THREE.Mesh();
+      const object2 = new THREE.Mesh();
+      
+      networkSync.addObject(object1, 'user1');
+      networkSync.addObject(object2, 'user2');
+      
+      const objects = networkSync.getAllObjects();
+      expect(objects).toHaveLength(2);
+    });
+  });
+
+  describe('Synchronization', () => {
+    beforeEach(async () => {
+      await networkSync.initialize();
+    });
+
+    test('should update object position', () => {
+      const objectId = networkSync.addObject(testObject, 'test-user');
+      const newPosition = new THREE.Vector3(10, 20, 30);
+      
+      networkSync.updateObjectPosition(objectId, newPosition);
+      const networkObject = networkSync.getObject(objectId);
+      
+      expect(networkObject?.position.equals(newPosition)).toBe(true);
+    });
+
+    test('should update object rotation', () => {
+      const objectId = networkSync.addObject(testObject, 'test-user');
+      const newRotation = new THREE.Euler(0, Math.PI, 0);
+      
+      networkSync.updateObjectRotation(objectId, newRotation);
+      const networkObject = networkSync.getObject(objectId);
+      
+      expect(networkObject?.rotation.equals(newRotation)).toBe(true);
+    });
+
+    test('should handle interpolation', () => {
+      const objectId = networkSync.addObject(testObject, 'test-user');
+      const networkObject = networkSync.getObject(objectId);
+      
+      if (networkObject) {
+        networkObject.interpolation.enabled = true;
+        networkObject.interpolation.buffer.push({
+          time: Date.now(),
+          position: new THREE.Vector3(0, 0, 0),
+          rotation: new THREE.Euler()
+        });
+        
+        expect(networkObject.interpolation.buffer.length).toBeGreaterThan(0);
+      }
+    });
+  });
+
+  describe('Performance', () => {
+    beforeEach(async () => {
+      await networkSync.initialize();
+    });
+
+    test('should handle multiple objects efficiently', () => {
+      const objects: THREE.Object3D[] = [];
+      
+      // Crear 100 objetos
+      for (let i = 0; i < 100; i++) {
+        const obj = new THREE.Mesh(
+          new THREE.BoxGeometry(1, 1, 1),
+          new THREE.MeshBasicMaterial()
+        );
+        objects.push(obj);
+        networkSync.addObject(obj, `user-${i}`);
+      }
+      
+      const allObjects = networkSync.getAllObjects();
+      expect(allObjects).toHaveLength(100);
+    });
+
+    test('should update efficiently', () => {
+      const objectId = networkSync.addObject(testObject, 'test-user');
+      const startTime = performance.now();
+      
+      // Simular 1000 actualizaciones
+      for (let i = 0; i < 1000; i++) {
+        networkSync.updateObjectPosition(objectId, new THREE.Vector3(i, i, i));
+      }
+      
+      const endTime = performance.now();
+      const duration = endTime - startTime;
+      
+      // Debería completarse en menos de 100ms
+      expect(duration).toBeLessThan(100);
+    });
+  });
+
+  describe('Error Handling', () => {
+    beforeEach(async () => {
+      await networkSync.initialize();
+    });
+
+    test('should handle invalid object ID', () => {
+      expect(() => {
+        networkSync.updateObjectPosition('invalid-id', new THREE.Vector3());
+      }).not.toThrow();
+    });
+
+    test('should handle null object', () => {
+      expect(() => {
+        networkSync.addObject(null as any, 'test-user');
+      }).toThrow();
+    });
+
+    test('should handle cleanup of non-existent object', () => {
+      expect(() => {
+        networkSync.removeObject('non-existent-id');
+      }).not.toThrow();
+    });
+  });
+});

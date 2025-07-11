@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { messageBus } from '../core/InterModuleMessageBus';
 
 interface BlockchainExplorerProps {
@@ -24,11 +24,11 @@ interface Transaction {
   timestamp: string;
 }
 
-const BlockchainExplorerComponent = ({ userId }: BlockchainExplorerProps) => {
+export const BlockchainExplorerComponent = ({ userId }: BlockchainExplorerProps) => {
   const [blocks, setBlocks] = useState<Block[]>([]);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [currentBlock, setCurrentBlock] = useState<number>(15420);
-  const [networkStats, setNetworkStats] = useState({
+  const [networkStats] = useState({
     totalBlocks: 15420,
     totalTransactions: 125430,
     activeNodes: 47,
@@ -305,6 +305,4 @@ const BlockchainExplorerComponent = ({ userId }: BlockchainExplorerProps) => {
       </div>
     </div>
   );
-};
-
-export default BlockchainExplorerComponent; 
+}; 
