@@ -472,7 +472,7 @@ export const Slider: React.FC<SliderProps> = ({
 // HOOKS PERSONALIZADOS
 // ========================================
 
-export const useLocalStorage = <T>(key: string, initialValue: T) => {
+export const useLocalStorage = function useLocalStorage<T>(key: string, initialValue: T) {
   const [storedValue, setStoredValue] = useState<T>(() => {
     try {
       const item = window.localStorage.getItem(key);
@@ -496,7 +496,7 @@ export const useLocalStorage = <T>(key: string, initialValue: T) => {
   return [storedValue, setValue] as const;
 };
 
-export const useDebounce = <T>(value: T, delay: number): T => {
+export const useDebounce = function useDebounce<T>(value: T, delay: number): T {
   const [debouncedValue, setDebouncedValue] = useState<T>(value);
 
   useEffect(() => {

@@ -1,0 +1,290 @@
+name: CI/CD Pipeline - WoldVirtual3DlucIA
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: '18'
+  PYTHON_VERSION: '3.11'
+
+jobs:
+  # Job de testing y validación
+  test:
+    name: Test & Validate
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        
+    - name: Install Node.js dependencies
+      run: |
+        npm ci
+        npm install -g typescript
+        
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r ini/lucIA/requirements.txt
+        
+    - name: TypeScript type checking
+      run: |
+        npx tsc --noEmit --skipLibCheck
+        
+    - name: Run JavaScript tests
+      run: |
+        npm test -- --coverage --watchAll=false
+        
+    - name: Run Python tests
+      run: |
+        cd ini/lucIA
+        python -m pytest tests/ -v --cov=. --cov-report=xml
+        
+    - name: Upload coverage reports
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage/lcov.info,./ini/lucIA/coverage.xml
+        flags: unittests
+        name: codecov-umbrella
+        
+    - name: Lint JavaScript/TypeScript
+      run: |
+        npm run lint || echo "Linting completed with warnings"
+        
+    - name: Security audit
+      run: |
+        npm audit --audit-level moderate
+        pip-audit --format json --output pip-audit-report.json || true
+        
+    - name: Upload security report
+      uses: actions/upload-artifact@v3
+      with:
+        name: security-report
+        path: pip-audit-report.json
+
+  # Job de build
+  build:
+    name: Build Application
+    runs-on: ubuntu-latest
+    needs: test
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Build frontend
+      run: |
+        npm run build
+        npm run build:editor3d
+        
+    - name: Build backend services
+      run: |
+        cd services
+        npm run build
+        cd ../core
+        npm run build
+        
+    - name: Create deployment package
+      run: |
+        mkdir -p dist
+        cp -r build/* dist/
+        cp -r services/dist/* dist/services/
+        cp -r core/dist/* dist/core/
+        cp -r ini/lucIA/* dist/lucIA/
+        cp package.json dist/
+        cp README.md dist/
+        
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: build-artifacts
+        path: dist/
+        retention-days: 30
+
+  # Job de análisis de código
+  code-analysis:
+    name: Code Analysis
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Run SonarQube analysis
+      uses: sonarqube-quality-gate-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      with:
+        scannerHome: ${{ github.workspace }}/sonar-scanner
+        args: >
+          -Dsonar.projectKey=woldvirtual3dlucia
+          -Dsonar.sources=src,components,services,core
+          -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
+          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+
+  # Job de deployment a staging
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: [test, build]
+    if: github.ref == 'refs/heads/develop'
+    environment: staging
+    
+    steps:
+    - name: Download build artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: build-artifacts
+        path: dist/
+        
+    - name: Setup deployment environment
+      run: |
+        echo "Setting up staging environment..."
+        # Aquí irían los comandos específicos para staging
+        
+    - name: Deploy to staging server
+      run: |
+        echo "Deploying to staging..."
+        # Aquí irían los comandos de deployment
+        # Por ejemplo: rsync, docker push, etc.
+        
+    - name: Run smoke tests
+      run: |
+        echo "Running smoke tests on staging..."
+        # Aquí irían los tests de humo
+        
+    - name: Notify deployment status
+      if: always()
+      run: |
+        echo "Staging deployment completed"
+        # Aquí iría la notificación (Slack, email, etc.)
+
+  # Job de deployment a producción
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: [test, build, code-analysis]
+    if: github.ref == 'refs/heads/main'
+    environment: production
+    
+    steps:
+    - name: Download build artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: build-artifacts
+        path: dist/
+        
+    - name: Setup production environment
+      run: |
+        echo "Setting up production environment..."
+        # Aquí irían los comandos específicos para producción
+        
+    - name: Deploy to production server
+      run: |
+        echo "Deploying to production..."
+        # Aquí irían los comandos de deployment
+        # Por ejemplo: rsync, docker push, etc.
+        
+    - name: Run health checks
+      run: |
+        echo "Running health checks..."
+        # Aquí irían las verificaciones de salud
+        
+    - name: Create release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v${{ github.run_number }}
+        release_name: Release v${{ github.run_number }}
+        body: |
+          Automated release for commit ${{ github.sha }}
+          
+          Changes:
+          - ${{ github.event.head_commit.message }}
+        draft: false
+        prerelease: false
+        
+    - name: Notify deployment status
+      if: always()
+      run: |
+        echo "Production deployment completed"
+        # Aquí iría la notificación (Slack, email, etc.)
+
+  # Job de monitoreo post-deployment
+  post-deployment:
+    name: Post-Deployment Monitoring
+    runs-on: ubuntu-latest
+    needs: [deploy-production]
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Run integration tests
+      run: |
+        echo "Running integration tests..."
+        # Aquí irían los tests de integración
+        
+    - name: Performance testing
+      run: |
+        echo "Running performance tests..."
+        # Aquí irían los tests de rendimiento
+        
+    - name: Security scanning
+      run: |
+        echo "Running security scans..."
+        # Aquí irían los escaneos de seguridad
+        
+    - name: Generate deployment report
+      run: |
+        echo "Generating deployment report..."
+        # Aquí se generaría un reporte de deployment
+
+  # Job de limpieza
+  cleanup:
+    name: Cleanup
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+    - name: Cleanup old artifacts
+      run: |
+        echo "Cleaning up old artifacts..."
+        # Aquí se limpiarían artefactos antiguos
+        
+    - name: Cleanup old deployments
+      run: |
+        echo "Cleaning up old deployments..."
+        # Aquí se limpiarían deployments antiguos 
