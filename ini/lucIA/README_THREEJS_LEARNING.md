@@ -110,7 +110,7 @@ ini/lucIA/
 
 ### Claude (Anthropic) - Principal
 ```env
-ANTHROPIC_API_KEY=REMOVED 
+ANTHROPIC_API_KEY=tu_clave_anthropic_aqui
 ```
 
 ### Gemini (Google) - Secundaria

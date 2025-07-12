@@ -2,7 +2,7 @@
 """Script simple para crear el archivo .env"""
 
 env_content = """# LUCIA IA - VARIABLES DE ENTORNO SEGURAS
-ANTHROPIC_API_KEY=REMOVED 
+ANTHROPIC_API_KEY
 GEMINI_API_KEY=tu_clave_api_de_gemini_aqui
 DEEPSEEK_API_KEY=tu_clave_api_de_deepseek_aqui
 OPENAI_API_KEY=tu_clave_api_de_openai_aqui

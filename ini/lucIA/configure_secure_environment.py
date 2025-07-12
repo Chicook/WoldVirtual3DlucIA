@@ -31,7 +31,7 @@ class SecureEnvironmentConfigurator:
 # ===========================================
 # ANTHROPIC API (Claude) - PRINCIPAL
 # ===========================================
-ANTHROPIC_API_KEY=REMOVED 
+ANTHROPIC_API_KEY=tu_clave_anthropic_aqui
 
 # ===========================================
 # GOOGLE GEMINI API - SECUNDARIA
