@@ -84,15 +84,16 @@ class SecurityConfigManager:
             '@types', 'config', 'docs', 'test', 'scripts', 'logs',
             'assets', 'bloc', 'cli', 'client', 'components', 'css',
             'data', 'entities', 'fonts', 'helpers', 'image', 'Include',
-            'ini', 'js', 'languages', 'lib', 'middlewares', 'models',
+            'ini', 'js', 'javascript', 'rust', 'languages', 'lib', 'middlewares', 'models',
             'modules', 'package', 'pages', 'public', 'services', 'src',
-            'web', 'lucia_learning', 'coverage', 'build', 'dist'
+            'web', 'lucia_learning', 'coverage', 'build', 'dist', '.bin'
         ]
         
-        # Archivos especiales que deben preservarse por carpeta
+        # Archivos especiales que deben preservarse por carpeta (NO se empaquetan)
         self.special_preserve_files = {
-            '.github': ['README.md', '.gitignore', 'FUNDING.yml'],
-            'default': ['README.md', '.gitignore']
+            '.github': ['README.md', '.gitignore', 'FUNDING.yml'],  # Estos NO se empaquetan
+            '.bin': ['README.md', '.gitignore'],  # Estos NO se empaquetan
+            'default': ['README.md', '.gitignore']  # Estos NO se empaquetan
         }
         
         self.setup_directories()
@@ -164,14 +165,24 @@ class SecurityConfigManager:
         return content, modified
     
     def find_dependency_files(self) -> Dict[str, List[Path]]:
-        """Encuentra todos los archivos de dependencias"""
+        """Encuentra solo archivos de dependencias principales"""
         dependency_files = {}
+        
+        # Solo buscar en carpetas principales para evitar procesar todo el proyecto
+        main_dirs = ['client', 'web', 'src', 'services', 'components', 'assets', 'bloc', 'javascript', 'rust']
         
         for lang, patterns in self.dependency_files.items():
             dependency_files[lang] = []
             for pattern in patterns:
-                files = list(self.project_root.rglob(pattern))
-                dependency_files[lang].extend(files)
+                for main_dir in main_dirs:
+                    dir_path = self.project_root / main_dir
+                    if dir_path.exists():
+                        files = list(dir_path.rglob(pattern))
+                        dependency_files[lang].extend(files)
+                
+                # También buscar en raíz
+                root_files = list(self.project_root.glob(pattern))
+                dependency_files[lang].extend(root_files)
         
         return dependency_files
     
@@ -342,118 +353,225 @@ class SecurityConfigManager:
             return scan_results
     
     def command_instalar(self):
-        """Comando: Instalar dependencias"""
-        print("🔧 INICIANDO INSTALACIÓN DE DEPENDENCIAS...")
+        """Comando: Instalar dependencias y RESTAURAR carpetas"""
+        print("🔧 INICIANDO INSTALACIÓN Y RESTAURACIÓN...")
         self.log_operation("COMMAND_STARTED", "Instalar")
         
-        # Escanear proyecto
-        scan_results = self.scan_project_files()
+        # PASO 1: BUSCAR BACKUP MÁS RECIENTE
+        print("\n📁 PASO 1: BUSCANDO BACKUP MÁS RECIENTE...")
+        backup_files = list(self.backup_dir.glob("collection_*.zip"))
         
-        # Instalar dependencias por lenguaje
+        if not backup_files:
+            print("❌ No se encontraron backups para restaurar")
+            print("   Primero ejecuta: python Config.py Recoger")
+            return
+        
+        # Ordenar por fecha de modificación (más reciente primero)
+        backup_files.sort(key=lambda x: x.stat().st_mtime, reverse=True)
+        latest_backup = backup_files[0]
+        print(f"   ✅ Backup encontrado: {latest_backup.name}")
+        
+        # PASO 2: INSTALAR DEPENDENCIAS
+        print("\n📦 PASO 2: INSTALANDO DEPENDENCIAS...")
         dependency_files = self.find_dependency_files()
         installed_count = 0
         error_count = 0
         
         for lang, files in dependency_files.items():
-            print(f"\n📦 Instalando dependencias {lang.upper()}...")
-            
+            print(f"  📦 Instalando {lang}: {len(files)} archivos")
             for file_path in files:
-                print(f"  - {file_path.relative_to(self.project_root)}")
-                
                 if self.install_dependencies(lang, file_path):
                     installed_count += 1
                 else:
                     error_count += 1
         
-        # Limpiar carpetas especiales
-        print(f"\n🧹 Limpiando carpetas especiales...")
-        for folder_name in self.special_folders:
-            folder_path = self.project_root / folder_name
-            if folder_path.exists():
-                print(f"  - {folder_name}")
-                self.clean_special_folder(folder_path)
+        # PASO 3: RESTAURAR CONTENIDO DE CARPETAS
+        print(f"\n🔄 PASO 3: RESTAURANDO CONTENIDO DE CARPETAS...")
+        try:
+            with zipfile.ZipFile(latest_backup, 'r') as zipf:
+                restored_count = 0
+                
+                # Restaurar archivos de carpetas especiales
+                for info in zipf.infolist():
+                    if info.filename.startswith('folders/'):
+                        # Extraer a ubicación original
+                        relative_path = info.filename.replace('folders/', '')
+                        target_path = self.project_root / relative_path
+                        
+                        # Crear directorio si no existe
+                        target_path.parent.mkdir(parents=True, exist_ok=True)
+                        
+                        # Restaurar archivo
+                        with zipf.open(info) as source:
+                            with open(target_path, 'wb') as target:
+                                target.write(source.read())
+                        
+                        restored_count += 1
+                        
+                        if restored_count % 10 == 0:
+                            print(f"  ✅ Restaurados: {restored_count} archivos")
+                
+                print(f"   ✅ Total archivos restaurados: {restored_count}")
+            
+            print(f"   ✅ Contenido restaurado desde: {latest_backup.name}")
+            
+        except Exception as e:
+            print(f"❌ Error en restauración: {e}")
+            self.log_operation("RESTORE_ERROR", f"{e}")
         
-        # Crear paquete de dependencias
-        print(f"\n📦 Creando paquete de dependencias...")
+        # PASO 4: CREAR PAQUETE FINAL
+        print(f"\n📦 PASO 4: CREANDO PAQUETE FINAL...")
         package_path = self.create_dependency_package()
         
-        # Resumen
-        print(f"\n✅ INSTALACIÓN COMPLETADA")
-        print(f"   📊 Archivos escaneados: {scan_results['total_files']}")
+        # Resumen final
+        print(f"\n✅ INSTALACIÓN Y RESTAURACIÓN COMPLETADA")
         print(f"   📦 Dependencias instaladas: {installed_count}")
         print(f"   ❌ Errores: {error_count}")
-        print(f"   🧹 Carpetas limpiadas: {len(self.special_folders)}")
+        print(f"   🔄 Archivos restaurados: {restored_count}")
+        print(f"   📁 Backup usado: {latest_backup.name}")
         if package_path:
-            print(f"   📦 Paquete creado: {package_path}")
+            print(f"   📦 Paquete final: {package_path}")
         
-        self.log_operation("COMMAND_COMPLETED", f"Instalar - Installed: {installed_count}, Errors: {error_count}")
+        self.log_operation("COMMAND_COMPLETED", f"Instalar - Installed: {installed_count}, Restored: {restored_count}")
     
     def command_recoger(self):
-        """Comando: Recoger archivos con protección"""
-        print("📁 INICIANDO RECOLECCIÓN DE ARCHIVOS...")
+        """Comando: Recoger archivos principales con protección y limpiar carpetas"""
+        print("📁 INICIANDO RECOLECCIÓN Y LIMPIEZA...")
         self.log_operation("COMMAND_STARTED", "Recoger")
-        
-        # Escanear proyecto
-        scan_results = self.scan_project_files()
         
         # Crear paquete de recolección
         collection_path = self.backup_dir / f"collection_{datetime.now().strftime('%Y%m%d_%H%M%S')}.zip"
         
         try:
             with zipfile.ZipFile(collection_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
-                # Agregar archivos de dependencias sanitizados
-                dependency_files = self.find_dependency_files()
-                for lang, files in dependency_files.items():
-                    for file_path in files:
-                        with open(file_path, 'r', encoding='utf-8') as f:
-                            content = f.read()
-                        
-                        sanitized_content, modified = self.sanitize_content(content, str(file_path))
-                        arcname = f"dependencies/{lang}/{file_path.relative_to(self.project_root)}"
-                        zipf.writestr(arcname, sanitized_content)
+                files_processed = 0
                 
-                # Agregar archivos preservados de carpetas especiales
-                for folder_name in self.special_folders:
+                # PASO 1: Buscar archivos de dependencias en raíz
+                print("  🔍 Buscando archivos de dependencias...")
+                root_files = ['package.json', 'requirements.txt', 'tsconfig.json', 'go.mod']
+                
+                for file_name in root_files:
+                    file_path = self.project_root / file_name
+                    if file_path.exists():
+                        try:
+                            with open(file_path, 'r', encoding='utf-8') as f:
+                                content = f.read()
+                            
+                            sanitized_content, modified = self.sanitize_content(content, str(file_path))
+                            arcname = f"root/{file_name}"
+                            zipf.writestr(arcname, sanitized_content)
+                            files_processed += 1
+                            print(f"    ✅ Recolectado: {file_name}")
+                            
+                        except Exception as e:
+                            print(f"    ❌ Error con {file_name}: {e}")
+                
+                # PASO 2: Buscar en carpetas principales
+                main_folders = ['client', 'web', 'src', '.bin', 'javascript', 'rust']
+                for folder_name in main_folders:
                     folder_path = self.project_root / folder_name
                     if folder_path.exists():
-                        preserve_files = self.special_preserve_files.get(folder_name, self.special_preserve_files['default'])
-                        for file_name in preserve_files:
-                            file_path = folder_path / file_name
-                            if file_path.exists():
-                                arcname = f"special_folders/{folder_name}/{file_name}"
-                                zipf.writestr(arcname, file_path.read_text(encoding='utf-8'))
+                        print(f"  📁 Procesando carpeta: {folder_name}")
+                        folder_files = 0
+                        
+                        # Buscar archivos de configuración y código
+                        patterns = ['package.json', 'tsconfig.json', '*.ts', '*.tsx', '*.js', '*.jsx', '*.md']
+                        for pattern in patterns:
+                            for item in folder_path.rglob(pattern):
+                                if item.is_file():
+                                    try:
+                                        arcname = f"folders/{folder_name}/{item.relative_to(folder_path)}"
+                                        zipf.writestr(arcname, item.read_text(encoding='utf-8'))
+                                        folder_files += 1
+                                    except Exception as e:
+                                        print(f"    ❌ Error con {item.name}: {e}")
+                        
+                        print(f"    ✅ Archivos en {folder_name}: {folder_files}")
+                        files_processed += folder_files
                 
-                # Agregar reporte de escaneo
-                scan_report = {
+                # PASO 3: Buscar Config.py
+                config_file = self.project_root / "Config.py"
+                if config_file.exists():
+                    try:
+                        with open(config_file, 'r', encoding='utf-8') as f:
+                            content = f.read()
+                        
+                        sanitized_content, modified = self.sanitize_content(content, str(config_file))
+                        zipf.writestr("Config.py", sanitized_content)
+                        files_processed += 1
+                        print(f"    ✅ Recolectado: Config.py")
+                    except Exception as e:
+                        print(f"    ❌ Error con Config.py: {e}")
+                
+                # PASO 4: Procesar .github (solo contenido, preservar archivos especiales)
+                github_folder = self.project_root / ".github"
+                if github_folder.exists():
+                    print(f"  📁 Procesando .github (preservando archivos especiales)...")
+                    github_files = 0
+                    preserve_files = set(self.special_preserve_files['.github'])
+                    
+                    for item in github_folder.rglob('*'):
+                        if item.is_file() and item.name not in preserve_files:
+                            try:
+                                arcname = f"github/{item.relative_to(github_folder)}"
+                                zipf.writestr(arcname, item.read_text(encoding='utf-8'))
+                                github_files += 1
+                            except Exception as e:
+                                print(f"    ❌ Error con {item.name}: {e}")
+                    
+                    print(f"    ✅ Archivos en .github: {github_files}")
+                    files_processed += github_files
+                
+                # Reporte
+                report = {
                     'timestamp': datetime.now().isoformat(),
-                    'scan_results': scan_results,
-                    'security_summary': {
-                        'api_keys_found': len(scan_results['api_keys_found']),
-                        'total_files_scanned': scan_results['total_files'],
-                        'special_folders_processed': len(scan_results['special_folders'])
-                    }
+                    'files_processed': files_processed,
+                    'folders_processed': len(main_folders),
+                    'github_preserved': ['README.md', '.gitignore', 'FUNDING.yml']
                 }
+                zipf.writestr('report.json', json.dumps(report, indent=2))
+            
+            # PASO 4: LIMPIAR CARPETAS ESPECIALES
+            print(f"\n🧹 LIMPIANDO CARPETAS ESPECIALES...")
+            cleaned_folders = 0
+            
+            for folder_name in self.special_folders:
+                folder_path = self.project_root / folder_name
+                if folder_path.exists():
+                    print(f"  🧹 Limpiando: {folder_name}")
+                    if self.clean_special_folder(folder_path):
+                        cleaned_folders += 1
+                        print(f"    ✅ Limpiada: {folder_name}")
+                    else:
+                        print(f"    ❌ Error limpiando: {folder_name}")
+            
+            # PASO 5: LIMPIAR .github (preservar archivos especiales)
+            github_folder = self.project_root / ".github"
+            if github_folder.exists():
+                print(f"  🧹 Limpiando .github (preservando archivos especiales)...")
+                preserve_files = set(self.special_preserve_files['.github'])
                 
-                zipf.writestr('scan_report.json', json.dumps(scan_report, indent=2))
+                # Crear backup antes de limpiar
+                self.backup_special_folder(github_folder)
+                
+                # Remover archivos excepto los preservados
+                for item in github_folder.iterdir():
+                    if item.name not in preserve_files:
+                        if item.is_file():
+                            item.unlink()
+                        elif item.is_dir():
+                            shutil.rmtree(item)
+                
+                print(f"    ✅ .github limpiado - Preservados: {list(preserve_files)}")
+                cleaned_folders += 1
             
             # Resumen
-            print(f"\n✅ RECOLECCIÓN COMPLETADA")
-            print(f"   📊 Archivos escaneados: {scan_results['total_files']}")
-            print(f"   🔑 APIs encontradas: {len(scan_results['api_keys_found'])}")
-            print(f"   📦 Dependencias procesadas: {sum(len(files) for files in dependency_files.values())}")
-            print(f"   🧹 Carpetas especiales: {len(scan_results['special_folders'])}")
+            print(f"\n✅ RECOLECCIÓN Y LIMPIEZA COMPLETADA")
+            print(f"   📦 Total archivos procesados: {files_processed}")
+            print(f"   🧹 Carpetas limpiadas: {cleaned_folders}")
             print(f"   📦 Paquete creado: {collection_path}")
             
-            # Mostrar APIs encontradas
-            if scan_results['api_keys_found']:
-                print(f"\n⚠️  APIs ENCONTRADAS (SANITIZADAS):")
-                for file_path, apis in scan_results['api_keys_found'].items():
-                    print(f"   📄 {file_path}")
-                    for api_type, keys in apis.items():
-                        if keys:
-                            print(f"      🔑 {api_type}: {len(keys)} claves")
-            
-            self.log_operation("COMMAND_COMPLETED", f"Recoger - Package: {collection_path}")
+            self.log_operation("COMMAND_COMPLETED", f"Recoger - Files: {files_processed}, Cleaned: {cleaned_folders}")
             
         except Exception as e:
             print(f"❌ Error en recolección: {e}")
@@ -464,11 +582,17 @@ def main():
     if len(sys.argv) != 2:
         print("🔧 WoldVirtual3DlucIA - Sistema de Seguridad Global v0.6.0")
         print("\nUso:")
-        print("  python Config.py Instalar  - Instala dependencias y limpia carpetas")
-        print("  python Config.py Recoger   - Recolecta archivos con protección de APIs")
+        print("  python Config.py Recoger   - Recolecta archivos y LIMPIA carpetas")
+        print("  python Config.py Instalar  - Instala dependencias y RESTAURA carpetas")
+        print("\nDescripción:")
+        print("  Recoger:  Recolecta archivos → Limpia carpetas (solo README.md y .gitignore)")
+        print("  Instalar: Instala dependencias → Restaura contenido de carpetas")
+        print("\nFlujo de trabajo:")
+        print("  1. python Config.py Recoger  (limpia y guarda backup)")
+        print("  2. python Config.py Instalar (restaura desde backup)")
         print("\nEjemplos:")
-        print("  python Config.py Instalar")
         print("  python Config.py Recoger")
+        print("  python Config.py Instalar")
         return
     
     command = sys.argv[1].lower()
