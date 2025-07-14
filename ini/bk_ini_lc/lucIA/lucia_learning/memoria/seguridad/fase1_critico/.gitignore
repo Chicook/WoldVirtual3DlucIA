@@ -1,0 +1,80 @@
+# .gitignore para Sistema de Seguridad Crítica - Fase 1
+# Protege información sensible mientras permite compartir código de manera segura
+
+# ========================================
+# CREDENCIALES Y CLAVES
+# ========================================
+*.key
+*.pem
+*.p12
+*.pfx
+api_keys.json
+credentials.json
+secrets.json
+.env
+.env.*
+
+# ========================================
+# CONFIGURACIONES SENSIBLES
+# ========================================
+config/
+secrets/
+keys/
+tokens/
+certificates/
+
+# ========================================
+# DATOS DE PRODUCCIÓN
+# ========================================
+logs/
+data/
+backups/
+snapshots/
+production_data/
+
+# ========================================
+# CONFIGURACIONES DE RED
+# ========================================
+network_configs/
+firewall_rules/
+vpn_configs/
+endpoint_configs/
+
+# ========================================
+# ARCHIVOS TEMPORALES
+# ========================================
+*.tmp
+*.temp
+*.cache
+*.bak
+temp/
+tmp/
+cache/
+
+# ========================================
+# ARCHIVOS DE DESARROLLO
+# ========================================
+__pycache__/
+*.pyc
+*.pyo
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ========================================
+# PERMITIR ARCHIVOS IMPORTANTES
+# ========================================
+!*.py
+!*.md
+!*.json.example
+!*.yaml.example
+!LICENSE
+!README.md
+
+# ========================================
+# NOTA IMPORTANTE
+# ========================================
+# Estos archivos son necesarios para el funcionamiento del sistema
+# pero NO deben estar en el repositorio por seguridad.
+# Usa archivos de ejemplo y variables de entorno para configuraciones.

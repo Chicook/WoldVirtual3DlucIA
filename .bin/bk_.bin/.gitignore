@@ -1,0 +1,106 @@
+# Archivos temporales y de sistema
+*.log
+*.tmp
+*.bak
+.DS_Store
+Thumbs.db
+
+# Resultados de pruebas y builds
+coverage/
+dist/
+node_modules/
+
+# Archivos comprometedores - Solo lo esencial
+# Configuraciones locales y secretos
+.env
+.env.local
+.env.secret
+*.secret
+*.key
+*.pem
+*.p12
+*.cursor/
+
+
+# Logs de seguridad y auditoría
+security-logs/
+audit-logs/
+*.security.log
+*.audit.log
+
+# Datos sensibles de usuarios
+user-data/
+personal-data/
+*.user.json
+*.personal.json
+
+# Credenciales y tokens
+credentials/
+tokens/
+*.credential.json
+*.token.json
+
+# Configuraciones de producción sensibles
+prod-config/
+production-secrets/
+*.prod.json
+*.production.secret
+
+# Backups de datos sensibles
+sensitive-backups/
+*.sensitive.backup
+
+# Archivos de monitoreo de seguridad
+security-monitoring/
+*.security-monitor.json
+
+# Archivos de integración con servicios externos sensibles
+external-credentials/
+*.external.secret
+*.api.key
+
+# Archivos de sesión con datos sensibles
+*.session.secret
+*.auth.session
+
+# Archivos de caché con información sensible
+.cache/sensitive/
+*.sensitive.cache
+
+# Protecciones adicionales para el sistema completo
+# Archivos de blockchain sensibles
+blockchain-keys/
+wallet-keys/
+*.wallet.json
+*.private.key
+
+# Archivos de metaverso sensibles
+metaverse-secrets/
+avatar-private-data/
+*.avatar.secret
+*.metaverse.key
+
+# Archivos de desarrollo con datos sensibles
+dev-secrets/
+*.dev.secret
+*.development.key
+
+# Archivos de despliegue sensibles
+deploy-secrets/
+*.deploy.secret
+*.deployment.key
+
+# Archivos de base de datos sensibles
+db-credentials/
+*.db.secret
+*.database.key
+
+# Archivos de servicios externos
+service-keys/
+*.service.secret
+*.external.key
+
+# Archivos de configuración de red sensibles
+network-config/
+*.network.secret
+*.connection.key

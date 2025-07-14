@@ -1,0 +1,52 @@
+# Variables de entorno (CRÍTICO - nunca subir)
+.env
+.env.*
+.env.local
+.env.production
+.env.staging
+
+# Dependencias de Node.js
+node_modules/
+package-lock.json
+yarn.lock
+
+# Archivos compilados
+dist/
+build/
+out/
+
+# Archivos de credenciales y claves (CRÍTICO)
+*.key
+*.pem
+*.secret
+*.crt
+*.p12
+*.pfx
+secrets/
+credentials.json
+auth.json
+token.json
+
+# Archivos de configuración sensibles
+config/secrets.json
+config/credentials.json
+config/auth.json
+
+# Archivos de backup de configuración
+package.json.backup*
+*.backup
+
+# Logs (pueden contener información sensible)
+*.log
+logs/
+debug.log
+
+# Archivos temporales
+*.tmp
+*.temp
+tmp/
+temp/
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db 

@@ -1,0 +1,11 @@
+# Ignorar archivos de entorno y claves sensibles
+*.env
+*.env.*
+*.secret
+*.key
+*.pem
+*.json
+*.crt
+*.p12
+*.pfx
+*.cer 

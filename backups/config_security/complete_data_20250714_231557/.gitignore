@@ -1,0 +1,38 @@
+# data - Archivos ignorados
+
+# Archivos temporales
+*.tmp
+*.temp
+.tmp/
+.temp/
+
+# Logs
+*.log
+logs/
+
+# Configuraciones locales
+.env
+.env.local
+.env.*.local
+
+# Archivos de cache
+.cache/
+*.cache
+
+# Archivos de backup
+*.bak
+*.backup
+backup/
+
+# Archivos específicos de desarrollo
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Datos sensibles
+private_data/
+secret_data/
+internal_data/
+user_data/
+sensitive_data/ 

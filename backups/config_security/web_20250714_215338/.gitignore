@@ -1,0 +1,336 @@
+# =============================================================================
+# WoldVirtual3D LucIA - Web Module .gitignore
+# =============================================================================
+# Configuración específica para el módulo web
+# =============================================================================
+
+# =============================================================================
+# 🛠️ ARCHIVOS DE DESARROLLO Y CONSTRUCCIÓN
+# =============================================================================
+
+# Archivos compilados
+*.js.map
+*.css.map
+*.ts.map
+dist/
+build/
+out/
+.next/
+.nuxt/
+.vuepress/dist/
+
+# Archivos de construcción
+*.bundle.js
+*.chunk.js
+*.chunk.css
+webpack-stats.json
+stats.json
+
+# Archivos temporales
+*.tmp
+*.temp
+.tmp/
+.temp/
+*.swp
+*.swo
+*~
+*.bak
+*.backup
+*.old
+*.orig
+
+# Archivos de IDE
+.vscode/
+.idea/
+*.sublime-*
+.atom/
+*.code-workspace
+
+# =============================================================================
+# 📦 DEPENDENCIAS Y PAQUETES
+# =============================================================================
+
+# =============================================================================
+# 📦 DEPENDENCIAS Y PAQUETES - NODE.JS (CRÍTICO)
+# =============================================================================
+
+# Dependencias de Node.js (NO SUBIR - causa conflictos de merge)
+node_modules/
+node_modules/*
+*/node_modules/
+**/node_modules/
+**/node_modules/*
+
+# Logs de npm/yarn
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+lerna-debug.log*
+
+# Archivos de lock (mantener solo uno por proyecto)
+package-lock.json.backup
+yarn.lock.backup
+pnpm-lock.yaml.backup
+
+# Cache de dependencias
+.npm/
+.yarn/
+.pnpm-store/
+.yarn-integrity
+
+# Archivos de configuración de dependencias
+.npmrc
+.yarnrc
+.yarnrc.yml
+.pnpmrc
+
+# Archivos de dependencias específicos (NO SUBIR)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# =============================================================================
+# 📊 LOGS Y ARCHIVOS DE MONITOREO
+# =============================================================================
+
+# Logs del sistema
+*.log
+logs/
+log_files/
+debug_logs/
+error_logs/
+
+# Archivos de monitoreo
+monitoring_data/
+performance_logs/
+system_logs/
+metrics_data/
+analytics_data/
+
+# Archivos de debug
+debug/
+debug_data/
+*.debug
+debug_logs/
+
+# =============================================================================
+# 🧪 ARCHIVOS DE PRUEBA Y DESARROLLO
+# =============================================================================
+
+# Archivos de prueba
+test_data/
+test_secrets/
+test_credentials/
+test_users/
+test_transactions/
+
+# Archivos de desarrollo temporal
+dev_files/
+temp_files/
+scratch_files/
+experimental/
+prototype/
+
+# Cobertura de pruebas
+coverage/
+.nyc_output/
+*.lcov
+coverage.json
+
+# =============================================================================
+# 🔧 ARCHIVOS DE CONFIGURACIÓN ESPECÍFICOS
+# =============================================================================
+
+# Archivos de configuración específicos
+config.json
+settings.json
+secrets.json
+private.json
+sensitive.json
+package-lock.json
+package.json
+
+# Archivos de configuración de entorno
+.env.*
+config.env
+environment.json
+platform.json
+
+# =============================================================================
+# 🌐 ARCHIVOS ESPECÍFICOS DE WEB
+# =============================================================================
+
+# Archivos de desarrollo web
+.cache/
+.parcel-cache/
+.vite/
+.esbuild/
+
+# Archivos de build específicos
+public/build/
+public/dist/
+public/assets/
+
+# Archivos de desarrollo local
+.local/
+.localhost/
+localhost/
+
+# =============================================================================
+# 🔒 ELEMENTOS DE SEGURIDAD
+# =============================================================================
+
+# Configuraciones de seguridad
+security_config/
+auth_config/
+jwt_secrets/
+session_keys/
+
+# Claves de API y tokens
+api_keys/
+private_keys/
+security_tokens/
+authentication_tokens/
+
+# =============================================================================
+# 📁 CARPETAS ESPECÍFICAS DEL MÓDULO WEB
+# =============================================================================
+
+# Carpetas de datos sensibles
+data/users/
+data/transactions/
+data/security/
+data/private/
+data/sensitive/
+
+# Carpetas de configuración específica
+config/secrets/
+config/private/
+config/sensitive/
+config/production/
+
+# Carpetas de logs específicos
+logs/security/
+logs/access/
+logs/transactions/
+logs/errors/
+
+# =============================================================================
+# 🔄 ARCHIVOS DE BACKUP Y RECUPERACIÓN
+# =============================================================================
+
+# Backups de seguridad
+backup_files/
+recovery_files/
+snapshot_files/
+backup/
+recovery/
+
+# Archivos de respaldo
+*.bak
+*.backup
+*.old
+*.orig
+backup_*/
+
+# =============================================================================
+# 📋 ARCHIVOS DE DOCUMENTACIÓN SENSIBLE
+# =============================================================================
+
+# Documentación interna
+internal_docs/
+private_docs/
+confidential_docs/
+secret_docs/
+
+# Manuales de seguridad
+security_manuals/
+penetration_testing/
+vulnerability_reports/
+security_audits/
+
+# =============================================================================
+# 🔄 PREVENCIÓN DE CONFLICTOS DE MERGE
+# =============================================================================
+
+# Archivos que causan conflictos de merge frecuentes
+*.lock
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Archivos de configuración que pueden causar conflictos
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Archivos de IDE que pueden causar conflictos
+.vscode/settings.json
+.idea/workspace.xml
+*.sublime-workspace
+*.sublime-project
+
+# Archivos de build que pueden causar conflictos
+dist/
+build/
+out/
+.next/
+.nuxt/
+.vuepress/dist/
+
+# Archivos de cache que pueden causar conflictos
+.cache/
+.parcel-cache/
+.vite/
+.esbuild/
+.webpack/
+
+# =============================================================================
+# 📝 NOTAS IMPORTANTES
+# =============================================================================
+# 
+# ✅ LO QUE SÍ SE SUBE AL REPO (Open Source):
+# - Código fuente de componentes React
+# - Estilos CSS y archivos de diseño
+# - Configuraciones de build públicas
+# - Documentación técnica del módulo web
+# - Ejemplos de uso y casos de estudio
+# - Tests y validaciones
+# - README del módulo web
+# - package.json (sin node_modules)
+# 
+# ❌ LO QUE NO SE SUBE (Protección):
+# - Claves privadas y tokens de seguridad
+# - Configuraciones específicas de la plataforma
+# - Datos de usuarios y transacciones reales
+# - Logs de seguridad reales
+# - Configuraciones de red específicas
+# - Backups y archivos de recuperación
+# - Archivos de desarrollo temporal
+# - node_modules/ (CRÍTICO - causa conflictos de merge)
+# - Archivos de lock duplicados
+# 
+# 🛡️ PROTECCIÓN CONTRA FORKS MALICIOSOS:
+# - No exponer vulnerabilidades específicas
+# - No revelar configuraciones de seguridad
+# - No compartir datos de usuarios reales
+# - No exponer infraestructura interna
+# - No mostrar claves de blockchain
+# 
+# 🔄 PREVENCIÓN DE CONFLICTOS DE MERGE:
+# - No subir node_modules/ (cada desarrollador instala localmente)
+# - No subir archivos de lock duplicados
+# - No subir archivos de configuración específicos del entorno
+# - No subir archivos de cache y build
+# - Mantener solo package.json para dependencias
+# 
+# 🌍 BENEFICIOS PARA LA COMUNIDAD:
+# - Código completo del módulo web disponible
+# - Componentes React reutilizables
+# - Plantillas y ejemplos de implementación
+# - Mejores prácticas documentadas
+# - Contribuciones seguras y protegidas
+# - Repositorio limpio sin conflictos de merge
+# =============================================================================

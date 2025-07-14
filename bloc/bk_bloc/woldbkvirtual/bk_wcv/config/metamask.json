@@ -1,0 +1,155 @@
+{
+  "title": "WCV Blockchain - MetaMask Configuration",
+  "description": "Configuración para conectar MetaMask a la red WCV",
+  "version": "2.0.0",
+  "networks": [
+    {
+      "name": "WCV Local",
+      "chainId": "0x7A69",
+      "rpcUrl": "http://127.0.0.1:8545",
+      "explorer": "http://127.0.0.1:8545",
+      "nativeCurrency": {
+        "name": "WCV",
+        "symbol": "WCV",
+        "decimals": 18
+      },
+      "description": "Red local para desarrollo",
+      "isTestnet": true,
+      "instructions": [
+        "1. Abrir MetaMask",
+        "2. Ir a Configuración > Redes",
+        "3. Hacer clic en 'Agregar red'",
+        "4. Completar los campos con la información de arriba",
+        "5. Guardar la configuración"
+      ]
+    },
+    {
+      "name": "WCV Development",
+      "chainId": "0x53A",
+      "rpcUrl": "http://127.0.0.1:8546",
+      "explorer": "http://127.0.0.1:8546",
+      "nativeCurrency": {
+        "name": "WCV",
+        "symbol": "WCV",
+        "decimals": 18
+      },
+      "description": "Red de desarrollo en equipo",
+      "isTestnet": true,
+      "instructions": [
+        "1. Abrir MetaMask",
+        "2. Ir a Configuración > Redes",
+        "3. Hacer clic en 'Agregar red'",
+        "4. Completar los campos con la información de arriba",
+        "5. Guardar la configuración"
+      ]
+    },
+    {
+      "name": "WCV Testnet",
+      "chainId": "0x53B",
+      "rpcUrl": "http://127.0.0.1:8547",
+      "explorer": "http://127.0.0.1:8547",
+      "nativeCurrency": {
+        "name": "WCV",
+        "symbol": "WCV",
+        "decimals": 18
+      },
+      "description": "Red de pruebas de integración",
+      "isTestnet": true,
+      "instructions": [
+        "1. Abrir MetaMask",
+        "2. Ir a Configuración > Redes",
+        "3. Hacer clic en 'Agregar red'",
+        "4. Completar los campos con la información de arriba",
+        "5. Guardar la configuración"
+      ]
+    },
+    {
+      "name": "WCV Mainnet",
+      "chainId": "0x53C",
+      "rpcUrl": "http://127.0.0.1:8550",
+      "explorer": "http://127.0.0.1:8550",
+      "nativeCurrency": {
+        "name": "WCV",
+        "symbol": "WCV",
+        "decimals": 18
+      },
+      "description": "Red principal de producción",
+      "isTestnet": false,
+      "instructions": [
+        "1. Abrir MetaMask",
+        "2. Ir a Configuración > Redes",
+        "3. Hacer clic en 'Agregar red'",
+        "4. Completar los campos con la información de arriba",
+        "5. Guardar la configuración"
+      ]
+    }
+  ],
+  "token": {
+    "name": "WCV Token",
+    "symbol": "WCV",
+    "decimals": 3,
+    "description": "Token nativo de la blockchain WCV",
+    "contractAddress": "AUTO_DETECTED",
+    "importInstructions": [
+      "1. En MetaMask, ir a 'Importar tokens'",
+      "2. Seleccionar la red WCV correspondiente",
+      "3. Pegar la dirección del contrato WCV",
+      "4. Los demás campos se llenarán automáticamente",
+      "5. Hacer clic en 'Agregar token personalizado'"
+    ]
+  },
+  "bridge": {
+    "name": "WCV Bridge",
+    "description": "Puente entre WCV y Binance Smart Chain",
+    "contractAddress": "AUTO_DETECTED",
+    "usageInstructions": [
+      "1. Conectar MetaMask a la red WCV",
+      "2. Ir a la aplicación del bridge",
+      "3. Seleccionar dirección de origen y destino",
+      "4. Ingresar cantidad de WCV a transferir",
+      "5. Confirmar transacción en MetaMask",
+      "6. Esperar confirmación del validador"
+    ]
+  },
+  "setup": {
+    "prerequisites": [
+      "MetaMask instalado en el navegador",
+      "Nodo WCV ejecutándose localmente",
+      "Contratos desplegados",
+      "Clave privada del deployer"
+    ],
+    "steps": [
+      "1. Iniciar el nodo WCV: npm run node",
+      "2. Desplegar contratos: npm run deploy:local",
+      "3. Agregar red WCV a MetaMask",
+      "4. Importar cuenta con clave privada",
+      "5. Importar token WCV",
+      "6. Verificar balance y funcionalidad"
+    ]
+  },
+  "troubleshooting": {
+    "commonIssues": [
+      {
+        "issue": "No se puede conectar a la red",
+        "solution": "Verificar que el nodo esté ejecutándose en el puerto correcto"
+      },
+      {
+        "issue": "Transacciones fallan",
+        "solution": "Verificar que la cuenta tenga suficiente ETH para gas"
+      },
+      {
+        "issue": "Token no aparece",
+        "solution": "Verificar que la dirección del contrato sea correcta"
+      },
+      {
+        "issue": "Bridge no funciona",
+        "solution": "Verificar que el validador esté configurado correctamente"
+      }
+    ],
+    "support": {
+      "documentation": "README.md",
+      "logs": "logs/combined.log",
+      "api": "http://localhost:3000/health"
+    }
+  }
+} 

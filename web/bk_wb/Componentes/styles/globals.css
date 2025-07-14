@@ -1,0 +1,7 @@
+/* Estilos globales base para la plataforma React del metaverso */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #181a1b;
+  color: #f3f3f3;
+} 

@@ -1,0 +1,385 @@
+/* ============================================================================
+   🎨 VARIABLES DE COLORES - Metaverso Crypto World Virtual 3D
+   ============================================================================ */
+
+:root {
+  /* ============================================================================
+     🌈 PALETA PRINCIPAL - Colores base del metaverso
+     ============================================================================ */
+  
+  /* Colores primarios */
+  --metaverso-primary: #6366f1;
+  --metaverso-primary-light: #818cf8;
+  --metaverso-primary-dark: #4f46e5;
+  --metaverso-primary-50: #eef2ff;
+  --metaverso-primary-100: #e0e7ff;
+  --metaverso-primary-200: #c7d2fe;
+  --metaverso-primary-300: #a5b4fc;
+  --metaverso-primary-400: #818cf8;
+  --metaverso-primary-500: #6366f1;
+  --metaverso-primary-600: #4f46e5;
+  --metaverso-primary-700: #4338ca;
+  --metaverso-primary-800: #3730a3;
+  --metaverso-primary-900: #312e81;
+  --metaverso-primary-950: #1e1b4b;
+
+  /* Colores secundarios */
+  --metaverso-secondary: #10b981;
+  --metaverso-secondary-light: #34d399;
+  --metaverso-secondary-dark: #059669;
+  --metaverso-secondary-50: #ecfdf5;
+  --metaverso-secondary-100: #d1fae5;
+  --metaverso-secondary-200: #a7f3d0;
+  --metaverso-secondary-300: #6ee7b7;
+  --metaverso-secondary-400: #34d399;
+  --metaverso-secondary-500: #10b981;
+  --metaverso-secondary-600: #059669;
+  --metaverso-secondary-700: #047857;
+  --metaverso-secondary-800: #065f46;
+  --metaverso-secondary-900: #064e3b;
+  --metaverso-secondary-950: #022c22;
+
+  /* Colores de acento */
+  --metaverso-accent: #f59e0b;
+  --metaverso-accent-light: #fbbf24;
+  --metaverso-accent-dark: #d97706;
+  --metaverso-accent-50: #fffbeb;
+  --metaverso-accent-100: #fef3c7;
+  --metaverso-accent-200: #fde68a;
+  --metaverso-accent-300: #fcd34d;
+  --metaverso-accent-400: #fbbf24;
+  --metaverso-accent-500: #f59e0b;
+  --metaverso-accent-600: #d97706;
+  --metaverso-accent-700: #b45309;
+  --metaverso-accent-800: #92400e;
+  --metaverso-accent-900: #78350f;
+  --metaverso-accent-950: #451a03;
+
+  /* ============================================================================
+     🌙 PALETA NEUTRAL - Grises y colores neutros
+     ============================================================================ */
+  
+  --metaverso-gray-50: #f9fafb;
+  --metaverso-gray-100: #f3f4f6;
+  --metaverso-gray-200: #e5e7eb;
+  --metaverso-gray-300: #d1d5db;
+  --metaverso-gray-400: #9ca3af;
+  --metaverso-gray-500: #6b7280;
+  --metaverso-gray-600: #4b5563;
+  --metaverso-gray-700: #374151;
+  --metaverso-gray-800: #1f2937;
+  --metaverso-gray-900: #111827;
+  --metaverso-gray-950: #030712;
+
+  /* ============================================================================
+     ⚡ PALETA CRYPTO - Colores específicos para blockchain
+     ============================================================================ */
+  
+  /* Ethereum */
+  --crypto-ethereum: #627eea;
+  --crypto-ethereum-light: #8ba3f0;
+  --crypto-ethereum-dark: #4c5fd9;
+  
+  /* Bitcoin */
+  --crypto-bitcoin: #f7931a;
+  --crypto-bitcoin-light: #f9b366;
+  --crypto-bitcoin-dark: #e67e22;
+  
+  /* Polygon */
+  --crypto-polygon: #8247e5;
+  --crypto-polygon-light: #a78bfa;
+  --crypto-polygon-dark: #6b21a8;
+  
+  /* BSC */
+  --crypto-bsc: #f3ba2f;
+  --crypto-bsc-light: #f6d365;
+  --crypto-bsc-dark: #d4af37;
+  
+  /* Arbitrum */
+  --crypto-arbitrum: #28a0f0;
+  --crypto-arbitrum-light: #60b5f0;
+  --crypto-arbitrum-dark: #1e88e5;
+  
+  /* Optimism */
+  --crypto-optimism: #ff0420;
+  --crypto-optimism-light: #ff4757;
+  --crypto-optimism-dark: #c70039;
+
+  /* ============================================================================
+     🎭 PALETA DE ESTADOS - Estados y feedback
+     ============================================================================ */
+  
+  /* Éxito */
+  --success-50: #ecfdf5;
+  --success-100: #d1fae5;
+  --success-200: #a7f3d0;
+  --success-300: #6ee7b7;
+  --success-400: #34d399;
+  --success-500: #10b981;
+  --success-600: #059669;
+  --success-700: #047857;
+  --success-800: #065f46;
+  --success-900: #064e3b;
+
+  /* Advertencia */
+  --warning-50: #fffbeb;
+  --warning-100: #fef3c7;
+  --warning-200: #fde68a;
+  --warning-300: #fcd34d;
+  --warning-400: #fbbf24;
+  --warning-500: #f59e0b;
+  --warning-600: #d97706;
+  --warning-700: #b45309;
+  --warning-800: #92400e;
+  --warning-900: #78350f;
+
+  /* Error */
+  --error-50: #fef2f2;
+  --error-100: #fee2e2;
+  --error-200: #fecaca;
+  --error-300: #fca5a5;
+  --error-400: #f87171;
+  --error-500: #ef4444;
+  --error-600: #dc2626;
+  --error-700: #b91c1c;
+  --error-800: #991b1b;
+  --error-900: #7f1d1d;
+
+  /* Información */
+  --info-50: #eff6ff;
+  --info-100: #dbeafe;
+  --info-200: #bfdbfe;
+  --info-300: #93c5fd;
+  --info-400: #60a5fa;
+  --info-500: #3b82f6;
+  --info-600: #2563eb;
+  --info-700: #1d4ed8;
+  --info-800: #1e40af;
+  --info-900: #1e3a8a;
+
+  /* ============================================================================
+     🌈 PALETA NEÓN - Efectos futuristas
+     ============================================================================ */
+  
+  --neon-cyan: #00ffff;
+  --neon-pink: #ff00ff;
+  --neon-yellow: #ffff00;
+  --neon-green: #00ff00;
+  --neon-orange: #ff8000;
+  --neon-purple: #8000ff;
+  --neon-blue: #0080ff;
+  --neon-red: #ff0080;
+
+  /* ============================================================================
+     🎨 GRADIENTES - Gradientes del metaverso
+     ============================================================================ */
+  
+  /* Gradientes principales */
+  --gradient-primary: linear-gradient(135deg, var(--metaverso-primary) 0%, var(--metaverso-secondary) 100%);
+  --gradient-secondary: linear-gradient(135deg, var(--metaverso-secondary) 0%, var(--metaverso-accent) 100%);
+  --gradient-accent: linear-gradient(135deg, var(--metaverso-accent) 0%, var(--metaverso-primary) 100%);
+  
+  /* Gradientes crypto */
+  --gradient-ethereum: linear-gradient(135deg, var(--crypto-ethereum) 0%, var(--crypto-ethereum-dark) 100%);
+  --gradient-bitcoin: linear-gradient(135deg, var(--crypto-bitcoin) 0%, var(--crypto-bitcoin-dark) 100%);
+  --gradient-polygon: linear-gradient(135deg, var(--crypto-polygon) 0%, var(--crypto-polygon-dark) 100%);
+  
+  /* Gradientes neón */
+  --gradient-neon-cyan: linear-gradient(135deg, var(--neon-cyan) 0%, var(--neon-blue) 100%);
+  --gradient-neon-pink: linear-gradient(135deg, var(--neon-pink) 0%, var(--neon-purple) 100%);
+  --gradient-neon-yellow: linear-gradient(135deg, var(--neon-yellow) 0%, var(--neon-orange) 100%);
+  
+  /* Gradientes de estado */
+  --gradient-success: linear-gradient(135deg, var(--success-500) 0%, var(--success-700) 100%);
+  --gradient-warning: linear-gradient(135deg, var(--warning-500) 0%, var(--warning-700) 100%);
+  --gradient-error: linear-gradient(135deg, var(--error-500) 0%, var(--error-700) 100%);
+
+  /* ============================================================================
+     🌟 EFECTOS ESPECIALES - Colores para efectos
+     ============================================================================ */
+  
+  /* Sombras */
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --shadow-color-dark: rgba(0, 0, 0, 0.25);
+  --shadow-color-light: rgba(255, 255, 255, 0.1);
+  
+  /* Brillos */
+  --glow-primary: 0 0 20px var(--metaverso-primary);
+  --glow-secondary: 0 0 20px var(--metaverso-secondary);
+  --glow-accent: 0 0 20px var(--metaverso-accent);
+  --glow-neon: 0 0 30px var(--neon-cyan);
+  
+  /* Transparencias */
+  --transparent-primary: rgba(99, 102, 241, 0.1);
+  --transparent-secondary: rgba(16, 185, 129, 0.1);
+  --transparent-accent: rgba(245, 158, 11, 0.1);
+  --transparent-dark: rgba(0, 0, 0, 0.5);
+  --transparent-light: rgba(255, 255, 255, 0.1);
+
+  /* ============================================================================
+     🎯 SEMÁNTICA - Colores con significado semántico
+     ============================================================================ */
+  
+  /* Texto */
+  --text-primary: var(--metaverso-gray-900);
+  --text-secondary: var(--metaverso-gray-600);
+  --text-tertiary: var(--metaverso-gray-400);
+  --text-inverse: var(--metaverso-gray-50);
+  --text-link: var(--metaverso-primary);
+  --text-link-hover: var(--metaverso-primary-dark);
+  
+  /* Fondo */
+  --bg-primary: var(--metaverso-gray-50);
+  --bg-secondary: var(--metaverso-gray-100);
+  --bg-tertiary: var(--metaverso-gray-200);
+  --bg-inverse: var(--metaverso-gray-900);
+  --bg-overlay: var(--transparent-dark);
+  
+  /* Bordes */
+  --border-primary: var(--metaverso-gray-200);
+  --border-secondary: var(--metaverso-gray-300);
+  --border-focus: var(--metaverso-primary);
+  --border-error: var(--error-500);
+  --border-success: var(--success-500);
+  --border-warning: var(--warning-500);
+
+  /* ============================================================================
+     🎮 COMPONENTES ESPECÍFICOS - Colores para componentes
+     ============================================================================ */
+  
+  /* Botones */
+  --btn-primary-bg: var(--metaverso-primary);
+  --btn-primary-text: white;
+  --btn-primary-hover: var(--metaverso-primary-dark);
+  --btn-secondary-bg: var(--metaverso-gray-100);
+  --btn-secondary-text: var(--metaverso-gray-700);
+  --btn-secondary-hover: var(--metaverso-gray-200);
+  
+  /* Cards */
+  --card-bg: white;
+  --card-border: var(--border-primary);
+  --card-shadow: 0 1px 3px var(--shadow-color);
+  --card-shadow-hover: 0 4px 6px var(--shadow-color);
+  
+  /* Inputs */
+  --input-bg: white;
+  --input-border: var(--border-primary);
+  --input-border-focus: var(--border-focus);
+  --input-text: var(--text-primary);
+  --input-placeholder: var(--text-tertiary);
+  
+  /* Modales */
+  --modal-bg: white;
+  --modal-overlay: var(--bg-overlay);
+  --modal-shadow: 0 10px 25px var(--shadow-color-dark);
+  
+  /* Notificaciones */
+  --notification-success-bg: var(--success-50);
+  --notification-success-border: var(--success-200);
+  --notification-success-text: var(--success-800);
+  --notification-warning-bg: var(--warning-50);
+  --notification-warning-border: var(--warning-200);
+  --notification-warning-text: var(--warning-800);
+  --notification-error-bg: var(--error-50);
+  --notification-error-border: var(--error-200);
+  --notification-error-text: var(--error-800);
+  --notification-info-bg: var(--info-50);
+  --notification-info-border: var(--info-200);
+  --notification-info-text: var(--info-800);
+
+  /* ============================================================================
+     🌍 ACCESIBILIDAD - Colores para accesibilidad
+     ============================================================================ */
+  
+  /* Alto contraste */
+  --high-contrast-text: #000000;
+  --high-contrast-bg: #ffffff;
+  --high-contrast-border: #000000;
+  
+  /* Modo oscuro (se aplicará con media query) */
+  --dark-text-primary: var(--metaverso-gray-100);
+  --dark-text-secondary: var(--metaverso-gray-300);
+  --dark-text-tertiary: var(--metaverso-gray-500);
+  --dark-bg-primary: var(--metaverso-gray-900);
+  --dark-bg-secondary: var(--metaverso-gray-800);
+  --dark-bg-tertiary: var(--metaverso-gray-700);
+  --dark-border-primary: var(--metaverso-gray-600);
+  --dark-border-secondary: var(--metaverso-gray-500);
+}
+
+/* ============================================================================
+   🌙 MODO OSCURO - Variables para tema oscuro
+   ============================================================================ */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Texto */
+    --text-primary: var(--dark-text-primary);
+    --text-secondary: var(--dark-text-secondary);
+    --text-tertiary: var(--dark-text-tertiary);
+    --text-inverse: var(--metaverso-gray-900);
+    
+    /* Fondo */
+    --bg-primary: var(--dark-bg-primary);
+    --bg-secondary: var(--dark-bg-secondary);
+    --bg-tertiary: var(--dark-bg-tertiary);
+    --bg-inverse: var(--metaverso-gray-50);
+    
+    /* Bordes */
+    --border-primary: var(--dark-border-primary);
+    --border-secondary: var(--dark-border-secondary);
+    
+    /* Componentes */
+    --card-bg: var(--dark-bg-secondary);
+    --input-bg: var(--dark-bg-secondary);
+    --modal-bg: var(--dark-bg-secondary);
+    
+    /* Sombras */
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --shadow-color-dark: rgba(0, 0, 0, 0.5);
+    --shadow-color-light: rgba(255, 255, 255, 0.05);
+  }
+}
+
+/* ============================================================================
+   🎨 CLASES UTILITARIAS - Clases para usar colores
+   ============================================================================ */
+
+/* Colores de texto */
+.text-primary { color: var(--text-primary); }
+.text-secondary { color: var(--text-secondary); }
+.text-tertiary { color: var(--text-tertiary); }
+.text-inverse { color: var(--text-inverse); }
+.text-link { color: var(--text-link); }
+
+/* Colores de fondo */
+.bg-primary { background-color: var(--bg-primary); }
+.bg-secondary { background-color: var(--bg-secondary); }
+.bg-tertiary { background-color: var(--bg-tertiary); }
+.bg-inverse { background-color: var(--bg-inverse); }
+
+/* Colores crypto */
+.text-ethereum { color: var(--crypto-ethereum); }
+.text-bitcoin { color: var(--crypto-bitcoin); }
+.text-polygon { color: var(--crypto-polygon); }
+.text-bsc { color: var(--crypto-bsc); }
+
+/* Estados */
+.text-success { color: var(--success-600); }
+.text-warning { color: var(--warning-600); }
+.text-error { color: var(--error-600); }
+.text-info { color: var(--info-600); }
+
+/* Gradientes */
+.bg-gradient-primary { background: var(--gradient-primary); }
+.bg-gradient-secondary { background: var(--gradient-secondary); }
+.bg-gradient-accent { background: var(--gradient-accent); }
+.bg-gradient-ethereum { background: var(--gradient-ethereum); }
+.bg-gradient-bitcoin { background: var(--gradient-bitcoin); }
+.bg-gradient-polygon { background: var(--gradient-polygon); }
+
+/* Efectos */
+.glow-primary { box-shadow: var(--glow-primary); }
+.glow-secondary { box-shadow: var(--glow-secondary); }
+.glow-accent { box-shadow: var(--glow-accent); }
+.glow-neon { box-shadow: var(--glow-neon); } 

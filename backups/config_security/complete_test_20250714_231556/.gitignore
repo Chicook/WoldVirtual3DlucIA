@@ -1,0 +1,423 @@
+# ========================================
+# Metaverso Crypto World Virtual 3D
+# .gitignore Configuration
+# ========================================
+
+# ========================================
+# DEPENDENCIES
+# ========================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# Package managers
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+bun.lockb
+
+# ========================================
+# BUILD OUTPUTS
+# ========================================
+dist/
+dist-ssr/
+build/
+out/
+.next/
+.nuxt/
+.output/
+
+# Production builds
+*.local
+*.min.js
+*.min.css
+*.bundle.js
+*.bundle.css
+
+# ========================================
+# ENVIRONMENT & CONFIGURATION
+# ========================================
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+.env.staging
+
+# Configuration files with sensitive data
+config.json
+secrets.json
+credentials.json
+api-keys.json
+blockchain-config.json
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+
+# ========================================
+# LOGS & DEBUGGING
+# ========================================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# Debug files
+.debug/
+debug.log
+debug-*.log
+
+# ========================================
+# RUNTIME & TEMPORARY FILES
+# ========================================
+.tmp/
+.temp/
+tmp/
+temp/
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# Cache directories
+.cache/
+.parcel-cache/
+.eslintcache
+.stylelintcache
+
+# ========================================
+# EDITOR & IDE FILES
+# ========================================
+# Visual Studio Code
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+
+# JetBrains IDEs
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# ========================================
+# OPERATING SYSTEM FILES
+# ========================================
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ========================================
+# BLOCKCHAIN & CRYPTO FILES
+# ========================================
+# Private keys and wallets
+*.pem
+*.key
+*.keystore
+wallet.json
+private-key.txt
+mnemonic.txt
+seed-phrase.txt
+
+# Hardhat
+cache/
+artifacts/
+typechain/
+typechain-types/
+
+# Foundry
+out/
+cache/
+broadcast/
+
+# Ganache
+ganache-db/
+
+# ========================================
+# TESTING & COVERAGE
+# ========================================
+coverage/
+.nyc_output/
+*.lcov
+.jest/
+test-results/
+playwright-report/
+test-results.xml
+
+# ========================================
+# DEPLOYMENT & CI/CD
+# ========================================
+.deploy/
+deploy/
+*.tar.gz
+*.zip
+*.rar
+
+# Docker
+.dockerignore
+docker-compose.override.yml
+
+# ========================================
+# METAVERSO SPECIFIC
+# ========================================
+# Audio files
+*.wav
+*.mp3
+*.ogg
+*.flac
+*.aac
+audio-cache/
+
+# 3D Models and Assets
+*.fbx
+*.obj
+*.dae
+*.3ds
+*.blend
+*.max
+*.c4d
+*.ma
+*.mb
+models-cache/
+textures-cache/
+
+# User data and saves
+user-data/
+saves/
+profiles/
+avatars/
+inventory/
+
+# Server data
+server-data/
+world-data/
+island-data/
+
+# Backup files
+backups/
+*.backup
+*.bak
+
+# ========================================
+# SECURITY & SENSITIVE DATA
+# ========================================
+# API Keys and secrets
+api-keys/
+secrets/
+keys/
+tokens/
+
+# Database dumps
+*.sql
+*.dump
+*.backup
+
+# SSL certificates
+*.crt
+*.pem
+*.key
+*.p12
+*.pfx
+
+# ========================================
+# PERFORMANCE & MONITORING
+# ========================================
+# Performance monitoring
+*.perf
+*.cpuprofile
+*.heapsnapshot
+
+# Memory dumps
+*.dmp
+*.hprof
+
+# ========================================
+# LANGUAGES & FRAMEWORKS
+# ========================================
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Rust
+target/
+Cargo.lock
+*.rs.bk
+
+# Go
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+go.work
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+hs_err_pid*
+
+# ========================================
+# CLOUD & SERVICES
+# ========================================
+# AWS
+.aws/
+aws-credentials
+
+# Google Cloud
+.gcloud/
+service-account-key.json
+
+# Azure
+.azure/
+azure-credentials
+
+# ========================================
+# MISC
+# ========================================
+# Backup files
+*.orig
+*.rej
+*.bak
+*.old
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ========================================
+# PROJECT SPECIFIC IGNORES
+# ========================================
+# Metaverso specific ignores
+metaverse-data/
+blockchain-data/
+user-sessions/
+audio-sessions/
+physics-cache/
+rendering-cache/
+
+# Development tools
+.dev-tools/
+scripts/temp/
+tools/cache/
+
+# Documentation builds
+docs/build/
+docs/_build/
+docs/.doctrees/
+
+# ========================================
+# KEEP THESE FILES
+# ========================================
+# Important configuration files that should be tracked
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!package.json
+!package-lock.json
+!yarn.lock
+!pnpm-lock.yaml
+!tsconfig.json
+!eslint.config.js
+!.eslintrc.js
+!prettier.config.js
+!.prettierrc
+!tailwind.config.js
+!vite.config.js
+!webpack.config.js
+!rollup.config.js
+!jest.config.js
+!cypress.config.js
+!playwright.config.js
+!docker-compose.yml
+!Dockerfile
+!.dockerignore
+!README.md
+!LICENSE
+!CHANGELOG.md
+!CONTRIBUTING.md
+!.gitignore
+!.gitattributes

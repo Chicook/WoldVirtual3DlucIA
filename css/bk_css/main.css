@@ -1,0 +1,575 @@
+/* ============================================================================
+   🎨 CSS PRINCIPAL - Metaverso Crypto World Virtual 3D
+   ============================================================================ */
+
+/* ============================================================================
+   📦 IMPORTS - Importación de todos los archivos CSS
+   ============================================================================ */
+
+/* Variables CSS */
+@import './variables/colors.css';
+@import './variables/typography.css';
+@import './variables/spacing.css';
+@import './variables/breakpoints.css';
+@import './variables/shadows.css';
+@import './variables/animations.css';
+
+/* Temas */
+@import './themes/light.css';
+@import './themes/dark.css';
+@import './themes/metaverso.css';
+@import './themes/neon.css';
+@import './themes/themes.css';
+
+/* Componentes base */
+@import './components/base/buttons.css';
+@import './components/base/inputs.css';
+@import './components/base/cards.css';
+@import './components/base/modals.css';
+@import './components/base/navigation.css';
+
+/* Componentes 3D */
+@import './components/3d/three-canvas.css';
+@import './components/3d/3d-elements.css';
+@import './components/3d/avatars.css';
+@import './components/3d/world-elements.css';
+
+/* Componentes blockchain */
+@import './components/blockchain/wallet.css';
+@import './components/blockchain/transactions.css';
+@import './components/blockchain/nfts.css';
+@import './components/blockchain/crypto-ui.css';
+
+/* Componentes UI/UX */
+@import './components/ui/forms.css';
+@import './components/ui/notifications.css';
+@import './components/ui/loading.css';
+@import './components/ui/tooltips.css';
+
+/* Animaciones */
+@import './animations/keyframes.css';
+@import './animations/transitions.css';
+@import './animations/effects.css';
+@import './animations/loading-animations.css';
+@import './animations/blockchain-animations.css';
+
+/* Responsive */
+@import './responsive/mobile.css';
+@import './responsive/tablet.css';
+@import './responsive/desktop.css';
+@import './responsive/large-screens.css';
+@import './responsive/touch.css';
+
+/* Layouts */
+@import './layouts/grid.css';
+@import './layouts/flexbox.css';
+@import './layouts/containers.css';
+@import './layouts/sidebar.css';
+@import './layouts/dashboard.css';
+
+/* Utilidades */
+@import './utilities/spacing.css';
+@import './utilities/typography.css';
+@import './utilities/colors.css';
+@import './utilities/display.css';
+@import './utilities/positioning.css';
+
+/* Páginas específicas */
+@import './pages/home.css';
+@import './pages/metaverso.css';
+@import './pages/marketplace.css';
+@import './pages/profile.css';
+@import './pages/settings.css';
+
+/* Vendor */
+@import './vendor/normalize.css';
+@import './vendor/reset.css';
+@import './vendor/third-party.css';
+
+/* ============================================================================
+   🌍 ESTILOS GLOBALES - Estilos base de la aplicación
+   ============================================================================ */
+
+/* Reset y normalización */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+/* ============================================================================
+   🎯 ELEMENTOS BASE - Estilos para elementos HTML básicos
+   ============================================================================ */
+
+/* Enlaces */
+a {
+  color: var(--text-link);
+  text-decoration: none;
+  transition: var(--transition-normal);
+}
+
+a:hover {
+  color: var(--text-link-hover);
+  text-decoration: underline;
+}
+
+a:focus {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+/* Imágenes */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Listas */
+ul, ol {
+  list-style: none;
+}
+
+/* Formularios */
+input, textarea, select, button {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+/* ============================================================================
+   🎨 CLASES UTILITARIAS GLOBALES - Clases de uso común
+   ============================================================================ */
+
+/* Visibilidad */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Cursor */
+.cursor-pointer { cursor: pointer; }
+.cursor-not-allowed { cursor: not-allowed; }
+.cursor-grab { cursor: grab; }
+.cursor-grabbing { cursor: grabbing; }
+
+/* Overflow */
+.overflow-hidden { overflow: hidden; }
+.overflow-auto { overflow: auto; }
+.overflow-scroll { overflow: scroll; }
+.overflow-x-auto { overflow-x: auto; }
+.overflow-y-auto { overflow-y: auto; }
+
+/* Position */
+.relative { position: relative; }
+.absolute { position: absolute; }
+.fixed { position: fixed; }
+.sticky { position: sticky; }
+
+/* Z-index */
+.z-0 { z-index: 0; }
+.z-10 { z-index: 10; }
+.z-20 { z-index: 20; }
+.z-30 { z-index: 30; }
+.z-40 { z-index: 40; }
+.z-50 { z-index: 50; }
+.z-auto { z-index: auto; }
+
+/* ============================================================================
+   🎮 CLASES ESPECÍFICAS DEL METAVERSO - Clases únicas
+   ============================================================================ */
+
+/* Contenedor principal del metaverso */
+.metaverso-app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-primary);
+  position: relative;
+}
+
+/* Overlay de partículas */
+.metaverso-particles-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Contenedor de contenido */
+.metaverso-content {
+  flex: 1;
+  position: relative;
+  z-index: 2;
+}
+
+/* Elementos con efecto glassmorphism */
+.glass {
+  background: var(--bg-glass);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-lg);
+}
+
+.glass:hover {
+  background: var(--bg-glass-hover);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Elementos con efecto holograma */
+.hologram {
+  background: var(--hologram-bg);
+  border: var(--hologram-border);
+  box-shadow: var(--hologram-glow);
+  animation: hologram-scan 3s ease-in-out infinite;
+}
+
+/* Elementos con efecto neón */
+.neon {
+  box-shadow: var(--glow-neon);
+  animation: neon-pulse 2s ease-in-out infinite;
+}
+
+/* Elementos flotantes */
+.floating {
+  animation: float 3s ease-in-out infinite;
+}
+
+.floating-strong {
+  animation: float-strong 4s ease-in-out infinite;
+}
+
+/* ============================================================================
+   ⚡ CLASES CRYPTO - Clases específicas para blockchain
+   ============================================================================ */
+
+/* Contenedor de wallet */
+.crypto-wallet-container {
+  background: var(--card-bg);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-lg);
+  padding: var(--wallet-padding);
+  box-shadow: var(--card-shadow);
+  transition: var(--transition-normal);
+}
+
+.crypto-wallet-container:hover {
+  box-shadow: var(--glow-primary);
+  transform: var(--hover-translate);
+}
+
+/* Elementos de transacción */
+.transaction-item {
+  background: var(--card-bg);
+  border: 1px solid var(--border-muted);
+  border-radius: var(--radius-md);
+  padding: var(--transaction-padding);
+  margin: var(--transaction-margin);
+  transition: var(--transition-normal);
+}
+
+.transaction-item:hover {
+  border-color: var(--border-primary);
+  box-shadow: var(--shadow-md);
+}
+
+/* Elementos NFT */
+.nft-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-muted);
+  border-radius: var(--radius-lg);
+  padding: var(--nft-padding);
+  margin: var(--nft-margin);
+  transition: var(--transition-normal);
+  overflow: hidden;
+}
+
+.nft-card:hover {
+  border-color: var(--border-accent);
+  box-shadow: var(--shadow-lg);
+  transform: var(--hover-translate);
+}
+
+/* ============================================================================
+   🎮 CLASES 3D - Clases para elementos 3D
+   ============================================================================ */
+
+/* Canvas principal */
+.three-canvas-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: var(--canvas-bg);
+  border: 2px solid var(--canvas-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+/* Controles 3D */
+.three-controls {
+  position: absolute;
+  bottom: var(--space-4);
+  right: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  z-index: 10;
+}
+
+.three-control-button {
+  background: var(--controls-bg);
+  border: 1px solid var(--controls-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-2);
+  color: var(--controls-text);
+  cursor: pointer;
+  transition: var(--transition-normal);
+  backdrop-filter: blur(10px);
+}
+
+.three-control-button:hover {
+  background: rgba(0, 0, 0, 0.8);
+  border-color: var(--metaverso-primary);
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+}
+
+/* HUD */
+.hud-container {
+  position: absolute;
+  top: var(--space-4);
+  left: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  z-index: 10;
+}
+
+.hud-element {
+  background: var(--hud-bg);
+  border: 1px solid var(--hud-border);
+  border-radius: var(--radius-sm);
+  padding: var(--hud-padding);
+  color: var(--hud-text);
+  backdrop-filter: blur(5px);
+  box-shadow: var(--hud-shadow);
+}
+
+/* ============================================================================
+   📱 RESPONSIVE GLOBAL - Adaptaciones responsive generales
+   ============================================================================ */
+
+/* Móviles */
+@media (max-width: 768px) {
+  .metaverso-app {
+    padding: var(--mobile-padding);
+  }
+  
+  .three-canvas-container {
+    height: 60vh;
+  }
+  
+  .three-controls {
+    bottom: var(--space-2);
+    right: var(--space-2);
+  }
+  
+  .hud-container {
+    top: var(--space-2);
+    left: var(--space-2);
+  }
+}
+
+/* Tablets */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .metaverso-app {
+    padding: var(--tablet-padding);
+  }
+  
+  .three-canvas-container {
+    height: 70vh;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1025px) {
+  .metaverso-app {
+    padding: var(--desktop-padding);
+  }
+  
+  .three-canvas-container {
+    height: 80vh;
+  }
+}
+
+/* Pantallas grandes */
+@media (min-width: 1440px) {
+  .metaverso-app {
+    padding: var(--large-padding);
+  }
+  
+  .three-canvas-container {
+    height: 85vh;
+  }
+}
+
+/* ============================================================================
+   🎨 TEMAS DINÁMICOS - Cambio de temas
+   ============================================================================ */
+
+/* Transición suave entre temas */
+body {
+  transition: background-color var(--transition-slow), color var(--transition-slow);
+}
+
+/* Aplicación de temas */
+[data-theme="light"] {
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+[data-theme="metaverso"] {
+  color-scheme: dark;
+}
+
+[data-theme="neon"] {
+  color-scheme: dark;
+}
+
+/* ============================================================================
+   🚀 OPTIMIZACIONES - Optimizaciones de rendimiento
+   ============================================================================ */
+
+/* Optimización de animaciones */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Optimización de fuentes */
+@font-face {
+  font-family: 'Inter';
+  font-display: swap;
+  src: url('/fonts/Inter-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-display: swap;
+  font-weight: 600;
+  src: url('/fonts/Inter-SemiBold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Orbitron';
+  font-display: swap;
+  src: url('/fonts/Orbitron-Regular.woff2') format('woff2');
+}
+
+/* ============================================================================
+   🎯 ESTILOS DE IMPRESIÓN - Estilos para impresión
+   ============================================================================ */
+
+@media print {
+  .metaverso-particles-overlay,
+  .three-controls,
+  .hud-container,
+  .crypto-wallet-container {
+    display: none !important;
+  }
+  
+  .metaverso-app {
+    background: white !important;
+    color: black !important;
+  }
+  
+  .glass,
+  .hologram,
+  .neon {
+    background: white !important;
+    border: 1px solid #ccc !important;
+    box-shadow: none !important;
+    animation: none !important;
+  }
+}
+
+/* ============================================================================
+   🔧 ESTILOS DE DESARROLLO - Estilos para desarrollo
+   ============================================================================ */
+
+/* Debug outline */
+.debug * {
+  outline: 1px solid red;
+}
+
+.debug-grid {
+  background-image: linear-gradient(rgba(255, 0, 0, 0.1) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255, 0, 0, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Performance monitoring */
+.perf-monitor {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  font-family: monospace;
+  font-size: 12px;
+  z-index: 9999;
+} 

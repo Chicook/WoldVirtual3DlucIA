@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WoldVirtual3DlucIA - Metaverso Modular</title>
+    <link rel="stylesheet" href="src/styles/main.css">
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    
+    <!-- Meta tags para SEO -->
+    <meta name="description" content="WoldVirtual3DlucIA - Metaverso descentralizado ultra-modular con IA integrada">
+    <meta name="keywords" content="metaverso, 3D, blockchain, IA, virtual reality, modular">
+    <meta name="author" content="WoldVirtual3DlucIA Team">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="WoldVirtual3DlucIA">
+    <meta property="og:description" content="Metaverso descentralizado ultra-modular">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://woldvirtual3dlucia.com">
+    
+    <!-- Preload de recursos críticos -->
+    <link rel="preload" href="src/index.tsx" as="script">
+    <link rel="preload" href="src/styles/main.css" as="style">
+</head>
+<body>
+    <!-- Pantalla de carga inicial -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="logo">
+                <h1>WoldVirtual3DlucIA</h1>
+                <p>Metaverso Modular</p>
+            </div>
+            <div class="spinner"></div>
+            <div class="loading-text">
+                <p>Inicializando sistema modular...</p>
+                <div class="loading-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                    <span id="progress-text">0%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenedor principal de la aplicación -->
+    <div id="root" class="app-root" style="display: none;">
+        <!-- La aplicación React se renderizará aquí -->
+    </div>
+
+    <!-- Scripts de inicialización -->
+    <script>
+        // Configuración global de la aplicación
+        window.WoldVirtualConfig = {
+            version: '1.0.0',
+            environment: 'development',
+            apiEndpoint: 'http://localhost:3000',
+            websocketEndpoint: 'ws://localhost:8181',
+            enableDebug: true,
+            moduleGroups: {
+                CORE: ['config', 'data', 'models', 'services', 'middlewares'],
+                FRONTEND: ['web', 'pages', 'components', 'css', 'fonts', 'public'],
+                BLOCKCHAIN: ['bloc', 'assets', 'entities'],
+                AI: ['ini', 'js', 'test'],
+                UTILITIES: ['helpers', 'cli', 'scripts', 'lib', 'languages'],
+                MEDIA: ['image', 'fonts', 'css', 'public'],
+                EDITOR: ['.bin', 'client', 'src'],
+                INFRASTRUCTURE: ['build', 'dist', 'coverage', 'docs', 'Include']
+            }
+        };
+
+        // Función para simular progreso de carga
+        function simulateLoading() {
+            const progressFill = document.getElementById('progress-fill');
+            const progressText = document.getElementById('progress-text');
+            let progress = 0;
+            
+            const interval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress > 100) progress = 100;
+                
+                if (progressFill) progressFill.style.width = progress + '%';
+                if (progressText) progressText.textContent = Math.floor(progress) + '%';
+                
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        const loadingScreen = document.getElementById('loading-screen');
+                        const root = document.getElementById('root');
+                        if (loadingScreen) loadingScreen.style.display = 'none';
+                        if (root) root.style.display = 'block';
+                    }, 500);
+                }
+            }, 100);
+        }
+
+        // Iniciar simulación de carga
+        document.addEventListener('DOMContentLoaded', () => {
+            simulateLoading();
+        });
+
+        // Manejo de errores global
+        window.addEventListener('error', (event) => {
+            console.error('Error global:', event.error);
+        });
+
+        window.addEventListener('unhandledrejection', (event) => {
+            console.error('Promesa rechazada no manejada:', event.reason);
+        });
+    </script>
+
+    <!-- Cargar la aplicación React -->
+    <script type="module" src="src/index.tsx"></script>
+    
+    <!-- Fallback para navegadores sin soporte de módulos -->
+    <script nomodule>
+        document.getElementById('root').innerHTML = `
+            <div class="error-screen">
+                <h1>Navegador no compatible</h1>
+                <p>Tu navegador no soporta módulos ES6. Por favor, actualiza a una versión más reciente.</p>
+                <button onclick="window.location.reload()">Reintentar</button>
+            </div>
+        `;
+    </script>
+</body>
+</html> 
