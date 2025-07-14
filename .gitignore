@@ -28,6 +28,9 @@ security_tokens/
 authentication_tokens/
 blockchain_private_keys/
 smart_contract_secrets/
+lucia_pro.log
+clean_api_keys.py
+
 
 # Configuraciones de red específicas
 network_config/
