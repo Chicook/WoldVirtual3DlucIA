@@ -1,136 +1,79 @@
-// Test file for NetworkSync functionality
-import { describe, it, expect, beforeEach, afterEach } from '@jest/globals';
+import React from 'react'
+import { motion } from 'framer-motion'
 
-// Mock network functionality
-class MockNetworkSync {
-  private isConnected: boolean = false;
-  private peers: string[] = [];
-
-  connect(peerId: string): boolean {
-    if (!this.isConnected) {
-      this.isConnected = true;
-    }
-    if (!this.peers.includes(peerId)) {
-      this.peers.push(peerId);
-    }
-    return true;
-  }
-
-  disconnect(peerId: string): boolean {
-    const index = this.peers.indexOf(peerId);
-    if (index > -1) {
-      this.peers.splice(index, 1);
-      return true;
-    }
-    return false;
-  }
-
-  getPeers(): string[] {
-    return [...this.peers];
-  }
-
-  isPeerConnected(peerId: string): boolean {
-    return this.peers.includes(peerId);
-  }
-
-  getConnectionStatus(): { connected: boolean; peerCount: number } {
-    return {
-      connected: this.isConnected,
-      peerCount: this.peers.length
-    };
-  }
+interface LoadingScreenProps {
+  message?: string
+  progress?: number
 }
 
-describe('NetworkSync', () => {
-  let networkSync: MockNetworkSync;
+export const LoadingScreen: React.FC<LoadingScreenProps> = ({
+  message = 'Cargando metaverso...',
+  progress = 0
+}) => {
+  return (
+    <div className="fixed inset-0 bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 flex items-center justify-center z-50">
+      <div className="text-center">
+        {/* Logo animado */}
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          className="mb-8"
+        >
+          <div className="w-24 h-24 mx-auto bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+            <span className="text-4xl">🌍</span>
+          </div>
+        </motion.div>
 
-  beforeEach(() => {
-    networkSync = new MockNetworkSync();
-  });
+        {/* Título */}
+        <motion.h1
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.2, duration: 0.5 }}
+          className="text-3xl font-bold text-white mb-4"
+        >
+          Metaverso Crypto World
+        </motion.h1>
 
-  afterEach(() => {
-    // Cleanup if needed
-  });
+        {/* Mensaje */}
+        <motion.p
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.4, duration: 0.5 }}
+          className="text-gray-300 mb-8"
+        >
+          {message}
+        </motion.p>
 
-  describe('Connection Management', () => {
-    it('should connect to a peer successfully', () => {
-      const result = networkSync.connect('peer1');
-      expect(result).toBe(true);
-      expect(networkSync.isPeerConnected('peer1')).toBe(true);
-    });
+        {/* Barra de progreso */}
+        <motion.div
+          initial={{ width: 0 }}
+          animate={{ width: `${progress}%` }}
+          transition={{ delay: 0.6, duration: 1 }}
+          className="w-64 h-2 bg-gray-700 rounded-full mx-auto mb-4 overflow-hidden"
+        >
+          <div className="h-full bg-gradient-to-r from-blue-500 to-purple-600 rounded-full" />
+        </motion.div>
 
-    it('should disconnect from a peer successfully', () => {
-      networkSync.connect('peer1');
-      const result = networkSync.disconnect('peer1');
-      expect(result).toBe(true);
-      expect(networkSync.isPeerConnected('peer1')).toBe(false);
-    });
+        {/* Porcentaje */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8, duration: 0.5 }}
+          className="text-sm text-gray-400"
+        >
+          {Math.round(progress)}%
+        </motion.p>
 
-    it('should handle multiple peer connections', () => {
-      networkSync.connect('peer1');
-      networkSync.connect('peer2');
-      networkSync.connect('peer3');
+        {/* Indicador de carga */}
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+          className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full mx-auto mt-6"
+        />
+      </div>
+    </div>
+  )
+}
 
-      const peers = networkSync.getPeers();
-      expect(peers).toHaveLength(3);
-      expect(peers).toContain('peer1');
-      expect(peers).toContain('peer2');
-      expect(peers).toContain('peer3');
-    });
-  });
-
-  describe('Status Reporting', () => {
-    it('should report correct connection status', () => {
-      const status = networkSync.getConnectionStatus();
-      expect(status.connected).toBe(false);
-      expect(status.peerCount).toBe(0);
-
-      networkSync.connect('peer1');
-      const newStatus = networkSync.getConnectionStatus();
-      expect(newStatus.connected).toBe(true);
-      expect(newStatus.peerCount).toBe(1);
-    });
-
-    it('should track peer count correctly', () => {
-      expect(networkSync.getPeers()).toHaveLength(0);
-
-      networkSync.connect('peer1');
-      expect(networkSync.getPeers()).toHaveLength(1);
-
-      networkSync.connect('peer2');
-      expect(networkSync.getPeers()).toHaveLength(2);
-
-      networkSync.disconnect('peer1');
-      expect(networkSync.getPeers()).toHaveLength(1);
-      expect(networkSync.getPeers()).toContain('peer2');
-    });
-  });
-
-  describe('Edge Cases', () => {
-    it('should handle duplicate peer connections', () => {
-      networkSync.connect('peer1');
-      networkSync.connect('peer1'); // Duplicate
-
-      const peers = networkSync.getPeers();
-      expect(peers).toHaveLength(1);
-      expect(peers).toContain('peer1');
-    });
-
-    it('should handle disconnecting non-existent peer', () => {
-      const result = networkSync.disconnect('nonexistent');
-      expect(result).toBe(false);
-      expect(networkSync.getPeers()).toHaveLength(0);
-    });
-
-    it('should maintain connection state correctly', () => {
-      expect(networkSync.getConnectionStatus().connected).toBe(false);
-
-      networkSync.connect('peer1');
-      expect(networkSync.getConnectionStatus().connected).toBe(true);
-
-      networkSync.disconnect('peer1');
-      expect(networkSync.getConnectionStatus().connected).toBe(true); // Still connected
-      expect(networkSync.getConnectionStatus().peerCount).toBe(0);
-    });
-  });
-}); 
+export default LoadingScreen 

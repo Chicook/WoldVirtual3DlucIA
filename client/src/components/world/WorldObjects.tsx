@@ -18,12 +18,21 @@ export const WorldObjects: React.FC<WorldObjectsProps> = ({
   const hoveredObject = useRef<WorldObject | null>(null)
 
   // Animación de objetos
-  useFrame((state: any) => {
+  useFrame((state) => {
     if (!groupRef.current) return
 
-    groupRef.current.children.forEach((child: any, index: number) => {
+    groupRef.current.children.forEach((child, index) => {
       const object = objects[index]
       if (!object) return
+
+      // Rotación suave para objetos dinámicos
+      if (object.type === 'dynamic') {
+
+      // Rotación suave para objetos funcionales
+      if (object.type === 'functional') {
+
+      // Rotación suave para objetos funcionales
+      if (object.type === 'functional') {
 
       // Rotación suave para objetos dinámicos
       if (object.type === 'dynamic') {

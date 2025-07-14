@@ -361,5 +361,4 @@ export class AIService {
   cleanup(): void {
     this.learningData = [];
     this.model = null;
-  }
-}
+ 

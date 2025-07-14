@@ -7,6 +7,7 @@ export const useMetaverso = () => {
   if (!context) {
     throw new Error('useMetaverso debe ser usado dentro de un MetaversoProvider');
   }
-  
+  return context
+} 
   return context
 } 

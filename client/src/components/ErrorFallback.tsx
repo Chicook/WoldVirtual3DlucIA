@@ -7,96 +7,38 @@ interface ErrorFallbackProps {
 
 const ErrorFallback: React.FC<ErrorFallbackProps> = ({ error, resetErrorBoundary }) => {
   return (
-    <div style={{
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      minHeight: '100vh',
-      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
-    }}>
-      <div style={{
-        background: 'rgba(255, 255, 255, 0.95)',
-        padding: '2rem',
-        borderRadius: '12px',
-        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-        textAlign: 'center',
-        maxWidth: '500px',
-        backdropFilter: 'blur(10px)'
-      }}>
-        <h2 style={{
-          color: '#e53e3e',
-          marginBottom: '1rem',
-          fontSize: '1.8rem'
-        }}>
-          Algo salió mal
-        </h2>
-        <p style={{
-          color: '#4a5568',
-          marginBottom: '1.5rem',
-          lineHeight: '1.6'
-        }}>
-          Ha ocurrido un error inesperado en la aplicación.
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8 text-center">
+        <div className="text-6xl mb-4">😵</div>
+        <h1 className="text-2xl font-bold text-gray-900 mb-4">
+          ¡Ups! Algo salió mal
+        </h1>
+        <p className="text-gray-600 mb-6">
+          Ha ocurrido un error inesperado. Por favor, intenta recargar la página.
         </p>
-        <details style={{ margin: '1.5rem 0', textAlign: 'left' }}>
-          <summary style={{
-            cursor: 'pointer',
-            color: '#2d3748',
-            fontWeight: '600',
-            marginBottom: '0.5rem'
-          }}>
-            Detalles del error
-          </summary>
-          <pre style={{
-            background: '#f7fafc',
-            padding: '1rem',
-            borderRadius: '6px',
-            fontSize: '0.875rem',
-            color: '#e53e3e',
-            overflowX: 'auto',
-            whiteSpace: 'pre-wrap',
-            wordBreak: 'break-word'
-          }}>
+        
+        <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6 text-left">
+          <p className="text-sm text-red-800 font-medium mb-2">Detalles del error:</p>
+          <p className="text-xs text-red-700 font-mono break-all">
             {error.message}
-          </pre>
-          <pre style={{
-            background: '#f7fafc',
-            padding: '1rem',
-            borderRadius: '6px',
-            fontSize: '0.875rem',
-            color: '#e53e3e',
-            overflowX: 'auto',
-            whiteSpace: 'pre-wrap',
-            wordBreak: 'break-word'
-          }}>
-            {error.stack}
-          </pre>
-        </details>
-        <button 
-          onClick={resetErrorBoundary}
-          style={{
-            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-            color: 'white',
-            border: 'none',
-            padding: '0.75rem 1.5rem',
-            borderRadius: '6px',
-            fontSize: '1rem',
-            fontWeight: '600',
-            cursor: 'pointer',
-            transition: 'all 0.3s ease',
-            boxShadow: '0 4px 15px rgba(102, 126, 234, 0.4)'
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'translateY(-2px)'
-            e.currentTarget.style.boxShadow = '0 6px 20px rgba(102, 126, 234, 0.6)'
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'translateY(0)'
-            e.currentTarget.style.boxShadow = '0 4px 15px rgba(102, 126, 234, 0.4)'
-          }}
-        >
-          Intentar de nuevo
-        </button>
+          </p>
+        </div>
+
+        <div className="space-y-3">
+          <button
+            onClick={resetErrorBoundary}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors"
+          >
+            Intentar de nuevo
+          </button>
+          
+          <button
+            onClick={() => window.location.reload()}
+            className="w-full bg-gray-600 hover:bg-gray-700 text-white font-medium py-3 px-4 rounded-lg transition-colors"
+          >
+            Recargar página
+          </button>
+        </div>
       </div>
     </div>
   )
