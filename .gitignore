@@ -28,6 +28,7 @@ security_tokens/
 authentication_tokens/
 blockchain_private_keys/
 smart_contract_secrets/
+python/
 
 # Configuraciones de red específicas
 network_config/
@@ -260,6 +261,8 @@ logs/
 log_files/
 debug_logs/
 error_logs/
+config_security.log
+security_operations.log
 
 # Archivos de monitoreo
 monitoring_data/
@@ -330,6 +333,10 @@ recovery_files/
 snapshot_files/
 backup/
 recovery/
+backups/
+backups/*
+**/backups/
+**/backups/*
 
 # Archivos de respaldo
 *.bak
