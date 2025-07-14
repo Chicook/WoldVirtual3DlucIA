@@ -30,7 +30,7 @@ export const EngineStatus: React.FC<EngineStatusProps> = ({
     syncState 
   } = useEngine();
   
-  const { stats } = useEngineStats();
+  const stats = useEngineStats();
   const [autoRefresh, setAutoRefresh] = useState(true);
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
 

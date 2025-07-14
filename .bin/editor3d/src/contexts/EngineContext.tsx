@@ -73,7 +73,7 @@ interface EngineContextType extends EngineContextState, EngineContextMethods {}
 /// Configuración por defecto del motor
 const defaultEngineConfig: EngineBridgeConfig = {
   motorUrl: 'localhost',
-  motorPort: 8080,
+          motorPort: 8181,
   protocol: 'ws',
   connectionTimeout: 5000,
   maxRetries: 5,

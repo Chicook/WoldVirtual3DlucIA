@@ -345,4 +345,236 @@ Workflow Manager - Comandos disponibles:
     }
 }
 
-module.exports = WorkflowManager; 
+module.exports = WorkflowManager;
+
+// ============================================================================
+// SISTEMA AVANZADO DE VALIDACIÓN Y OPTIMIZACIÓN DE WORKFLOWS
+// ============================================================================
+
+class WorkflowOptimizer {
+    constructor() {
+        this.optimizationRules = {
+            parallelJobs: true,
+            cacheDependencies: true,
+            resourceLimits: true,
+            timeoutHandling: true,
+            errorRecovery: true
+        };
+        this.performanceMetrics = new Map();
+    }
+
+    optimizeWorkflow(workflowContent) {
+        const optimized = { ...workflowContent };
+        
+        // Optimizar jobs para ejecución paralela
+        if (this.optimizationRules.parallelJobs) {
+            optimized.jobs = this.optimizeJobParallelism(optimized.jobs);
+        }
+        
+        // Añadir cache de dependencias
+        if (this.optimizationRules.cacheDependencies) {
+            optimized.jobs = this.addDependencyCache(optimized.jobs);
+        }
+        
+        // Establecer límites de recursos
+        if (this.optimizationRules.resourceLimits) {
+            optimized.jobs = this.addResourceLimits(optimized.jobs);
+        }
+        
+        // Manejo de timeouts
+        if (this.optimizationRules.timeoutHandling) {
+            optimized.jobs = this.addTimeoutHandling(optimized.jobs);
+        }
+        
+        // Recuperación de errores
+        if (this.optimizationRules.errorRecovery) {
+            optimized.jobs = this.addErrorRecovery(optimized.jobs);
+        }
+        
+        return optimized;
+    }
+
+    optimizeJobParallelism(jobs) {
+        const optimizedJobs = {};
+        
+        Object.entries(jobs).forEach(([jobName, job]) => {
+            optimizedJobs[jobName] = {
+                ...job,
+                needs: job.needs || [],
+                runs_on: job.runs_on || 'ubuntu-latest',
+                strategy: {
+                    ...job.strategy,
+                    fail_fast: false,
+                    max_parallel: 4
+                }
+            };
+        });
+        
+        return optimizedJobs;
+    }
+
+    addDependencyCache(jobs) {
+        const optimizedJobs = {};
+        
+        Object.entries(jobs).forEach(([jobName, job]) => {
+            const steps = job.steps || [];
+            const cacheSteps = [];
+            
+            // Añadir cache para dependencias comunes
+            if (steps.some(step => step.uses && step.uses.includes('actions/setup-node'))) {
+                cacheSteps.push({
+                    name: 'Cache node modules',
+                    uses: 'actions/cache@v3',
+                    with: {
+                        path: '~/.npm',
+                        key: `${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}`,
+                        'restore-keys': `${{ runner.os }}-node-`
+                    }
+                });
+            }
+            
+            if (steps.some(step => step.uses && step.uses.includes('actions/setup-python'))) {
+                cacheSteps.push({
+                    name: 'Cache pip dependencies',
+                    uses: 'actions/cache@v3',
+                    with: {
+                        path: '~/.cache/pip',
+                        key: `${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}`,
+                        'restore-keys': `${{ runner.os }}-pip-`
+                    }
+                });
+            }
+            
+            optimizedJobs[jobName] = {
+                ...job,
+                steps: [...cacheSteps, ...steps]
+            };
+        });
+        
+        return optimizedJobs;
+    }
+
+    addResourceLimits(jobs) {
+        const optimizedJobs = {};
+        
+        Object.entries(jobs).forEach(([jobName, job]) => {
+            optimizedJobs[jobName] = {
+                ...job,
+                timeout_minutes: job.timeout_minutes || 30,
+                container: job.container || {
+                    options: '--cpus 2 --memory 4g'
+                }
+            };
+        });
+        
+        return optimizedJobs;
+    }
+
+    addTimeoutHandling(jobs) {
+        const optimizedJobs = {};
+        
+        Object.entries(jobs).forEach(([jobName, job]) => {
+            const steps = job.steps || [];
+            const timeoutSteps = steps.map(step => ({
+                ...step,
+                timeout_minutes: step.timeout_minutes || 10
+            }));
+            
+            optimizedJobs[jobName] = {
+                ...job,
+                steps: timeoutSteps
+            };
+        });
+        
+        return optimizedJobs;
+    }
+
+    addErrorRecovery(jobs) {
+        const optimizedJobs = {};
+        
+        Object.entries(jobs).forEach(([jobName, job]) => {
+            optimizedJobs[jobName] = {
+                ...job,
+                continue_on_error: job.continue_on_error || false,
+                steps: (job.steps || []).map(step => ({
+                    ...step,
+                    continue_on_error: step.continue_on_error || false
+                }))
+            };
+        });
+        
+        return optimizedJobs;
+    }
+
+    analyzePerformance(workflowName, executionData) {
+        const metrics = {
+            totalDuration: 0,
+            jobDurations: {},
+            bottlenecks: [],
+            recommendations: []
+        };
+        
+        // Analizar duración de jobs
+        Object.entries(executionData.jobs || {}).forEach(([jobName, jobData]) => {
+            const duration = jobData.duration || 0;
+            metrics.totalDuration += duration;
+            metrics.jobDurations[jobName] = duration;
+            
+            // Identificar bottlenecks
+            if (duration > 300) { // Más de 5 minutos
+                metrics.bottlenecks.push({
+                    job: jobName,
+                    duration: duration,
+                    issue: 'Job execution time too long'
+                });
+            }
+        });
+        
+        // Generar recomendaciones
+        if (metrics.bottlenecks.length > 0) {
+            metrics.recommendations.push('Consider parallelizing long-running jobs');
+        }
+        
+        if (metrics.totalDuration > 1800) { // Más de 30 minutos
+            metrics.recommendations.push('Consider splitting workflow into smaller parts');
+        }
+        
+        this.performanceMetrics.set(workflowName, metrics);
+        return metrics;
+    }
+
+    getPerformanceReport(workflowName) {
+        return this.performanceMetrics.get(workflowName) || null;
+    }
+}
+
+// Extender WorkflowManager con optimización
+WorkflowManager.prototype.optimizer = new WorkflowOptimizer();
+
+// Añadir método de optimización
+WorkflowManager.prototype.optimizeWorkflow = function(name) {
+    try {
+        const workflow = this.getWorkflow(name);
+        const optimizedContent = this.optimizer.optimizeWorkflow(workflow.content);
+        
+        // Crear versión optimizada
+        const optimizedPath = workflow.path.replace('.yml', '-optimized.yml');
+        fs.writeFileSync(optimizedPath, yaml.dump(optimizedContent));
+        
+        console.log('Workflow optimizado guardado en: ' + optimizedPath);
+        return optimizedPath;
+    } catch (error) {
+        console.error('Error optimizando workflow: ' + error.message);
+        throw error;
+    }
+};
+
+// Añadir método de análisis de performance
+WorkflowManager.prototype.analyzePerformance = function(name, executionData) {
+    return this.optimizer.analyzePerformance(name, executionData);
+};
+
+// Añadir método de reporte de performance
+WorkflowManager.prototype.getPerformanceReport = function(name) {
+    return this.optimizer.getPerformanceReport(name);
+}; 

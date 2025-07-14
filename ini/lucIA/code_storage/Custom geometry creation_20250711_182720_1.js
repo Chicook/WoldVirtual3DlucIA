@@ -1,0 +1,1 @@
+     const geometry = new THREE.BoxGeometry(2, 2, 2, 16, 16, 16);

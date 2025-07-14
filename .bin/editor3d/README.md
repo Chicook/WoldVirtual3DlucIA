@@ -1,603 +1,348 @@
-# 📝 Análisis de la Jornada y Estado Actual (Actualizado hoy)
+# WoldVirtual3D Editor 3D
 
-## Resumen de Avances y Problemas Resueltos
+Editor 3D avanzado para WoldVirtual3DlucIA con soporte para WebSocket en tiempo real.
 
-Durante la sesión de hoy se abordaron y resolvieron múltiples aspectos críticos del editor 3D web para el metaverso, logrando un avance significativo hacia una experiencia profesional y robusta, inspirada en Godot y Blender. A continuación, se detalla el análisis profundo de lo realizado:
+## 🚀 Características
 
-### 1. **Corrección de la Estructura y Punto de Entrada**
-- Se eliminaron archivos y carpetas duplicadas, dejando una estructura limpia y coherente.
-- El punto de entrada ahora es único y correcto (`main.tsx`), asegurando que la aplicación cargue la interfaz completa del editor.
+- **Editor 3D Completo**: Viewport Three.js con controles avanzados
+- **Servidor WebSocket**: Comunicación en tiempo real entre clientes
+- **Sistema de Escenas**: Gestión completa de escenas 3D
+- **Biblioteca de Assets**: Importación y gestión de modelos 3D
+- **Constructor de Islas**: Herramientas para crear islas del metaverso
+- **Animador de Avatares**: Sistema de animación avanzado
+- **Inspector de Propiedades**: Edición detallada de objetos
+- **Timeline**: Control de animaciones y keyframes
+- **Sistema de Materiales**: Editor de materiales PBR
+- **Integración con LucIA**: IA integrada para asistencia
 
-### 2. **Integración y Sincronización de Componentes**
-- Todos los paneles principales (Toolbar, Viewport, ObjectPanel, Inspector, AssetLibrary, etc.) están integrados y sincronizados.
-- El contexto global (`EditorContext`) gestiona el estado compartido y la comunicación entre componentes.
+## 📋 Requisitos
 
-### 3. **Viewport 3D Funcional y Mejorado**
-- El canvas 3D muestra correctamente la cuadrícula, ejes y objetos de ejemplo.
-- Se corrigieron problemas de renderizado y eventos de mouse.
-- Se implementó un sistema de gizmos profesional: el gizmo se centra siempre en el objeto seleccionado, bloquea los controles de órbita al editar y solo mueve el objeto al arrastrar el gizmo, replicando la experiencia de Blender/Godot.
+- Node.js >= 18.0.0
+- npm >= 8.0.0
+- Navegador moderno con soporte WebGL
 
-### 4. **Sistema de Selección y Edición**
-- Selección bidireccional entre panel y viewport.
-- Inspector funcional para editar transformaciones y materiales en tiempo real.
-- Sincronización precisa entre la UI y la escena 3D.
+## 🛠️ Instalación
 
-### 5. **Paneles Avanzados y Registro de Avatares**
-- Panel avanzado de herramientas (gizmos, materiales, animaciones, scripts, exportación de avatares).
-- Sistema local de registro de avatares: creación, edición, eliminación, importación/exportación y persistencia en localStorage.
-- Componente UI dedicado para gestionar avatares.
-
-### 6. **Sistema de Notificaciones y Experiencia de Usuario**
-- Notificaciones globales tipo toast para feedback inmediato.
-- Mejoras visuales y de usabilidad en todos los paneles.
-
-### 7. **Documentación y Organización**
-- Estructura de carpetas y archivos documentada y alineada con la arquitectura modular.
-- README y archivos de estado actualizados para reflejar el progreso real.
-
----
-
-## 🚧 **Tareas Pendientes y Mejoras Futuras**
-
-### **Prioridad Alta**
-- [ ] Mejorar visualmente el gizmo (colores, iconografía, feedback visual al interactuar).
-- [ ] Implementar undo/redo real para todas las acciones de edición.
-- [ ] Integrar la importación de modelos 3D reales (GLTF, OBJ, FBX) en la AssetLibrary y Viewport.
-- [ ] Mejorar la gestión de materiales avanzados y texturas (soporte completo PBR, previews en tiempo real).
-- [ ] Finalizar la integración de animaciones y timeline para objetos y avatares.
-- [ ] Optimizar el rendimiento del renderizado y la gestión de escenas grandes.
-
-### **Prioridad Media**
-- [ ] Sistema de guardado/carga de escenas en backend y colaboración multiusuario.
-- [ ] Integración de físicas (Cannon.js u otro motor) para objetos y avatares.
-- [ ] Mejorar el sistema de scripting para lógica personalizada de objetos.
-- [ ] Panel de configuración avanzada de entorno (skybox, luces, niebla, etc.).
-
-### **Prioridad Baja**
-- [ ] Integración blockchain: conexión de wallet, publicación de escenas y mint de NFTs.
-- [ ] Marketplace y plantillas de escenas.
-- [ ] Exportación a más formatos y optimización para VR/AR.
-- [ ] Mejoras de accesibilidad y soporte para dispositivos móviles.
-
----
-
-**Estado actual:**
-- El editor es funcional, estable y usable para edición básica y avanzada.
-- La experiencia de usuario es fluida y profesional, con una base sólida para futuras expansiones.
-- El enfoque inmediato debe ser la mejora visual y la integración de assets/animaciones reales.
-
----
-
-# Editor 3D Web para el Metaverso
-
-## Slogan
-
-> **"No solo crees tu videojuego: publica tu juego 3D interactivo en un entorno virtual, diseñando todo como en los motores de videojuegos... pero todo dentro del ecosistema World Virtual."**
-
----
-
-## Visión y Objetivo
-
-Este módulo tiene como meta construir un **editor 3D web avanzado** que se inspire en la experiencia y potencia de herramientas como **Godot** y **Blender**, pero completamente accesible desde la web y enfocado en la creación, expansión y personalización del metaverso.
-
-- **Queremos que cualquier usuario pueda crear, animar y publicar mundos, juegos y experiencias 3D interactivas** sin depender de software externo, todo desde el navegador.
-- El editor será el "constructor" central del metaverso, permitiendo tanto a desarrolladores como a usuarios crear y expandir el ecosistema de forma sencilla, visual y colaborativa.
-
----
-
-## Inspiración: Godot y Blender en la Web
-
-- **Interfaz modular y profesional**: Paneles acoplables, jerarquía de escena, inspector de propiedades, timeline de animaciones, asset browser, etc.
-- **Herramientas de edición avanzadas**: Transformaciones, gizmos, edición de materiales, animación de esqueletos (rigging), scripting visual o por código.
-- **Experiencia de usuario fluida**: Todo lo que esperarías de un motor de videojuegos, pero en la web.
-
-### ¿Se pueden integrar assets de Godot y Blender?
-- **Sí**: Ambos son de código abierto y sus assets (modelos, texturas, animaciones, escenas) pueden exportarse a formatos estándar como GLTF/GLB, OBJ, FBX, etc.
-- **Three.js** soporta estos formatos, por lo que puedes importar assets creados en Godot o Blender y usarlos en el editor/metaverso.
-- El enfoque será facilitar la importación, pero priorizando la creación y edición directa en la plataforma, para que el usuario no dependa de herramientas externas si no lo desea.
-
----
-
-## Hoja de Ruta (Roadmap)
-
-### **Etapa 1: Fundamentos y arquitectura**
-- [ ] Definir arquitectura modular inspirada en Godot/Blender.
-- [ ] Crear componentes principales: Viewport, Inspector, Toolbar, AssetLibrary, ObjectPanel, Timeline.
-- [ ] Renderizado 3D básico con Three.js.
-
-### **Etapa 2: Edición y manipulación avanzada**
-- [ ] Selección y manipulación de objetos 3D (mover, rotar, escalar) con gizmos.
-- [ ] Jerarquía de escena y agrupación de objetos.
-- [ ] Inspector de propiedades avanzado (materiales, físicas, scripts).
-- [ ] Sistema de notificaciones y ayuda contextual.
-
-### **Etapa 3: Animación y rigging**
-- [ ] Visualización y manipulación de esqueletos (bones) en modelos GLTF/GLB.
-- [ ] Timeline y keyframes para animar huesos y objetos.
-- [ ] Creación y edición de animaciones desde la web.
-- [ ] Exportación de avatares animados listos para el cliente/metaverso.
-
-### **Etapa 4: Gestión de assets y expansión**
-- [ ] Asset browser con soporte para modelos, texturas, materiales, sonidos.
-- [ ] Importación de assets desde Godot, Blender y otros motores (GLTF, OBJ, FBX, etc.).
-- [ ] Subida y organización de assets propios y de la comunidad.
-- [ ] Marketplace y plantillas de escenas.
-
-### **Etapa 5: Publicación y colaboración**
-- [ ] Publicar mundos, juegos y assets directamente en el metaverso.
-- [ ] Sistema de permisos y roles para edición y publicación.
-- [ ] Colaboración multiusuario en tiempo real.
-- [ ] Integración con blockchain/NFTs (opcional).
-
-### **Etapa 6: Futuro y escalabilidad**
-- [ ] Scripting visual o por código para lógica de juego.
-- [ ] Soporte para físicas avanzadas y simulaciones.
-- [ ] Soporte para VR/AR y dispositivos inmersivos.
-- [ ] Optimización de rendimiento y experiencia de usuario.
-
----
-
-## Ventajas y posibilidades
-- **Todo en la web**: No necesitas instalar nada, solo tu navegador.
-- **Inspiración profesional**: Interfaz y flujo de trabajo familiar para usuarios de Godot, Blender y motores de videojuegos.
-- **Expansión orgánica**: El metaverso crece con las creaciones de la comunidad, sin límites.
-- **Accesibilidad**: Cualquier usuario puede crear, animar y publicar, sin barreras técnicas.
-- **Integración de assets open source**: Aprovecha la riqueza de la comunidad Godot/Blender, pero con un enfoque propio y sencillo.
-
----
-
-## Ejemplo de flujo de usuario
-1. El usuario entra al editor web.
-2. Crea o importa un avatar, escenario o asset.
-3. Anima, personaliza y configura su creación (todo visualmente, como en Godot/Blender).
-4. Publica su juego, experiencia o asset en el metaverso con un clic.
-5. Otros usuarios pueden explorar, jugar, modificar o expandir lo creado, todo desde la misma plataforma.
-
----
-
-## Notas finales
-- El objetivo es que el editor sea la puerta de entrada y expansión del metaverso, democratizando la creación 3D.
-- Se prioriza la facilidad de uso, la modularidad y la potencia, inspirados en los mejores motores de videojuegos, pero con la sencillez y accesibilidad de la web.
-- ¡Crea, anima, publica y expande tu mundo virtual sin límites!
-
-## 🚀 Estado Actual
-
-### ✅ **Funcionalidades Implementadas:**
-
-1. **Viewport (Canvas 3D)**
-   - Canvas Three.js interactivo con controles de órbita
-   - Luces ambientales y direccionales
-   - Grid helper y ejes de coordenadas
-   - Objetos de ejemplo (cubo, esfera, plano)
-   - Selección de objetos con click
-   - Resaltado visual de objetos seleccionados
-
-2. **Toolbar (Barra de herramientas)**
-   - Botones de modo de edición (Select, Move, Rotate, Scale)
-   - Botones de acción (Delete, Duplicate)
-   - Botones de publicación y conexión de wallet
-   - Botones de Undo/Redo
-
-3. **SceneEditor (Editor de escena)**
-   - Modos de edición (select, translate, rotate, scale)
-   - Botones para añadir objetos primitivos (Cube, Sphere, Cylinder, Plane)
-   - Funciones de guardar/cargar escena en localStorage
-   - Exportar escena como JSON
-   - Contador de objetos y estado de selección
-
-4. **ObjectPanel (Panel de objetos)**
-   - Lista jerárquica de objetos en la escena
-   - Expansión/colapso de grupos
-   - Toggle de visibilidad de objetos
-   - Selección de objetos
-   - Botón para añadir nuevos objetos
-
-5. **Inspector (Inspector de propiedades)**
-   - Edición de transformaciones (Position, Rotation, Scale)
-   - Propiedades de material (Color, Opacity, Transparent)
-   - Propiedades de geometría
-   - Interfaz intuitiva con controles numéricos y sliders
-
-6. **AssetLibrary (Biblioteca de assets)**
-   - Galería de assets organizados por categorías
-   - Búsqueda de assets
-   - Filtros por categoría
-   - Assets de ejemplo (primitivos, naturaleza, edificios, vehículos)
-   - Botón para subir nuevos assets
-
-7. **Sistema de Notificaciones**
-   - Notificaciones toast para feedback del usuario
-   - Diferentes tipos: success, error, warning, info
-   - Auto-dismiss con animaciones
-
-## 🛠️ Instalación y Uso
-
-### Prerrequisitos
-- Node.js 16+ 
-- npm o yarn
-
-### Instalación
+1. **Clonar el repositorio**:
 ```bash
-cd .bin/editor3d
+git clone https://github.com/woldvirtual3d/editor3d.git
+cd editor3d
+```
+
+2. **Instalar dependencias**:
+```bash
 npm install
 ```
 
-### Desarrollo
+3. **Iniciar el editor**:
 ```bash
+# Opción 1: Script automático (Windows)
+start-editor.bat
+
+# Opción 2: Comandos manuales
+npm run start
+
+# Opción 3: Solo servidor WebSocket
+npm run server
+
+# Opción 4: Solo editor (sin servidor)
 npm run dev
 ```
-El editor estará disponible en: `http://localhost:5173/`
 
-### Build para producción
+## 🎮 Uso
+
+### Inicio Rápido
+
+1. Ejecuta `start-editor.bat` (Windows) o `npm run start`
+2. El servidor WebSocket se iniciará en `ws://localhost:8080`
+3. El editor se abrirá en `http://localhost:5173`
+4. ¡Listo para crear contenido 3D!
+
+### Comandos Disponibles
+
 ```bash
-npm run build
+# Desarrollo
+npm run dev              # Solo editor (modo desarrollo)
+npm run server           # Solo servidor WebSocket
+npm run start            # Editor + Servidor (producción)
+npm run start:dev        # Editor + Servidor (desarrollo)
+
+# Construcción
+npm run build            # Construir para producción
+npm run build:all        # Construir + verificación de tipos
+npm run preview          # Vista previa de la construcción
+
+# Testing
+npm run test             # Ejecutar tests
+npm run test:watch       # Tests en modo watch
+
+# Linting
+npm run lint             # Verificar código
+npm run lint:fix         # Corregir problemas automáticamente
+npm run type-check       # Verificación de tipos TypeScript
 ```
 
-## 📁 Estructura del Proyecto
+## 🏗️ Arquitectura
 
-```
-.bin/editor3d/
-├── public/
-│   └── index.html
-├── src/
-│   ├── components/
-│   │   ├── Viewport.tsx          # Canvas 3D principal
-│   │   ├── SceneEditor.tsx       # Lógica de edición
-│   │   ├── Toolbar.tsx           # Barra de herramientas
-│   │   ├── ObjectPanel.tsx       # Lista de objetos
-│   │   ├── Inspector.tsx         # Propiedades del objeto
-│   │   ├── AssetLibrary.tsx      # Biblioteca de assets
-│   │   └── Notification.tsx      # Componente de notificaciones
-│   ├── contexts/
-│   │   └── NotificationContext.tsx # Contexto de notificaciones
-│   ├── hooks/
-│   │   └── useEditor.ts          # Hook personalizado para el editor
-│   ├── styles/
-│   │   └── global.css            # Estilos globales
-│   ├── types/
-│   │   └── editor.d.ts           # Tipos TypeScript
-│   ├── App.tsx                   # Componente principal
-│   └── index.tsx                 # Punto de entrada
-├── package.json
-├── tsconfig.json
-├── vite.config.ts
-└── README.md
-```
-
-## 🎯 Próximos Pasos
-
-### Prioridad Alta
-1. **Integración con Three.js real**: Conectar los componentes para que realmente manipulen la escena 3D
-2. **Sistema de transformaciones**: Implementar controles de transformación visual (gizmos)
-3. **Integración con blockchain**: Conectar wallet y sistema de publicación
-4. **Sistema de assets**: Implementar carga y gestión de modelos 3D reales
-
-### Prioridad Media
-5. **Colaboración**: Sistema de guardado en backend y colaboración en tiempo real
-6. **Físicas**: Integración con motor de físicas (Cannon.js)
-7. **Scripting**: Sistema de scripts para comportamientos personalizados
-8. **Animaciones**: Editor de animaciones y keyframes
-
-### Prioridad Baja
-9. **Marketplace**: Sistema de compra/venta de assets
-10. **Templates**: Plantillas predefinidas de escenas
-11. **Exportación**: Soporte para más formatos (GLTF, FBX, OBJ)
-12. **Optimización**: LOD, culling, y optimizaciones de rendimiento
-
-## 🔧 Tecnologías Utilizadas
-
-- **React 18** - Framework de UI
-- **TypeScript** - Tipado estático
-- **Three.js** - Motor 3D
-- **Vite** - Build tool y dev server
-- **CSS3** - Estilos y animaciones
-
-## 📝 Notas de Desarrollo
-
-- El editor está diseñado para ser modular y extensible
-- Todos los componentes usan TypeScript para mejor mantenibilidad
-- El sistema de notificaciones es global y reutilizable
-- Los estilos están organizados y son responsive
-- La estructura permite fácil integración con blockchain
-
-## 🐛 Problemas Conocidos
-
-- Los controles de transformación visual (gizmos) no están implementados aún
-- La integración real con Three.js necesita ser completada
-- El sistema de assets solo muestra placeholders por ahora
-
----
-
-> **Nota:** Este editor está en desarrollo activo. Las funcionalidades se implementan incrementalmente siguiendo la hoja de ruta definida. 
-
-# Editor 3D Enterprise - Metaverso Crypto World Virtual 3D
-
-## 📋 Estado Actual del Proyecto
-
-### ✅ Fases Completadas
-
-#### Fase 1: Inyección de Dependencias
-- ✅ Container de inyección de dependencias
-- ✅ Decoradores `@Injectable` y `@Inject`
-- ✅ Sistema de tokens y resolución automática
-- ✅ Lifecycle management
-
-#### Fase 2: Eventos Tipados y Logging
-- ✅ EventEmitter tipado con TypeScript
-- ✅ Sistema de logging estructurado
-- ✅ Eventos de performance y memoria
-- ✅ Decoradores de medición y validación
-
-#### Fase 3: Sistema de Renderizado Enterprise
-- ✅ Scene Graph jerárquico
-- ✅ Clases matemáticas (Vector3, Matrix4, Quaternion, Euler)
-- ✅ Sistema de componentes base
-- ✅ Volúmenes de bounding
-- ✅ Motor WebGL2 empresarial
-
-#### Fase 4: Sistema de Iluminación PBR
-- ✅ Sistema de luces (Point, Directional, Spot, Area, Ambient)
-- ✅ Iluminación PBR completa
-- ✅ Sombras y iluminación global
-- ✅ Post-procesado avanzado
-- ✅ LightManager centralizado
-
-#### Fase 5: Sistema de Partículas y Efectos
-- ✅ Sistema de partículas GPU
-- ✅ Emisores (punto, línea, superficie, volumen)
-- ✅ Efectos predefinidos (fuego, humo, explosiones, magia)
-- ✅ Física de partículas
-- ✅ Renderizado optimizado
-
-### 🎯 Arquitectura Implementada
+### Estructura del Proyecto
 
 ```
 src/
+├── components/          # Componentes React
+│   ├── Viewport.tsx     # Viewport 3D principal
+│   ├── EngineControls.tsx # Controles del motor
+│   ├── EngineStatus.tsx # Estado del motor
+│   ├── EngineConnector.tsx # Conector del motor
+│   ├── EngineBridge.tsx # Puente WebSocket
+│   ├── SceneEditor.tsx  # Editor de escenas
+│   ├── ObjectPanel.tsx  # Panel de objetos
+│   ├── Inspector.tsx    # Inspector de propiedades
+│   ├── AssetLibrary.tsx # Biblioteca de assets
+│   ├── IslandBuilder.tsx # Constructor de islas
+│   ├── AvatarAnimator.tsx # Animador de avatares
+│   └── Timeline.tsx     # Timeline de animaciones
 ├── core/
-│   ├── di/                    # Inyección de dependencias
-│   ├── events/                # Eventos tipados
-│   ├── logging/               # Sistema de logging
-│   ├── renderer/              # Motor de renderizado
-│   ├── scene/                 # Scene Graph
-│   ├── lighting/              # Sistema de iluminación
-│   ├── particles/             # Sistema de partículas
-│   ├── materials/             # Sistema de materiales
-│   └── postprocessing/        # Post-procesado
-├── components/                # Componentes React
-├── services/                  # Servicios de alto nivel
-└── hooks/                     # Hooks personalizados
+│   └── engine/
+│       ├── EngineCore.ts # Motor 3D base
+│       └── EngineCore.2.ts # Motor 3D avanzado
+├── server/
+│   ├── WebSocketServer.ts # Servidor WebSocket
+│   └── startServer.ts   # Script de inicio
+└── types/               # Definiciones TypeScript
 ```
 
-## ⚠️ Errores Pendientes (Tareas por Hacer)
+### Componentes Principales
 
-### 1. **Configuración de Babel - CRÍTICO**
-```bash
-# Error: Support for the experimental syntax 'decorators' isn't currently enabled
-# Archivos afectados:
-# - src/core/commands/CommandManager.ts
-# - src/core/geometry/GeometryService.ts
-# - src/core/physics/PhysicsService.ts
-```
+#### EngineCore.ts
+- Gestión de conexión WebSocket
+- Estado del motor 3D
+- Manejo de errores y reconexión
+- Configuración del motor
 
-**Solución Pendiente:**
-- Configurar `@babel/plugin-proposal-decorators`
-- Actualizar configuración de Jest
-- Verificar `babel.config.js`
+#### EngineCore.2.ts
+- Gestión de escenas 3D
+- Operaciones de objetos
+- Sistema de selección
+- Historial de operaciones (undo/redo)
 
-### 2. **Métodos Faltantes en Clases**
+#### EngineConnector.tsx
+- Contexto React para el motor
+- Hooks personalizados
+- Integración con componentes UI
 
-#### Geometry.ts
-```typescript
-// Métodos faltantes:
-- bind(gl: WebGL2RenderingContext): void
-- render(gl: WebGL2RenderingContext): void
-- serialize(): any
-- calculateNormals(): void
-- getBoundingBox(): BoundingBox
-- getBoundingSphere(): BoundingSphere
-```
+#### EngineBridge.tsx
+- Puente entre motor y UI
+- Diagnóstico del motor
+- Estado de conexión visual
 
-#### Camera.ts
-```typescript
-// Métodos faltantes:
-- serialize(): any
-- updateFrustum(): void
-- getRightDirection(): Vector3 (con applyQuaternion)
-```
+#### WebSocketServer.ts
+- Servidor WebSocket robusto
+- Manejo de múltiples clientes
+- Heartbeat y ping/pong
+- Broadcast de mensajes
 
-#### Vector3.ts
-```typescript
-// Métodos faltantes:
-- applyQuaternion(quaternion: Quaternion): Vector3
-```
+## 🔧 Configuración
 
-### 3. **Contexto WebGL2 en Tests**
-```bash
-# Error: ReferenceError: WebGL2RenderingContext is not defined
-# Archivos afectados:
-# - src/core/renderer/Renderer.ts
-# - Todos los tests que usan WebGL
-```
-
-**Solución Pendiente:**
-- Crear mock completo de WebGL2
-- Configurar setup de tests
-- Mockear canvas y context
-
-### 4. **Nombres de Clases en Tests**
-```typescript
-// Problema: Los constructores generan nombres automáticos
-// Ejemplo: "Geometry_test-geometry" en lugar de "test-geometry"
-```
-
-### 5. **Eventos de Material**
-```typescript
-// Error: 'propertyChanged' vs 'property:changed'
-// Inconsistencia en nombres de eventos
-```
-
-## 🚀 Próximas Fases
-
-### Fase 6: Sistema de Audio 3D (EN PROGRESO)
-- [ ] Sistema de audio espacial
-- [ ] Efectos de sonido 3D
-- [ ] Integración con Web Audio API
-- [ ] Audio procedural
-- [ ] Sistema de música ambiental
-
-### Fase 7: Sistema de Animación
-- [ ] Animación de esqueletos
-- [ ] Animaciones procedurales
-- [ ] Sistema de keyframes
-- [ ] Blend trees
-- [ ] Animación facial
-
-### Fase 8: Sistema de Física
-- [ ] Motor de física
-- [ ] Colisiones
-- [ ] Rigid bodies
-- [ ] Soft bodies
-- [ ] Fluidos
-
-### Fase 9: Networking y Multiplayer
-- [ ] Sincronización de estado
-- [ ] Networking optimizado
-- [ ] Sistema de rooms
-- [ ] Chat y comunicación
-
-### Fase 10: Optimizaciones Finales
-- [ ] LOD (Level of Detail)
-- [ ] Occlusion culling
-- [ ] Frustum culling
-- [ ] Optimización de memoria
-- [ ] Profiling y métricas
-
-## 🛠️ Comandos Útiles
+### Variables de Entorno
 
 ```bash
-# Instalar dependencias
-npm install
+# Servidor WebSocket
+EDITOR3D_PORT=8080              # Puerto del servidor
+EDITOR3D_HOST=localhost          # Host del servidor
+EDITOR3D_MAX_CLIENTS=100         # Máximo de clientes
 
-# Ejecutar tests (con errores conocidos)
-npm test
+# Editor
+VITE_ENGINE_URL=ws://localhost:8080  # URL del motor
+VITE_API_URL=http://localhost:3000   # URL de la API
+```
 
-# Ejecutar tests sin coverage
-npm run test:no-coverage
+### Configuración del Motor
 
-# Compilar TypeScript
+```typescript
+// Configuración por defecto
+const defaultConfig = {
+  url: 'localhost',
+  port: 8080,
+  protocol: 'ws',
+  timeout: 10000,
+  maxRetries: 3,
+  retryDelay: 2000,
+  autoReconnect: true
+};
+```
+
+## 🌐 WebSocket API
+
+### Mensajes del Cliente
+
+```typescript
+// Ping/Pong
+{ type: 'ping', timestamp: number }
+
+// Comandos del motor
+{ 
+  type: 'engine_command', 
+  timestamp: number,
+  data: { command: string, params: any } 
+}
+
+// Actualización de escena
+{ 
+  type: 'scene_update', 
+  timestamp: number,
+  data: { sceneId: string, updates: any } 
+}
+
+// Operación de objeto
+{ 
+  type: 'object_operation', 
+  timestamp: number,
+  data: { operation: string, objectId: string, data: any } 
+}
+
+// Solicitud de asset
+{ 
+  type: 'asset_request', 
+  timestamp: number,
+  data: { assetId: string, assetType: string } 
+}
+```
+
+### Respuestas del Servidor
+
+```typescript
+// Bienvenida
+{ 
+  type: 'welcome', 
+  timestamp: number,
+  data: { clientId: string, serverTime: string, config: any } 
+}
+
+// Respuesta de comando
+{ 
+  type: 'engine_response', 
+  timestamp: number,
+  data: { command: string, success: boolean, result: any } 
+}
+
+// Broadcast de actualización
+{ 
+  type: 'scene_update_broadcast', 
+  timestamp: number,
+  data: { clientId: string, sceneId: string, updates: any } 
+}
+```
+
+## 🎨 Interfaz de Usuario
+
+### Paneles Principales
+
+1. **Viewport**: Área principal de visualización 3D
+2. **EngineControls**: Controles del motor y herramientas
+3. **ObjectPanel**: Lista y gestión de objetos
+4. **Inspector**: Propiedades del objeto seleccionado
+5. **AssetLibrary**: Biblioteca de modelos y texturas
+6. **Timeline**: Control de animaciones
+7. **EngineStatus**: Estado de conexión y rendimiento
+
+### Atajos de Teclado
+
+- `W`: Herramienta de traslación
+- `E`: Herramienta de rotación
+- `R`: Herramienta de escala
+- `Q`: Herramienta de selección
+- `Delete`: Eliminar objeto seleccionado
+- `Ctrl+Z`: Deshacer
+- `Ctrl+Y`: Rehacer
+- `Ctrl+D`: Duplicar objeto
+- `Ctrl+G`: Agrupar objetos
+- `F`: Enfocar objeto seleccionado
+
+## 🧪 Testing
+
+```bash
+# Ejecutar todos los tests
+npm run test
+
+# Tests en modo watch
+npm run test:watch
+
+# Tests con coverage
+npm run test -- --coverage
+```
+
+## 📦 Construcción
+
+```bash
+# Construcción de desarrollo
 npm run build
 
-# Ejecutar en modo desarrollo
-npm run dev
+# Construcción de producción
+NODE_ENV=production npm run build
 
-# Linting
-npm run lint
-
-# Formatear código
-npm run format
+# Vista previa
+npm run preview
 ```
 
-## 📁 Estructura de Archivos
+## 🐛 Solución de Problemas
 
-```
-.bin/editor3d/
-├── src/
-│   ├── core/                   # Núcleo del motor
-│   │   ├── di/                 # Inyección de dependencias
-│   │   ├── events/             # Eventos tipados
-│   │   ├── logging/            # Sistema de logging
-│   │   ├── renderer/           # Motor de renderizado
-│   │   ├── scene/              # Scene Graph
-│   │   ├── lighting/           # Sistema de iluminación
-│   │   ├── particles/          # Sistema de partículas
-│   │   ├── materials/          # Sistema de materiales
-│   │   └── postprocessing/     # Post-procesado
-│   ├── components/             # Componentes React
-│   ├── services/               # Servicios de alto nivel
-│   ├── hooks/                  # Hooks personalizados
-│   └── types/                  # Tipos TypeScript
-├── tests/                      # Tests unitarios
-├── docs/                       # Documentación
-├── examples/                   # Ejemplos de uso
-└── config/                     # Configuraciones
+### Error de Conexión WebSocket
+
+1. Verificar que el servidor esté ejecutándose:
+```bash
+npm run server
 ```
 
-## 🔧 Configuración Pendiente
+2. Verificar el puerto en la configuración
+3. Revisar firewall y antivirus
+4. Usar `npm run server:auto` para puerto automático
 
-### Babel Config
-```javascript
-// babel.config.js - PENDIENTE
-module.exports = {
-  presets: [
-    ['@babel/preset-env', { targets: { node: 'current' } }],
-    '@babel/preset-typescript'
-  ],
-  plugins: [
-    ['@babel/plugin-proposal-decorators', { legacy: true }],
-    ['@babel/plugin-proposal-class-properties', { loose: false }]
-  ]
-};
+### Problemas de Rendimiento
+
+1. Reducir calidad de texturas
+2. Deshabilitar sombras en tiempo real
+3. Limitar número de objetos en escena
+4. Usar LOD (Level of Detail)
+
+### Errores de TypeScript
+
+```bash
+# Verificar tipos
+npm run type-check
+
+# Corregir automáticamente
+npm run lint:fix
 ```
 
-### Jest Config
-```javascript
-// jest.config.js - PENDIENTE
-module.exports = {
-  preset: 'ts-jest',
-  testEnvironment: 'jsdom',
-  setupFilesAfterEnv: ['<rootDir>/tests/setup.ts'],
-  moduleNameMapping: {
-    '^@/(.*)$': '<rootDir>/src/$1'
-  },
-  collectCoverageFrom: [
-    'src/**/*.{ts,tsx}',
-    '!src/**/*.d.ts',
-    '!src/**/*.test.{ts,tsx}'
-  ]
-};
-```
+## 🤝 Contribución
 
-## 📊 Métricas Actuales
+1. Fork el proyecto
+2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
+3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abre un Pull Request
 
-- **Cobertura de Tests**: 17.45% (objetivo: 90%)
-- **Tests Pasando**: 85/169 (50.3%)
-- **Líneas de Código**: ~6,500
-- **Archivos TypeScript**: ~50
-- **Componentes React**: ~15
+## 📄 Licencia
 
-## 🎯 Objetivos a Corto Plazo
+Este proyecto está bajo la Licencia MIT. Ver `LICENSE` para más detalles.
 
-1. **Completar Fase 6**: Sistema de Audio 3D
-2. **Arreglar configuración de Babel** (crítico)
-3. **Implementar métodos faltantes** en clases core
-4. **Mejorar cobertura de tests** al 70%
-5. **Optimizar rendimiento** del renderer
+## 🆘 Soporte
 
-## 📞 Contacto y Soporte
+- **Issues**: [GitHub Issues](https://github.com/woldvirtual3d/editor3d/issues)
+- **Documentación**: [Wiki](https://github.com/woldvirtual3d/editor3d/wiki)
+- **Discord**: [Servidor de la comunidad](https://discord.gg/woldvirtual3d)
 
-- **Proyecto**: Metaverso Crypto World Virtual 3D
-- **Editor 3D**: Sistema empresarial modular
-- **Estado**: En desarrollo activo
-- **Última actualización**: Fase 5 completada
+## 🗺️ Roadmap
+
+- [ ] Soporte para VR/AR
+- [ ] Exportación a formatos adicionales
+- [ ] Sistema de plugins
+- [ ] Colaboración en tiempo real
+- [ ] Integración con blockchain
+- [ ] IA avanzada para generación de contenido
+- [ ] Soporte para múltiples motores 3D
+- [ ] Sistema de versionado de escenas
 
 ---
 
-**⚠️ IMPORTANTE**: Los errores listados son conocidos y están siendo trabajados. El sistema es funcional para desarrollo, pero requiere corrección de configuración para tests completos. 
-
-# editor3d/
-
-Herramientas y automatizaciones para el editor 3D del metaverso.
-
-## ¿Qué contiene?
-- Scripts para exportación, importación y validación de escenas.
-- Automatización de tareas del editor 3D.
-
-## Buenas prácticas
-- Documenta cada herramienta y su integración.
-- Centraliza logs de procesos del editor en logs/.
-
-## Ejemplo de uso
-```bash
-node export-scene.js
-node validate-scene.js
-``` 
+**Desarrollado con ❤️ por el equipo de WoldVirtual3d** 

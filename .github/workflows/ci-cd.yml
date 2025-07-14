@@ -1,0 +1,299 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+env:
+  NODE_VERSION: '18'
+  NPM_VERSION: '9'
+
+jobs:
+  # ============================================================================
+  # VALIDACIÓN Y LINTING
+  # ============================================================================
+  validate:
+    name: Validación y Linting
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout código
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: Instalar dependencias
+      run: npm ci
+      
+    - name: Validar TypeScript
+      run: npm run type-check
+      
+    - name: Linting con ESLint
+      run: npm run lint
+      
+    - name: Verificar formato de código
+      run: npm run format:check
+
+  # ============================================================================
+  # TESTS UNITARIOS
+  # ============================================================================
+  unit-tests:
+    name: Tests Unitarios
+    runs-on: ubuntu-latest
+    needs: validate
+    
+    steps:
+    - name: Checkout código
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: Instalar dependencias
+      run: npm ci
+      
+    - name: Ejecutar tests unitarios
+      run: npm run test:unit
+      
+    - name: Generar reporte de cobertura
+      run: npm run test:coverage
+      
+    - name: Subir cobertura a Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage/lcov.info
+        flags: unittests
+        name: codecov-umbrella
+
+  # ============================================================================
+  # TESTS DE INTEGRACIÓN
+  # ============================================================================
+  integration-tests:
+    name: Tests de Integración
+    runs-on: ubuntu-latest
+    needs: validate
+    
+    steps:
+    - name: Checkout código
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: Instalar dependencias
+      run: npm ci
+      
+    - name: Ejecutar tests de integración
+      run: npm run test:integration
+      
+    - name: Generar reporte de cobertura de integración
+      run: npm run test:integration:coverage
+
+  # ============================================================================
+  # TESTS E2E
+  # ============================================================================
+  e2e-tests:
+    name: Tests End-to-End
+    runs-on: ubuntu-latest
+    needs: [validate, unit-tests]
+    
+    steps:
+    - name: Checkout código
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: Instalar dependencias
+      run: npm ci
+      
+    - name: Build de desarrollo
+      run: npm run build:dev
+      
+    - name: Ejecutar tests E2E
+      run: npm run test:e2e
+      
+    - name: Subir screenshots de fallos
+      uses: actions/upload-artifact@v3
+      if: failure()
+      with:
+        name: e2e-screenshots
+        path: test-results/screenshots/
+
+  # ============================================================================
+  # BUILD Y OPTIMIZACIÓN
+  # ============================================================================
+  build:
+    name: Build y Optimización
+    runs-on: ubuntu-latest
+    needs: [validate, unit-tests, integration-tests]
+    
+    steps:
+    - name: Checkout código
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: Instalar dependencias
+      run: npm ci
+      
+    - name: Build de producción
+      run: npm run build
+      
+    - name: Analizar bundle
+      run: npm run analyze
+      
+    - name: Verificar tamaño del bundle
+      run: npm run bundle-size
+      
+    - name: Subir artifacts de build
+      uses: actions/upload-artifact@v3
+      with:
+        name: build-artifacts
+        path: dist/
+
+  # ============================================================================
+  # ANÁLISIS DE SEGURIDAD
+  # ============================================================================
+  security:
+    name: Análisis de Seguridad
+    runs-on: ubuntu-latest
+    needs: validate
+    
+    steps:
+    - name: Checkout código
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: Instalar dependencias
+      run: npm ci
+      
+    - name: Auditoría de dependencias
+      run: npm audit --audit-level=moderate
+      
+    - name: Análisis de vulnerabilidades con Snyk
+      uses: snyk/actions/node@master
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      with:
+        args: --severity-threshold=high
+
+  # ============================================================================
+  # DESPLIEGUE EN STAGING
+  # ============================================================================
+  deploy-staging:
+    name: Despliegue Staging
+    runs-on: ubuntu-latest
+    needs: [build, security]
+    if: github.ref == 'refs/heads/develop'
+    environment: staging
+    
+    steps:
+    - name: Checkout código
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: Instalar dependencias
+      run: npm ci
+      
+    - name: Build para staging
+      run: npm run build:staging
+      
+    - name: Desplegar a Vercel (Staging)
+      uses: amondnet/vercel-action@v25
+      with:
+        vercel-token: ${{ secrets.VERCEL_TOKEN }}
+        vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+        vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+        vercel-args: '--prod'
+
+  # ============================================================================
+  # DESPLIEGUE EN PRODUCCIÓN
+  # ============================================================================
+  deploy-production:
+    name: Despliegue Producción
+    runs-on: ubuntu-latest
+    needs: [build, security, deploy-staging]
+    if: github.ref == 'refs/heads/main'
+    environment: production
+    
+    steps:
+    - name: Checkout código
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: Instalar dependencias
+      run: npm ci
+      
+    - name: Build para producción
+      run: npm run build:production
+      
+    - name: Desplegar a Vercel (Producción)
+      uses: amondnet/vercel-action@v25
+      with:
+        vercel-token: ${{ secrets.VERCEL_TOKEN }}
+        vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+        vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+        vercel-args: '--prod'
+
+  # ============================================================================
+  # MONITOREO POST-DESPLIEGUE
+  # ============================================================================
+  post-deploy:
+    name: Monitoreo Post-Despliegue
+    runs-on: ubuntu-latest
+    needs: [deploy-staging, deploy-production]
+    if: always()
+    
+    steps:
+    - name: Verificar salud de la aplicación
+      run: |
+        echo "Verificando salud de la aplicación..."
+        # Aquí irían los health checks reales
+        sleep 30
+        
+    - name: Notificar despliegue exitoso
+      if: success()
+      run: |
+        echo "✅ Despliegue completado exitosamente"
+        # Aquí irían las notificaciones (Slack, Discord, etc.)
+        
+    - name: Notificar fallo en despliegue
+      if: failure()
+      run: |
+        echo "❌ Fallo en el despliegue"
+        # Aquí irían las notificaciones de error 

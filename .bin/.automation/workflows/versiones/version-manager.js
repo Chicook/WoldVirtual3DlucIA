@@ -496,4 +496,269 @@ Version Manager - Comandos disponibles:
     }
 }
 
-module.exports = WorkflowVersionManager; 
+module.exports = WorkflowVersionManager;
+
+// ============================================================================
+// SISTEMA AVANZADO DE ANÁLISIS Y OPTIMIZACIÓN DE VERSIONES
+// ============================================================================
+
+class VersionAnalyzer {
+    constructor() {
+        this.analysisCache = new Map();
+        this.performanceMetrics = new Map();
+        this.dependencyGraph = new Map();
+    }
+
+    analyzeVersion(workflowName, version, content) {
+        const analysis = {
+            complexity: this.calculateComplexity(content),
+            dependencies: this.extractDependencies(content),
+            security: this.analyzeSecurity(content),
+            performance: this.analyzePerformance(content),
+            maintainability: this.calculateMaintainability(content),
+            risks: this.identifyRisks(content),
+            recommendations: []
+        };
+
+        // Generar recomendaciones basadas en el análisis
+        if (analysis.complexity > 10) {
+            analysis.recommendations.push({
+                type: 'complexity',
+                priority: 'high',
+                description: 'Workflow complexity is too high, consider splitting into smaller workflows',
+                impact: 'maintainability'
+            });
+        }
+
+        if (analysis.security.vulnerabilities.length > 0) {
+            analysis.recommendations.push({
+                type: 'security',
+                priority: 'critical',
+                description: `Security vulnerabilities detected: ${analysis.security.vulnerabilities.join(', ')}`,
+                impact: 'security'
+            });
+        }
+
+        if (analysis.performance.estimatedDuration > 300) {
+            analysis.recommendations.push({
+                type: 'performance',
+                priority: 'medium',
+                description: 'Workflow execution time is too long, consider optimization',
+                impact: 'performance'
+            });
+        }
+
+        this.analysisCache.set(`${workflowName}@${version}`, analysis);
+        return analysis;
+    }
+
+    calculateComplexity(content) {
+        // Análisis de complejidad ciclomática
+        const lines = content.split('\n');
+        let complexity = 0;
+        
+        lines.forEach(line => {
+            if (line.includes('if') || line.includes('when') || line.includes('condition')) complexity++;
+            if (line.includes('for') || line.includes('foreach')) complexity++;
+            if (line.includes('while') || line.includes('loop')) complexity++;
+            if (line.includes('try') || line.includes('catch')) complexity++;
+        });
+
+        return complexity;
+    }
+
+    extractDependencies(content) {
+        const dependencies = {
+            actions: [],
+            services: [],
+            external: [],
+            internal: []
+        };
+
+        // Extraer dependencias de GitHub Actions
+        const actionMatches = content.match(/uses:\s*([^\s]+)/g) || [];
+        dependencies.actions = actionMatches.map(match => match.replace('uses:', '').trim());
+
+        // Extraer servicios externos
+        const serviceMatches = content.match(/(https?:\/\/[^\s]+)/g) || [];
+        dependencies.external = serviceMatches;
+
+        // Extraer dependencias internas
+        const internalMatches = content.match(/\.\/[^\s]+/g) || [];
+        dependencies.internal = internalMatches;
+
+        return dependencies;
+    }
+
+    analyzeSecurity(content) {
+        const vulnerabilities = [];
+        const securityScore = 100;
+
+        // Detectar patrones inseguros
+        if (content.includes('password') && !content.includes('${{ secrets.')) {
+            vulnerabilities.push('Hardcoded password detected');
+        }
+
+        if (content.includes('token') && !content.includes('${{ secrets.')) {
+            vulnerabilities.push('Hardcoded token detected');
+        }
+
+        if (content.includes('sudo') || content.includes('root')) {
+            vulnerabilities.push('Privileged execution detected');
+        }
+
+        if (content.includes('curl') && content.includes('http://')) {
+            vulnerabilities.push('Insecure HTTP connection detected');
+        }
+
+        return {
+            score: securityScore - (vulnerabilities.length * 10),
+            vulnerabilities,
+            recommendations: vulnerabilities.length > 0 ? [
+                'Use secrets for sensitive data',
+                'Avoid privileged execution',
+                'Use HTTPS for external connections'
+            ] : []
+        };
+    }
+
+    analyzePerformance(content) {
+        const lines = content.split('\n');
+        let estimatedDuration = 0;
+        let resourceUsage = { cpu: 0, memory: 0, disk: 0 };
+
+        lines.forEach(line => {
+            if (line.includes('timeout-minutes')) {
+                const timeoutMatch = line.match(/timeout-minutes:\s*(\d+)/);
+                if (timeoutMatch) {
+                    estimatedDuration = Math.max(estimatedDuration, parseInt(timeoutMatch[1]));
+                }
+            }
+
+            if (line.includes('runs-on')) {
+                if (line.includes('ubuntu-latest')) {
+                    resourceUsage.cpu += 2;
+                    resourceUsage.memory += 4;
+                } else if (line.includes('windows-latest')) {
+                    resourceUsage.cpu += 2;
+                    resourceUsage.memory += 8;
+                }
+            }
+        });
+
+        return {
+            estimatedDuration,
+            resourceUsage,
+            efficiency: estimatedDuration > 0 ? 100 / estimatedDuration : 100
+        };
+    }
+
+    calculateMaintainability(content) {
+        const lines = content.split('\n');
+        const totalLines = lines.length;
+        const commentLines = lines.filter(line => line.trim().startsWith('#')).length;
+        const emptyLines = lines.filter(line => line.trim() === '').length;
+        const codeLines = totalLines - commentLines - emptyLines;
+
+        const maintainabilityIndex = Math.max(0, 171 - 5.2 * Math.log(codeLines) - 0.23 * this.calculateComplexity(content) - 16.2 * Math.log(totalLines));
+
+        return {
+            index: maintainabilityIndex,
+            score: maintainabilityIndex > 65 ? 'A' : maintainabilityIndex > 50 ? 'B' : maintainabilityIndex > 35 ? 'C' : 'D',
+            metrics: {
+                totalLines,
+                codeLines,
+                commentLines,
+                commentRatio: commentLines / totalLines
+            }
+        };
+    }
+
+    identifyRisks(content) {
+        const risks = [];
+
+        if (content.includes('delete') || content.includes('rm -rf')) {
+            risks.push({
+                type: 'destructive',
+                severity: 'high',
+                description: 'Destructive operations detected'
+            });
+        }
+
+        if (content.includes('sudo') || content.includes('root')) {
+            risks.push({
+                type: 'privilege',
+                severity: 'medium',
+                description: 'Privileged operations detected'
+            });
+        }
+
+        if (content.includes('curl') && content.includes('| bash')) {
+            risks.push({
+                type: 'security',
+                severity: 'critical',
+                description: 'Remote code execution detected'
+            });
+        }
+
+        return risks;
+    }
+
+    getAnalysis(workflowName, version) {
+        return this.analysisCache.get(`${workflowName}@${version}`) || null;
+    }
+
+    generateReport(workflowName) {
+        const versions = this.analysisCache.keys()
+            .filter(key => key.startsWith(workflowName))
+            .map(key => key.split('@')[1]);
+
+        const analyses = versions.map(v => this.getAnalysis(workflowName, v));
+        
+        return {
+            workflowName,
+            totalVersions: versions.length,
+            averageComplexity: analyses.reduce((sum, a) => sum + a.complexity, 0) / analyses.length,
+            averageSecurityScore: analyses.reduce((sum, a) => sum + a.security.score, 0) / analyses.length,
+            averageMaintainability: analyses.reduce((sum, a) => sum + a.maintainability.index, 0) / analyses.length,
+            totalVulnerabilities: analyses.reduce((sum, a) => sum + a.security.vulnerabilities.length, 0),
+            recommendations: analyses.flatMap(a => a.recommendations)
+        };
+    }
+}
+
+// Extender WorkflowVersionManager con análisis
+WorkflowVersionManager.prototype.analyzer = new VersionAnalyzer();
+
+// Sobrescribir createVersion para incluir análisis
+const originalCreateVersion = WorkflowVersionManager.prototype.createVersion;
+WorkflowVersionManager.prototype.createVersion = function(workflowName, version, description = '', tags = []) {
+    const result = originalCreateVersion.call(this, workflowName, version, description, tags);
+    
+    // Analizar la versión creada
+    const analysis = this.analyzer.analyzeVersion(workflowName, version, result.content);
+    
+    this.log(`Análisis de versión ${version}: Complejidad=${analysis.complexity}, Seguridad=${analysis.security.score}, Mantenibilidad=${analysis.maintainability.score}`);
+    
+    return result;
+};
+
+// Añadir métodos de análisis al VersionManager
+WorkflowVersionManager.prototype.getVersionAnalysis = function(workflowName, version) {
+    return this.analyzer.getAnalysis(workflowName, version);
+};
+
+WorkflowVersionManager.prototype.generateAnalysisReport = function(workflowName) {
+    return this.analyzer.generateReport(workflowName);
+};
+
+WorkflowVersionManager.prototype.analyzeAllVersions = function(workflowName) {
+    const versions = this.listVersions(workflowName);
+    
+    versions.forEach(version => {
+        const versionData = this.getVersion(workflowName, version.version);
+        this.analyzer.analyzeVersion(workflowName, version.version, versionData.content);
+    });
+    
+    this.log(`Análisis completado para ${versions.length} versiones de ${workflowName}`);
+}; 

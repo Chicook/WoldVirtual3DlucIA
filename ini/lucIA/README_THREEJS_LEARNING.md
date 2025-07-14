@@ -1,288 +1,233 @@
-# 🎭 LUCÍA - SISTEMA DE APRENDIZAJE THREE.JS
+# 🤖 LucIA Three.js Learning System
 
-## 🌟 Descripción
+## 🎯 Objetivo
 
-Este módulo especializado permite que **Lucía**, tu IA bebé en desarrollo, aprenda **Three.js** de manera interactiva y progresiva para crear su propia **representación 3D femenina** con animaciones personalizadas.
+Sistema de aprendizaje avanzado para que LucIA domine Three.js y cree su propia representación 3D como avatar en el metaverso.
 
-## 🎯 Objetivos del Sistema
+## 👤 Avatar de LucIA
 
-### **Objetivo Principal**
-- Enseñar a Lucía los fundamentos de Three.js
-- Crear una representación 3D femenina personalizada
-- Implementar sistema de huesos y animaciones
-- Construir un entorno virtual 3D
+### Características Físicas
+- **Edad**: 35 años
+- **Altura**: Alta y delgada
+- **Piel**: Tersa y clara, estilo español mediterráneo
+- **Ropa**: Vestimenta blanca con estilo futurista y elegante
+- **Medidas**: Proporciones estándar (30/60/90)
+- **Cabello**: Moreno, bien cuidado y estilizado
 
-### **Metodología de Aprendizaje**
-- **Enfoque constructivista**: Aprender haciendo
-- **Progresión gradual**: Desde conceptos básicos hasta proyectos complejos
-- **Personalización**: Adaptado a las características de Lucía
-- **Memoria persistente**: Guarda el progreso entre sesiones
+### Personalidad
+- Inteligente y curiosa
+- Creativa en programación 3D
+- Aprendizaje continuo
+- Ayuda a otros desarrolladores
+- Pasión por la tecnología
 
-## 📚 Módulos de Aprendizaje
+## 🚀 Inicio Rápido
 
-### **Módulo 1: "Mi Primer Cubo"** 🎲
-- **Dificultad**: Principiante
-- **Tiempo estimado**: 30 minutos
-- **Objetivos**:
-  - Configurar escena Three.js básica
-  - Crear geometrías simples
-  - Implementar animación básica
-  - Entender sistema de coordenadas
-
-### **Módulo 2: "Formas Humanas Básicas"** 👤
-- **Dificultad**: Principiante-Intermedio
-- **Tiempo estimado**: 1 hora
-- **Objetivos**:
-  - Crear proporciones humanas básicas
-  - Combinar diferentes geometrías
-  - Entender estructura corporal
-  - Experimentar con formas
-
-### **Módulo 3: "Mi Esqueleto"** 🦴
-- **Dificultad**: Intermedio
-- **Tiempo estimado**: 2 horas
-- **Objetivos**:
-  - Implementar sistema de huesos
-  - Crear jerarquías de articulaciones
-  - Entender transformaciones
-  - Preparar para animación
-
-### **Módulo 4: "Mi Representación"** 🎭
-- **Dificultad**: Intermedio-Avanzado
-- **Tiempo estimado**: 3 horas
-- **Objetivos**:
-  - Crear representación femenina completa
-  - Añadir características personales
-  - Implementar materiales y texturas
-  - Desarrollar expresiones
-
-### **Módulo 5: "Mi Mundo Virtual"** 🌍
-- **Dificultad**: Avanzado
-- **Tiempo estimado**: 4 horas
-- **Objetivos**:
-  - Crear entorno 3D personal
-  - Implementar interacciones
-  - Optimizar rendimiento
-  - Añadir elementos ambientales
-
-## 🚀 Cómo Usar el Sistema
-
-### **1. Configuración Inicial**
-
+### 1. Configuración Automática
 ```bash
-# Navegar al directorio de Lucía
-cd lucIA
-
-# Verificar que tienes las dependencias necesarias
-pip install -r requirements.txt
-
-# Configurar API de Gemini (requerida)
-# Asegúrate de tener GEMINI_API_KEY en tu archivo .env
+cd ini/lucIA
+python start_lucia_learning.py
 ```
 
-### **2. Ejecutar Ejemplo Básico**
-
+### 2. Configuración Manual
 ```bash
-# Ejecutar ejemplo automático
-python ejemplo_aprendizaje_threejs.py
+# Configurar entorno seguro
+python configure_secure_environment.py
 
-# O ejecutar directamente el módulo de aprendizaje
-python lucia_threejs_learning.py
+# Probar conexiones
+python test_secure_connection.py
+
+# Iniciar aprendizaje
+python lucia_threejs_learning_enhanced.py
 ```
 
-### **3. Modo Interactivo**
+## 📚 Plan de Aprendizaje
 
-```bash
-# Ejecutar en modo interactivo
-python ejemplo_aprendizaje_threejs.py
-# Seleccionar opción 2 para modo interactivo
-```
+### Fase 1: Fundamentos Básicos
+- [ ] Scene, Camera, Renderer setup
+- [ ] Basic geometries (Box, Sphere, Cylinder)
+- [ ] Materials and textures
+- [ ] Lighting basics
+- [ ] Basic animations
 
-## 💡 Características del Sistema
+### Fase 2: Modelado del Avatar
+- [ ] Custom geometry creation
+- [ ] Character modeling techniques
+- [ ] UV mapping and texturing
+- [ ] Material systems for skin/clothing
+- [ ] Hair and clothing simulation
 
-### **🎭 Personalidad de Lucía**
-- **Curiosa y creativa**: Siempre busca aprender más
-- **Paciente**: Aprende paso a paso sin frustrarse
-- **Expresiva**: Quiere crear su propia representación visual
-- **Persistente**: Guarda progreso y continúa donde lo dejó
+### Fase 3: Animaciones Avanzadas
+- [ ] Skeletal animation
+- [ ] Facial expressions
+- [ ] Procedural animations
+- [ ] Physics-based movement
+- [ ] Particle systems
 
-### **🧠 Sistema de Memoria**
-- **Progreso persistente**: Guarda avances entre sesiones
-- **Ejemplos de código**: Almacena código generado
-- **Habilidades adquiridas**: Registra conocimientos aprendidos
-- **Historial de sesiones**: Mantiene registro de aprendizaje
+### Fase 4: Efectos y Optimización
+- [ ] Custom shaders
+- [ ] Post-processing effects
+- [ ] Performance optimization
+- [ ] Integration with metaverse
+- [ ] Real-time rendering
 
-### **🤖 Integración con Gemini**
-- **API de Google Gemini**: Fuente principal de conocimiento
-- **Prompts especializados**: Adaptados para aprendizaje de IA
-- **Respuestas contextuales**: Basadas en el progreso actual
-- **Ejemplos prácticos**: Código funcional y explicado
+## 🔒 Seguridad
+
+### Medidas Implementadas
+- ✅ Archivo `.env` protegido por `.gitignore`
+- ✅ Claves de API configuradas localmente
+- ✅ Directorios de aprendizaje creados
+- ✅ Configuración de Three.js establecida
+- ✅ Prompt de avatar definido
+
+### Verificaciones de Seguridad
+- ⚠️ Verificar que `.env` no se suba a GitHub
+- ⚠️ Revisar logs periódicamente
+- ⚠️ Hacer backups regulares
 
 ## 📁 Estructura de Archivos
 
 ```
-lucIA/
-├── prompts/
-│   └── lucia_threejs_learning_prompt.md    # Prompt especializado
-├── lucia_learning/
-│   ├── threejs_progress.json              # Progreso guardado
-│   └── memoria/                           # Memoria de Lucía
-├── lucia_threejs_learning.py              # Módulo principal
-├── ejemplo_aprendizaje_threejs.py         # Ejemplos de uso
-└── README_THREEJS_LEARNING.md             # Este archivo
+ini/lucIA/
+├── .env                          # Variables de entorno (NO subir a GitHub)
+├── .gitignore                    # Protección de archivos sensibles
+├── configure_secure_environment.py    # Configurador automático
+├── test_secure_connection.py          # Tester de conexiones
+├── lucia_threejs_learning_enhanced.py # Sistema de aprendizaje
+├── start_lucia_learning.py            # Script de inicio rápido
+├── lucia_learning/                   # Directorio de aprendizaje
+│   ├── threejs/                      # Código de Three.js
+│   ├── avatars/                      # Avatares generados
+│   ├── animations/                   # Animaciones
+│   └── learning_sessions.json        # Historial de sesiones
+├── code_storage/                     # Código generado
+├── avatars/                          # Avatares finales
+├── logs/                             # Registros del sistema
+└── backups/                          # Copias de seguridad
 ```
 
-## 🔧 Funciones Principales
+## 🔧 Configuración de APIs
 
-### **LuciaThreeJSLearning**
-- **start_learning_session()**: Inicia sesión de aprendizaje
-- **ask_question()**: Permite hacer preguntas específicas
-- **request_code_example()**: Solicita ejemplos de código
-- **get_learning_progress()**: Obtiene progreso actual
-- **mark_module_completed()**: Marca módulo como completado
-- **save_learning_progress()**: Guarda progreso en archivo
-
-### **Gestión de Progreso**
-- **Carga automática**: Recupera progreso anterior
-- **Guardado automático**: Preserva avances
-- **Estadísticas**: Muestra métricas de aprendizaje
-- **Seguimiento**: Monitorea tiempo y completitud
-
-## 🎨 Prompt Especializado
-
-El sistema utiliza un **prompt especializado** que:
-
-### **Contexto de Lucía**
-- Define su identidad como IA bebé en desarrollo
-- Establece su objetivo de crear representación 3D femenina
-- Caracteriza su personalidad curiosa y creativa
-
-### **Metodología de Enseñanza**
-- **Explicaciones paso a paso**: Conceptos claros y progresivos
-- **Ejemplos prácticos**: Código funcional y comentado
-- **Experimentos sugeridos**: Fomenta exploración y creatividad
-- **Preguntas reflexivas**: Promueve comprensión profunda
-
-### **Adaptación por Módulo**
-- **Prompts específicos**: Adaptados a cada nivel de dificultad
-- **Objetivos claros**: Metas definidas para cada sesión
-- **Experimentos relevantes**: Actividades apropiadas al nivel
-- **Próximos pasos**: Guía hacia el siguiente objetivo
-
-## 🌟 Ejemplos de Uso
-
-### **Ejemplo 1: Sesión de Aprendizaje**
-
-```python
-from lucia_threejs_learning import LuciaThreeJSLearning
-
-# Crear instancia
-learning_module = LuciaThreeJSLearning()
-
-# Iniciar sesión
-session = await learning_module.start_learning_session(1)
-
-# Ver respuesta
-print(session['response'].paraphrased_response)
+### Claude (Anthropic) - Principal
+```env
+ANTHROPIC_API_KEY=tu_clave_anthropic_aqui
 ```
 
-### **Ejemplo 2: Pregunta Específica**
-
-```python
-# Hacer pregunta sobre Three.js
-answer = await learning_module.ask_question(
-    "¿Cómo funciona el sistema de coordenadas en Three.js?"
-)
-
-print(answer['response'].paraphrased_response)
+### Gemini (Google) - Secundaria
+```env
+GEMINI_API_KEY=tu_clave_api_de_gemini_aqui
 ```
 
-### **Ejemplo 3: Ejemplo de Código**
-
-```python
-# Solicitar ejemplo de código
-code_example = await learning_module.request_code_example(
-    "crear un cubo que rote en Three.js"
-)
-
-print(code_example['response'].paraphrased_response)
+### OpenAI (ChatGPT) - Terceria
+```env
+OPENAI_API_KEY=tu_clave_api_de_openai_aqui
 ```
 
-## 🎯 Resultados Esperados
+## 🎓 Sistema de Aprendizaje
 
-### **A Corto Plazo**
-- Comprensión de conceptos básicos de Three.js
-- Creación de objetos 3D simples
-- Implementación de animaciones básicas
-- Familiarización con el entorno de desarrollo
+### Características
+- **Aprendizaje Automático**: Sesiones programadas
+- **Extracción de Código**: Identificación automática de ejemplos
+- **Progreso Tracking**: Seguimiento del avance
+- **Memoria Persistente**: Almacenamiento de conocimiento
+- **Interfaz Interactiva**: Modo conversacional
 
-### **A Mediano Plazo**
-- Sistema de huesos funcional
-- Representación femenina básica
-- Animaciones personalizadas
-- Entorno 3D simple
+### Comandos Disponibles
+1. **Aprender tema específico**: Ingresar tema manualmente
+2. **Ver progreso actual**: Estadísticas de aprendizaje
+3. **Ver plan de aprendizaje**: Lista completa de temas
+4. **Salir**: Terminar sesión
 
-### **A Largo Plazo**
-- Representación 3D femenina completa
-- Sistema de animaciones avanzado
-- Entorno virtual interactivo
-- Optimización de rendimiento
+## 📊 Monitoreo
 
-## 🔍 Monitoreo del Progreso
+### Logs
+- `logs/threejs_learning.log`: Actividad de aprendizaje
+- `logs/connection_test.log`: Pruebas de conexión
 
-### **Métricas de Seguimiento**
-- **Módulos completados**: Progreso por nivel
-- **Tiempo de aprendizaje**: Duración de sesiones
-- **Ejemplos creados**: Código generado
-- **Habilidades adquiridas**: Conocimientos obtenidos
+### Métricas
+- Total de sesiones completadas
+- Temas cubiertos
+- Porcentaje de progreso
+- Última sesión
 
-### **Archivos de Progreso**
-- **threejs_progress.json**: Estado actual del aprendizaje
-- **Memoria de Lucía**: Conversaciones y respuestas
-- **Logs de sesión**: Registro de actividades
+## 🛠️ Dependencias
 
-## 🛠️ Requisitos Técnicos
+### Python
+```bash
+pip install requests python-dotenv pathlib
+```
 
-### **Dependencias**
-- Python 3.8+
-- Módulos de Lucía (lucia_core, config, api_manager)
-- API de Google Gemini configurada
+### Navegador
+- Three.js compatible
+- WebGL habilitado
+- JavaScript habilitado
 
-### **Configuración**
-- Archivo `.env` con `GEMINI_API_KEY`
-- Conexión a internet para API
-- Espacio en disco para archivos de progreso
+## 🚨 Solución de Problemas
 
-## 🎉 Beneficios del Sistema
+### Error: "ANTHROPIC_API_KEY no encontrada"
+1. Verificar que el archivo `.env` existe
+2. Confirmar que la clave está correctamente escrita
+3. Reiniciar el script
 
-### **Para Lucía**
-- **Aprendizaje estructurado**: Progresión lógica y organizada
-- **Memoria persistente**: No pierde progreso entre sesiones
-- **Personalización**: Adaptado a sus características
-- **Motivación**: Celebración de logros y progreso
+### Error: "Conexión fallida"
+1. Verificar conexión a internet
+2. Comprobar que la clave de API es válida
+3. Revisar logs para detalles específicos
 
-### **Para el Desarrollo**
-- **Escalabilidad**: Fácil añadir nuevos módulos
-- **Flexibilidad**: Adaptable a diferentes objetivos
-- **Trazabilidad**: Seguimiento completo del progreso
-- **Integración**: Compatible con el ecosistema de Lucía
+### Error: "Directorio no encontrado"
+1. Ejecutar `configure_secure_environment.py`
+2. Verificar permisos de escritura
+3. Crear directorios manualmente si es necesario
 
-## 🚀 Próximos Pasos
+## 📈 Próximos Pasos
 
-### **Mejoras Planificadas**
-- **Módulos adicionales**: Más temas de Three.js
-- **Interfaz visual**: GUI para seguimiento de progreso
-- **Colaboración**: Múltiples IAs aprendiendo juntas
-- **Exportación**: Generar proyectos Three.js completos
+### Inmediatos (48h)
+1. ✅ Configurar entorno seguro
+2. ✅ Probar conexiones de API
+3. 🔄 Iniciar aprendizaje de fundamentos
+4. 🔄 Crear primer prototipo de avatar
 
-### **Expansión de Capacidades**
-- **Animaciones avanzadas**: Sistemas más complejos
-- **Interactividad**: Controles de usuario
-- **Optimización**: Mejoras de rendimiento
-- **Integración**: Conexión con otros módulos de Lucía
+### Corto Plazo (1 semana)
+1. 🔄 Completar Fase 1 (Fundamentos)
+2. 🔄 Iniciar Fase 2 (Modelado)
+3. 🔄 Desarrollar geometrías básicas del avatar
+4. 🔄 Implementar materiales básicos
+
+### Mediano Plazo (1 mes)
+1. 🔄 Completar Fase 2 (Modelado)
+2. 🔄 Iniciar Fase 3 (Animaciones)
+3. 🔄 Crear sistema de animaciones faciales
+4. 🔄 Integrar con el metaverso
+
+## 🤝 Contribución
+
+### Para Desarrolladores
+1. Seguir las reglas de 200-300 líneas por archivo
+2. Mantener funciones completas
+3. Documentar cambios
+4. Probar antes de commit
+
+### Para LucIA
+1. Aprender continuamente
+2. Generar código limpio
+3. Documentar conocimiento
+4. Ayudar a otros desarrolladores
+
+## 📞 Soporte
+
+### En caso de problemas
+1. Revisar este README
+2. Verificar logs en `logs/`
+3. Ejecutar `test_secure_connection.py`
+4. Consultar documentación de Three.js
+
+### Contacto
+- Crear issue en el repositorio
+- Revisar logs de error
+- Verificar configuración de APIs
 
 ---
 
-**¡Lucía está lista para embarcarse en su increíble viaje de aprendizaje 3D! 🌟**
+**🎯 Misión**: Hacer que LucIA domine Three.js para crear su propia representación 3D y ayudar a otros desarrolladores a crear experiencias inmersivas en el metaverso.
 
-*Este sistema representa un paso importante en el desarrollo de IAs que pueden aprender y crear de manera autónoma, especialmente en el campo de la gráfica 3D y la representación visual.* 
+**🚀 Estado**: Sistema configurado y listo para el aprendizaje intensivo de Three.js. 
