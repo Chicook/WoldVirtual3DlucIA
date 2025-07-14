@@ -1,0 +1,1 @@
+En una carpeta llamada `ini` suele haber archivos de configuración, generalmente con extensión `.ini`. Estos archivos contienen parámetros y ajustes para la aplicación, como rutas, claves, opciones de inicio, o configuraciones de usuario. También pueden incluir archivos de ejemplo o plantillas de configuración.

@@ -1,0 +1,86 @@
+version: '3.8'
+
+services:
+  # Blockchain principal
+  woldvirtual-blockchain:
+    build: .
+    container_name: woldvirtual-blockchain
+    ports:
+      - "8545:8545"  # Network
+      - "8546:8546"  # RPC
+      - "8547:8547"  # WebSocket
+      - "8548:8548"  # Bridge
+    environment:
+      - NODE_ENV=production
+      - PORT=8546
+      - WS_PORT=8547
+      - BRIDGE_PORT=8548
+      - BSC_RPC_URL=https://bsc-dataseed1.binance.org/
+      - BSC_CONTRACT_ADDRESS=0x053532E91FFD6b8a21C925Da101C909A01106BBE
+    volumes:
+      - blockchain-data:/app/data
+      - blockchain-logs:/app/logs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8546/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Redis para caché
+  redis:
+    image: redis:7-alpine
+    container_name: woldvirtual-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+
+  # Base de datos SQLite (para desarrollo)
+  sqlite:
+    image: alpine:latest
+    container_name: woldvirtual-sqlite
+    volumes:
+      - sqlite-data:/data
+    command: sh -c "apk add --no-cache sqlite && sqlite3 /data/blockchain.db 'CREATE TABLE IF NOT EXISTS blocks (id INTEGER PRIMARY KEY, hash TEXT, timestamp INTEGER);' && tail -f /dev/null"
+
+  # Nginx para proxy reverso
+  nginx:
+    image: nginx:alpine
+    container_name: woldvirtual-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - woldvirtual-blockchain
+    restart: unless-stopped
+
+  # Monitor de logs
+  log-monitor:
+    image: alpine:latest
+    container_name: woldvirtual-log-monitor
+    volumes:
+      - blockchain-logs:/logs
+    command: sh -c "apk add --no-cache tail && tail -f /logs/*.log"
+    depends_on:
+      - woldvirtual-blockchain
+
+volumes:
+  blockchain-data:
+    driver: local
+  blockchain-logs:
+    driver: local
+  redis-data:
+    driver: local
+  sqlite-data:
+    driver: local
+
+networks:
+  default:
+    name: woldvirtual-network 

@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Metaverso Crypto World Virtual 3D - El futuro del entretenimiento descentralizado">
+    <meta name="keywords" content="metaverso, crypto, blockchain, 3D, virtual, NFT, DeFi, gaming">
+    <meta name="author" content="Metaverso Crypto World Virtual 3D">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://metaversocrypto.com/">
+    <meta property="og:title" content="Metaverso Crypto World Virtual 3D">
+    <meta property="og:description" content="Explora el futuro del entretenimiento descentralizado en nuestro metaverso 3D">
+    <meta property="og:image" content="https://metaversocrypto.com/assets/images/og-image.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://metaversocrypto.com/">
+    <meta property="twitter:title" content="Metaverso Crypto World Virtual 3D">
+    <meta property="twitter:description" content="Explora el futuro del entretenimiento descentralizado en nuestro metaverso 3D">
+    <meta property="twitter:image" content="https://metaversocrypto.com/assets/images/twitter-image.jpg">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
+
+    <title>Metaverso Crypto World Virtual 3D</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/animations.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/DRACOLoader.js"></script>
+
+    <!-- Web3 -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+
+    <!-- Particles.js -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+
+    <!-- Howler.js for Audio -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <div class="logo-container">
+                    <div class="logo-cube">
+                        <div class="cube-face front"></div>
+                        <div class="cube-face back"></div>
+                        <div class="cube-face right"></div>
+                        <div class="cube-face left"></div>
+                        <div class="cube-face top"></div>
+                        <div class="cube-face bottom"></div>
+                    </div>
+                </div>
+                <h1 class="loading-title">Metaverso Crypto World</h1>
+                <p class="loading-subtitle">Virtual 3D</p>
+            </div>
+            <div class="loading-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <p class="progress-text" id="progress-text">Inicializando...</p>
+            </div>
+            <div class="loading-tips">
+                <p id="loading-tip">Conectando con la blockchain...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Particles Background -->
+    <div id="particles-js" class="particles-background"></div>
+
+    <!-- Main Navigation -->
+    <nav id="main-nav" class="main-nav">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <div class="logo">
+                    <span class="logo-text">MCW3D</span>
+                </div>
+            </div>
+            
+            <div class="nav-menu">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="#home" class="nav-link active" data-section="home">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#explore" class="nav-link" data-section="explore">Explorar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#marketplace" class="nav-link" data-section="marketplace">Marketplace</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#defi" class="nav-link" data-section="defi">DeFi</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#governance" class="nav-link" data-section="governance">Gobernanza</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#community" class="nav-link" data-section="community">Comunidad</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="nav-actions">
+                <button id="connect-wallet" class="btn btn-primary">
+                    <span class="btn-icon">🔗</span>
+                    <span class="btn-text">Conectar Wallet</span>
+                </button>
+                <button id="user-menu-toggle" class="btn btn-secondary user-menu-toggle">
+                    <span class="btn-icon">👤</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- User Menu -->
+    <div id="user-menu" class="user-menu">
+        <div class="user-info">
+            <div class="user-avatar">
+                <img id="user-avatar-img" src="assets/images/default-avatar.png" alt="Avatar">
+            </div>
+            <div class="user-details">
+                <h3 id="user-name">Usuario</h3>
+                <p id="user-balance">0 META</p>
+            </div>
+        </div>
+        <div class="user-actions">
+            <button class="menu-item" data-action="profile">
+                <span class="menu-icon">👤</span>
+                <span>Mi Perfil</span>
+            </button>
+            <button class="menu-item" data-action="inventory">
+                <span class="menu-icon">🎒</span>
+                <span>Inventario</span>
+            </button>
+            <button class="menu-item" data-action="settings">
+                <span class="menu-icon">⚙️</span>
+                <span>Configuración</span>
+            </button>
+            <button class="menu-item" data-action="disconnect">
+                <span class="menu-icon">🚪</span>
+                <span>Desconectar</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main id="main-content" class="main-content">
+        <!-- Home Section -->
+        <section id="home" class="section home-section active">
+            <div class="section-content">
+                <div class="hero-content">
+                    <h1 class="hero-title">
+                        <span class="title-line">Metaverso Crypto</span>
+                        <span class="title-line">World Virtual 3D</span>
+                    </h1>
+                    <p class="hero-description">
+                        Explora el futuro del entretenimiento descentralizado. 
+                        Sumérgete en un mundo virtual donde la blockchain, 
+                        los NFTs y la realidad virtual se unen para crear 
+                        una experiencia única e inmersiva.
+                    </p>
+                    <div class="hero-actions">
+                        <button class="btn btn-primary btn-large" id="enter-metaverse">
+                            <span class="btn-icon">🚀</span>
+                            <span class="btn-text">Entrar al Metaverso</span>
+                        </button>
+                        <button class="btn btn-secondary btn-large" id="learn-more">
+                            <span class="btn-icon">📚</span>
+                            <span class="btn-text">Saber Más</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number" id="total-users">0</div>
+                        <div class="stat-label">Usuarios Activos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="total-islands">0</div>
+                        <div class="stat-label">Islas Virtuales</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="total-nfts">0</div>
+                        <div class="stat-label">NFTs Creados</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="total-volume">0</div>
+                        <div class="stat-label">Volumen Total</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3D Scene Container -->
+            <div id="scene-container" class="scene-container">
+                <canvas id="three-canvas"></canvas>
+                <div class="scene-overlay">
+                    <div class="scene-controls">
+                        <button class="control-btn" id="camera-reset">
+                            <span class="control-icon">🎥</span>
+                        </button>
+                        <button class="control-btn" id="fullscreen-toggle">
+                            <span class="control-icon">⛶</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Explore Section -->
+        <section id="explore" class="section explore-section">
+            <div class="section-content">
+                <div class="section-header">
+                    <h2 class="section-title">Explorar Islas Virtuales</h2>
+                    <p class="section-description">
+                        Descubre las increíbles islas del metaverso. 
+                        Cada una tiene su propia temática, actividades y recompensas únicas.
+                    </p>
+                </div>
+
+                <div class="islands-grid" id="islands-grid">
+                    <!-- Islands will be dynamically loaded here -->
+                </div>
+
+                <div class="explore-filters">
+                    <div class="filter-group">
+                        <label for="island-type-filter">Tipo de Isla:</label>
+                        <select id="island-type-filter" class="filter-select">
+                            <option value="">Todos</option>
+                            <option value="forest">Bosque</option>
+                            <option value="ocean">Océano</option>
+                            <option value="mountain">Montaña</option>
+                            <option value="desert">Desierto</option>
+                            <option value="city">Ciudad</option>
+                            <option value="volcano">Volcán</option>
+                            <option value="valley">Valle</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="island-population-filter">Población:</label>
+                        <select id="island-population-filter" class="filter-select">
+                            <option value="">Cualquiera</option>
+                            <option value="low">Baja (0-100)</option>
+                            <option value="medium">Media (100-500)</option>
+                            <option value="high">Alta (500+)</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="island-rating-filter">Calificación:</label>
+                        <select id="island-rating-filter" class="filter-select">
+                            <option value="">Cualquiera</option>
+                            <option value="4">4+ Estrellas</option>
+                            <option value="3">3+ Estrellas</option>
+                            <option value="2">2+ Estrellas</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Marketplace Section -->
+        <section id="marketplace" class="section marketplace-section">
+            <div class="section-content">
+                <div class="section-header">
+                    <h2 class="section-title">NFT Marketplace</h2>
+                    <p class="section-description">
+                        Compra, vende y colecciona NFTs únicos del metaverso. 
+                        Desde avatares personalizados hasta terrenos virtuales.
+                    </p>
+                </div>
+
+                <div class="marketplace-tabs">
+                    <button class="tab-btn active" data-tab="collections">Colecciones</button>
+                    <button class="tab-btn" data-tab="trending">Tendencias</button>
+                    <button class="tab-btn" data-tab="recent">Recientes</button>
+                    <button class="tab-btn" data-tab="my-nfts">Mis NFTs</button>
+                </div>
+
+                <div class="marketplace-content">
+                    <div class="marketplace-filters">
+                        <div class="search-box">
+                            <input type="text" id="nft-search" placeholder="Buscar NFTs...">
+                            <button class="search-btn">🔍</button>
+                        </div>
+                        <div class="filter-options">
+                            <select id="price-filter" class="filter-select">
+                                <option value="">Precio</option>
+                                <option value="low">Menor a 0.1 ETH</option>
+                                <option value="medium">0.1 - 1 ETH</option>
+                                <option value="high">Más de 1 ETH</option>
+                            </select>
+                            <select id="rarity-filter" class="filter-select">
+                                <option value="">Rareza</option>
+                                <option value="common">Común</option>
+                                <option value="rare">Raro</option>
+                                <option value="epic">Épico</option>
+                                <option value="legendary">Legendario</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="nft-grid" id="nft-grid">
+                        <!-- NFTs will be dynamically loaded here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DeFi Section -->
+        <section id="defi" class="section defi-section">
+            <div class="section-content">
+                <div class="section-header">
+                    <h2 class="section-title">DeFi & Staking</h2>
+                    <p class="section-description">
+                        Participa en el ecosistema DeFi del metaverso. 
+                        Staking, yield farming, liquidity pools y más.
+                    </p>
+                </div>
+
+                <div class="defi-dashboard">
+                    <div class="defi-stats">
+                        <div class="stat-card">
+                            <div class="stat-icon">💰</div>
+                            <div class="stat-content">
+                                <div class="stat-value" id="total-value-locked">$0</div>
+                                <div class="stat-label">TVL Total</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">📈</div>
+                            <div class="stat-content">
+                                <div class="stat-value" id="total-rewards">0 META</div>
+                                <div class="stat-label">Recompensas Totales</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">👥</div>
+                            <div class="stat-content">
+                                <div class="stat-value" id="total-stakers">0</div>
+                                <div class="stat-label">Stakers Activos</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">🏦</div>
+                            <div class="stat-content">
+                                <div class="stat-value" id="apy-average">0%</div>
+                                <div class="stat-label">APY Promedio</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="defi-tabs">
+                        <button class="tab-btn active" data-tab="staking">Staking</button>
+                        <button class="tab-btn" data-tab="farming">Yield Farming</button>
+                        <button class="tab-btn" data-tab="liquidity">Liquidity Pools</button>
+                        <button class="tab-btn" data-tab="swap">Swap</button>
+                    </div>
+
+                    <div class="defi-content">
+                        <div class="staking-pools" id="staking-pools">
+                            <!-- Staking pools will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Governance Section -->
+        <section id="governance" class="section governance-section">
+            <div class="section-content">
+                <div class="section-header">
+                    <h2 class="section-title">Gobernanza DAO</h2>
+                    <p class="section-description">
+                        Participa en la toma de decisiones del metaverso. 
+                        Vota en propuestas y ayuda a dar forma al futuro del ecosistema.
+                    </p>
+                </div>
+
+                <div class="governance-dashboard">
+                    <div class="governance-stats">
+                        <div class="stat-card">
+                            <div class="stat-icon">🗳️</div>
+                            <div class="stat-content">
+                                <div class="stat-value" id="total-proposals">0</div>
+                                <div class="stat-label">Propuestas Totales</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">✅</div>
+                            <div class="stat-content">
+                                <div class="stat-value" id="executed-proposals">0</div>
+                                <div class="stat-label">Propuestas Ejecutadas</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">👥</div>
+                            <div class="stat-content">
+                                <div class="stat-value" id="total-voters">0</div>
+                                <div class="stat-label">Votantes Activos</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">🎯</div>
+                            <div class="stat-content">
+                                <div class="stat-value" id="voting-power">0</div>
+                                <div class="stat-label">Mi Poder de Voto</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="governance-tabs">
+                        <button class="tab-btn active" data-tab="active">Activas</button>
+                        <button class="tab-btn" data-tab="pending">Pendientes</button>
+                        <button class="tab-btn" data-tab="executed">Ejecutadas</button>
+                        <button class="tab-btn" data-tab="create">Crear Propuesta</button>
+                    </div>
+
+                    <div class="proposals-list" id="proposals-list">
+                        <!-- Proposals will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Community Section -->
+        <section id="community" class="section community-section">
+            <div class="section-content">
+                <div class="section-header">
+                    <h2 class="section-title">Comunidad</h2>
+                    <p class="section-description">
+                        Conecta con otros usuarios del metaverso. 
+                        Únete a eventos, participa en discusiones y construye el futuro juntos.
+                    </p>
+                </div>
+
+                <div class="community-content">
+                    <div class="community-channels">
+                        <div class="channel-card">
+                            <div class="channel-icon">💬</div>
+                            <h3>Discord</h3>
+                            <p>Únete a nuestra comunidad de Discord</p>
+                            <button class="btn btn-primary">Unirse</button>
+                        </div>
+                        <div class="channel-card">
+                            <div class="channel-icon">🐦</div>
+                            <h3>Twitter</h3>
+                            <p>Síguenos para las últimas noticias</p>
+                            <button class="btn btn-primary">Seguir</button>
+                        </div>
+                        <div class="channel-card">
+                            <div class="channel-icon">📺</div>
+                            <h3>YouTube</h3>
+                            <p>Mira nuestros videos y tutoriales</p>
+                            <button class="btn btn-primary">Suscribirse</button>
+                        </div>
+                        <div class="channel-card">
+                            <div class="channel-icon">📖</div>
+                            <h3>Documentación</h3>
+                            <p>Lee nuestra documentación completa</p>
+                            <button class="btn btn-primary">Leer</button>
+                        </div>
+                    </div>
+
+                    <div class="community-events">
+                        <h3>Próximos Eventos</h3>
+                        <div class="events-list" id="events-list">
+                            <!-- Events will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modals -->
+    <div id="modal-overlay" class="modal-overlay">
+        <!-- Wallet Connection Modal -->
+        <div id="wallet-modal" class="modal">
+            <div class="modal-header">
+                <h3>Conectar Wallet</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-content">
+                <div class="wallet-options">
+                    <button class="wallet-option" data-wallet="metamask">
+                        <img src="assets/images/metamask.png" alt="MetaMask">
+                        <span>MetaMask</span>
+                    </button>
+                    <button class="wallet-option" data-wallet="walletconnect">
+                        <img src="assets/images/walletconnect.png" alt="WalletConnect">
+                        <span>WalletConnect</span>
+                    </button>
+                    <button class="wallet-option" data-wallet="coinbase">
+                        <img src="assets/images/coinbase.png" alt="Coinbase Wallet">
+                        <span>Coinbase Wallet</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- NFT Detail Modal -->
+        <div id="nft-modal" class="modal">
+            <div class="modal-header">
+                <h3>Detalles del NFT</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-content">
+                <div class="nft-detail">
+                    <div class="nft-image">
+                        <img id="nft-modal-image" src="" alt="NFT">
+                    </div>
+                    <div class="nft-info">
+                        <h4 id="nft-modal-name"></h4>
+                        <p id="nft-modal-description"></p>
+                        <div class="nft-attributes" id="nft-modal-attributes"></div>
+                        <div class="nft-actions">
+                            <button class="btn btn-primary" id="nft-buy-btn">Comprar</button>
+                            <button class="btn btn-secondary" id="nft-offer-btn">Hacer Oferta</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Island Detail Modal -->
+        <div id="island-modal" class="modal">
+            <div class="modal-header">
+                <h3>Detalles de la Isla</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-content">
+                <div class="island-detail">
+                    <div class="island-image">
+                        <img id="island-modal-image" src="" alt="Island">
+                    </div>
+                    <div class="island-info">
+                        <h4 id="island-modal-name"></h4>
+                        <p id="island-modal-description"></p>
+                        <div class="island-stats">
+                            <div class="stat">
+                                <span class="stat-label">Población:</span>
+                                <span class="stat-value" id="island-modal-population"></span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-label">Capacidad:</span>
+                                <span class="stat-value" id="island-modal-capacity"></span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-label">Visitantes:</span>
+                                <span class="stat-value" id="island-modal-visitors"></span>
+                            </div>
+                        </div>
+                        <div class="island-actions">
+                            <button class="btn btn-primary" id="island-visit-btn">Visitar</button>
+                            <button class="btn btn-secondary" id="island-teleport-btn">Teletransportarse</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio System -->
+    <div id="audio-system" class="audio-system">
+        <button id="audio-toggle" class="audio-toggle">
+            <span class="audio-icon">🔊</span>
+        </button>
+        <div class="audio-controls">
+            <input type="range" id="master-volume" min="0" max="100" value="50" class="volume-slider">
+            <input type="range" id="music-volume" min="0" max="100" value="30" class="volume-slider">
+            <input type="range" id="sfx-volume" min="0" max="100" value="70" class="volume-slider">
+        </div>
+    </div>
+
+    <!-- Notifications -->
+    <div id="notifications" class="notifications"></div>
+
+    <!-- JavaScript -->
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/utils.js"></script>
+    <script src="assets/js/web3.js"></script>
+    <script src="assets/js/audio.js"></script>
+    <script src="assets/js/three-scene.js"></script>
+    <script src="assets/js/ui.js"></script>
+    <script src="assets/js/navigation.js"></script>
+    <script src="assets/js/marketplace.js"></script>
+    <script src="assets/js/defi.js"></script>
+    <script src="assets/js/governance.js"></script>
+    <script src="assets/js/community.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

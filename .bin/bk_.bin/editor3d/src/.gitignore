@@ -1,0 +1,11 @@
+# Ignorar archivos temporales y de sistema
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+# Configuración local
+.env
+.env.*
+.vscode/
+.idea/ 

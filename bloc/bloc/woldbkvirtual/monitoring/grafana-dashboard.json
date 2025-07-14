@@ -1,0 +1,133 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "WoldVirtual3D Blockchain Dashboard",
+    "tags": ["blockchain", "woldvirtual3d", "wcv"],
+    "style": "dark",
+    "timezone": "browser",
+    "panels": [
+      {
+        "id": 1,
+        "title": "Blockchain Overview",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "blockchain_current_block",
+            "legendFormat": "Current Block"
+          },
+          {
+            "expr": "blockchain_total_transactions",
+            "legendFormat": "Total Transactions"
+          },
+          {
+            "expr": "blockchain_network_hashrate",
+            "legendFormat": "Network Hashrate"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "id": 2,
+        "title": "WCV Token Metrics",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "wcv_total_supply",
+            "legendFormat": "Total Supply"
+          },
+          {
+            "expr": "wcv_circulating_supply",
+            "legendFormat": "Circulating Supply"
+          },
+          {
+            "expr": "wcv_total_holders",
+            "legendFormat": "Total Holders"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 0
+        }
+      },
+      {
+        "id": 3,
+        "title": "Bridge Activity",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(bridge_transfers_total[5m])",
+            "legendFormat": "Transfers per second"
+          },
+          {
+            "expr": "bridge_volume_total",
+            "legendFormat": "Total Volume"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 8
+        }
+      },
+      {
+        "id": 4,
+        "title": "BSC Integration",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "bsc_connected",
+            "legendFormat": "BSC Connected"
+          },
+          {
+            "expr": "bsc_last_processed_block",
+            "legendFormat": "Last Processed Block"
+          },
+          {
+            "expr": "bsc_pending_transactions",
+            "legendFormat": "Pending Transactions"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 16
+        }
+      },
+      {
+        "id": 5,
+        "title": "System Resources",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(node_cpu_seconds_total[5m])",
+            "legendFormat": "CPU Usage"
+          },
+          {
+            "expr": "node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes",
+            "legendFormat": "Memory Usage"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 16
+        }
+      }
+    ],
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "refresh": "10s"
+  }
+} 

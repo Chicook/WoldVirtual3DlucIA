@@ -1,0 +1,265 @@
+# .gitignore para Sistema de Automatización de Respuesta - Fase 3
+# Protege información sensible mientras permite compartir código de manera segura
+
+# ========================================
+# CONFIGURACIONES SENSIBLES
+# ========================================
+
+# Credenciales y claves API
+*.key
+*.pem
+*.p12
+*.pfx
+api_keys.json
+credentials.json
+secrets.json
+.env
+.env.local
+.env.production
+.env.staging
+
+# Configuraciones de conexión
+connection_configs/
+database_configs/
+network_configs/
+integration_configs/
+
+# Tokens de autenticación
+auth_tokens/
+access_tokens/
+refresh_tokens/
+session_tokens/
+
+# ========================================
+# DATOS SENSIBLES DE INCIDENTES
+# ========================================
+
+# Logs de incidentes con datos reales
+incident_logs/
+security_logs/
+audit_logs/
+*.log
+
+# Datos de incidentes reales
+real_incidents/
+production_data/
+live_incidents/
+incident_database/
+
+# Evidencia de incidentes
+evidence/
+forensic_data/
+malware_samples/
+suspicious_files/
+
+# ========================================
+# CONFIGURACIONES DE RED Y SISTEMAS
+# ========================================
+
+# Configuraciones de firewall
+firewall_configs/
+network_rules/
+security_policies/
+
+# Configuraciones de endpoints
+endpoint_configs/
+host_configs/
+system_configs/
+
+# Configuraciones de servicios
+service_configs/
+daemon_configs/
+process_configs/
+
+# ========================================
+# INTEGRACIONES EXTERNAS
+# ========================================
+
+# Configuraciones de SOAR
+soar_configs/
+splunk_configs/
+qradar_configs/
+sentinel_configs/
+
+# Configuraciones de SIEM
+siem_configs/
+elk_configs/
+splunk_siem_configs/
+
+# Configuraciones de ticketing
+ticket_configs/
+jira_configs/
+servicenow_configs/
+zendesk_configs/
+
+# Webhooks y URLs sensibles
+webhook_urls.json
+callback_urls.json
+integration_urls.json
+
+# ========================================
+# NOTIFICACIONES Y COMUNICACIONES
+# ========================================
+
+# Configuraciones de email
+email_configs/
+smtp_configs/
+mail_configs/
+
+# Configuraciones de Slack/Teams
+slack_configs/
+teams_configs/
+chat_configs/
+
+# Configuraciones de SMS
+sms_configs/
+twilio_configs/
+message_configs/
+
+# Listas de destinatarios reales
+recipient_lists/
+contact_lists/
+team_lists/
+
+# ========================================
+# BACKUPS Y DATOS DE RECUPERACIÓN
+# ========================================
+
+# Backups de sistemas
+system_backups/
+data_backups/
+config_backups/
+
+# Datos de remediación
+remediation_data/
+restoration_data/
+recovery_data/
+
+# Snapshots y checkpoints
+system_snapshots/
+config_snapshots/
+state_snapshots/
+
+# ========================================
+# MONITOREO Y METRICAS SENSIBLES
+# ========================================
+
+# Métricas de rendimiento con datos reales
+performance_metrics/
+system_metrics/
+security_metrics/
+
+# Datos de monitoreo en tiempo real
+monitoring_data/
+alerting_data/
+threshold_data/
+
+# Estadísticas de incidentes reales
+incident_statistics/
+security_statistics/
+response_statistics/
+
+# ========================================
+# ARCHIVOS TEMPORALES Y CACHE
+# ========================================
+
+# Archivos temporales
+*.tmp
+*.temp
+*.cache
+*.bak
+*.backup
+
+# Directorios temporales
+temp/
+tmp/
+cache/
+temp_data/
+
+# ========================================
+# ARCHIVOS DE DESARROLLO
+# ========================================
+
+# Archivos de IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Archivos de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+
+# Archivos de testing con datos reales
+test_data/
+test_incidents/
+test_credentials/
+
+# ========================================
+# DOCUMENTACIÓN SENSIBLE
+# ========================================
+
+# Documentación interna
+internal_docs/
+private_docs/
+confidential_docs/
+
+# Manuales de operación
+operation_manuals/
+runbooks/
+procedures/
+
+# Diagramas de arquitectura interna
+architecture_diagrams/
+network_diagrams/
+system_diagrams/
+
+# ========================================
+# ARCHIVOS PERMITIDOS (EXPLÍCITOS)
+# ========================================
+
+# Permitir archivos de configuración de ejemplo
+!example_configs/
+!sample_configs/
+!template_configs/
+
+# Permitir documentación pública
+!public_docs/
+!api_docs/
+!user_guides/
+
+# Permitir código fuente
+!*.py
+!*.js
+!*.ts
+!*.json.example
+!*.yaml.example
+!*.yml.example
+
+# Permitir README y documentación
+!README.md
+!*.md
+!LICENSE
+!CHANGELOG.md
+
+# ========================================
+# NOTAS IMPORTANTES
+# ========================================
+
+# Este .gitignore está diseñado para:
+# 1. Proteger información sensible y credenciales
+# 2. Permitir compartir código de manera segura
+# 3. Mantener configuraciones de ejemplo para la comunidad
+# 4. Evitar exponer datos reales de incidentes
+# 5. Proteger configuraciones de sistemas de producción
+
+# Para contribuir al proyecto:
+# - Usa archivos de ejemplo para configuraciones
+# - No incluyas credenciales reales
+# - Documenta las configuraciones necesarias
+# - Usa variables de entorno para datos sensibles 

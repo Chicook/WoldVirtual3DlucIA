@@ -1,0 +1,202 @@
+{
+  "timestamp": "2025-01-27T13:00:00.000Z",
+  "totalPending": 25,
+  "byNetwork": {
+    "ethereum": {
+      "count": 15,
+      "totalGas": "450000000000000000",
+      "averageGasPrice": "30000000000"
+    },
+    "polygon": {
+      "count": 5,
+      "totalGas": "150000000000000000",
+      "averageGasPrice": "30000000000"
+    },
+    "bsc": {
+      "count": 3,
+      "totalGas": "63000000000000000",
+      "averageGasPrice": "5000000000"
+    },
+    "arbitrum": {
+      "count": 2,
+      "totalGas": "42000000000000000",
+      "averageGasPrice": "1000000000"
+    }
+  },
+  "transactions": [
+    {
+      "txHash": "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",
+      "network": "ethereum",
+      "from": "0x1234567890abcdef1234567890abcdef12345678",
+      "to": "0xabcdef1234567890abcdef1234567890abcdef12",
+      "value": "1000000000000000000",
+      "gasPrice": "30000000000",
+      "gasLimit": 21000,
+      "estimatedGas": 21000,
+      "nonce": 5,
+      "data": "0x",
+      "type": "transfer",
+      "status": "pending",
+      "submittedAt": "2025-01-27T12:58:30.000Z",
+      "estimatedConfirmation": "2025-01-27T13:02:30.000Z",
+      "priority": "medium",
+      "user": "user_001",
+      "description": "Transferencia de ETH"
+    },
+    {
+      "txHash": "0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890",
+      "network": "ethereum",
+      "from": "0xabcdef1234567890abcdef1234567890abcdef12",
+      "to": "0x1234567890abcdef1234567890abcdef12345678",
+      "value": "0",
+      "gasPrice": "35000000000",
+      "gasLimit": 150000,
+      "estimatedGas": 120000,
+      "nonce": 3,
+      "data": "0xa9059cbb0000000000000000000000001234567890abcdef1234567890abcdef12345678000000000000000000000000000000000000000000000000000000000000000064",
+      "type": "token_transfer",
+      "status": "pending",
+      "submittedAt": "2025-01-27T12:59:15.000Z",
+      "estimatedConfirmation": "2025-01-27T13:03:15.000Z",
+      "priority": "high",
+      "user": "user_002",
+      "description": "Transferencia de tokens META"
+    },
+    {
+      "txHash": "0x9876543210fedcba9876543210fedcba9876543210fedcba9876543210fedcba",
+      "network": "polygon",
+      "from": "0x9876543210fedcba9876543210fedcba98765432",
+      "to": "0xfedcba0987654321fedcba0987654321fedcba09",
+      "value": "5000000000000000000",
+      "gasPrice": "30000000000",
+      "gasLimit": 21000,
+      "estimatedGas": 21000,
+      "nonce": 2,
+      "data": "0x",
+      "type": "transfer",
+      "status": "pending",
+      "submittedAt": "2025-01-27T12:59:45.000Z",
+      "estimatedConfirmation": "2025-01-27T13:01:45.000Z",
+      "priority": "low",
+      "user": "user_003",
+      "description": "Transferencia de MATIC"
+    },
+    {
+      "txHash": "0xfedcba0987654321fedcba0987654321fedcba0987654321fedcba0987654321",
+      "network": "polygon",
+      "from": "0xfedcba0987654321fedcba0987654321fedcba09",
+      "to": "0x9876543210fedcba9876543210fedcba98765432",
+      "value": "0",
+      "gasPrice": "25000000000",
+      "gasLimit": 200000,
+      "estimatedGas": 180000,
+      "nonce": 7,
+      "data": "0x23b872dd000000000000000000000000fedcba0987654321fedcba0987654321fedcba09000000000000000000000000009876543210fedcba9876543210fedcba987654320000000000000000000000000000000000000000000000000000000000000001",
+      "type": "nft_transfer",
+      "status": "pending",
+      "submittedAt": "2025-01-27T13:00:00.000Z",
+      "estimatedConfirmation": "2025-01-27T13:02:00.000Z",
+      "priority": "medium",
+      "user": "user_004",
+      "description": "Transferencia de NFT #1"
+    },
+    {
+      "txHash": "0x543210fedcba9876543210fedcba9876543210fedcba9876543210fedcba9876",
+      "network": "bsc",
+      "from": "0x543210fedcba9876543210fedcba9876543210fe",
+      "to": "0xdcba0987654321fedcba0987654321fedcba0987",
+      "value": "1000000000000000000",
+      "gasPrice": "5000000000",
+      "gasLimit": 21000,
+      "estimatedGas": 21000,
+      "nonce": 4,
+      "data": "0x",
+      "type": "transfer",
+      "status": "pending",
+      "submittedAt": "2025-01-27T12:58:00.000Z",
+      "estimatedConfirmation": "2025-01-27T13:00:30.000Z",
+      "priority": "low",
+      "user": "user_005",
+      "description": "Transferencia de BNB"
+    }
+  ],
+  "byType": {
+    "transfer": {
+      "count": 12,
+      "totalValue": "15000000000000000000",
+      "averageGasPrice": "28000000000"
+    },
+    "token_transfer": {
+      "count": 8,
+      "totalValue": "0",
+      "averageGasPrice": "32000000000"
+    },
+    "nft_transfer": {
+      "count": 3,
+      "totalValue": "0",
+      "averageGasPrice": "25000000000"
+    },
+    "contract_interaction": {
+      "count": 2,
+      "totalValue": "0",
+      "averageGasPrice": "40000000000"
+    }
+  },
+  "byPriority": {
+    "high": {
+      "count": 5,
+      "averageGasPrice": "35000000000"
+    },
+    "medium": {
+      "count": 15,
+      "averageGasPrice": "30000000000"
+    },
+    "low": {
+      "count": 5,
+      "averageGasPrice": "25000000000"
+    }
+  },
+  "gasAnalysis": {
+    "totalGasUsed": "705000000000000000",
+    "averageGasPrice": "28200000000",
+    "gasPriceRange": {
+      "min": "1000000000",
+      "max": "40000000000",
+      "median": "30000000000"
+    },
+    "estimatedFees": {
+      "ethereum": "450000000000000000",
+      "polygon": "150000000000000000",
+      "bsc": "63000000000000000",
+      "arbitrum": "42000000000000000"
+    }
+  },
+  "confirmationEstimates": {
+    "ethereum": {
+      "averageTime": 240000,
+      "range": "180000-300000"
+    },
+    "polygon": {
+      "averageTime": 120000,
+      "range": "60000-180000"
+    },
+    "bsc": {
+      "averageTime": 150000,
+      "range": "90000-210000"
+    },
+    "arbitrum": {
+      "averageTime": 60000,
+      "range": "30000-90000"
+    }
+  },
+  "alerts": {
+    "highGasPrice": 3,
+    "stuckTransactions": 0,
+    "lowPriorityStuck": 2
+  },
+  "recommendations": [
+    "Considerar aumentar el gas price para transacciones de baja prioridad",
+    "Monitorear transacciones de Ethereum que pueden tardar más en confirmarse",
+    "Optimizar transacciones de contratos para reducir costos de gas"
+  ]
+} 

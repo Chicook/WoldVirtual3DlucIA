@@ -1,0 +1,514 @@
+/* ============================================================================
+   🔘 BOTONES BASE - Metaverso Crypto World Virtual 3D
+   ============================================================================ */
+
+/* ============================================================================
+   🎯 BOTÓN PRINCIPAL - Botón principal del metaverso
+   ============================================================================ */
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
+  border: none;
+  border-radius: var(--radius-md);
+  padding: var(--button-padding-y) var(--button-padding-x);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-none);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: var(--text-transform-uppercase);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  box-shadow: var(--btn-primary-shadow);
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.btn-primary:hover {
+  background: var(--btn-primary-hover);
+  color: var(--btn-primary-text);
+  box-shadow: var(--btn-primary-glow);
+  transform: var(--hover-translate);
+}
+
+.btn-primary:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3), var(--btn-primary-glow);
+}
+
+.btn-primary:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.4);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Efecto de brillo en hover */
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left var(--transition-slow);
+}
+
+.btn-primary:hover::before {
+  left: 100%;
+}
+
+/* ============================================================================
+   🎨 BOTÓN SECUNDARIO - Botón secundario
+   ============================================================================ */
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  background: var(--btn-secondary-bg);
+  color: var(--btn-secondary-text);
+  border: 1px solid var(--btn-secondary-border);
+  border-radius: var(--radius-md);
+  padding: var(--button-padding-y) var(--button-padding-x);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-none);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: var(--text-transform-uppercase);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.btn-secondary:hover {
+  background: var(--btn-secondary-hover);
+  color: var(--btn-secondary-text);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: var(--hover-translate);
+}
+
+.btn-secondary:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+}
+
+.btn-secondary:active {
+  transform: translateY(1px);
+}
+
+.btn-secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ============================================================================
+   ⚡ BOTÓN DE ÉNFASIS - Botón de acento
+   ============================================================================ */
+
+.btn-accent {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  background: var(--btn-accent-bg);
+  color: var(--btn-accent-text);
+  border: none;
+  border-radius: var(--radius-md);
+  padding: var(--button-padding-y) var(--button-padding-x);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-none);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: var(--text-transform-uppercase);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  box-shadow: var(--btn-accent-shadow);
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.btn-accent:hover {
+  background: var(--btn-accent-hover);
+  color: var(--btn-accent-text);
+  box-shadow: var(--btn-accent-glow);
+  transform: var(--hover-translate);
+}
+
+.btn-accent:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.3), var(--btn-accent-glow);
+}
+
+.btn-accent:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4);
+}
+
+.btn-accent:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ============================================================================
+   🚫 BOTÓN DE PELIGRO - Botón para acciones destructivas
+   ============================================================================ */
+
+.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  background: linear-gradient(135deg, var(--error-500) 0%, var(--error-700) 100%);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: var(--button-padding-y) var(--button-padding-x);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-none);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: var(--text-transform-uppercase);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.btn-danger:hover {
+  background: linear-gradient(135deg, var(--error-400) 0%, var(--error-600) 100%);
+  color: white;
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+  transform: var(--hover-translate);
+}
+
+.btn-danger:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.3), 0 0 20px rgba(239, 68, 68, 0.3);
+}
+
+.btn-danger:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
+}
+
+.btn-danger:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ============================================================================
+   📏 TAMAÑOS DE BOTONES - Diferentes tamaños
+   ============================================================================ */
+
+/* Botón pequeño */
+.btn-sm {
+  padding: var(--button-padding-y-sm) var(--button-padding-x-sm);
+  font-size: var(--font-size-xs);
+  border-radius: var(--radius-sm);
+}
+
+/* Botón grande */
+.btn-lg {
+  padding: var(--button-padding-y-lg) var(--button-padding-x-lg);
+  font-size: var(--font-size-base);
+  border-radius: var(--radius-lg);
+}
+
+/* Botón extra grande */
+.btn-xl {
+  padding: var(--space-4) var(--space-8);
+  font-size: var(--font-size-lg);
+  border-radius: var(--radius-xl);
+}
+
+/* ============================================================================
+   🎯 VARIANTES DE BOTONES - Variantes especiales
+   ============================================================================ */
+
+/* Botón outline */
+.btn-outline {
+  background: transparent;
+  border: 2px solid currentColor;
+  color: var(--text-primary);
+}
+
+.btn-outline:hover {
+  background: currentColor;
+  color: var(--bg-primary);
+}
+
+/* Botón ghost */
+.btn-ghost {
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+}
+
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Botón neón */
+.btn-neon {
+  background: transparent;
+  border: 2px solid var(--neon-cyan);
+  color: var(--neon-cyan);
+  box-shadow: 0 0 10px var(--neon-cyan);
+  text-shadow: 0 0 5px var(--neon-cyan);
+}
+
+.btn-neon:hover {
+  background: var(--neon-cyan);
+  color: var(--bg-primary);
+  box-shadow: 0 0 20px var(--neon-cyan);
+}
+
+/* Botón holograma */
+.btn-hologram {
+  background: var(--hologram-bg);
+  border: var(--hologram-border);
+  color: var(--text-primary);
+  box-shadow: var(--hologram-glow);
+  animation: hologram-scan 3s ease-in-out infinite;
+}
+
+/* ============================================================================
+   ⚡ BOTONES CRYPTO - Botones específicos para blockchain
+   ============================================================================ */
+
+/* Botón Ethereum */
+.btn-ethereum {
+  background: var(--crypto-ethereum-bg);
+  border: 1px solid var(--crypto-ethereum-border);
+  color: var(--crypto-ethereum-text);
+  box-shadow: var(--crypto-ethereum-glow);
+}
+
+.btn-ethereum:hover {
+  background: rgba(98, 126, 234, 0.2);
+  box-shadow: 0 0 30px rgba(98, 126, 234, 0.6);
+  transform: var(--hover-translate);
+}
+
+/* Botón Bitcoin */
+.btn-bitcoin {
+  background: var(--crypto-bitcoin-bg);
+  border: 1px solid var(--crypto-bitcoin-border);
+  color: var(--crypto-bitcoin-text);
+  box-shadow: var(--crypto-bitcoin-glow);
+}
+
+.btn-bitcoin:hover {
+  background: rgba(247, 147, 26, 0.2);
+  box-shadow: 0 0 30px rgba(247, 147, 26, 0.6);
+  transform: var(--hover-translate);
+}
+
+/* Botón Polygon */
+.btn-polygon {
+  background: var(--crypto-polygon-bg);
+  border: 1px solid var(--crypto-polygon-border);
+  color: var(--crypto-polygon-text);
+  box-shadow: var(--crypto-polygon-glow);
+}
+
+.btn-polygon:hover {
+  background: rgba(130, 71, 229, 0.2);
+  box-shadow: 0 0 30px rgba(130, 71, 229, 0.6);
+  transform: var(--hover-translate);
+}
+
+/* ============================================================================
+   🎮 BOTONES 3D - Botones para elementos 3D
+   ============================================================================ */
+
+/* Botón de control 3D */
+.btn-3d-control {
+  background: var(--controls-bg);
+  border: 1px solid var(--controls-border);
+  color: var(--controls-text);
+  box-shadow: var(--controls-shadow);
+  backdrop-filter: blur(10px);
+}
+
+.btn-3d-control:hover {
+  background: rgba(0, 0, 0, 0.8);
+  border-color: var(--metaverso-primary);
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+}
+
+/* Botón HUD */
+.btn-hud {
+  background: var(--hud-bg);
+  border: 1px solid var(--hud-border);
+  color: var(--hud-text);
+  box-shadow: var(--hud-shadow);
+  backdrop-filter: blur(5px);
+}
+
+.btn-hud:hover {
+  background: rgba(0, 0, 0, 0.9);
+  border-color: var(--metaverso-secondary);
+  box-shadow: var(--hud-glow);
+}
+
+/* ============================================================================
+   📱 BOTONES RESPONSIVE - Adaptaciones para móviles
+   ============================================================================ */
+
+@media (max-width: 768px) {
+  .btn-primary,
+  .btn-secondary,
+  .btn-accent,
+  .btn-danger {
+    padding: var(--button-padding-y-sm) var(--button-padding-x-sm);
+    font-size: var(--font-size-xs);
+    gap: var(--space-1);
+  }
+  
+  .btn-lg {
+    padding: var(--button-padding-y) var(--button-padding-x);
+    font-size: var(--font-size-sm);
+  }
+  
+  .btn-xl {
+    padding: var(--space-3) var(--space-6);
+    font-size: var(--font-size-base);
+  }
+}
+
+/* ============================================================================
+   🎯 GRUPOS DE BOTONES - Botones agrupados
+   ============================================================================ */
+
+.btn-group {
+  display: inline-flex;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-group .btn-primary,
+.btn-group .btn-secondary,
+.btn-group .btn-accent,
+.btn-group .btn-danger {
+  border-radius: 0;
+  margin: 0;
+}
+
+.btn-group .btn-primary:first-child,
+.btn-group .btn-secondary:first-child,
+.btn-group .btn-accent:first-child,
+.btn-group .btn-danger:first-child {
+  border-top-left-radius: var(--radius-md);
+  border-bottom-left-radius: var(--radius-md);
+}
+
+.btn-group .btn-primary:last-child,
+.btn-group .btn-secondary:last-child,
+.btn-group .btn-accent:last-child,
+.btn-group .btn-danger:last-child {
+  border-top-right-radius: var(--radius-md);
+  border-bottom-right-radius: var(--radius-md);
+}
+
+/* ============================================================================
+   🎨 ESTADOS ESPECIALES - Estados adicionales
+   ============================================================================ */
+
+/* Botón de carga */
+.btn-loading {
+  position: relative;
+  color: transparent;
+}
+
+.btn-loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  margin: -8px 0 0 -8px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: btn-spin 1s linear infinite;
+}
+
+@keyframes btn-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Botón con icono */
+.btn-icon {
+  padding: var(--space-2);
+  min-width: 40px;
+  height: 40px;
+}
+
+.btn-icon.btn-sm {
+  min-width: 32px;
+  height: 32px;
+  padding: var(--space-1);
+}
+
+.btn-icon.btn-lg {
+  min-width: 48px;
+  height: 48px;
+  padding: var(--space-3);
+}
+
+/* Botón flotante */
+.btn-floating {
+  position: fixed;
+  bottom: var(--space-6);
+  right: var(--space-6);
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  box-shadow: var(--shadow-lg);
+  z-index: 1000;
+}
+
+.btn-floating:hover {
+  transform: scale(1.1);
+  box-shadow: var(--shadow-xl);
+} 

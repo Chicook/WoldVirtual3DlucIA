@@ -1,0 +1,525 @@
+// sandbox_environment.kotlin
+// Entorno de sandbox para lucIA
+// Ejecuta código sospechoso de forma segura y analiza su comportamiento
+
+import java.io.*
+import java.nio.file.*
+import java.security.*
+import java.util.concurrent.*
+import java.util.concurrent.atomic.AtomicBoolean
+import java.util.concurrent.atomic.AtomicInteger
+import kotlin.system.exitProcess
+
+// Estructura para eventos de comportamiento
+data class BehaviorEvent(
+    val timestamp: Long,
+    val eventType: String,
+    val details: String,
+    val severity: Int,
+    val resource: String? = null,
+    val data: Map<String, Any> = emptyMap()
+)
+
+// Estructura para resultados de sandbox
+data class SandboxResult(
+    val executionTime: Long,
+    val exitCode: Int,
+    val events: List<BehaviorEvent>,
+    val threatScore: Double,
+    val isMalicious: Boolean,
+    val recommendations: List<String>,
+    val capturedOutput: String,
+    val capturedErrors: String,
+    val fileAccesses: List<String>,
+    val networkConnections: List<String>,
+    val systemCalls: List<String>
+)
+
+// Estructura para configuración de sandbox
+data class SandboxConfig(
+    val maxExecutionTime: Long = 30000, // 30 segundos
+    val maxMemoryUsage: Long = 100 * 1024 * 1024, // 100MB
+    val maxFileSize: Long = 10 * 1024 * 1024, // 10MB
+    val allowedFileTypes: Set<String> = setOf("txt", "py", "js", "json", "xml", "csv"),
+    val blockedCommands: Set<String> = setOf("rm", "del", "format", "shutdown", "reboot"),
+    val networkAccess: Boolean = false,
+    val fileSystemAccess: Boolean = true,
+    val systemCallAccess: Boolean = false
+)
+
+class SandboxEnvironment(private val config: SandboxConfig = SandboxConfig()) {
+    private val eventCollector = mutableListOf<BehaviorEvent>()
+    private val fileAccesses = mutableListOf<String>()
+    private val networkConnections = mutableListOf<String>()
+    private val systemCalls = mutableListOf<String>()
+    private val executionStartTime = System.currentTimeMillis()
+    private val isRunning = AtomicBoolean(false)
+    private val memoryUsage = AtomicInteger(0)
+    
+    // SecurityManager personalizado para interceptar operaciones
+    private val securityManager = object : SecurityManager() {
+        override fun checkRead(file: String?) {
+            if (file != null) {
+                fileAccesses.add("READ: $file")
+                addEvent("FILE_READ", "Lectura de archivo: $file", 2, file)
+            }
+        }
+        
+        override fun checkWrite(file: String?) {
+            if (file != null) {
+                fileAccesses.add("WRITE: $file")
+                addEvent("FILE_WRITE", "Escritura de archivo: $file", 3, file)
+            }
+        }
+        
+        override fun checkDelete(file: String?) {
+            if (file != null) {
+                fileAccesses.add("DELETE: $file")
+                addEvent("FILE_DELETE", "Eliminación de archivo: $file", 5, file)
+            }
+        }
+        
+        override fun checkConnect(host: String?, port: Int) {
+            if (host != null) {
+                networkConnections.add("$host:$port")
+                addEvent("NETWORK_CONNECT", "Conexión de red: $host:$port", 4, null)
+            }
+        }
+        
+        override fun checkExec(cmd: String?) {
+            if (cmd != null) {
+                systemCalls.add(cmd)
+                addEvent("SYSTEM_CALL", "Llamada al sistema: $cmd", 6, null)
+            }
+        }
+        
+        override fun checkPermission(perm: Permission?) {
+            // Permitir operaciones básicas, bloquear las peligrosas
+            when (perm?.name) {
+                "setSecurityManager" -> throw SecurityException("Operación no permitida en sandbox")
+                "createSecurityManager" -> throw SecurityException("Operación no permitida en sandbox")
+                "exitVM" -> throw SecurityException("Operación no permitida en sandbox")
+            }
+        }
+    }
+    
+    // Ejecutar código Python en sandbox
+    fun executePythonCode(code: String): SandboxResult {
+        val tempDir = createTempDirectory("sandbox_")
+        val pythonFile = tempDir.resolve("sandbox_code.py")
+        
+        try {
+            // Escribir código a archivo temporal
+            Files.write(pythonFile, code.toByteArray())
+            
+            // Configurar entorno de ejecución
+            val processBuilder = ProcessBuilder("python", pythonFile.toString())
+            processBuilder.directory(tempDir.toFile())
+            
+            // Configurar variables de entorno seguras
+            val env = processBuilder.environment()
+            env["PYTHONPATH"] = tempDir.toString()
+            env["PYTHONUNBUFFERED"] = "1"
+            
+            // Ejecutar proceso con límites de tiempo
+            val process = processBuilder.start()
+            val executor = Executors.newSingleThreadExecutor()
+            
+            val future = executor.submit {
+                process.waitFor()
+            }
+            
+            // Capturar salida
+            val outputReader = BufferedReader(InputStreamReader(process.inputStream))
+            val errorReader = BufferedReader(InputStreamReader(process.errorStream))
+            
+            val output = StringBuilder()
+            val errors = StringBuilder()
+            
+            // Leer salida en hilos separados
+            val outputThread = Thread {
+                outputReader.lineSequence().forEach { line ->
+                    output.append(line).append("\n")
+                }
+            }
+            
+            val errorThread = Thread {
+                errorReader.lineSequence().forEach { line ->
+                    errors.append(line).append("\n")
+                }
+            }
+            
+            outputThread.start()
+            errorThread.start()
+            
+            // Esperar con timeout
+            val completed = try {
+                future.get(config.maxExecutionTime, TimeUnit.MILLISECONDS)
+                true
+            } catch (e: TimeoutException) {
+                process.destroyForcibly()
+                addEvent("TIMEOUT", "Ejecución excedió el tiempo límite", 7)
+                false
+            }
+            
+            outputThread.join(5000)
+            errorThread.join(5000)
+            
+            val exitCode = if (completed) process.exitValue() else -1
+            val executionTime = System.currentTimeMillis() - executionStartTime
+            
+            // Analizar resultados
+            val threatScore = calculateThreatScore()
+            val isMalicious = threatScore > 0.7
+            val recommendations = generateRecommendations()
+            
+            return SandboxResult(
+                executionTime = executionTime,
+                exitCode = exitCode,
+                events = eventCollector.toList(),
+                threatScore = threatScore,
+                isMalicious = isMalicious,
+                recommendations = recommendations,
+                capturedOutput = output.toString(),
+                capturedErrors = errors.toString(),
+                fileAccesses = fileAccesses.toList(),
+                networkConnections = networkConnections.toList(),
+                systemCalls = systemCalls.toList()
+            )
+            
+        } finally {
+            // Limpiar archivos temporales
+            cleanupTempDirectory(tempDir)
+        }
+    }
+    
+    // Ejecutar código JavaScript en sandbox
+    fun executeJavaScriptCode(code: String): SandboxResult {
+        val tempDir = createTempDirectory("sandbox_")
+        val jsFile = tempDir.resolve("sandbox_code.js")
+        
+        try {
+            // Escribir código a archivo temporal
+            Files.write(jsFile, code.toByteArray())
+            
+            // Configurar entorno de ejecución con Node.js
+            val processBuilder = ProcessBuilder("node", "--max-old-space-size=50", jsFile.toString())
+            processBuilder.directory(tempDir.toFile())
+            
+            // Configurar variables de entorno seguras
+            val env = processBuilder.environment()
+            env["NODE_ENV"] = "sandbox"
+            
+            // Ejecutar proceso
+            val process = processBuilder.start()
+            val executor = Executors.newSingleThreadExecutor()
+            
+            val future = executor.submit {
+                process.waitFor()
+            }
+            
+            // Capturar salida
+            val outputReader = BufferedReader(InputStreamReader(process.inputStream))
+            val errorReader = BufferedReader(InputStreamReader(process.errorStream))
+            
+            val output = StringBuilder()
+            val errors = StringBuilder()
+            
+            // Leer salida
+            val outputThread = Thread {
+                outputReader.lineSequence().forEach { line ->
+                    output.append(line).append("\n")
+                }
+            }
+            
+            val errorThread = Thread {
+                errorReader.lineSequence().forEach { line ->
+                    errors.append(line).append("\n")
+                }
+            }
+            
+            outputThread.start()
+            errorThread.start()
+            
+            // Esperar con timeout
+            val completed = try {
+                future.get(config.maxExecutionTime, TimeUnit.MILLISECONDS)
+                true
+            } catch (e: TimeoutException) {
+                process.destroyForcibly()
+                addEvent("TIMEOUT", "Ejecución excedió el tiempo límite", 7)
+                false
+            }
+            
+            outputThread.join(5000)
+            errorThread.join(5000)
+            
+            val exitCode = if (completed) process.exitValue() else -1
+            val executionTime = System.currentTimeMillis() - executionStartTime
+            
+            // Analizar resultados
+            val threatScore = calculateThreatScore()
+            val isMalicious = threatScore > 0.7
+            val recommendations = generateRecommendations()
+            
+            return SandboxResult(
+                executionTime = executionTime,
+                exitCode = exitCode,
+                events = eventCollector.toList(),
+                threatScore = threatScore,
+                isMalicious = isMalicious,
+                recommendations = recommendations,
+                capturedOutput = output.toString(),
+                capturedErrors = errors.toString(),
+                fileAccesses = fileAccesses.toList(),
+                networkConnections = networkConnections.toList(),
+                systemCalls = systemCalls.toList()
+            )
+            
+        } finally {
+            // Limpiar archivos temporales
+            cleanupTempDirectory(tempDir)
+        }
+    }
+    
+    // Analizar archivo en sandbox
+    fun analyzeFile(filePath: String): SandboxResult {
+        val file = Paths.get(filePath)
+        if (!Files.exists(file)) {
+            throw FileNotFoundException("Archivo no encontrado: $filePath")
+        }
+        
+        val fileSize = Files.size(file)
+        if (fileSize > config.maxFileSize) {
+            addEvent("FILE_TOO_LARGE", "Archivo excede el tamaño máximo permitido", 4, filePath)
+        }
+        
+        val fileExtension = getFileExtension(filePath)
+        if (fileExtension !in config.allowedFileTypes) {
+            addEvent("FILE_TYPE_BLOCKED", "Tipo de archivo no permitido: $fileExtension", 3, filePath)
+        }
+        
+        // Leer contenido del archivo
+        val content = Files.readString(file)
+        
+        // Analizar contenido según tipo de archivo
+        return when (fileExtension) {
+            "py" -> executePythonCode(content)
+            "js" -> executeJavaScriptCode(content)
+            else -> analyzeStaticFile(content, filePath)
+        }
+    }
+    
+    // Analizar archivo estático (sin ejecución)
+    private fun analyzeStaticFile(content: String, filePath: String): SandboxResult {
+        val executionTime = System.currentTimeMillis() - executionStartTime
+        
+        // Detectar patrones sospechosos
+        val suspiciousPatterns = detectSuspiciousPatterns(content)
+        suspiciousPatterns.forEach { pattern ->
+            addEvent("SUSPICIOUS_PATTERN", "Patrón sospechoso detectado: $pattern", 4, filePath)
+        }
+        
+        // Detectar ofuscación
+        val obfuscationScore = detectObfuscation(content)
+        if (obfuscationScore > 0.5) {
+            addEvent("OBFUSCATION_DETECTED", "Ofuscación detectada: $obfuscationScore", 5, filePath)
+        }
+        
+        // Detectar intentos de acceso al sistema
+        val systemAccessAttempts = detectSystemAccessAttempts(content)
+        systemAccessAttempts.forEach { attempt ->
+            addEvent("SYSTEM_ACCESS_ATTEMPT", "Intento de acceso al sistema: $attempt", 6, filePath)
+        }
+        
+        val threatScore = calculateThreatScore()
+        val isMalicious = threatScore > 0.7
+        val recommendations = generateRecommendations()
+        
+        return SandboxResult(
+            executionTime = executionTime,
+            exitCode = 0,
+            events = eventCollector.toList(),
+            threatScore = threatScore,
+            isMalicious = isMalicious,
+            recommendations = recommendations,
+            capturedOutput = "",
+            capturedErrors = "",
+            fileAccesses = fileAccesses.toList(),
+            networkConnections = networkConnections.toList(),
+            systemCalls = systemCalls.toList()
+        )
+    }
+    
+    // Detectar patrones sospechosos en el código
+    private fun detectSuspiciousPatterns(content: String): List<String> {
+        val patterns = listOf(
+            "eval\\s*\\(",
+            "exec\\s*\\(",
+            "os\\.system",
+            "subprocess",
+            "base64\\.b64decode",
+            "__import__",
+            "marshal",
+            "compile\\s*\\(",
+            "globals\\s*\\(",
+            "locals\\s*\\(",
+            "getattr\\s*\\(",
+            "setattr\\s*\\(",
+            "delattr\\s*\\(",
+            "hasattr\\s*\\("
+        )
+        
+        return patterns.filter { pattern ->
+            content.contains(Regex(pattern, RegexOption.IGNORE_CASE))
+        }
+    }
+    
+    // Detectar ofuscación en el código
+    private fun detectObfuscation(content: String): Double {
+        var score = 0.0
+        
+        // Detectar técnicas de ofuscación
+        if (content.contains("\\x")) score += 0.3
+        if (content.contains("\\u")) score += 0.2
+        if (content.contains("base64")) score += 0.2
+        if (content.contains("rot13")) score += 0.1
+        if (content.contains("[::-1]")) score += 0.1
+        if (content.contains("chr(")) score += 0.1
+        if (content.contains("ord(")) score += 0.1
+        
+        return minOf(score, 1.0)
+    }
+    
+    // Detectar intentos de acceso al sistema
+    private fun detectSystemAccessAttempts(content: String): List<String> {
+        val attempts = mutableListOf<String>()
+        
+        val systemPatterns = listOf(
+            "system\\s*\\(",
+            "popen\\s*\\(",
+            "fork\\s*\\(",
+            "exec\\s*\\(",
+            "spawn\\s*\\(",
+            "CreateProcess",
+            "ShellExecute",
+            "WinExec"
+        )
+        
+        systemPatterns.forEach { pattern ->
+            if (content.contains(Regex(pattern, RegexOption.IGNORE_CASE))) {
+                attempts.add(pattern)
+            }
+        }
+        
+        return attempts
+    }
+    
+    // Calcular puntuación de amenaza
+    private fun calculateThreatScore(): Double {
+        var score = 0.0
+        
+        // Puntuación basada en eventos
+        eventCollector.forEach { event ->
+            when (event.eventType) {
+                "FILE_DELETE" -> score += 0.2
+                "SYSTEM_CALL" -> score += 0.3
+                "NETWORK_CONNECT" -> score += 0.2
+                "SUSPICIOUS_PATTERN" -> score += 0.1
+                "OBFUSCATION_DETECTED" -> score += 0.2
+                "SYSTEM_ACCESS_ATTEMPT" -> score += 0.3
+                "TIMEOUT" -> score += 0.1
+            }
+        }
+        
+        // Puntuación basada en número de eventos
+        score += minOf(eventCollector.size * 0.05, 0.3)
+        
+        return minOf(score, 1.0)
+    }
+    
+    // Generar recomendaciones
+    private fun generateRecommendations(): List<String> {
+        val recommendations = mutableListOf<String>()
+        
+        if (fileAccesses.isNotEmpty()) {
+            recommendations.add("Monitorear acceso a archivos: ${fileAccesses.size} operaciones detectadas")
+        }
+        
+        if (networkConnections.isNotEmpty()) {
+            recommendations.add("Bloquear conexiones de red: ${networkConnections.size} intentos detectados")
+        }
+        
+        if (systemCalls.isNotEmpty()) {
+            recommendations.add("Restringir llamadas al sistema: ${systemCalls.size} intentos detectados")
+        }
+        
+        val threatScore = calculateThreatScore()
+        when {
+            threatScore > 0.8 -> recommendations.add("CUARENTENA: Amenaza crítica detectada")
+            threatScore > 0.6 -> recommendations.add("SANDBOX: Ejecutar en entorno aislado")
+            threatScore > 0.4 -> recommendations.add("MONITOR: Vigilar comportamiento")
+            else -> recommendations.add("PERMITIR: Riesgo bajo")
+        }
+        
+        return recommendations
+    }
+    
+    // Añadir evento de comportamiento
+    private fun addEvent(eventType: String, details: String, severity: Int, resource: String? = null) {
+        val event = BehaviorEvent(
+            timestamp = System.currentTimeMillis(),
+            eventType = eventType,
+            details = details,
+            severity = severity,
+            resource = resource
+        )
+        eventCollector.add(event)
+    }
+    
+    // Crear directorio temporal
+    private fun createTempDirectory(prefix: String): Path {
+        return Files.createTempDirectory(prefix)
+    }
+    
+    // Limpiar directorio temporal
+    private fun cleanupTempDirectory(dir: Path) {
+        try {
+            Files.walk(dir)
+                .sorted(Comparator.reverseOrder())
+                .forEach { path ->
+                    Files.deleteIfExists(path)
+                }
+        } catch (e: Exception) {
+            // Ignorar errores de limpieza
+        }
+    }
+    
+    // Obtener extensión de archivo
+    private fun getFileExtension(filePath: String): String {
+        return if (filePath.contains(".")) {
+            filePath.substringAfterLast(".")
+        } else {
+            ""
+        }
+    }
+}
+
+// Función principal para integración con lucIA
+fun runSandboxAnalysis(filePath: String): String {
+    val sandbox = SandboxEnvironment()
+    val result = sandbox.analyzeFile(filePath)
+    
+    return """
+    Análisis de Sandbox completado:
+    - Tiempo de ejecución: ${result.executionTime}ms
+    - Código de salida: ${result.exitCode}
+    - Puntuación de amenaza: ${String.format("%.2f", result.threatScore)}
+    - Es malicioso: ${result.isMalicious}
+    - Eventos detectados: ${result.events.size}
+    - Accesos a archivos: ${result.fileAccesses.size}
+    - Conexiones de red: ${result.networkConnections.size}
+    - Llamadas al sistema: ${result.systemCalls.size}
+    - Recomendaciones: ${result.recommendations.joinToString(", ")}
+    """
+} 

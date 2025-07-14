@@ -1,0 +1,80 @@
+version: '3.8'
+
+services:
+  apollo-package-manager:
+    build: .
+    container_name: apollo-package-manager
+    ports:
+      - "4001:4001"
+    environment:
+      - NODE_ENV=production
+      - PACKAGE_MANAGER_PORT=4001
+      - PACKAGE_MANAGER_HOST=0.0.0.0
+      - PROJECT_ROOT=/app/project
+    volumes:
+      - ./cache:/app/cache
+      - ./logs:/app/logs
+      - ../:/app/project:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4001/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - package-manager-network
+
+  # Servicio de base de datos para persistencia (opcional)
+  package-manager-db:
+    image: postgres:15-alpine
+    container_name: package-manager-db
+    environment:
+      - POSTGRES_DB=package_manager
+      - POSTGRES_USER=package_user
+      - POSTGRES_PASSWORD=package_password
+    volumes:
+      - package-manager-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    networks:
+      - package-manager-network
+
+  # Servicio de Redis para cache (opcional)
+  package-manager-cache:
+    image: redis:7-alpine
+    container_name: package-manager-cache
+    ports:
+      - "6379:6379"
+    volumes:
+      - package-manager-cache-data:/data
+    restart: unless-stopped
+    networks:
+      - package-manager-network
+
+  # Servicio de monitoreo
+  package-manager-monitor:
+    image: grafana/grafana:latest
+    container_name: package-manager-monitor
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - package-manager-grafana-data:/var/lib/grafana
+    restart: unless-stopped
+    networks:
+      - package-manager-network
+
+volumes:
+  package-manager-data:
+    driver: local
+  package-manager-cache-data:
+    driver: local
+  package-manager-grafana-data:
+    driver: local
+
+networks:
+  package-manager-network:
+    driver: bridge 

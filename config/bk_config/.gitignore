@@ -1,0 +1,504 @@
+# =============================================================================
+# WoldVirtual3D LucIA - .gitignore Principal
+# =============================================================================
+# Protege elementos críticos mientras permite desarrollo open source
+# Equilibrio entre transparencia y seguridad para la comunidad
+# =============================================================================
+
+# =============================================================================
+# 🔒 ELEMENTOS CRÍTICOS DE SEGURIDAD Y PLATAFORMA
+# =============================================================================
+
+# Configuraciones específicas de la plataforma
+.env
+.env.local
+.env.production
+.env.staging
+.env.development
+platform_config.json
+metaverse_secrets.json
+wcv_token_secrets.json
+lucia_private_config.json
+.secrets.baseline
+
+# Claves de API y tokens
+api_keys/
+private_keys/
+security_tokens/
+authentication_tokens/
+blockchain_private_keys/
+smart_contract_secrets/
+
+# Configuraciones de red específicas
+network_config/
+firewall_rules/
+vpn_config/
+proxy_settings/
+load_balancer_config/
+
+# Base de datos y datos sensibles
+user_database/
+user_profiles/
+user_security_data/
+transaction_logs/
+payment_data/
+financial_data/
+wcv_transactions/
+audit_logs/
+
+# Logs de seguridad que podrían exponer vulnerabilidades
+security_logs/
+attack_logs/
+intrusion_logs/
+malware_logs/
+firewall_logs/
+access_logs/
+
+# Directorios de cuarentena y malware
+quarantine/
+malware_samples/
+virus_samples/
+threat_samples/
+suspicious_files/
+
+# =============================================================================
+# 🧠 APRENDIZAJE Y CONOCIMIENTO ESPECÍFICO DE LUCIA
+# =============================================================================
+
+# Base de conocimiento específica
+lucia_knowledge_base/
+platform_learning_data/
+metaverse_specific_patterns/
+wcv_token_learning/
+behavioral_data/
+user_patterns/
+
+# Modelos de IA entrenados específicamente
+trained_models/
+ml_models/
+ai_models/
+neural_networks/
+model_weights/
+model_checkpoints/
+
+# Datos de entrenamiento específicos
+training_data/
+learning_datasets/
+personalized_data/
+user_behavior_data/
+
+# Configuraciones de aprendizaje específicas
+learning_config/
+training_config/
+model_config/
+ai_platform_config/
+
+# =============================================================================
+# 🔐 ELEMENTOS DE AUTENTICACIÓN Y AUTORIZACIÓN
+# =============================================================================
+
+# Certificados SSL/TLS
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+*.cer
+
+# Configuraciones de autenticación
+auth_config/
+jwt_secrets/
+session_keys/
+oauth_config/
+saml_config/
+
+# Contraseñas y hashes
+password_files/
+hash_files/
+credential_files/
+user_credentials/
+
+# =============================================================================
+# 🌐 CONFIGURACIONES DE BLOCKCHAIN Y METAVERSO
+# =============================================================================
+
+# Configuraciones de blockchain específicas
+blockchain_config/
+smart_contract_secrets/
+wallet_config/
+transaction_keys/
+private_wallets/
+wallet_backups/
+
+# Configuraciones de metaverso específicas
+metaverse_config/
+virtual_world_config/
+avatar_security/
+world_security/
+3d_world_config/
+virtual_environment_config/
+
+# Configuraciones de WCV token
+wcv_config/
+token_config/
+token_secrets/
+token_contracts/
+
+# =============================================================================
+# 🛠️ ARCHIVOS DE DESARROLLO Y CONSTRUCCIÓN
+# =============================================================================
+
+# Archivos compilados
+*.pyc
+*.pyo
+__pycache__/
+*.so
+*.dll
+*.dylib
+*.exe
+*.class
+*.o
+*.a
+
+# Archivos de construcción
+build/
+dist/
+out/
+target/
+*.egg-info/
+*.egg
+*.war
+*.jar
+
+# Archivos temporales
+*.tmp
+*.temp
+.tmp/
+.temp/
+*.swp
+*.swo
+*~
+*.bak
+*.backup
+*.old
+*.orig
+
+# Archivos de IDE
+.vscode/
+.idea/
+*.sublime-*
+.atom/
+*.code-workspace
+
+# =============================================================================
+# 📦 DEPENDENCIAS Y PAQUETES
+# =============================================================================
+
+# =============================================================================
+# 📦 DEPENDENCIAS Y PAQUETES - NODE.JS
+# =============================================================================
+
+# Dependencias de Node.js (CRÍTICO - NO SUBIR)
+node_modules/
+node_modules/*
+*/node_modules/
+**/node_modules/
+**/node_modules/*
+
+# Logs de npm/yarn
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+lerna-debug.log*
+
+# Archivos de lock (mantener solo uno por proyecto)
+package-lock.json.backup
+yarn.lock.backup
+pnpm-lock.yaml.backup
+
+# Cache de dependencias
+.npm/
+.yarn/
+.pnpm-store/
+.yarn-integrity
+
+# Archivos de configuración de dependencias
+.npmrc
+.yarnrc
+.yarnrc.yml
+.pnpmrc
+
+# Archivos de dependencias específicos
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Dependencias de Python
+venv/
+env/
+.venv/
+.env/
+__pycache__/
+*.pyc
+*.pyo
+
+# Dependencias específicas de lenguajes
+target/          # Rust
+vendor/          # Go
+build/           # C++
+.venv/           # Python
+node_modules/    # Node.js
+
+# =============================================================================
+# 📊 LOGS Y ARCHIVOS DE MONITOREO
+# =============================================================================
+
+# Logs del sistema
+*.log
+logs/
+log_files/
+debug_logs/
+error_logs/
+
+# Archivos de monitoreo
+monitoring_data/
+performance_logs/
+system_logs/
+metrics_data/
+analytics_data/
+
+# Archivos de debug
+debug/
+debug_data/
+*.debug
+debug_logs/
+
+# =============================================================================
+# 🧪 ARCHIVOS DE PRUEBA Y DESARROLLO
+# =============================================================================
+
+# Archivos de prueba con datos sensibles
+test_data/
+test_secrets/
+test_credentials/
+test_malware/
+test_users/
+test_transactions/
+
+# Archivos de desarrollo temporal
+dev_files/
+temp_files/
+scratch_files/
+experimental/
+prototype/
+
+# Cobertura de pruebas
+coverage/
+.nyc_output/
+*.lcov
+coverage.json
+
+# =============================================================================
+# 📱 ARCHIVOS ESPECÍFICOS DE PLATAFORMA
+# =============================================================================
+
+# Configuraciones específicas de WoldVirtual3D
+woldvirtual_config/
+3d_world_config/
+virtual_environment_config/
+avatar_platform_config/
+
+# Configuraciones de LucIA específicas
+lucia_platform_config/
+ai_platform_config/
+learning_platform_config/
+security_platform_config/
+
+# Configuraciones de metaverso específicas
+metaverse_platform_config/
+virtual_world_platform_config/
+world_platform_config/
+
+# =============================================================================
+# 🔄 ARCHIVOS DE BACKUP Y RECUPERACIÓN
+# =============================================================================
+
+# Backups de seguridad
+backup_files/
+recovery_files/
+snapshot_files/
+backup/
+recovery/
+
+# Archivos de respaldo
+*.bak
+*.backup
+*.old
+*.orig
+backup_*/
+
+# =============================================================================
+# 📋 ARCHIVOS DE DOCUMENTACIÓN SENSIBLE
+# =============================================================================
+
+# Documentación interna
+internal_docs/
+private_docs/
+confidential_docs/
+secret_docs/
+
+# Manuales de seguridad
+security_manuals/
+penetration_testing/
+vulnerability_reports/
+security_audits/
+
+# =============================================================================
+# 🚨 ARCHIVOS DE EMERGENCIA Y CRÍTICOS
+# =============================================================================
+
+# Archivos de emergencia
+emergency_files/
+critical_files/
+urgent_files/
+emergency/
+
+# Archivos de recuperación de desastres
+disaster_recovery/
+emergency_procedures/
+incident_response/
+crisis_management/
+
+# =============================================================================
+# 📁 CARPETAS ESPECÍFICAS DEL PROYECTO
+# =============================================================================
+
+# Carpetas de datos sensibles
+data/users/
+data/transactions/
+data/security/
+data/private/
+data/sensitive/
+.cursor/rules/
+
+# Carpetas de configuración específica
+config/secrets/
+config/private/
+config/sensitive/
+config/production/
+
+# Carpetas de logs específicos
+logs/security/
+logs/access/
+logs/transactions/
+logs/errors/
+
+# =============================================================================
+# 🔧 ARCHIVOS DE CONFIGURACIÓN ESPECÍFICOS
+# =============================================================================
+
+# Archivos de configuración específicos
+config.json
+settings.json
+secrets.json
+private.json
+sensitive.json
+
+# Archivos de configuración de entorno
+.env.*
+config.env
+environment.json
+platform.json
+package-lock.json
+package.json
+
+
+# =============================================================================
+# 🔄 PREVENCIÓN DE CONFLICTOS DE MERGE
+# =============================================================================
+
+# Archivos que causan conflictos de merge frecuentes
+*.lock
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+composer.lock
+Gemfile.lock
+Pipfile.lock
+poetry.lock
+
+# Archivos de configuración que pueden causar conflictos
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Archivos de IDE que pueden causar conflictos
+.vscode/settings.json
+.idea/workspace.xml
+*.sublime-workspace
+*.sublime-project
+
+# Archivos de build que pueden causar conflictos
+dist/
+build/
+out/
+.next/
+.nuxt/
+.vuepress/dist/
+
+# Archivos de cache que pueden causar conflictos
+.cache/
+.parcel-cache/
+.vite/
+.esbuild/
+.webpack/
+
+# =============================================================================
+# 📝 NOTAS IMPORTANTES
+# =============================================================================
+# 
+# ✅ LO QUE SÍ SE SUBE AL REPO (Open Source):
+# - Código fuente de todas las funcionalidades
+# - Documentación técnica y guías
+# - Ejemplos de uso y casos de estudio
+# - Configuraciones de ejemplo
+# - Plantillas y templates
+# - Tests y validaciones
+# - README y documentación pública
+# - package.json (sin node_modules)
+# 
+# ❌ LO QUE NO SE SUBE (Protección):
+# - Claves privadas y tokens de seguridad
+# - Configuraciones específicas de la plataforma
+# - Datos de usuarios y transacciones reales
+# - Modelos de IA entrenados específicamente
+# - Logs de seguridad reales
+# - Configuraciones de red específicas
+# - Backups y archivos de recuperación
+# - node_modules/ (CRÍTICO - causa conflictos de merge)
+# - Archivos de lock duplicados
+# 
+# 🛡️ PROTECCIÓN CONTRA FORKS MALICIOSOS:
+# - No exponer vulnerabilidades específicas
+# - No revelar configuraciones de seguridad
+# - No compartir datos de usuarios reales
+# - No exponer infraestructura interna
+# - No mostrar claves de blockchain
+# 
+# 🔄 PREVENCIÓN DE CONFLICTOS DE MERGE:
+# - No subir node_modules/ (cada desarrollador instala localmente)
+# - No subir archivos de lock duplicados
+# - No subir archivos de configuración específicos del entorno
+# - No subir archivos de cache y build
+# - Mantener solo package.json para dependencias
+# 
+# 🌍 BENEFICIOS PARA LA COMUNIDAD:
+# - Código completo disponible para estudio
+# - Algoritmos y lógica de seguridad abiertos
+# - Plantillas y ejemplos de implementación
+# - Mejores prácticas documentadas
+# - Contribuciones seguras y protegidas
+# - Repositorio limpio sin conflictos de merge
+# =============================================================================

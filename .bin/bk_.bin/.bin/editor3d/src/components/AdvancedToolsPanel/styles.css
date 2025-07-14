@@ -1,0 +1,280 @@
+.advanced-tools-panel {
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  border-radius: 8px;
+  padding: 16px;
+  color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 300px;
+  min-height: 400px;
+  overflow-y: auto;
+}
+
+.advanced-tools-panel h3 {
+  margin: 0 0 16px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #ecf0f1;
+  text-align: center;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 8px;
+}
+
+.tool-section {
+  margin-bottom: 20px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tool-section h4 {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #3498db;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Botones de transformación */
+.transform-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.transform-btn {
+  flex: 1;
+  min-width: 60px;
+  padding: 8px 12px;
+  background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+  border: 1px solid #3498db;
+  border-radius: 4px;
+  color: #ecf0f1;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.transform-btn:hover {
+  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(52, 152, 219, 0.3);
+}
+
+.transform-btn.active {
+  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+  border-color: #e74c3c;
+  box-shadow: 0 2px 4px rgba(231, 76, 60, 0.3);
+}
+
+.transform-btn .icon {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* Toggle de gizmos */
+.gizmo-toggle {
+  width: 100%;
+  padding: 10px 16px;
+  background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.gizmo-toggle:hover {
+  background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(46, 204, 113, 0.3);
+}
+
+.gizmo-toggle.active {
+  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+}
+
+/* Presets de materiales */
+.material-presets {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.material-preset-btn {
+  padding: 8px 12px;
+  background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.material-preset-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #8e44ad 0%, #9b59b6 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(155, 89, 182, 0.3);
+}
+
+.material-preset-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #7f8c8d;
+}
+
+/* Animaciones */
+.animation-types {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.animation-btn {
+  padding: 8px 12px;
+  background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.animation-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #e67e22 0%, #f39c12 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(243, 156, 18, 0.3);
+}
+
+.animation-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #7f8c8d;
+}
+
+/* Scripts */
+.script-types {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.script-btn {
+  padding: 8px 12px;
+  background: linear-gradient(135deg, #1abc9c 0%, #16a085 100%);
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.script-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #16a085 0%, #1abc9c 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(26, 188, 156, 0.3);
+}
+
+.script-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #7f8c8d;
+}
+
+/* Exportación de avatar */
+.export-avatar-btn {
+  width: 100%;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.export-avatar-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(231, 76, 60, 0.4);
+}
+
+.export-avatar-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #7f8c8d;
+}
+
+/* Información de debug */
+.debug-info {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.debug-stats {
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.debug-stats p {
+  margin: 4px 0;
+  color: #bdc3c7;
+}
+
+.debug-stats p:first-child {
+  color: #3498db;
+  font-weight: 600;
+}
+
+/* Scrollbar personalizado */
+.advanced-tools-panel::-webkit-scrollbar {
+  width: 6px;
+}
+
+.advanced-tools-panel::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+.advanced-tools-panel::-webkit-scrollbar-thumb {
+  background: rgba(52, 152, 219, 0.5);
+  border-radius: 3px;
+}
+
+.advanced-tools-panel::-webkit-scrollbar-thumb:hover {
+  background: rgba(52, 152, 219, 0.7);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .advanced-tools-panel {
+    max-width: 100%;
+    min-height: auto;
+  }
+  
+  .transform-buttons {
+    flex-direction: column;
+  }
+  
+  .material-presets,
+  .animation-types,
+  .script-types {
+    grid-template-columns: 1fr;
+  }
+} 

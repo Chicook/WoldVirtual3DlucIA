@@ -1,0 +1,6 @@
+# Ignorar archivos temporales, de sistema y backups
+*.log
+*.tmp
+*.bak
+.DS_Store
+Thumbs.db 

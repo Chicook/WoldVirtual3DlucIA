@@ -1,0 +1,280 @@
+{
+  "metadata": {
+    "version": "3.0.0",
+    "name": "Metaverso Crypto World Virtual 3D Blacklist",
+    "description": "Lista de direcciones, contratos y entidades maliciosas conocidas",
+    "last_updated": "2024-12-19",
+    "maintainer": "Web3 Security Team",
+    "update_frequency": "daily",
+    "sources": [
+      "internal_detection",
+      "community_reports",
+      "security_audits",
+      "blockchain_analysis"
+    ]
+  },
+  "blocked_addresses": {
+    "ethereum": [
+      {
+        "address": "0x0000000000000000000000000000000000000000",
+        "type": "null_address",
+        "reason": "Dirección nula - transacciones inválidas",
+        "blocked_at": "2024-01-01T00:00:00Z",
+        "severity": "high",
+        "tags": ["null", "invalid"]
+      },
+      {
+        "address": "0x1234567890123456789012345678901234567890",
+        "type": "honeypot_contract",
+        "reason": "Contrato honeypot detectado - bloquea ventas",
+        "blocked_at": "2024-12-15T10:30:00Z",
+        "severity": "critical",
+        "tags": ["honeypot", "scam", "rug_pull"]
+      },
+      {
+        "address": "0xabcdefabcdefabcdefabcdefabcdefabcdefabcd",
+        "type": "mev_bot",
+        "reason": "Bot MEV detectado - front-running activo",
+        "blocked_at": "2024-12-18T14:20:00Z",
+        "severity": "high",
+        "tags": ["mev", "front_running", "bot"]
+      }
+    ],
+    "polygon": [
+      {
+        "address": "0x0000000000000000000000000000000000000000",
+        "type": "null_address",
+        "reason": "Dirección nula - transacciones inválidas",
+        "blocked_at": "2024-01-01T00:00:00Z",
+        "severity": "high",
+        "tags": ["null", "invalid"]
+      }
+    ],
+    "binance": [
+      {
+        "address": "0x0000000000000000000000000000000000000000",
+        "type": "null_address",
+        "reason": "Dirección nula - transacciones inválidas",
+        "blocked_at": "2024-01-01T00:00:00Z",
+        "severity": "high",
+        "tags": ["null", "invalid"]
+      }
+    ]
+  },
+  "blocked_contracts": {
+    "ethereum": [
+      {
+        "address": "0x1234567890123456789012345678901234567890",
+        "name": "FakeToken",
+        "type": "honeypot",
+        "reason": "Contrato honeypot - permite compras pero bloquea ventas",
+        "blocked_at": "2024-12-15T10:30:00Z",
+        "severity": "critical",
+        "vulnerabilities": [
+          "reentrancy",
+          "access_control_bypass",
+          "overflow_vulnerability"
+        ],
+        "tags": ["honeypot", "scam", "rug_pull", "vulnerable"]
+      },
+      {
+        "address": "0xabcdefabcdefabcdefabcdefabcdefabcdefabcd",
+        "name": "MEVContract",
+        "type": "mev_exploit",
+        "reason": "Contrato diseñado para exploits MEV",
+        "blocked_at": "2024-12-18T14:20:00Z",
+        "severity": "high",
+        "vulnerabilities": [
+          "front_running",
+          "sandwich_attack",
+          "arbitrage_exploit"
+        ],
+        "tags": ["mev", "exploit", "malicious"]
+      }
+    ],
+    "polygon": [],
+    "binance": []
+  },
+  "blocked_ips": [
+    {
+      "ip": "192.168.1.100",
+      "type": "malicious_node",
+      "reason": "Nodo malicioso detectado - ataques de red",
+      "blocked_at": "2024-12-19T09:15:00Z",
+      "severity": "high",
+      "tags": ["malicious_node", "network_attack"]
+    },
+    {
+      "ip": "10.0.0.50",
+      "type": "scanner",
+      "reason": "Scanner de vulnerabilidades no autorizado",
+      "blocked_at": "2024-12-19T11:30:00Z",
+      "severity": "medium",
+      "tags": ["scanner", "unauthorized"]
+    }
+  ],
+  "blocked_domains": [
+    {
+      "domain": "fake-metaverso.com",
+      "type": "phishing",
+      "reason": "Sitio de phishing que imita el metaverso",
+      "blocked_at": "2024-12-19T08:45:00Z",
+      "severity": "critical",
+      "tags": ["phishing", "scam", "fake_site"]
+    },
+    {
+      "domain": "malicious-gateway.io",
+      "type": "malicious_gateway",
+      "reason": "Gateway IPFS malicioso - contenido alterado",
+      "blocked_at": "2024-12-19T12:20:00Z",
+      "severity": "high",
+      "tags": ["malicious_gateway", "content_tampering"]
+    }
+  ],
+  "blocked_3d_assets": [
+    {
+      "hash": "QmMaliciousModel123456789",
+      "type": "malicious_model",
+      "reason": "Modelo 3D con código malicioso embebido",
+      "blocked_at": "2024-12-19T13:10:00Z",
+      "severity": "critical",
+      "tags": ["malicious_model", "code_injection"]
+    },
+    {
+      "hash": "QmExploitTexture987654321",
+      "type": "exploit_texture",
+      "reason": "Textura diseñada para exploits de WebGL",
+      "blocked_at": "2024-12-19T14:05:00Z",
+      "severity": "high",
+      "tags": ["exploit_texture", "webgl_vulnerability"]
+    }
+  ],
+  "blocked_defi_protocols": [
+    {
+      "address": "0x1234567890123456789012345678901234567890",
+      "name": "FakeDEX",
+      "type": "fake_dex",
+      "reason": "DEX falso - liquidez falsa y rug pull",
+      "blocked_at": "2024-12-19T15:30:00Z",
+      "severity": "critical",
+      "tags": ["fake_dex", "rug_pull", "fake_liquidity"]
+    },
+    {
+      "address": "0xabcdefabcdefabcdefabcdefabcdefabcdefabcd",
+      "name": "MEVYieldFarm",
+      "type": "mev_yield_farm",
+      "reason": "Yield farm diseñado para exploits MEV",
+      "blocked_at": "2024-12-19T16:15:00Z",
+      "severity": "high",
+      "tags": ["mev_yield_farm", "exploit", "malicious"]
+    }
+  ],
+  "blocked_oracles": [
+    {
+      "address": "0x1234567890123456789012345678901234567890",
+      "name": "ManipulatedOracle",
+      "type": "price_manipulation",
+      "reason": "Oracle con precios manipulados",
+      "blocked_at": "2024-12-19T17:00:00Z",
+      "severity": "critical",
+      "tags": ["price_manipulation", "oracle_attack"]
+    }
+  ],
+  "blocked_rpc_endpoints": [
+    {
+      "endpoint": "https://malicious-rpc.com",
+      "type": "malicious_rpc",
+      "reason": "Endpoint RPC malicioso - transacciones alteradas",
+      "blocked_at": "2024-12-19T18:30:00Z",
+      "severity": "critical",
+      "tags": ["malicious_rpc", "transaction_tampering"]
+    }
+  ],
+  "blocked_ipfs_gateways": [
+    {
+      "gateway": "https://malicious-gateway.ipfs.io",
+      "type": "malicious_gateway",
+      "reason": "Gateway IPFS malicioso - contenido alterado",
+      "blocked_at": "2024-12-19T19:15:00Z",
+      "severity": "high",
+      "tags": ["malicious_gateway", "content_tampering"]
+    }
+  ],
+  "blocked_wallets": [
+    {
+      "address": "0x1234567890123456789012345678901234567890",
+      "type": "compromised_wallet",
+      "reason": "Wallet comprometido - claves privadas filtradas",
+      "blocked_at": "2024-12-19T20:00:00Z",
+      "severity": "critical",
+      "tags": ["compromised_wallet", "private_key_leak"]
+    }
+  ],
+  "blocked_nfts": [
+    {
+      "contract": "0x1234567890123456789012345678901234567890",
+      "token_id": "123",
+      "type": "malicious_nft",
+      "reason": "NFT con metadata maliciosa",
+      "blocked_at": "2024-12-19T21:30:00Z",
+      "severity": "high",
+      "tags": ["malicious_nft", "metadata_exploit"]
+    }
+  ],
+  "blocked_transactions": [
+    {
+      "hash": "0x1234567890123456789012345678901234567890123456789012345678901234",
+      "type": "malicious_transaction",
+      "reason": "Transacción maliciosa - intento de exploit",
+      "blocked_at": "2024-12-19T22:15:00Z",
+      "severity": "high",
+      "tags": ["malicious_transaction", "exploit_attempt"]
+    }
+  ],
+  "blocked_patterns": [
+    {
+      "pattern": ".*honeypot.*",
+      "type": "regex_pattern",
+      "reason": "Patrón que coincide con contratos honeypot",
+      "blocked_at": "2024-12-19T23:00:00Z",
+      "severity": "high",
+      "tags": ["regex_pattern", "honeypot_detection"]
+    },
+    {
+      "pattern": ".*mev.*bot.*",
+      "type": "regex_pattern",
+      "reason": "Patrón que coincide con bots MEV",
+      "blocked_at": "2024-12-19T23:30:00Z",
+      "severity": "medium",
+      "tags": ["regex_pattern", "mev_bot_detection"]
+    }
+  ],
+  "statistics": {
+    "total_blocked_addresses": 5,
+    "total_blocked_contracts": 2,
+    "total_blocked_ips": 2,
+    "total_blocked_domains": 2,
+    "total_blocked_3d_assets": 2,
+    "total_blocked_defi_protocols": 2,
+    "total_blocked_oracles": 1,
+    "total_blocked_rpc_endpoints": 1,
+    "total_blocked_ipfs_gateways": 1,
+    "total_blocked_wallets": 1,
+    "total_blocked_nfts": 1,
+    "total_blocked_transactions": 1,
+    "total_blocked_patterns": 2,
+    "last_updated": "2024-12-19T23:59:59Z"
+  },
+  "update_history": [
+    {
+      "date": "2024-12-19T23:59:59Z",
+      "changes": [
+        "Added 2 new malicious addresses",
+        "Added 1 new honeypot contract",
+        "Updated 3 existing entries",
+        "Removed 1 false positive"
+      ],
+      "version": "3.0.0"
+    }
+  ]
+}

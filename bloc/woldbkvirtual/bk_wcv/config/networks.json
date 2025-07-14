@@ -1,0 +1,133 @@
+{
+  "networks": {
+    "wcvLocal": {
+      "name": "WCV Local",
+      "chainId": 31337,
+      "rpcUrl": "http://127.0.0.1:8545",
+      "explorer": "http://127.0.0.1:8545",
+      "nativeCurrency": {
+        "name": "WCV",
+        "symbol": "WCV",
+        "decimals": 18
+      },
+      "description": "Red local para desarrollo",
+      "isTestnet": true
+    },
+    "wcvDev": {
+      "name": "WCV Development",
+      "chainId": 1338,
+      "rpcUrl": "http://127.0.0.1:8546",
+      "explorer": "http://127.0.0.1:8546",
+      "nativeCurrency": {
+        "name": "WCV",
+        "symbol": "WCV",
+        "decimals": 18
+      },
+      "description": "Red de desarrollo en equipo",
+      "isTestnet": true
+    },
+    "wcvTest": {
+      "name": "WCV Testnet",
+      "chainId": 1339,
+      "rpcUrl": "http://127.0.0.1:8547",
+      "explorer": "http://127.0.0.1:8547",
+      "nativeCurrency": {
+        "name": "WCV",
+        "symbol": "WCV",
+        "decimals": 18
+      },
+      "description": "Red de pruebas de integración",
+      "isTestnet": true
+    },
+    "wcvMain": {
+      "name": "WCV Mainnet",
+      "chainId": 1340,
+      "rpcUrl": "http://127.0.0.1:8550",
+      "explorer": "http://127.0.0.1:8550",
+      "nativeCurrency": {
+        "name": "WCV",
+        "symbol": "WCV",
+        "decimals": 18
+      },
+      "description": "Red principal de producción",
+      "isTestnet": false
+    },
+    "bsc": {
+      "name": "Binance Smart Chain",
+      "chainId": 56,
+      "rpcUrl": "https://bsc-dataseed1.binance.org/",
+      "explorer": "https://bscscan.com",
+      "nativeCurrency": {
+        "name": "BNB",
+        "symbol": "BNB",
+        "decimals": 18
+      },
+      "description": "Binance Smart Chain para migración",
+      "isTestnet": false
+    },
+    "bscTestnet": {
+      "name": "BSC Testnet",
+      "chainId": 97,
+      "rpcUrl": "https://data-seed-prebsc-1-s1.binance.org:8545/",
+      "explorer": "https://testnet.bscscan.com",
+      "nativeCurrency": {
+        "name": "tBNB",
+        "symbol": "tBNB",
+        "decimals": 18
+      },
+      "description": "Testnet de Binance Smart Chain",
+      "isTestnet": true
+    }
+  },
+  "token": {
+    "name": "WCV Token",
+    "symbol": "WCV",
+    "decimals": 3,
+    "totalSupply": "30000000",
+    "maxSupply": "100000000",
+    "description": "Token nativo de la blockchain WCV",
+    "features": [
+      "Minting controlado",
+      "Burning de tokens",
+      "Blacklist/Whitelist",
+      "Fees configurables",
+      "Pausable",
+      "Estadísticas detalladas"
+    ]
+  },
+  "bridge": {
+    "name": "WCV Bridge",
+    "description": "Puente entre WCV y Binance Smart Chain",
+    "bscContract": "0x053532E91FFD6b8a21C925Da101C909A01106BBE",
+    "minAmount": "100",
+    "maxAmount": "1000000",
+    "dailyLimit": "10000000",
+    "fee": "0.0001",
+    "timeout": "86400",
+    "features": [
+      "Validación criptográfica",
+      "Límites configurables",
+      "Timeout automático",
+      "Cancelación de solicitudes",
+      "Estadísticas detalladas"
+    ]
+  },
+  "api": {
+    "version": "2.0.0",
+    "baseUrl": "http://localhost:3000",
+    "endpoints": {
+      "health": "/health",
+      "token": "/api/token",
+      "blockchain": "/api/blockchain",
+      "bridge": "/api/bridge",
+      "metamask": "/api/metamask"
+    },
+    "features": [
+      "Rate limiting",
+      "CORS configurado",
+      "Validación de entrada",
+      "Logging avanzado",
+      "Documentación automática"
+    ]
+  }
+} 

@@ -1,0 +1,378 @@
+{
+  "metaverso": {
+    "name": "Crypto World Virtual 3D",
+    "version": "1.0.0",
+    "environment": "development",
+    "description": "Metaverso descentralizado Web3 con integración blockchain completa",
+    "author": "Metaverso Development Team",
+    "license": "MIT",
+    "repository": "https://github.com/metaverso/crypto-world-virtual-3d"
+  },
+  "system": {
+    "debug": true,
+    "logLevel": "info",
+    "timezone": "UTC",
+    "locale": "es-ES",
+    "encoding": "UTF-8",
+    "maxMemoryUsage": "2GB",
+    "maxCpuUsage": 80,
+    "autoRestart": true,
+    "healthCheckInterval": 30000,
+    "maintenanceMode": false
+  },
+  "server": {
+    "host": "localhost",
+    "port": 3000,
+    "protocol": "http",
+    "cors": {
+      "enabled": true,
+      "origins": ["http://localhost:3000", "http://localhost:3001"],
+      "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+      "credentials": true
+    },
+    "rateLimit": {
+      "enabled": true,
+      "windowMs": 900000,
+      "maxRequests": 100,
+      "message": "Demasiadas solicitudes desde esta IP"
+    },
+    "compression": {
+      "enabled": true,
+      "level": 6,
+      "threshold": 1024
+    },
+    "security": {
+      "helmet": true,
+      "hsts": true,
+      "contentSecurityPolicy": true,
+      "xssProtection": true,
+      "noSniff": true
+    }
+  },
+  "database": {
+    "type": "sqlite",
+    "path": "./data/system/database/metaverso.db",
+    "backup": {
+      "enabled": true,
+      "interval": "daily",
+      "retention": 30,
+      "path": "./data/backups/database"
+    },
+    "migrations": {
+      "enabled": true,
+      "path": "./data/migrations",
+      "autoRun": true
+    }
+  },
+  "blockchain": {
+    "defaultNetwork": "ethereum",
+    "networks": {
+      "ethereum": {
+        "name": "Ethereum Mainnet",
+        "chainId": 1,
+        "rpcUrl": "https://mainnet.infura.io/v3/YOUR_PROJECT_ID",
+        "wsUrl": "wss://mainnet.infura.io/ws/v3/YOUR_PROJECT_ID",
+        "explorer": "https://etherscan.io",
+        "gasLimit": 21000,
+        "gasPrice": "auto",
+        "confirmations": 12
+      },
+      "polygon": {
+        "name": "Polygon Mainnet",
+        "chainId": 137,
+        "rpcUrl": "https://polygon-rpc.com",
+        "wsUrl": "wss://polygon-rpc.com",
+        "explorer": "https://polygonscan.com",
+        "gasLimit": 21000,
+        "gasPrice": "auto",
+        "confirmations": 256
+      },
+      "bsc": {
+        "name": "Binance Smart Chain",
+        "chainId": 56,
+        "rpcUrl": "https://bsc-dataseed.binance.org",
+        "wsUrl": "wss://bsc-ws-node.nariox.org",
+        "explorer": "https://bscscan.com",
+        "gasLimit": 21000,
+        "gasPrice": "auto",
+        "confirmations": 15
+      },
+      "arbitrum": {
+        "name": "Arbitrum One",
+        "chainId": 42161,
+        "rpcUrl": "https://arb1.arbitrum.io/rpc",
+        "wsUrl": "wss://arb1.arbitrum.io/ws",
+        "explorer": "https://arbiscan.io",
+        "gasLimit": 21000,
+        "gasPrice": "auto",
+        "confirmations": 1
+      }
+    },
+    "contracts": {
+      "metaversoToken": {
+        "name": "Metaverso Token",
+        "symbol": "META",
+        "decimals": 18,
+        "addresses": {
+          "ethereum": "0x0000000000000000000000000000000000000000",
+          "polygon": "0x0000000000000000000000000000000000000000",
+          "bsc": "0x0000000000000000000000000000000000000000",
+          "arbitrum": "0x0000000000000000000000000000000000000000"
+        }
+      },
+      "nftMarketplace": {
+        "name": "NFT Marketplace",
+        "addresses": {
+          "ethereum": "0x0000000000000000000000000000000000000000",
+          "polygon": "0x0000000000000000000000000000000000000000",
+          "bsc": "0x0000000000000000000000000000000000000000",
+          "arbitrum": "0x0000000000000000000000000000000000000000"
+        }
+      },
+      "avatarRegistry": {
+        "name": "Avatar Registry",
+        "addresses": {
+          "ethereum": "0x0000000000000000000000000000000000000000",
+          "polygon": "0x0000000000000000000000000000000000000000",
+          "bsc": "0x0000000000000000000000000000000000000000",
+          "arbitrum": "0x0000000000000000000000000000000000000000"
+        }
+      }
+    },
+    "gas": {
+      "maxGasPrice": "100000000000", // 100 gwei
+      "maxGasLimit": 500000,
+      "priorityFee": "1500000000", // 1.5 gwei
+      "gasEstimation": {
+        "enabled": true,
+        "method": "eip1559",
+        "fallback": "legacy"
+      }
+    }
+  },
+  "metaverso": {
+    "worlds": {
+      "maxWorlds": 1000,
+      "maxPlayersPerWorld": 100,
+      "worldTimeout": 300000, // 5 minutes
+      "autoSave": {
+        "enabled": true,
+        "interval": 60000 // 1 minute
+      }
+    },
+    "avatars": {
+      "maxAvatarsPerUser": 5,
+      "avatarTimeout": 1800000, // 30 minutes
+      "customization": {
+        "enabled": true,
+        "maxCustomizations": 50
+      }
+    },
+    "economy": {
+      "defaultCurrency": "META",
+      "exchangeRates": {
+        "ETH": 0.001,
+        "MATIC": 1.0,
+        "BNB": 0.01,
+        "ARB": 0.1
+      },
+      "transactionFee": 0.025, // 2.5%
+      "minTransactionAmount": "1000000000000000" // 0.001 tokens
+    },
+    "physics": {
+      "gravity": -9.81,
+      "maxVelocity": 50,
+      "collisionDetection": true,
+      "physicsEngine": "cannon.js"
+    },
+    "rendering": {
+      "maxFPS": 60,
+      "quality": "high",
+      "shadows": true,
+      "antialiasing": true,
+      "postProcessing": true
+    }
+  },
+  "api": {
+    "version": "v1",
+    "baseUrl": "/api/v1",
+    "documentation": "/api/docs",
+    "rateLimit": {
+      "enabled": true,
+      "windowMs": 900000,
+      "maxRequests": 1000
+    },
+    "endpoints": {
+      "auth": "/auth",
+      "users": "/users",
+      "worlds": "/worlds",
+      "avatars": "/avatars",
+      "blockchain": "/blockchain",
+      "nfts": "/nfts",
+      "marketplace": "/marketplace"
+    }
+  },
+  "websocket": {
+    "enabled": true,
+    "port": 3001,
+    "path": "/ws",
+    "maxConnections": 1000,
+    "heartbeat": {
+      "enabled": true,
+      "interval": 30000,
+      "timeout": 60000
+    },
+    "rooms": {
+      "maxRooms": 100,
+      "maxUsersPerRoom": 50
+    }
+  },
+  "storage": {
+    "type": "local",
+    "path": "./data/storage",
+    "maxSize": "10GB",
+    "compression": {
+      "enabled": true,
+      "algorithm": "gzip",
+      "level": 6
+    },
+    "backup": {
+      "enabled": true,
+      "interval": "daily",
+      "retention": 7
+    }
+  },
+  "cache": {
+    "enabled": true,
+    "type": "memory",
+    "maxSize": "512MB",
+    "ttl": 3600000, // 1 hour
+    "strategies": {
+      "users": 1800000, // 30 minutes
+      "worlds": 300000, // 5 minutes
+      "blockchain": 60000, // 1 minute
+      "nfts": 3600000 // 1 hour
+    }
+  },
+  "logging": {
+    "level": "info",
+    "format": "json",
+    "transports": ["console", "file"],
+    "file": {
+      "enabled": true,
+      "path": "./data/logs",
+      "maxSize": "100MB",
+      "maxFiles": 10
+    },
+    "console": {
+      "enabled": true,
+      "colorize": true
+    },
+    "categories": {
+      "system": "info",
+      "blockchain": "debug",
+      "metaverso": "info",
+      "users": "info",
+      "security": "warn"
+    }
+  },
+  "monitoring": {
+    "enabled": true,
+    "interval": 30000, // 30 seconds
+    "metrics": {
+      "system": true,
+      "performance": true,
+      "blockchain": true,
+      "users": true
+    },
+    "alerts": {
+      "enabled": true,
+      "email": {
+        "enabled": true,
+        "recipients": ["admin@metaverso.com"]
+      },
+      "webhook": {
+        "enabled": false,
+        "url": ""
+      }
+    }
+  },
+  "security": {
+    "jwt": {
+      "secret": "YOUR_JWT_SECRET_KEY_HERE",
+      "expiresIn": "24h",
+      "refreshExpiresIn": "7d"
+    },
+    "bcrypt": {
+      "rounds": 12
+    },
+    "cors": {
+      "enabled": true,
+      "origins": ["http://localhost:3000"],
+      "credentials": true
+    },
+    "rateLimit": {
+      "enabled": true,
+      "windowMs": 900000,
+      "maxRequests": 100
+    },
+    "encryption": {
+      "algorithm": "aes-256-gcm",
+      "keyLength": 32
+    }
+  },
+  "features": {
+    "blockchain": {
+      "enabled": true,
+      "networks": ["ethereum", "polygon", "bsc", "arbitrum"],
+      "features": ["transactions", "nfts", "defi", "governance"]
+    },
+    "metaverso": {
+      "enabled": true,
+      "features": ["worlds", "avatars", "interactions", "economy"]
+    },
+    "ai": {
+      "enabled": false,
+      "features": ["chatbots", "recommendations", "analytics"]
+    },
+    "ar": {
+      "enabled": false,
+      "features": ["ar-worlds", "ar-avatars"]
+    },
+    "vr": {
+      "enabled": false,
+      "features": ["vr-worlds", "vr-avatars"]
+    }
+  },
+  "development": {
+    "hotReload": true,
+    "sourceMaps": true,
+    "debugger": {
+      "enabled": true,
+      "port": 9229
+    },
+    "testing": {
+      "enabled": true,
+      "framework": "jest",
+      "coverage": true
+    },
+    "linting": {
+      "enabled": true,
+      "rules": "strict"
+    }
+  },
+  "deployment": {
+    "environment": "development",
+    "version": "1.0.0",
+    "build": {
+      "optimization": true,
+      "minification": true,
+      "compression": true
+    },
+    "docker": {
+      "enabled": false,
+      "image": "metaverso/crypto-world-virtual-3d",
+      "tag": "latest"
+    }
+  }
+} 

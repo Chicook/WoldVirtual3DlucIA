@@ -1,0 +1,11 @@
+# Ignorar archivos generados y temporales
+*.json
+*.txt
+*.log
+*.report
+*.tmp
+*.cache
+target/
+build/
+dist/
+node_modules/ 

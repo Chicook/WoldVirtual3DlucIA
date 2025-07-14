@@ -1,0 +1,187 @@
+name: Deploy Metaverso
+description: Workflow completo para despliegue del metaverso en múltiples entornos
+triggers: ['push', 'manual', 'schedule']
+
+jobs:
+  validate:
+    name: Validación Previa
+    runs_on: ubuntu-latest
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          
+      - name: Instalar dependencias
+        run: |
+          npm ci
+          npm install -g @types/node
+          
+      - name: Validar sintaxis
+        run: |
+          npm run lint
+          npm run type-check
+          
+      - name: Ejecutar tests unitarios
+        run: npm run test:unit
+        
+      - name: Verificar cobertura
+        run: npm run test:coverage
+        
+      - name: Validar assets
+        run: node ../metaverso/process-assets.js --validate
+        
+      - name: Verificar configuración blockchain
+        run: node ../blockchain/deploy-contracts.js --validate
+
+  security-scan:
+    name: Auditoría de Seguridad
+    runs_on: ubuntu-latest
+    needs: validate
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          
+      - name: Instalar dependencias
+        run: npm ci
+        
+      - name: Auditoría de dependencias
+        run: npm audit --audit-level=moderate
+        
+      - name: Escaneo de vulnerabilidades
+        run: node ../security/scan-vulnerabilities.js
+        
+      - name: Verificar secretos
+        run: |
+          git secrets --scan
+          git secrets --scan-history
+
+  build:
+    name: Construcción
+    runs_on: ubuntu-latest
+    needs: [validate, security-scan]
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          
+      - name: Instalar dependencias
+        run: npm ci
+        
+      - name: Construir aplicación
+        run: |
+          npm run build
+          npm run build:assets
+          
+      - name: Optimizar assets
+        run: node ../builder/optimize-assets.js
+        
+      - name: Generar metadatos
+        run: node ../metaverso/generate-world.js --metadata
+        
+      - name: Comprimir build
+        run: |
+          tar -czf metaverso-build.tar.gz dist/
+          tar -czf assets-build.tar.gz assets/
+          
+      - name: Subir artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: metaverso-build
+          path: |
+            metaverso-build.tar.gz
+            assets-build.tar.gz
+
+  deploy-staging:
+    name: Despliegue Staging
+    runs_on: ubuntu-latest
+    needs: build
+    environment: staging
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+        
+      - name: Descargar artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: metaverso-build
+          
+      - name: Desplegar a staging
+        run: |
+          bash ../deploy/deploy-testnet.sh
+          node ../blockchain/deploy-contracts.js --network=testnet
+          
+      - name: Verificar despliegue
+        run: |
+          npm run test:e2e -- --env=staging
+          node ../monitor/health-check.sh --env=staging
+
+  deploy-production:
+    name: Despliegue Producción
+    runs_on: ubuntu-latest
+    needs: deploy-staging
+    environment: production
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+        
+      - name: Descargar artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: metaverso-build
+          
+      - name: Desplegar a producción
+        run: |
+          bash ../deploy/deploy-mainnet.sh
+          node ../blockchain/deploy-contracts.js --network=mainnet
+          
+      - name: Verificar despliegue
+        run: |
+          npm run test:e2e -- --env=production
+          node ../monitor/health-check.sh --env=production
+          
+      - name: Notificar despliegue
+        run: |
+          echo "Metaverso desplegado exitosamente en producción"
+          # Aquí se pueden añadir notificaciones a Slack, Discord, etc.
+
+  post-deploy:
+    name: Post-Despliegue
+    runs_on: ubuntu-latest
+    needs: deploy-production
+    if: always()
+    steps:
+      - name: Backup automático
+        run: bash ../toolkit/backup.sh
+        
+      - name: Limpiar artifacts
+        run: |
+          rm -rf metaverso-build.tar.gz
+          rm -rf assets-build.tar.gz
+          
+      - name: Generar reporte
+        run: |
+          node ../monitor/performance-check.js --report
+          node ../security/audit.sh --report
+          
+      - name: Notificar resultado
+        if: always()
+        run: |
+          if [ ${{ needs.deploy-production.result }} == 'success' ]; then
+            echo "✅ Despliegue completado exitosamente"
+          else
+            echo "❌ Error en el despliegue"
+          fi 

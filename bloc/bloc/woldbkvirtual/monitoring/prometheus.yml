@@ -1,0 +1,47 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+rule_files:
+  - "blockchain_rules.yml"
+
+scrape_configs:
+  - job_name: 'woldvirtual-blockchain'
+    static_configs:
+      - targets: ['localhost:9090']
+    metrics_path: '/metrics'
+    scrape_interval: 10s
+
+  - job_name: 'woldvirtual-bridge'
+    static_configs:
+      - targets: ['localhost:8548']
+    metrics_path: '/metrics'
+    scrape_interval: 10s
+
+  - job_name: 'woldvirtual-rpc'
+    static_configs:
+      - targets: ['localhost:8546']
+    metrics_path: '/health'
+    scrape_interval: 30s
+
+  - job_name: 'woldvirtual-websocket'
+    static_configs:
+      - targets: ['localhost:8547']
+    metrics_path: '/health'
+    scrape_interval: 30s
+
+  - job_name: 'node-exporter'
+    static_configs:
+      - targets: ['localhost:9100']
+    scrape_interval: 15s
+
+  - job_name: 'redis-exporter'
+    static_configs:
+      - targets: ['localhost:9121']
+    scrape_interval: 15s
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          - localhost:9093 

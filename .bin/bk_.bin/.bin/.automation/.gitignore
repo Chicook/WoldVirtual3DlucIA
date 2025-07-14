@@ -1,0 +1,186 @@
+# Archivos temporales y de sistema
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+# Directorios de logs y reportes
+logs/
+reports/
+performance-reports/
+security-reports/
+
+# Archivos de configuración local
+scheduled-tasks.json
+*.local
+*.secret
+
+# Directorios de workflows personalizados
+custom-workflows/
+templates/
+
+# Archivos de artifacts y builds
+*.tar.gz
+*.zip
+dist/
+build/
+
+# Archivos de testing y coverage
+coverage/
+test-results/
+*.lcov
+
+# Archivos de configuración de CI/CD
+.github/
+.gitlab-ci.yml
+.travis.yml
+
+# Archivos de notificaciones y alertas
+notifications/
+alerts/
+*.alert
+
+# Archivos de métricas y monitoreo
+metrics/
+monitoring/
+*.metrics
+
+# Archivos de backup y snapshots
+backups/
+snapshots/
+*.backup
+
+# Sistema de desarrollo de versiones - Nuevas implementaciones
+# Logs de desarrollo y progreso de versiones
+version-logs/
+development-logs/
+progress-logs/
+*.version.log
+*.development.log
+*.progress.log
+
+# Datos de desarrollo de versiones
+version-data/
+development-data/
+progress-data/
+*.version-data.json
+*.development-data.json
+*.progress-data.json
+
+# Archivos de estado de versiones
+version-state.json
+development-state.json
+progress-state.json
+.version-cache/
+.development-cache/
+
+# Reportes de progreso de versiones
+version-reports/
+development-reports/
+progress-reports/
+*.version-report.json
+*.development-report.html
+*.progress-report.json
+
+# Configuraciones locales de versiones
+version-config.json
+development-config.json
+progress-config.json
+.local-version.json
+.local-development.json
+
+# Backups de versiones en desarrollo
+version-backups/
+development-backups/
+*.version-backup.json
+*.development-backup.json
+
+# Archivos temporales de comparación de versiones
+version-diff-temp/
+diff-temp/
+*.version-diff-temp.json
+*.diff-temp.json
+
+# Estadísticas de desarrollo de versiones
+version-stats/
+development-stats/
+*.version-stats.json
+*.development-stats.json
+
+# Monitoreo de progreso de versiones
+version-monitoring/
+progress-monitoring/
+*.version-monitor.json
+*.progress-monitor.json
+
+# Caché de componentes de desarrollo
+version-cache/
+development-cache/
+*.version-cache.json
+*.development-cache.json
+
+# IDE Web - Archivos específicos
+workflows/versiones/IDEweb/node_modules/
+workflows/versiones/IDEweb/build/
+workflows/versiones/IDEweb/.env
+workflows/versiones/IDEweb/.env.local
+workflows/versiones/IDEweb/.env.development.local
+workflows/versiones/IDEweb/.env.test.local
+workflows/versiones/IDEweb/.env.production.local
+
+# IDE Web - Logs y datos de desarrollo
+workflows/versiones/IDEweb/logs/
+workflows/versiones/IDEweb/development-data/
+workflows/versiones/IDEweb/.dev-state.json
+workflows/versiones/IDEweb/.progress-state.json
+workflows/versiones/IDEweb/.development-cache/
+
+# IDE Web - Reportes y configuraciones
+workflows/versiones/IDEweb/reports/
+workflows/versiones/IDEweb/.dev-config.json
+workflows/versiones/IDEweb/.local-progress.json
+workflows/versiones/IDEweb/progress-config.json
+workflows/versiones/IDEweb/development-config.json
+
+# IDE Web - Backups y archivos temporales
+workflows/versiones/IDEweb/backups/
+workflows/versiones/IDEweb/temp/
+workflows/versiones/IDEweb/stats/
+workflows/versiones/IDEweb/monitoring/
+workflows/versiones/IDEweb/cache/
+workflows/versiones/IDEweb/mock-data/
+
+# Archivos de sesión de desarrollo
+*.session.json
+*.dev-session.json
+*.version-session.json
+
+# Archivos de configuración de temas de desarrollo
+dev-theme-config.json
+progress-theme-config.json
+version-theme-config.json
+
+# Archivos de exportación de datos de desarrollo
+exports/development/
+exports/versions/
+*.dev-export.json
+*.progress-export.json
+*.version-export.json
+
+# Archivos de backup automático de desarrollo
+auto-backup/development/
+auto-backup/versions/
+*.auto-dev-backup.json
+*.auto-version-backup.json
+
+# Archivos de workflow personalizados con versiones
+workflows/custom-versions/
+workflows/version-templates/
+*.custom-version.json
+*.version-template.json
+
+# Archivos de integración con sistemas externos
+integration-logs/
+external-sync/
+*.integration.log
+*.sync-data.json 

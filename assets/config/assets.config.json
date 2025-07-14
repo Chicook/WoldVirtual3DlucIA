@@ -1,0 +1,218 @@
+{
+  "version": "1.0.0",
+  "name": "Metaverso Assets Configuration",
+  "description": "Configuración del sistema de assets del Metaverso Web3",
+  
+  "validation": {
+    "maxFileSize": 104857600,
+    "allowedFormats": [
+      "glb", "gltf", "fbx", "obj", "dae", "ply",
+      "png", "jpg", "jpeg", "webp", "ktx2", "basis", "tga", "tiff",
+      "mp3", "wav", "ogg", "aac", "flac", "opus",
+      "svg", "ico",
+      "bvh",
+      "mp4", "webm", "avi", "mov"
+    ],
+    "requiredMetadata": ["name", "type", "category"],
+    "forbiddenPatterns": [
+      "\\.exe$", "\\.bat$", "\\.cmd$", "\\.scr$", "\\.pif$", "\\.com$"
+    ],
+    "virusScan": true,
+    "integrityCheck": true
+  },
+
+  "optimization": {
+    "models": {
+      "maxPolygons": 50000,
+      "maxTextures": 8,
+      "maxTextureSize": 2048,
+      "enableDraco": true,
+      "enableBasis": true,
+      "generateLOD": true,
+      "removeUnused": true
+    },
+    "textures": {
+      "maxSize": 2048,
+      "format": "webp",
+      "quality": 85,
+      "generateMipmaps": true,
+      "enableCompression": true,
+      "preserveAlpha": true
+    },
+    "audio": {
+      "format": "mp3",
+      "bitrate": 128,
+      "sampleRate": 44100,
+      "channels": 2,
+      "normalize": true,
+      "removeSilence": true
+    },
+    "images": {
+      "maxSize": 2048,
+      "format": "webp",
+      "quality": 85,
+      "progressive": true,
+      "stripMetadata": true,
+      "generateThumbnails": true
+    }
+  },
+
+  "compression": {
+    "algorithm": "gzip",
+    "level": 6,
+    "preserveMetadata": true,
+    "removeUnused": true,
+    "optimizeForWeb": true
+  },
+
+  "upload": {
+    "platforms": {
+      "ipfs": {
+        "endpoint": "https://ipfs.infura.io:5001",
+        "apiKey": "${IPFS_API_KEY}",
+        "pin": true,
+        "timeout": 30000
+      },
+      "arweave": {
+        "endpoint": "https://arweave.net",
+        "wallet": "${ARWEAVE_WALLET}",
+        "timeout": 60000
+      },
+      "aws": {
+        "region": "us-east-1",
+        "bucket": "metaverso-assets",
+        "accessKeyId": "${AWS_ACCESS_KEY_ID}",
+        "secretAccessKey": "${AWS_SECRET_ACCESS_KEY}",
+        "public": true
+      },
+      "local": {
+        "path": "./storage",
+        "public": true,
+        "maxSize": 1073741824
+      }
+    },
+    "defaultPlatform": "ipfs",
+    "backupPlatforms": ["arweave", "aws"],
+    "retryAttempts": 3,
+    "timeout": 30000
+  },
+
+  "catalog": {
+    "database": "sqlite",
+    "backup": true,
+    "indexing": true,
+    "search": true,
+    "analytics": true
+  },
+
+  "metadata": {
+    "schema": "https://schemas.metaverso.com/assets/v1.0.0",
+    "validation": true,
+    "autoGenerate": true,
+    "required": ["name", "type", "category", "size"],
+    "optional": ["description", "author", "license", "version", "tags"]
+  },
+
+  "paths": {
+    "tempDir": "./temp",
+    "processedDir": "./processed",
+    "logsDir": "./logs",
+    "dataDir": "./data"
+  },
+
+  "performance": {
+    "maxConcurrent": 5,
+    "timeout": 300000,
+    "retryAttempts": 3,
+    "batchSize": 10,
+    "memoryLimit": 1073741824
+  },
+
+  "security": {
+    "hashAlgorithm": "sha256",
+    "encryption": false,
+    "signing": false,
+    "accessControl": {
+      "enabled": false,
+      "roles": ["admin", "artist", "viewer"],
+      "permissions": {
+        "admin": ["read", "write", "delete", "manage"],
+        "artist": ["read", "write"],
+        "viewer": ["read"]
+      }
+    }
+  },
+
+  "monitoring": {
+    "enabled": true,
+    "metrics": {
+      "processing": true,
+      "storage": true,
+      "performance": true,
+      "errors": true
+    },
+    "alerts": {
+      "enabled": false,
+      "thresholds": {
+        "errorRate": 0.05,
+        "processingTime": 300000,
+        "storageUsage": 0.9
+      }
+    }
+  },
+
+  "backup": {
+    "enabled": true,
+    "schedule": "0 2 * * *",
+    "retention": {
+      "daily": 7,
+      "weekly": 4,
+      "monthly": 12
+    },
+    "storage": {
+      "type": "local",
+      "path": "./backups"
+    }
+  },
+
+  "api": {
+    "enabled": true,
+    "port": 3001,
+    "cors": {
+      "enabled": true,
+      "origins": ["http://localhost:3000", "https://metaverso.com"]
+    },
+    "rateLimit": {
+      "enabled": true,
+      "windowMs": 900000,
+      "max": 100
+    }
+  },
+
+  "webhooks": {
+    "enabled": false,
+    "endpoints": {
+      "assetProcessed": "https://api.metaverso.com/webhooks/asset-processed",
+      "assetUploaded": "https://api.metaverso.com/webhooks/asset-uploaded",
+      "errorOccurred": "https://api.metaverso.com/webhooks/error"
+    }
+  },
+
+  "integrations": {
+    "blockchain": {
+      "enabled": false,
+      "network": "ethereum",
+      "contract": "0x...",
+      "gasLimit": 3000000
+    },
+    "nft": {
+      "enabled": false,
+      "standard": "ERC-721",
+      "metadata": {
+        "name": "Metaverso Asset",
+        "symbol": "META",
+        "description": "Asset del Metaverso Web3"
+      }
+    }
+  }
+} 
