@@ -1,0 +1,36 @@
+# scripts - Archivos ignorados
+
+# Archivos temporales
+*.tmp
+*.temp
+.tmp/
+.temp/
+
+# Logs
+*.log
+logs/
+
+# Configuraciones locales
+.env
+.env.local
+.env.*.local
+
+# Archivos de cache
+.cache/
+*.cache
+
+# Archivos de backup
+*.bak
+*.backup
+backup/
+
+# Archivos específicos de desarrollo
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Scripts sensibles
+private_scripts/
+secret_scripts/
+internal_scripts/ 

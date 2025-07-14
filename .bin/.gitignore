@@ -9,6 +9,7 @@ Thumbs.db
 coverage/
 dist/
 node_modules/
+.cursor/rules
 
 # Archivos comprometedores - Solo lo esencial
 # Configuraciones locales y secretos
