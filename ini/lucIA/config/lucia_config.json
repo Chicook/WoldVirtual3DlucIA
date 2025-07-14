@@ -1,0 +1,18 @@
+{
+  "apis": [
+    {
+      "name": "local_fallback",
+      "api_type": "local",
+      "api_key": "",
+      "endpoint": "local",
+      "model": "local",
+      "daily_limit": 999999,
+      "priority": 999,
+      "enabled": true,
+      "cost_per_request": 0.0,
+      "response_timeout": 30,
+      "max_tokens": 1500,
+      "temperature": 0.7
+    }
+  ]
+}
