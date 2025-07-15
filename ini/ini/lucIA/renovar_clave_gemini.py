@@ -22,7 +22,7 @@ def mostrar_instrucciones_renovacion():
     print("8. 💾 Guarda el archivo")
     print()
     print("💡 Ejemplo de formato:")
-    print("   GEMINI_API_KEY=AIzaSyC1234567890abcdefghijklmnopqrstuvwxyz")
+    print("   GEMINI_API_KEY=....")
 
 def verificar_archivo_env():
     """Verifica y muestra el contenido actual del archivo .env"""
