@@ -8,7 +8,7 @@
 ## por lo que se recomienda hacer refactorizacion y pruebas en .. #
 ## entorno seguro como un directorio de pruebas ##
 ## cullos archivos sea fácilmente recuperables. ##
-"""
+
 
 WoldVirtual3DlucIA - Sistema de Seguridad Global v0.6.0
 Config.py - Gestor de Dependencias y Protección de APIs
